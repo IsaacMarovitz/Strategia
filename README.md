@@ -1,0 +1,2 @@
+# Strategia
+ 
