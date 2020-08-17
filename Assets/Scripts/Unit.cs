@@ -18,6 +18,7 @@ public class Unit : MonoBehaviour {
 
     public int movesLeft;
     public bool[] moveDirs = new bool[8];
+    public bool turnComplete = false;
 
     private bool selected = false;
 
@@ -52,11 +53,13 @@ public class Unit : MonoBehaviour {
     }
 
     public void NewTurn() {
+        turnComplete = false;
         movesLeft = moveDistance;
     }
 
     public void CheckDirs() {
         if (movesLeft <= 0) {
+            turnComplete = true;
             moveDirs =  new bool[]{ false, false, false, false, false, false, false, false };
         } else {
             if (grid == null) {

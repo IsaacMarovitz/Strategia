@@ -31,8 +31,8 @@ public class UnitEditor : Editor {
         if (unit.moveDistance < 0) {
             unit.moveDistance = 0;
         }
-        unit.pos.x = EditorGUILayout.IntSlider("X Position", unit.pos.x, 0, unit.gridScript.width);
-        unit.pos.y = EditorGUILayout.IntSlider("Y Position", unit.pos.y, 0, unit.gridScript.height);
+        unit.pos.x = EditorGUILayout.IntSlider("X Position", unit.pos.x, 1, unit.gridScript.width-2);
+        unit.pos.y = EditorGUILayout.IntSlider("Y Position", unit.pos.y, 1, unit.gridScript.height-2);
         if (unit.pos.x < 0) {
             unit.pos.x = 0;
         }

@@ -5584,6 +5584,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIInfo: {fileID: 11400000, guid: 7fdbc9a5ec0a88f4e958b3399cf87573, type: 2}
   movesLeft: {fileID: 1836801372}
+  dayCounter: {fileID: 1633251793}
 --- !u!1 &1724882514
 GameObject:
   m_ObjectHideFlags: 0
