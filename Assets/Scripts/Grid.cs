@@ -94,7 +94,7 @@ namespace Strategia {
             foreach (var child in tempList) {
                 DestroyImmediate(child.gameObject);
             }
-            potentialCityTiles.Clear();
+            potentialCityTiles?.Clear();
             cityTiles.Clear();
             tempList.Clear();
         }
@@ -103,6 +103,7 @@ namespace Strategia {
             DeleteGrid();
             seed = Random.Range(0, 10000);
             grid = new Tile[width, height];
+            potentialCityTiles = new List<CityTileData>();
             float[,] noiseMap = CalculateNoise(width, height, seed);
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {

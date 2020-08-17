@@ -7,6 +7,7 @@ using UnityEditor;
 public class UnitEditor : Editor {
 
     bool showGridData = false;
+    bool showMoveDirData = false;
 
     public override void OnInspectorGUI() {
         Unit unit = (Unit)target;
@@ -21,6 +22,12 @@ public class UnitEditor : Editor {
                 foreach (var tile in unit.grid) {
                     tile.tileType = (TileType)EditorGUILayout.EnumPopup("Tile Type", tile.tileType);
                 }
+            }
+        }
+        showMoveDirData = EditorGUILayout.Foldout(showMoveDirData, "Move Dir");
+        if (showMoveDirData) {
+            foreach (var tile in unit.moveDirs) {
+
             }
         }
         unit.moveType = (UnitMoveType)EditorGUILayout.EnumPopup("Move Type", unit.moveType);
