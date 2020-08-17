@@ -107,7 +107,7 @@ namespace Strategia {
             float[,] noiseMap = CalculateNoise(width, height, seed);
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
-                    grid[x, y] = new Tile(TileType.Sea, null);
+                    grid[x, y] = new Tile(TileType.Sea, null, new Vector2Int(x, y));
 
                     float sample = noiseMap[x, y];
 

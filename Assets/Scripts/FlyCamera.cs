@@ -29,8 +29,9 @@ public class FlyCamera : MonoBehaviour {
         Vector3 p = GetBaseInput();
         p = p * mainSpeed * Time.deltaTime;
         Vector3 newPosition = transform.position;
-        transform.Translate(p);
-        transform.eulerAngles += GetBaseRotation();
+        transform.parent.transform.Translate(p);
+        transform.parent.eulerAngles += GetYRotation();
+        transform.eulerAngles += GetXRotation();
     }
 
     private Vector3 GetBaseInput() { //returns the basic values, if it's 0 than it's not active.
@@ -56,7 +57,7 @@ public class FlyCamera : MonoBehaviour {
         return p_Velocity;
     }
 
-    private Vector3 GetBaseRotation() {
+    private Vector3 GetYRotation() {
         Vector3 p_Rotation = new Vector3();
         if (Input.GetKey(KeyCode.Q)) {
             p_Rotation += new Vector3(0, -1, 0);
@@ -64,6 +65,11 @@ public class FlyCamera : MonoBehaviour {
         if (Input.GetKey(KeyCode.E)) {
             p_Rotation += new Vector3(0, 1, 0);
         }
+        return p_Rotation;
+    }
+
+    private Vector3 GetXRotation() {
+        Vector3 p_Rotation = new Vector3();
         if (Input.GetKey(KeyCode.R)) {
             p_Rotation += new Vector3(1, 0, 0);
         }

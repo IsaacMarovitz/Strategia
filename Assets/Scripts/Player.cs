@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour {
 
@@ -9,81 +9,39 @@ public class Player : MonoBehaviour {
     public Camera mainCamera;
     public Tile[,] grid;
     public GameObject moveButtons;
-    public Button UL;
-    public Button U;
-    public Button UR;
-    public Button L;
-    public Button R;
-    public Button DL;
-    public Button D;
-    public Button DR;
+    public UIInfo UIInfo;
 
     private Unit currentUnit;
 
+    public void Start() {
+        UIInfo.unitSelected = false;
+        UIInfo.worldPos = Vector3.zero;
+        UIInfo.pos = Vector2Int.zero;
+        UIInfo.movesLeft = 0;
+        UIInfo.moveDirs = new bool[8];
+        UIInfo.day = 1;
+        UIInfo.dir = 1;
+        UIInfo.newMove = false;
+    }
+
     public void Update() {
-        if (Input.GetMouseButtonDown(0) && (currentUnit == null)) {
+        if (Input.GetMouseButtonDown(0)) {
             RaycastHit hit;
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit)) {
-                if (hit.transform.gameObject.TryGetComponent<Unit>(out currentUnit)) {
-                    moveButtons.SetActive(true);
-                    Vector3 buttonPos = new Vector3(hit.transform.position.x, 5f, hit.transform.position.z);
-                    moveButtons.transform.position = buttonPos;
-                    CheckUnitDirs();
-                } else {
-                    currentUnit = null;
+                if (!EventSystem.current.IsPointerOverGameObject()) {
+                    if (hit.transform.tag == "Player1Unit") {
+                        currentUnit?.Deselected();
+                        currentUnit = hit.transform.gameObject.GetComponent<Unit>();
+                        currentUnit.Selected();
+                        UIInfo.unitSelected = true;
+                    } else {
+                        currentUnit?.Deselected();
+                        currentUnit = null;
+                        UIInfo.unitSelected = false;
+                    }
                 }
             }
-        }
-        if (currentUnit == null) {
-            moveButtons.SetActive(false);
-        } else {
-            moveButtons.SetActive(true);
-            Vector3 buttonPos = new Vector3(currentUnit.transform.position.x, 5f, currentUnit.transform.position.z);
-            moveButtons.transform.position = buttonPos;
-        }
-    }
-
-    public void CheckUnitDirs() {
-        bool[] moveDirs = currentUnit.CheckDirs();
-        UL.interactable = true;
-        U.interactable = true;
-        UR.interactable = true;
-        L.interactable = true;
-        R.interactable = true;
-        DL.interactable = true;
-        D.interactable = true;
-        DR.interactable = true;
-        if (!moveDirs[0]) {
-            UL.interactable = false;
-        }
-        if (!moveDirs[1]) {
-            U.interactable = false;
-        }
-        if (!moveDirs[2]) {
-            UR.interactable = false;
-        }
-        if (!moveDirs[3]) {
-            L.interactable = false;
-        }
-        if (!moveDirs[4]) {
-            R.interactable = false;
-        }
-        if (!moveDirs[5]) {
-            DL.interactable = false;
-        }
-        if (!moveDirs[6]) {
-            D.interactable = false;
-        }
-        if (!moveDirs[7]) {
-            DR.interactable = false;
-        }
-    }
-
-    public void Move(int dir) {
-        if (currentUnit != null) {
-            currentUnit.Move(dir);
-            CheckUnitDirs();
         }
     }
 }

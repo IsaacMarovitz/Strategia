@@ -6,36 +6,33 @@ using UnityEditor;
 [CustomEditor(typeof(Unit))]
 public class UnitEditor : Editor {
 
-    bool showGridData = false;
-    bool showMoveDirData = false;
+    /*bool showGridData = false;*/
 
     public override void OnInspectorGUI() {
         Unit unit = (Unit)target;
 
+        unit.UIInfo = (UIInfo)EditorGUILayout.ObjectField("UI Info", unit.UIInfo, typeof(UIInfo), true);
         unit.gridScript = (Strategia.Grid)EditorGUILayout.ObjectField("Grid", unit.gridScript, typeof(Strategia.Grid), true);
         if (unit.gridScript != null) {
             unit.grid = unit.gridScript.grid;
         }
-        if (unit.grid != null) {
+        /*if (unit.grid != null) {
             showGridData = EditorGUILayout.Foldout(showGridData, "Grid Data");
             if (showGridData) {
                 foreach (var tile in unit.grid) {
-                    tile.tileType = (TileType)EditorGUILayout.EnumPopup("Tile Type", tile.tileType);
+                    string label = tile.index.x + ", " + tile.index.y;
+                    tile.tileType = (TileType)EditorGUILayout.EnumPopup(label, tile.tileType);
                 }
             }
-        }
-        showMoveDirData = EditorGUILayout.Foldout(showMoveDirData, "Move Dir");
-        if (showMoveDirData) {
-            foreach (var tile in unit.moveDirs) {
-
-            }
-        }
+        }*/
+        unit.movesLeft = EditorGUILayout.IntSlider("Moves Left", unit.movesLeft, 0, unit.moveDistance);
         unit.moveType = (UnitMoveType)EditorGUILayout.EnumPopup("Move Type", unit.moveType);
         unit.moveDistance = EditorGUILayout.IntField("Move Distance", unit.moveDistance);
         if (unit.moveDistance < 0) {
             unit.moveDistance = 0;
         }
-        unit.pos = EditorGUILayout.Vector2IntField("Position", unit.pos);
+        unit.pos.x = EditorGUILayout.IntSlider("X Position", unit.pos.x, 0, unit.gridScript.width);
+        unit.pos.y = EditorGUILayout.IntSlider("Y Position", unit.pos.y, 0, unit.gridScript.height);
         if (unit.pos.x < 0) {
             unit.pos.x = 0;
         }
