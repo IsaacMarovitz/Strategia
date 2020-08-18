@@ -1,6 +1,7 @@
 using UnityEngine;
 
 public class Unit : MonoBehaviour {
+
     public UnitMoveType moveType;
     public Vector2Int pos;
     public int moveDistance;
@@ -147,4 +148,3 @@ public class Unit : MonoBehaviour {
 }
 
 public enum UnitMoveType { Land, Air, Sea };
-

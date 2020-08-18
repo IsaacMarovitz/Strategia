@@ -30,7 +30,7 @@ namespace Strategia {
         private List<CityTileData> potentialCityTiles = null;
         public List<CityTileData> cityTiles;
 
-        void Start() {
+        void Awake() {
             CreateGrid();
         }
 
@@ -40,19 +40,19 @@ namespace Strategia {
                     GameObject instantiatedTile;
                     switch (grid[x, y].tileType) {
                         case TileType.Sea:
-                            instantiatedTile = GameObject.Instantiate(seaPrefab, new Vector3(x * tileWidth, 0, y * tileHeight), Quaternion.Euler(0, 180, 0));
+                            instantiatedTile = GameObject.Instantiate(seaPrefab, new Vector3(x * tileWidth, -1, y * tileHeight), Quaternion.Euler(0, 180, 0));
                             break;
                         case TileType.Plains:
-                            instantiatedTile = GameObject.Instantiate(plainsPrefab, new Vector3(x * tileWidth, 0, y * tileHeight), Quaternion.Euler(0, 180, 0));
+                            instantiatedTile = GameObject.Instantiate(plainsPrefab, new Vector3(x * tileWidth, -1, y * tileHeight), Quaternion.Euler(0, 180, 0));
                             break;
                         case TileType.Swamp:
-                            instantiatedTile = GameObject.Instantiate(swampPrefab, new Vector3(x * tileWidth, 0, y * tileHeight), Quaternion.Euler(0, 180, 0));
+                            instantiatedTile = GameObject.Instantiate(swampPrefab, new Vector3(x * tileWidth, -1, y * tileHeight), Quaternion.Euler(0, 180, 0));
                             break;
                         case TileType.Mountains:
-                            instantiatedTile = GameObject.Instantiate(mountiansPrefab, new Vector3(x * tileWidth, 0, y * tileHeight), Quaternion.Euler(0, 180, 0));
+                            instantiatedTile = GameObject.Instantiate(mountiansPrefab, new Vector3(x * tileWidth, -1, y * tileHeight), Quaternion.Euler(0, 180, 0));
                             break;
                         case TileType.Trees:
-                            instantiatedTile = GameObject.Instantiate(treesPrefab, new Vector3(x * tileWidth, 0, y * tileHeight), Quaternion.Euler(0, 180, 0));
+                            instantiatedTile = GameObject.Instantiate(treesPrefab, new Vector3(x * tileWidth, -1, y * tileHeight), Quaternion.Euler(0, 180, 0));
                             break;
                         case TileType.City:
                             instantiatedTile = GameObject.Instantiate(cityPrefab, new Vector3(x * tileWidth, 0, y * tileHeight), Quaternion.Euler(0, 180, 0));
@@ -72,16 +72,23 @@ namespace Strategia {
         }
 
         public bool CostalCheck(int x, int y) {
-            if ((grid[x - 1, y - 1].tileType == TileType.Sea) ||
-                (grid[x, y - 1].tileType == TileType.Sea) ||
-                (grid[x + 1, y - 1].tileType == TileType.Sea) ||
-                (grid[x - 1, y].tileType == TileType.Sea) ||
-                (grid[x + 1, y].tileType == TileType.Sea) ||
-                (grid[x - 1, y + 1].tileType == TileType.Sea) ||
-                (grid[x, y + 1].tileType == TileType.Sea) ||
-                (grid[x + 1, y + 1].tileType == TileType.Sea)) {
+            if ((x > 0) && (grid[x-1, y].tileType == TileType.Sea)) {
                 return true;
-            } else {
+            } /*else if ((x > 0) && (y < height-1) && (grid[x - 1, y + 1].tileType == TileType.Sea)) {
+                return true;
+            } else if ((x > 0) && (y > 0) && (grid[x - 1, y - 1].tileType == TileType.Sea)) {
+                return true;
+            }*/ else if ((y > 0) && (grid[x, y - 1].tileType == TileType.Sea)) {
+                return true;
+            } /*else if ((x < width-1) && (y > 0) && (grid[x + 1, y - 1].tileType == TileType.Sea)) {
+                return true;
+            }*/ else if ((x < width-1) && (grid[x + 1, y].tileType == TileType.Sea)) {
+                return true;
+            } else if ((y < height-1) && (grid[x, y + 1].tileType == TileType.Sea)) {
+                return true;
+            } /*else if ((x < width-1) && (y < height-1) && (grid[x + 1, y + 1].tileType == TileType.Sea)) {
+                return true;
+            }*/ else {
                 return false;
             }
         }

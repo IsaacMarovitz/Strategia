@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: UIInfo
   m_EditorClassIdentifier: 
   unitSelected: 0
-  worldPos: {x: 0, y: 0, z: 0}
-  pos: {x: 0, y: 0}
+  worldPos: {x: 26, y: 0.5, z: 42}
+  pos: {x: 13, y: 21}
   movesLeft: 0
   moveDirs: 0000000000000000
   day: 1
-  dir: 1
+  dir: 6
   newMove: 0
