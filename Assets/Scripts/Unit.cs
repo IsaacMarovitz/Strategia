@@ -43,6 +43,7 @@ public class Unit : MonoBehaviour {
 
     public void Start() {
         movesLeft = moveDistance;
+        gridScript = GameObject.Find("Grid").GetComponent<Strategia.Grid>();
     }
 
     public void Selected() {

@@ -54,25 +54,40 @@ namespace Strategia {
                         case TileType.Trees:
                             instantiatedTile = GameObject.Instantiate(treesPrefab, new Vector3(x * tileWidth, -1, y * tileHeight), Quaternion.Euler(0, 180, 0));
                             break;
-                        case TileType.City:
+                        /*case TileType.City:
                             instantiatedTile = GameObject.Instantiate(cityPrefab, new Vector3(x * tileWidth, 0, y * tileHeight), Quaternion.Euler(0, 180, 0));
                             break;
                         case TileType.CostalCity:
                             instantiatedTile = GameObject.Instantiate(costalCityPrefab, new Vector3(x * tileWidth, 0, y * tileHeight), Quaternion.Euler(0, 180, 0));
-                            break;
+                            break;*/
                         default:
                             instantiatedTile = null;
                             break;
                     }
-                    instantiatedTile.transform.parent = tileParent;
-                    instantiatedTile.name = x + ", " + y;
-                    grid[x, y].gameObject = instantiatedTile;
+                    if (instantiatedTile != null) {
+                        instantiatedTile.transform.parent = tileParent;
+                        instantiatedTile.name = x + ", " + y;
+                        grid[x, y].gameObject = instantiatedTile;
+                    }
                 }
             }
+            foreach (var city in cityTiles) {
+                GameObject instantiatedCity;
+                if (city.isCostal) {
+                    instantiatedCity = GameObject.Instantiate(costalCityPrefab, new Vector3(city.index.x * tileHeight, 0, city.index.y * tileHeight), Quaternion.Euler(0, 180, 0));
+                } else {
+                    instantiatedCity = GameObject.Instantiate(cityPrefab, new Vector3(city.index.x * tileWidth, 0, city.index.y * tileHeight), Quaternion.Euler(0, 180, 0));
+                }
+                instantiatedCity.transform.parent = tileParent;
+                instantiatedCity.name = city.index.x + ", " + city.index.y;
+                city.gameObject = instantiatedCity;
+                grid[city.index.x, city.index.y].gameObject = instantiatedCity;
+            }
+            AssignPlayerCity();
         }
 
         public bool CostalCheck(int x, int y) {
-            if ((x > 0) && (grid[x-1, y].tileType == TileType.Sea)) {
+            if ((x > 0) && (grid[x - 1, y].tileType == TileType.Sea)) {
                 return true;
             } /*else if ((x > 0) && (y < height-1) && (grid[x - 1, y + 1].tileType == TileType.Sea)) {
                 return true;
@@ -82,9 +97,9 @@ namespace Strategia {
                 return true;
             } /*else if ((x < width-1) && (y > 0) && (grid[x + 1, y - 1].tileType == TileType.Sea)) {
                 return true;
-            }*/ else if ((x < width-1) && (grid[x + 1, y].tileType == TileType.Sea)) {
+            }*/ else if ((x < width - 1) && (grid[x + 1, y].tileType == TileType.Sea)) {
                 return true;
-            } else if ((y < height-1) && (grid[x, y + 1].tileType == TileType.Sea)) {
+            } else if ((y < height - 1) && (grid[x, y + 1].tileType == TileType.Sea)) {
                 return true;
             } /*else if ((x < width-1) && (y < height-1) && (grid[x + 1, y + 1].tileType == TileType.Sea)) {
                 return true;
@@ -174,6 +189,17 @@ namespace Strategia {
                 outOfCities = true;
             }
             potentialCityTiles.Clear();
+        }
+
+        public void AssignPlayerCity() {
+            foreach (var city in cityTiles) {
+                if (city.isCostal) {
+                    GameObject.Find("Main Camera").GetComponent<Player>().StartGame(city);
+                    goto Stop;
+                }
+            }
+        Stop:
+            return;
         }
 
         public float[,] CalculateNoise(int width, int height, int seed) {

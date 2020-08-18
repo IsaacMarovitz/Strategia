@@ -10,6 +10,7 @@ public class Player : MonoBehaviour {
     public Tile[,] grid;
     public GameObject moveButtons;
     public UIInfo UIInfo;
+    public GameObject startUnitPrefab;
 
     private Unit currentUnit;
 
@@ -22,6 +23,14 @@ public class Player : MonoBehaviour {
         UIInfo.day = 1;
         UIInfo.dir = 1;
         UIInfo.newMove = false;
+    }
+
+    public void StartGame(CityTileData startingCity) {
+        playerCities.Add(startingCity);
+        GameObject instantiatedUnit = GameObject.Instantiate(startUnitPrefab, new Vector3(0, 0.5f, 0), Quaternion.identity);
+        Unit newUnit = instantiatedUnit.GetComponent<Unit>();
+        newUnit.pos = startingCity.index;
+        playerUnits.Add(newUnit);
     }
 
     public void Update() {
