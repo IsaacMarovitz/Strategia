@@ -13,16 +13,19 @@ public class Player : MonoBehaviour {
     public GameObject startUnitPrefab;
 
     private Unit currentUnit;
+    private City currentCity;
 
     public void Start() {
         UIInfo.unitSelected = false;
-        UIInfo.worldPos = Vector3.zero;
+        UIInfo.unitWorldPos = Vector3.zero;
         UIInfo.pos = Vector2Int.zero;
         UIInfo.movesLeft = 0;
         UIInfo.moveDirs = new bool[8];
         UIInfo.day = 1;
         UIInfo.dir = 1;
         UIInfo.newMove = false;
+
+        UIInfo.citySelected = false;
     }
 
     public void StartGame(CityTileData startingCity) {
@@ -48,6 +51,16 @@ public class Player : MonoBehaviour {
                         currentUnit?.Deselected();
                         currentUnit = null;
                         UIInfo.unitSelected = false;
+                    }
+                    if (hit.transform.tag == "City") {
+                        currentCity?.Deselected();
+                        currentCity = hit.transform.gameObject.GetComponent<City>();
+                        currentCity.Selected();
+                        UIInfo.citySelected = true;
+                        UIInfo.cityWorldPos = currentCity.transform.position;
+                    } else {
+                        UIInfo.citySelected = false;
+                        currentCity?.Deselected();
                     }
                 }
             }

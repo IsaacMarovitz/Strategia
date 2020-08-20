@@ -31,7 +31,7 @@ public class Unit : MonoBehaviour {
         CheckDirs();
         if (selected) {
             UIInfo.pos = pos;
-            UIInfo.worldPos = transform.position;
+            UIInfo.unitWorldPos = transform.position;
             UIInfo.movesLeft = movesLeft;
             UIInfo.moveDirs = moveDirs;
             if (UIInfo.newMove) {

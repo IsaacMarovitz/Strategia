@@ -93,6 +93,8 @@ GameObject:
   - component: {fileID: 6628688474499907300}
   - component: {fileID: 7805317156077695297}
   - component: {fileID: 5455822673396696459}
+  - component: {fileID: 6955697278341003559}
+  - component: {fileID: -5972370927090661834}
   m_Layer: 0
   m_Name: CostalCity
   m_TagString: Untagged
@@ -165,3 +167,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6955697278341003559
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5815842155762721886}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.9999999, y: 1.9999999, z: 1.9999999}
+  m_Center: {x: 0, y: -0.99999994, z: 0}
+--- !u!114 &-5972370927090661834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5815842155762721886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a3148b4f84ffb43b65740429cbb30e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOwned: 0
+  UIInfo: {fileID: 11400000, guid: 7fdbc9a5ec0a88f4e958b3399cf87573, type: 2}
+  unitType: 0
+  unitPrefabs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  pos: {x: 0, y: 0}
+  gridScript: {fileID: 0}

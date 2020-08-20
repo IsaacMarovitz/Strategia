@@ -23,7 +23,7 @@ public class MoveButtons : MonoBehaviour {
         if (UIInfo.unitSelected) {
 
             canvas.enabled = true;
-            transform.position = new Vector3(UIInfo.worldPos.x, 0.5f, UIInfo.worldPos.z);
+            transform.position = new Vector3(UIInfo.unitWorldPos.x, 0.5f, UIInfo.unitWorldPos.z);
 
             UL.interactable = true;
             U.interactable = true;

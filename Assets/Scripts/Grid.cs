@@ -79,9 +79,13 @@ namespace Strategia {
                     instantiatedCity = GameObject.Instantiate(cityPrefab, new Vector3(city.index.x * tileWidth, 0, city.index.y * tileHeight), Quaternion.Euler(0, 180, 0));
                 }
                 instantiatedCity.transform.parent = tileParent;
+                instantiatedCity.transform.tag = "City";
                 instantiatedCity.name = city.index.x + ", " + city.index.y;
                 city.gameObject = instantiatedCity;
                 grid[city.index.x, city.index.y].gameObject = instantiatedCity;
+                City cityScript = instantiatedCity.GetComponent<City>();
+                cityScript.pos = new Vector2Int(city.index.x, city.index.y);
+                cityScript.gridScript = this;
             }
             AssignPlayerCity();
         }
