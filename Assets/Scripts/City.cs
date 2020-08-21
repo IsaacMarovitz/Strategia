@@ -18,10 +18,12 @@ public class City : MonoBehaviour {
     private readonly int[] unitTTCs = { 4, 8, 8, 12, 2, 6, 6, 10, 12 };
 
     void Update() {
-        if (UIInfo.unitType != unitType) {
-            unitType = UIInfo.unitType;
-            currentIndex = (int)unitType;
-            turnsLeft = unitTTCs[currentIndex];
+        if (selected) {
+            if (UIInfo.unitType != unitType) {
+                unitType = UIInfo.unitType;
+                currentIndex = (int)unitType;
+                turnsLeft = unitTTCs[currentIndex];
+            }
             UIInfo.turnsLeft = turnsLeft;
         }
     }
