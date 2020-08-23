@@ -11,6 +11,9 @@ public class Player : MonoBehaviour {
     public GameObject moveButtons;
     public UIInfo UIInfo;
     public GameObject startUnitPrefab;
+    //[HideInInspector]
+    public bool turnCompleted = false;
+    public bool turnStarted = false;
 
     private Unit currentUnit;
     private City currentCity;
@@ -34,6 +37,10 @@ public class Player : MonoBehaviour {
         Unit newUnit = instantiatedUnit.GetComponent<Unit>();
         newUnit.pos = startingCity.index;
         playerUnits.Add(newUnit);
+    }
+
+    public void TakeTurn() {
+
     }
 
     public void Update() {
