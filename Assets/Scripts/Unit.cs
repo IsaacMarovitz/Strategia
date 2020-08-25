@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Unit : MonoBehaviour {
 
@@ -28,7 +29,6 @@ public class Unit : MonoBehaviour {
 
     public void Update() {
         transform.position = new Vector3(pos.x * gridScript.tileWidth, transform.position.y, pos.y * gridScript.tileHeight);
-        CheckDirs();
         if (selected) {
             UIInfo.pos = pos;
             UIInfo.unitWorldPos = transform.position;
@@ -44,6 +44,7 @@ public class Unit : MonoBehaviour {
     public void Start() {
         movesLeft = moveDistance;
         gridScript = GameObject.Find("Grid").GetComponent<Strategia.Grid>();
+        CheckDirs();
     }
 
     public void Selected() {
@@ -62,25 +63,19 @@ public class Unit : MonoBehaviour {
     public void CheckDirs() {
         if (movesLeft <= 0) {
             turnComplete = true;
-            moveDirs =  new bool[]{ false, false, false, false, false, false, false, false };
+            moveDirs = new bool[] { false, false, false, false, false, false, false, false };
         } else {
             if (grid == null) {
                 grid = gridScript.grid;
             }
-            Tile[] tiles = new Tile[8];
-            tiles[0] = grid[pos.x - 1, pos.y + 1];
-            tiles[1] = grid[pos.x, pos.y + 1];
-            tiles[2] = grid[pos.x + 1, pos.y + 1];
-            tiles[3] = grid[pos.x - 1, pos.y];
-            tiles[4] = grid[pos.x + 1, pos.y];
-            tiles[5] = grid[pos.x - 1, pos.y - 1];
-            tiles[6] = grid[pos.x, pos.y - 1];
-            tiles[7] = grid[pos.x + 1, pos.y - 1];
+            Tile[] tiles = GridUtilities.DiagonalCheck(grid, gridScript.width, gridScript.height, pos);
 
             switch (moveType) {
                 case UnitMoveType.Air:
                     for (int i = 0; i < tiles.Length; i++) {
-                        if (tiles[i].tileType == TileType.Mountains) {
+                        if (tiles[i] == null) {
+                            moveDirs[i] = false;
+                        } else if (tiles[i].tileType == TileType.Mountains) {
                             moveDirs[i] = false;
                         } else {
                             moveDirs[i] = true;
@@ -89,7 +84,9 @@ public class Unit : MonoBehaviour {
                     break;
                 case UnitMoveType.Land:
                     for (int i = 0; i < tiles.Length; i++) {
-                        if ((tiles[i].tileType == TileType.Sea) || (tiles[i].tileType == TileType.Trees)) {
+                        if (tiles[i] == null) {
+                            moveDirs[i] = false;
+                        } else if ((tiles[i].tileType == TileType.Sea) || (tiles[i].tileType == TileType.Trees)) {
                             moveDirs[i] = false;
                         } else {
                             moveDirs[i] = true;
@@ -98,7 +95,9 @@ public class Unit : MonoBehaviour {
                     break;
                 case UnitMoveType.Sea:
                     for (int i = 0; i < tiles.Length; i++) {
-                        if (tiles[i].tileType != TileType.Sea) {
+                        if (tiles[i] == null) {
+                            moveDirs[i] = false;
+                        } else if (tiles[i].tileType != TileType.Sea) {
                             moveDirs[i] = false;
                         } else {
                             moveDirs[i] = true;
@@ -108,42 +107,74 @@ public class Unit : MonoBehaviour {
                 default:
                     break;
             }
+            foreach (var dir in moveDirs) {
+                Debug.Log(dir);
+            }
         }
     }
 
     public void Move(int dir) {
-        movesLeft--;
-        switch (dir) {
-            case 1:
-                pos.x--;
-                pos.y++;
-                break;
-            case 2:
-                pos.y++;
-                break;
-            case 3:
-                pos.x++;
-                pos.y++;
-                break;
-            case 4:
-                pos.x--;
-                break;
-            case 5:
-                pos.x++;
-                break;
-            case 6:
-                pos.x--;
-                pos.y--;
-                break;
-            case 7:
-                pos.y--;
-                break;
-            case 8:
-                pos.x++;
-                pos.y--;
-                break;
-            default:
-                break;
+        if (movesLeft > 0) {
+            movesLeft--;
+            switch (dir) {
+                case 1:
+                    if (moveDirs[0]) {
+                        pos.x--;
+                        pos.y++;
+                        this.transform.eulerAngles = new Vector3(0, 0, 0);
+                    }
+                    break;
+                case 2:
+                    if (moveDirs[1]) {
+                        pos.y++;
+                        this.transform.eulerAngles = new Vector3(0, 0, 0);
+                    }
+                    break;
+                case 3:
+                    if (moveDirs[2]) {
+                        pos.x++;
+                        pos.y++;
+                        this.transform.eulerAngles = new Vector3(0, 0, 0);
+                    }
+                    break;
+                case 4:
+                    if (moveDirs[3]) {
+                        pos.x--;
+                        this.transform.eulerAngles = new Vector3(0, -90, 0);
+                    }
+                    break;
+                case 5:
+                    if (moveDirs[4]) {
+                        pos.x++;
+                        this.transform.eulerAngles = new Vector3(0, 90, 0);
+                    }
+                    break;
+                case 6:
+                    if (moveDirs[5]) {
+                        pos.x--;
+                        pos.y--;
+                        this.transform.eulerAngles = new Vector3(0, -180, 0);
+                    }
+                    break;
+                case 7:
+                    if (moveDirs[6]) {
+                        pos.y--;
+                        this.transform.eulerAngles = new Vector3(0, -180, 0);
+                    }
+                    break;
+                case 8:
+                    if (moveDirs[7]) {
+                        pos.x++;
+                        pos.y--;
+                        this.transform.eulerAngles = new Vector3(0, -180, 0);
+                    }
+                    break;
+            }
+            List<Tile> nearbyTiles = GridUtilities.RadialSearch(gridScript.grid, pos, 5);
+            foreach (var tile in nearbyTiles) {
+                tile.tileScript.ChangeVisibility(Visibility.Visable);
+            }
+            CheckDirs();
         }
     }
 }

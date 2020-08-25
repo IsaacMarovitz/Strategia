@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class City : MonoBehaviour {
 
-    public IsOwned isOwned;
+    public bool isOwned;
     public UIInfo UIInfo;
     public UnitType unitType;
     public GameObject[] unitPrefabs = new GameObject[9];
@@ -16,10 +16,7 @@ public class City : MonoBehaviour {
     private int turnsLeft;
     private int currentIndex;
     private readonly int[] unitTTCs = { 4, 8, 8, 12, 2, 6, 6, 10, 12 };
-
-    public void Start() {
-        ShowNearbyTiles();
-    }
+    private bool oldIsOwned;
 
     public void ShowNearbyTiles() {
         List<Tile> nearbyTiles = GridUtilities.RadialSearch(gridScript.grid, pos, 5);
@@ -29,7 +26,7 @@ public class City : MonoBehaviour {
     }
 
     public void Update() {
-        if (selected) {
+        if (isOwned && selected) {
             if (UIInfo.unitType != unitType) {
                 unitType = UIInfo.unitType;
                 currentIndex = (int)unitType;
@@ -37,10 +34,19 @@ public class City : MonoBehaviour {
             }
             UIInfo.turnsLeft = turnsLeft;
         }
+        if ((isOwned) && isOwned != oldIsOwned) {
+            oldIsOwned = isOwned;
+            ShowNearbyTiles();
+        }
+    }
+
+    public void StartGame() {
+        isOwned = true;
+        CreateUnit();
     }
 
     public void TakeTurn() {
-        if ((int)isOwned != 0) {
+        if (isOwned) {
             turnsLeft--;
             if (turnsLeft <= 0) {
                 //CreateUnit();
@@ -50,7 +56,8 @@ public class City : MonoBehaviour {
     }
 
     public void CreateUnit() {
-        GameObject.Instantiate(unitPrefabs[currentIndex], new Vector3(pos.x * gridScript.tileWidth, 0, pos.y * gridScript.tileHeight), Quaternion.identity);
+        GameObject instantiatedUnit = GameObject.Instantiate(unitPrefabs[currentIndex], new Vector3(pos.x * gridScript.tileWidth, 0.75f, pos.y * gridScript.tileHeight), Quaternion.identity);
+        instantiatedUnit.GetComponent<Unit>().pos = pos;
     }
 
     public void Selected() {
@@ -64,5 +71,4 @@ public class City : MonoBehaviour {
     }
 }
 
-public enum IsOwned { No, Player1 };
 public enum UnitType { Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, Battleship };

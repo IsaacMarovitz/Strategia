@@ -17,6 +17,36 @@ public static class GridUtilities {
         }
     }
 
+    // Return all surrounding tiles including diagonals
+    public static Tile[] DiagonalCheck(Tile[,] grid, int width, int height, Vector2Int pos) {
+        Tile[] tiles = new Tile[8];
+        if (pos.x > 0 && pos.y < height - 1) {
+            tiles[0] = grid[pos.x - 1, pos.y + 1];
+        }
+        if (pos.y < height - 1) {
+            tiles[1] = grid[pos.x, pos.y + 1];
+        }
+        if (pos.x < width - 1 && pos.y < height - 1) {
+            tiles[2] = grid[pos.x + 1, pos.y + 1];
+        }
+        if (pos.x > 0) {
+            tiles[3] = grid[pos.x - 1, pos.y];
+        }
+        if (pos.x < width - 1) {
+            tiles[4] = grid[pos.x + 1, pos.y];
+        }
+        if (pos.x > 0 && pos.y > 0) {
+            tiles[5] = grid[pos.x - 1, pos.y - 1];
+        }
+        if (pos.y > 0) {
+            tiles[6] = grid[pos.x, pos.y - 1];
+        }
+        if (pos.x < width - 1 && pos.y > 0) {
+            tiles[7] = grid[pos.x + 1, pos.y - 1];
+        }
+        return tiles;
+    }
+
     // Perform a radial search of surrounding tiles (includes starting tile in return list)
     public static List<Tile> RadialSearch(Tile[,] grid, Vector2Int pos, int radius) {
         List<Tile> tilesInRange = new List<Tile>();

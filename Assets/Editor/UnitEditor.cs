@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEngine;
 
 [CustomEditor(typeof(Unit))]
 public class UnitEditor : Editor {
@@ -50,6 +51,9 @@ public class UnitEditor : Editor {
                 unit.maxFuel = 0;
             }
             unit.fuel = EditorGUILayout.IntSlider("Fuel", unit.fuel, 0, unit.maxFuel);
+        }
+        if (GUILayout.Button("Check Dirs")) {
+            unit.CheckDirs();
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Strategia {
         public int numberOfCostalCities;
         public int numberofCities;
         public Tile[,] grid;
+        public List<Tile> cityTiles;
         [Range(0, 10000)]
         public int seed;
         public int islandCount;
@@ -93,7 +94,7 @@ namespace Strategia {
             foreach (var tile in potentialCityTiles) {
                 if (GridUtilities.CostalCheck(grid, width, height, tile.index)) {
                     tile.tileType = TileType.CostalCity;
-                } 
+                }
             }
             int n = potentialCityTiles.Count;
             while (n > 1) {
@@ -112,11 +113,11 @@ namespace Strategia {
                     if ((city.tileType == TileType.CostalCity) && (calculatedCostalCities < numberOfCostalCities)) {
                         calculatedCostalCities++;
                         grid[city.index.x, city.index.y].tileType = TileType.CostalCity;
-
+                        cityTiles.Add(grid[city.index.x, city.index.y]);
                     } else if ((city.tileType == TileType.City) && (calculatedCities < numberofCities)) {
                         calculatedCities++;
                         grid[city.index.x, city.index.y].tileType = TileType.City;
-
+                        cityTiles.Add(grid[city.index.x, city.index.y]);
                     }
                 }
                 outOfCities = true;
@@ -173,6 +174,12 @@ namespace Strategia {
                     }
                 }
             }
+            ChoosePlayerCities();
+        }
+
+        // Choose player cities and start game loop
+        public void ChoosePlayerCities() {
+            cityTiles[0].gameObject.GetComponent<City>().StartGame();
         }
 
         // Delete the grid and clear lists
@@ -185,6 +192,7 @@ namespace Strategia {
                 DestroyImmediate(child.gameObject);
             }
             tempList.Clear();
+            cityTiles?.Clear();
         }
     }
 }
