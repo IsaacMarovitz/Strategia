@@ -13,7 +13,6 @@ namespace Strategia {
         public float scale = 7f;
         public int numberOfCostalCities;
         public int numberofCities;
-        public Texture2D red;
         public Tile[,] grid;
         [Range(0, 10000)]
         public int seed;
@@ -27,8 +26,7 @@ namespace Strategia {
         public GameObject cityPrefab;
         public GameObject costalCityPrefab;
 
-        private List<CityTileData> potentialCityTiles = null;
-        public List<CityTileData> cityTiles;
+        private List<Tile> potentialCityTiles = null;
 
         void Awake() {
             CreateGrid();
@@ -38,6 +36,7 @@ namespace Strategia {
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
                     GameObject instantiatedTile;
+                    City cityScript;
                     switch (grid[x, y].tileType) {
                         case TileType.Sea:
                             instantiatedTile = GameObject.Instantiate(seaPrefab, new Vector3(x * tileWidth, -1, y * tileHeight), Quaternion.Euler(0, 180, 0));
@@ -54,12 +53,20 @@ namespace Strategia {
                         case TileType.Trees:
                             instantiatedTile = GameObject.Instantiate(treesPrefab, new Vector3(x * tileWidth, -1, y * tileHeight), Quaternion.Euler(0, 180, 0));
                             break;
-                        /*case TileType.City:
+                        case TileType.City:
                             instantiatedTile = GameObject.Instantiate(cityPrefab, new Vector3(x * tileWidth, 0, y * tileHeight), Quaternion.Euler(0, 180, 0));
+                            instantiatedTile.transform.tag = "City";
+                            cityScript = instantiatedTile.GetComponent<City>();
+                            cityScript.pos = new Vector2Int(x, y);
+                            cityScript.gridScript = this;
                             break;
                         case TileType.CostalCity:
                             instantiatedTile = GameObject.Instantiate(costalCityPrefab, new Vector3(x * tileWidth, 0, y * tileHeight), Quaternion.Euler(0, 180, 0));
-                            break;*/
+                            instantiatedTile.transform.tag = "City";
+                            cityScript = instantiatedTile.GetComponent<City>();
+                            cityScript.pos = new Vector2Int(x, y);
+                            cityScript.gridScript = this;
+                            break;
                         default:
                             instantiatedTile = null;
                             break;
@@ -67,48 +74,11 @@ namespace Strategia {
                     if (instantiatedTile != null) {
                         instantiatedTile.transform.parent = tileParent;
                         instantiatedTile.name = x + ", " + y;
+                        grid[x, y].tileScript = instantiatedTile.gameObject.GetComponent<TileScript>();
+                        grid[x, y].tileScript.tile = grid[x, y];
                         grid[x, y].gameObject = instantiatedTile;
                     }
                 }
-            }
-            foreach (var city in cityTiles) {
-                GameObject instantiatedCity;
-                if (city.isCostal) {
-                    instantiatedCity = GameObject.Instantiate(costalCityPrefab, new Vector3(city.index.x * tileHeight, 0, city.index.y * tileHeight), Quaternion.Euler(0, 180, 0));
-                } else {
-                    instantiatedCity = GameObject.Instantiate(cityPrefab, new Vector3(city.index.x * tileWidth, 0, city.index.y * tileHeight), Quaternion.Euler(0, 180, 0));
-                }
-                instantiatedCity.transform.parent = tileParent;
-                instantiatedCity.transform.tag = "City";
-                instantiatedCity.name = city.index.x + ", " + city.index.y;
-                city.gameObject = instantiatedCity;
-                grid[city.index.x, city.index.y].gameObject = instantiatedCity;
-                City cityScript = instantiatedCity.GetComponent<City>();
-                cityScript.pos = new Vector2Int(city.index.x, city.index.y);
-                cityScript.gridScript = this;
-            }
-            AssignPlayerCity();
-        }
-
-        public bool CostalCheck(int x, int y) {
-            if ((x > 0) && (grid[x - 1, y].tileType == TileType.Sea)) {
-                return true;
-            } /*else if ((x > 0) && (y < height-1) && (grid[x - 1, y + 1].tileType == TileType.Sea)) {
-                return true;
-            } else if ((x > 0) && (y > 0) && (grid[x - 1, y - 1].tileType == TileType.Sea)) {
-                return true;
-            }*/ else if ((y > 0) && (grid[x, y - 1].tileType == TileType.Sea)) {
-                return true;
-            } /*else if ((x < width-1) && (y > 0) && (grid[x + 1, y - 1].tileType == TileType.Sea)) {
-                return true;
-            }*/ else if ((x < width - 1) && (grid[x + 1, y].tileType == TileType.Sea)) {
-                return true;
-            } else if ((y < height - 1) && (grid[x, y + 1].tileType == TileType.Sea)) {
-                return true;
-            } /*else if ((x < width-1) && (y < height-1) && (grid[x + 1, y + 1].tileType == TileType.Sea)) {
-                return true;
-            }*/ else {
-                return false;
             }
         }
 
@@ -121,19 +91,81 @@ namespace Strategia {
                 DestroyImmediate(child.gameObject);
             }
             potentialCityTiles?.Clear();
-            cityTiles.Clear();
             tempList.Clear();
+        }
+
+        public bool CostalCheck(int x, int y) {
+            if ((x > 0) && (grid[x - 1, y].tileType == TileType.Sea)) {
+                return true;
+            } else if ((y > 0) && (grid[x, y - 1].tileType == TileType.Sea)) {
+                return true;
+            } else if ((x < width - 1) && (grid[x + 1, y].tileType == TileType.Sea)) {
+                return true;
+            } else if ((y < height - 1) && (grid[x, y + 1].tileType == TileType.Sea)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public List<Tile> RadialSearch(Vector2Int pos, int radius) {
+            List<Tile> tilesInRange = new List<Tile>();
+            Tile startingPoint = grid[pos.x, pos.y];
+            foreach (var tile in grid) {
+                if ((Mathf.Pow((startingPoint.index.x - tile.index.x), 2) + (Mathf.Pow((startingPoint.index.y - tile.index.y), 2))) < Mathf.Pow(radius, 2)) {
+                    tilesInRange.Add(tile);
+                }
+            }
+            return tilesInRange;
+        }
+
+        public List<Tile> FloodFill(Tile[,] grid, Tile startingPoint) {
+            if (startingPoint.tileType == TileType.Sea) {
+                return null;
+            }
+            List<Tile> islandTiles = new List<Tile>();
+            Queue<Tile> tileQueue = new Queue<Tile>();
+            islandTiles.Add(startingPoint);
+            tileQueue.Enqueue(startingPoint);
+
+            while (tileQueue.Count > 0) {
+                Tile n = tileQueue.Peek();
+                tileQueue.Dequeue();
+                Tile nextTile;
+
+                nextTile = grid[n.index.x - 1, n.index.y];
+                if (nextTile.tileType != TileType.Sea && !islandTiles.Contains(nextTile)) {
+                    islandTiles.Add(nextTile);
+                    tileQueue.Enqueue(nextTile);
+                }
+                nextTile = grid[n.index.x + 1, n.index.y];
+                if (nextTile.tileType != TileType.Sea && !islandTiles.Contains(nextTile)) {
+                    islandTiles.Add(nextTile);
+                    tileQueue.Enqueue(nextTile);
+                }
+                nextTile = grid[n.index.x, n.index.y + 1];
+                if (nextTile.tileType != TileType.Sea && !islandTiles.Contains(nextTile)) {
+                    islandTiles.Add(nextTile);
+                    tileQueue.Enqueue(nextTile);
+                }
+                nextTile = grid[n.index.x - 1, n.index.y - 1];
+                if (nextTile.tileType != TileType.Sea && !islandTiles.Contains(nextTile)) {
+                    islandTiles.Add(nextTile);
+                    tileQueue.Enqueue(nextTile);
+                }
+            }
+            return islandTiles;
         }
 
         public void CreateGrid() {
             DeleteGrid();
             seed = Random.Range(0, 10000);
             grid = new Tile[width, height];
-            potentialCityTiles = new List<CityTileData>();
+            potentialCityTiles = new List<Tile>();
             float[,] noiseMap = CalculateNoise(width, height, seed);
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
-                    grid[x, y] = new Tile(TileType.Sea, null, new Vector2Int(x, y));
+                    grid[x, y] = new Tile(TileType.Sea, null, new Vector2Int(x, y), null);
 
                     float sample = noiseMap[x, y];
 
@@ -141,7 +173,7 @@ namespace Strategia {
                         grid[x, y].tileType = TileType.Sea;
                     } else if ((sample > 0.5) && (sample < 0.6)) {
                         grid[x, y].tileType = TileType.Plains;
-                        potentialCityTiles.Add(new CityTileData(x, y, false, null));
+                        potentialCityTiles.Add(new Tile(TileType.City, null, new Vector2Int(x, y), null));
                     } else if ((sample > 0.6) && (sample < 0.61)) {
                         grid[x, y].tileType = TileType.Swamp;
                     } else if ((sample > 0.73) && (sample < 0.85)) {
@@ -150,12 +182,14 @@ namespace Strategia {
                         grid[x, y].tileType = TileType.Mountains;
                     } else {
                         grid[x, y].tileType = TileType.Plains;
-                        potentialCityTiles.Add(new CityTileData(x, y, false, null));
+                        potentialCityTiles.Add(new Tile(TileType.City, null, new Vector2Int(x, y), null));
                     }
                 }
             }
             foreach (var tile in potentialCityTiles) {
-                tile.isCostal = CostalCheck(tile.index.x, tile.index.y);
+                if (CostalCheck(tile.index.x, tile.index.y)) {
+                    tile.tileType = TileType.CostalCity;
+                }
             }
             CalculateCities();
             SpawnTiles();
@@ -171,21 +205,18 @@ namespace Strategia {
                 potentialCityTiles[k] = potentialCityTiles[n];
                 potentialCityTiles[n] = value;
             }
-            cityTiles.Clear();
             int calculatedCostalCities = 0;
             int calculatedCities = 0;
             bool outOfCities = false;
 
             while (!outOfCities) {
                 foreach (var city in potentialCityTiles) {
-                    if (city.isCostal && (calculatedCostalCities < numberOfCostalCities)) {
+                    if ((city.tileType == TileType.CostalCity) && (calculatedCostalCities < numberOfCostalCities)) {
                         calculatedCostalCities++;
-                        cityTiles.Add(city);
                         grid[city.index.x, city.index.y].tileType = TileType.CostalCity;
 
-                    } else if (!city.isCostal && (calculatedCities < numberofCities)) {
+                    } else if ((city.tileType == TileType.City) && (calculatedCities < numberofCities)) {
                         calculatedCities++;
-                        cityTiles.Add(city);
                         grid[city.index.x, city.index.y].tileType = TileType.City;
 
                     }
@@ -193,17 +224,6 @@ namespace Strategia {
                 outOfCities = true;
             }
             potentialCityTiles.Clear();
-        }
-
-        public void AssignPlayerCity() {
-            foreach (var city in cityTiles) {
-                if (city.isCostal) {
-                    GameObject.Find("Main Camera").GetComponent<Player>().StartGame(city);
-                    goto Stop;
-                }
-            }
-        Stop:
-            return;
         }
 
         public float[,] CalculateNoise(int width, int height, int seed) {
@@ -240,18 +260,5 @@ namespace Strategia {
         public float Evaluate(float value) {
             return Mathf.Pow(value, falloffA) / (Mathf.Pow(value, falloffA) + Mathf.Pow(falloffB - falloffB * value, falloffA));
         }
-    }
-}
-
-[System.Serializable]
-public class CityTileData {
-    public Vector2Int index;
-    public bool isCostal;
-    public GameObject gameObject;
-
-    public CityTileData(int x, int y, bool _isCostal, GameObject _gameObject) {
-        index = new Vector2Int(x, y);
-        isCostal = _isCostal;
-        gameObject = _gameObject;
     }
 }

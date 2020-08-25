@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour {
 
-    public List<CityTileData> playerCities;
+    public List<Tile> playerCities;
     public List<Unit> playerUnits;
     public Camera mainCamera;
     public Tile[,] grid;
@@ -29,14 +29,6 @@ public class Player : MonoBehaviour {
         UIInfo.newMove = false;
 
         UIInfo.citySelected = false;
-    }
-
-    public void StartGame(CityTileData startingCity) {
-        playerCities.Add(startingCity);
-        GameObject instantiatedUnit = GameObject.Instantiate(startUnitPrefab, new Vector3(0, 0.5f, 0), Quaternion.identity);
-        Unit newUnit = instantiatedUnit.GetComponent<Unit>();
-        newUnit.pos = startingCity.index;
-        playerUnits.Add(newUnit);
     }
 
     public void TakeTurn() {
