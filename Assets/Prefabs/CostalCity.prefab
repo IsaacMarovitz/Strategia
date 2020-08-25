@@ -176,6 +176,7 @@ GameObject:
   - component: {fileID: 5455822673396696459}
   - component: {fileID: -5972370927090661834}
   - component: {fileID: 38280320772704245}
+  - component: {fileID: 3716544193991124845}
   m_Layer: 0
   m_Name: CostalCity
   m_TagString: Untagged
@@ -305,3 +306,17 @@ MonoBehaviour:
     islandIndex: 0
   children:
   - {fileID: 2512615975678749112}
+  isOwnedByCity: 0
+--- !u!65 &3716544193991124845
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5815842155762721886}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.9999999, y: 3, z: 1.9999999}
+  m_Center: {x: 0, y: 1.5, z: 0}

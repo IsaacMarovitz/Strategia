@@ -9,7 +9,7 @@ public class City : MonoBehaviour {
     public UnitType unitType;
     public GameObject[] unitPrefabs = new GameObject[9];
     public Vector2Int pos;
-    public Strategia.Grid gridScript;   
+    public Strategia.Grid gridScript;
     public string cityName = "London";
 
     private bool selected = false;
@@ -22,6 +22,7 @@ public class City : MonoBehaviour {
         List<Tile> nearbyTiles = GridUtilities.RadialSearch(gridScript.grid, pos, 5);
         foreach (var tile in nearbyTiles) {
             tile.tileScript.ChangeVisibility(Visibility.Visable);
+            tile.tileScript.isOwnedByCity = true;
         }
     }
 
@@ -34,7 +35,7 @@ public class City : MonoBehaviour {
             }
             UIInfo.turnsLeft = turnsLeft;
         }
-        if ((isOwned) && isOwned != oldIsOwned) {
+        if (isOwned && oldIsOwned != isOwned) {
             oldIsOwned = isOwned;
             ShowNearbyTiles();
         }

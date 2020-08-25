@@ -23,6 +23,7 @@ public class Unit : MonoBehaviour {
     public bool turnComplete = false;
 
     private bool selected = false;
+    private List<Tile> oldTiles = new List<Tile>();
 
     // Move direction go from left to right, top to bottom
     // E.G. Left and Up = 1, Up = 2, Right and Up = 3 etc...
@@ -107,9 +108,6 @@ public class Unit : MonoBehaviour {
                 default:
                     break;
             }
-            foreach (var dir in moveDirs) {
-                Debug.Log(dir);
-            }
         }
     }
 
@@ -170,10 +168,14 @@ public class Unit : MonoBehaviour {
                     }
                     break;
             }
+            foreach (var tile in oldTiles) {
+                tile.tileScript.ChangeVisibility(Visibility.Hidden);
+            }
             List<Tile> nearbyTiles = GridUtilities.RadialSearch(gridScript.grid, pos, 5);
             foreach (var tile in nearbyTiles) {
                 tile.tileScript.ChangeVisibility(Visibility.Visable);
             }
+            oldTiles = nearbyTiles;
             CheckDirs();
         }
     }

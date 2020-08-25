@@ -12,11 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee1ea8503c048ce41972d867d9eb2883, type: 3}
   m_Name: UIInfo
   m_EditorClassIdentifier: 
-  unitSelected: 0
-  worldPos: {x: 26, y: 0.5, z: 42}
-  pos: {x: 13, y: 21}
+  day: 1
+  unitSelected: 1
+  unitWorldPos: {x: 158, y: 0.75, z: 68}
+  pos: {x: 79, y: 34}
   movesLeft: 0
   moveDirs: 0000000000000000
-  day: 1
-  dir: 6
+  dir: 1
   newMove: 0
+  citySelected: 0
+  cityWorldPos: {x: 0, y: 0, z: 0}
+  unitType: 0
+  cityName: 
+  turnsLeft: 0

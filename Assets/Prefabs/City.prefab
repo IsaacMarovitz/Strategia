@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 827820428412972917}
   - component: {fileID: 450814985065603915}
   - component: {fileID: 5229174378565895597}
+  - component: {fileID: 5140163076747068316}
   m_Layer: 0
   m_Name: City
   m_TagString: Untagged
@@ -141,6 +142,20 @@ MonoBehaviour:
     islandIndex: 0
   children:
   - {fileID: 7067662329382781766}
+  isOwnedByCity: 0
+--- !u!65 &5140163076747068316
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188385406521069216}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.9999999, y: 3, z: 1.9999999}
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!1 &1944430950625405960
 GameObject:
   m_ObjectHideFlags: 0

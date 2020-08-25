@@ -13,6 +13,7 @@ public class TileScript : MonoBehaviour {
     public MeshRenderer meshRenderer;
     public Tile tile;
     public List<GameObject> children;
+    public bool isOwnedByCity;
 
     public void Start() {
         UpdateTile();
@@ -54,8 +55,10 @@ public class TileScript : MonoBehaviour {
     }
 
     public void ChangeVisibility(Visibility _visibility) {
-        visibility = _visibility;
-        UpdateTile();
+        if (!isOwnedByCity) {
+            visibility = _visibility;
+            UpdateTile();
+        }
     }
 }
 
