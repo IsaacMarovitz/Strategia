@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class TileScript : MonoBehaviour {
 
@@ -11,29 +12,25 @@ public class TileScript : MonoBehaviour {
     public MeshRenderer planeMeshRenderer;
     public MeshRenderer meshRenderer;
     public Tile tile;
+    public List<GameObject> children;
 
     public void Start() {
-        for (int i = 0; i < this.transform.childCount; i++) {
-            this.transform.GetChild(i).gameObject.SetActive(false);
-        }
-        plane.SetActive(true);
-        planeMeshRenderer.material = undiscoveredMaterial;
-        meshRenderer.enabled = false;
+        UpdateTile();
     }
 
     public void UpdateTile() {
         switch (visibility) {
             case Visibility.Undiscovered:
-                for (int i = 0; i < this.transform.childCount; i++) {
-                    this.transform.GetChild(i).gameObject.SetActive(false);
+                foreach (var child in children) {
+                    child.SetActive(false);
                 }
                 plane.SetActive(true);
                 planeMeshRenderer.material = undiscoveredMaterial;
                 meshRenderer.enabled = false;
                 break;
             case Visibility.Hidden:
-                for (int i = 0; i < this.transform.childCount; i++) {
-                    this.transform.GetChild(i).gameObject.SetActive(true);
+                foreach (var child in children) {
+                    child.SetActive(true);
                 }
                 plane.SetActive(false);
                 planeMeshRenderer.material = null;
@@ -43,8 +40,8 @@ public class TileScript : MonoBehaviour {
                 }
                 break;
             case Visibility.Visable:
-                for (int i = 0; i < this.transform.childCount; i++) {
-                    this.transform.GetChild(i).gameObject.SetActive(true);
+                foreach (var child in children) {
+                    child.SetActive(true);
                 }
                 plane.SetActive(false);
                 planeMeshRenderer.material = null;

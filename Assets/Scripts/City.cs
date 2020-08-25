@@ -22,7 +22,7 @@ public class City : MonoBehaviour {
     }
 
     public void ShowNearbyTiles() {
-        List<Tile> nearbyTiles = gridScript.RadialSearch(pos, 5);
+        List<Tile> nearbyTiles = GridUtilities.RadialSearch(gridScript.grid, pos, 5);
         foreach (var tile in nearbyTiles) {
             tile.tileScript.ChangeVisibility(Visibility.Visable);
         }

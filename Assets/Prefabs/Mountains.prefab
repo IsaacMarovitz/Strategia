@@ -267,6 +267,14 @@ MonoBehaviour:
   plane: {fileID: 831911149285046489}
   planeMeshRenderer: {fileID: 3496179558911651656}
   meshRenderer: {fileID: 8295876032674615790}
+  tile:
+    index: {x: 0, y: 0}
+    tileType: 0
+    gameObject: {fileID: 0}
+    tileScript: {fileID: 0}
+    islandIndex: 0
+  children:
+  - {fileID: 4392440028847674395}
 --- !u!1 &4392440028847674395
 GameObject:
   m_ObjectHideFlags: 0

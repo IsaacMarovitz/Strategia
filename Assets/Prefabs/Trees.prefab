@@ -298,3 +298,11 @@ MonoBehaviour:
   plane: {fileID: 2484749757983877617}
   planeMeshRenderer: {fileID: 2528774983615114755}
   meshRenderer: {fileID: 2423318455053158124}
+  tile:
+    index: {x: 0, y: 0}
+    tileType: 0
+    gameObject: {fileID: 0}
+    tileScript: {fileID: 0}
+    islandIndex: 0
+  children:
+  - {fileID: 8089248076581889828}
