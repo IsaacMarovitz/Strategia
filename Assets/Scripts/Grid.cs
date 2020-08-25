@@ -88,22 +88,14 @@ namespace Strategia {
             List<Tile> potentialCityTiles = new List<Tile>();
             foreach (var tile in grid) {
                 if (tile.tileType == TileType.Plains) {
-                    potentialCityTiles.Add(new Tile(TileType.City, null, tile.index, null, tile.islandIndex));
+                    if (GridUtilities.CostalCheck(grid, width, height, tile.index)) {
+                        potentialCityTiles.Add(new Tile(TileType.CostalCity, null, tile.index, null, tile.islandIndex));
+                    } else {
+                        potentialCityTiles.Add(new Tile(TileType.City, null, tile.index, null, tile.islandIndex));
+                    }
                 }
             }
-            foreach (var tile in potentialCityTiles) {
-                if (GridUtilities.CostalCheck(grid, width, height, tile.index)) {
-                    tile.tileType = TileType.CostalCity;
-                }
-            }
-            int n = potentialCityTiles.Count;
-            while (n > 1) {
-                n--;
-                int k = Random.Range(0, n + 1);
-                var value = potentialCityTiles[k];
-                potentialCityTiles[k] = potentialCityTiles[n];
-                potentialCityTiles[n] = value;
-            }
+            potentialCityTiles = FisherYates(potentialCityTiles);
             int calculatedCostalCities = 0;
             int calculatedCities = 0;
             bool outOfCities = false;
@@ -123,6 +115,19 @@ namespace Strategia {
                 outOfCities = true;
             }
             potentialCityTiles.Clear();
+        }
+
+        public List<Tile> FisherYates(List<Tile> tiles) {
+            List<Tile> returnList = tiles;
+            int n = returnList.Count;
+            while (n > 1) {
+                n--;
+                int k = Random.Range(0, n + 1);
+                var value = returnList[k];
+                returnList[k] = returnList[n];
+                returnList[n] = value;
+            }
+            return returnList;
         }
 
         // Instantiate in all tiles
