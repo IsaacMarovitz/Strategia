@@ -119,7 +119,7 @@ public class Unit : MonoBehaviour {
                     if (moveDirs[0]) {
                         pos.x--;
                         pos.y++;
-                        this.transform.eulerAngles = new Vector3(0, 0, 0);
+                        this.transform.eulerAngles = new Vector3(0, -45, 0);
                     }
                     break;
                 case 2:
@@ -132,7 +132,7 @@ public class Unit : MonoBehaviour {
                     if (moveDirs[2]) {
                         pos.x++;
                         pos.y++;
-                        this.transform.eulerAngles = new Vector3(0, 0, 0);
+                        this.transform.eulerAngles = new Vector3(0, 45, 0);
                     }
                     break;
                 case 4:
@@ -151,20 +151,20 @@ public class Unit : MonoBehaviour {
                     if (moveDirs[5]) {
                         pos.x--;
                         pos.y--;
-                        this.transform.eulerAngles = new Vector3(0, -180, 0);
+                        this.transform.eulerAngles = new Vector3(0, 225, 0);
                     }
                     break;
                 case 7:
                     if (moveDirs[6]) {
                         pos.y--;
-                        this.transform.eulerAngles = new Vector3(0, -180, 0);
+                        this.transform.eulerAngles = new Vector3(0, 180, 0);
                     }
                     break;
                 case 8:
                     if (moveDirs[7]) {
                         pos.x++;
                         pos.y--;
-                        this.transform.eulerAngles = new Vector3(0, -180, 0);
+                        this.transform.eulerAngles = new Vector3(0, 135, 0);
                     }
                     break;
             }

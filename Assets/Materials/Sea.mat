@@ -107,7 +107,7 @@ Material:
     - _IntersectionStrength: 5.53
     - _Metallic: 0
     - _Mode: 0
-    - _NormalStrength: 0.69
+    - _NormalStrength: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _QueueOffset: 0
@@ -116,7 +116,7 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Strength: 0.5
+    - _Strength: 1.784
     - _Surface: 0
     - _Translucency: 0.8
     - _UVSec: 0

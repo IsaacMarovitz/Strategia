@@ -14,6 +14,7 @@ public class TileScript : MonoBehaviour {
     public Tile tile;
     public List<GameObject> children;
     public bool isOwnedByCity;
+    public Unit unitOnTile;
 
     public void Start() {
         UpdateTile();

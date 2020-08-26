@@ -32,7 +32,7 @@ public class Player : MonoBehaviour {
     }
 
     public void TakeTurn() {
-
+        
     }
 
     public void Update() {
