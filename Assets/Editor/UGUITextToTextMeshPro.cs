@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using TMPro.EditorUtilities;
 
-public class UGUITextToTextMeshPro : Editor {
+/*public class UGUITextToTextMeshPro : Editor {
     [MenuItem("Tools/Convert To Text Mesh Pro", false, 4000)]
     static void DoIt() {
         foreach (var gameObject in Selection.gameObjects) {
@@ -90,7 +90,7 @@ public class UGUITextToTextMeshPro : Editor {
                 "");
             uiText.name += " OLD";
             uiText.gameObject.SetActive(false);
-        }*/
+        }
     }
 
 
@@ -152,4 +152,4 @@ public class UGUITextToTextMeshPro : Editor {
 
         return alignment;
     }
-}
+}*/

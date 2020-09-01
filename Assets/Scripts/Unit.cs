@@ -20,32 +20,40 @@ public class Unit : MonoBehaviour {
 
     public int movesLeft;
     public bool[] moveDirs = new bool[8];
+
+    public bool isSleeping = false;
+    public bool turnStarted = false;
     public bool turnComplete = false;
 
     private bool selected = false;
     private List<Tile> oldTiles = new List<Tile>();
+    private Player player;
 
     // Move direction go from left to right, top to bottom
     // E.G. Left and Up = 1, Up = 2, Right and Up = 3 etc...
 
-    public void Update() {
-        transform.position = new Vector3(pos.x * gridScript.tileWidth, transform.position.y, pos.y * gridScript.tileHeight);
-        if (selected) {
-            UIInfo.pos = pos;
-            UIInfo.unitWorldPos = transform.position;
-            UIInfo.movesLeft = movesLeft;
-            UIInfo.moveDirs = moveDirs;
-            if (UIInfo.newMove) {
-                UIInfo.newMove = false;
-                Move(UIInfo.dir);
-            }
-        }
+    public void NewDay(Player _player) {
+        player = _player;
+        movesLeft = moveDistance;
+        turnStarted = false;
+        turnComplete = false;
     }
 
-    public void Start() {
+    public void StartTurn() {
+        turnStarted = true;
+        turnComplete = false;
         movesLeft = moveDistance;
-        gridScript = GameObject.Find("Grid").GetComponent<Strategia.Grid>();
         CheckDirs();
+        if (isSleeping) {
+            EndTurn();
+            return;
+        }
+        Selected();
+    }
+
+    public void EndTurn() {
+        player.NextUnit(this, false);
+        turnComplete = true;
     }
 
     public void Selected() {
@@ -56,9 +64,19 @@ public class Unit : MonoBehaviour {
         selected = false;
     }
 
-    public void NewTurn() {
-        turnComplete = false;
+    public void Update() {
+        transform.position = new Vector3(pos.x * gridScript.tileWidth, transform.position.y, pos.y * gridScript.tileHeight);
+        if (selected) {
+            if (UIInfo.newMove) {
+                UIInfo.newMove = false;
+                Move(UIInfo.dir);
+            }
+        }
+    }
+
+    public void Start() {
         movesLeft = moveDistance;
+        CheckDirs();
     }
 
     public void CheckDirs() {
@@ -112,72 +130,91 @@ public class Unit : MonoBehaviour {
     }
 
     public void Move(int dir) {
-        if (movesLeft > 0) {
-            movesLeft--;
-            switch (dir) {
-                case 1:
-                    if (moveDirs[0]) {
-                        pos.x--;
-                        pos.y++;
-                        this.transform.eulerAngles = new Vector3(0, -45, 0);
-                    }
-                    break;
-                case 2:
-                    if (moveDirs[1]) {
-                        pos.y++;
-                        this.transform.eulerAngles = new Vector3(0, 0, 0);
-                    }
-                    break;
-                case 3:
-                    if (moveDirs[2]) {
-                        pos.x++;
-                        pos.y++;
-                        this.transform.eulerAngles = new Vector3(0, 45, 0);
-                    }
-                    break;
-                case 4:
-                    if (moveDirs[3]) {
-                        pos.x--;
-                        this.transform.eulerAngles = new Vector3(0, -90, 0);
-                    }
-                    break;
-                case 5:
-                    if (moveDirs[4]) {
-                        pos.x++;
-                        this.transform.eulerAngles = new Vector3(0, 90, 0);
-                    }
-                    break;
-                case 6:
-                    if (moveDirs[5]) {
-                        pos.x--;
-                        pos.y--;
-                        this.transform.eulerAngles = new Vector3(0, 225, 0);
-                    }
-                    break;
-                case 7:
-                    if (moveDirs[6]) {
-                        pos.y--;
-                        this.transform.eulerAngles = new Vector3(0, 180, 0);
-                    }
-                    break;
-                case 8:
-                    if (moveDirs[7]) {
-                        pos.x++;
-                        pos.y--;
-                        this.transform.eulerAngles = new Vector3(0, 135, 0);
-                    }
-                    break;
-            }
-            foreach (var tile in oldTiles) {
-                tile.tileScript.ChangeVisibility(Visibility.Hidden);
-            }
-            List<Tile> nearbyTiles = GridUtilities.RadialSearch(gridScript.grid, pos, 5);
-            foreach (var tile in nearbyTiles) {
-                tile.tileScript.ChangeVisibility(Visibility.Visable);
-            }
-            oldTiles = nearbyTiles;
-            CheckDirs();
+        movesLeft--;
+        switch (dir) {
+            case 1:
+                if (moveDirs[0]) {
+                    pos.x--;
+                    pos.y++;
+                    this.transform.eulerAngles = new Vector3(0, -45, 0);
+                }
+                break;
+            case 2:
+                if (moveDirs[1]) {
+                    pos.y++;
+                    this.transform.eulerAngles = new Vector3(0, 0, 0);
+                }
+                break;
+            case 3:
+                if (moveDirs[2]) {
+                    pos.x++;
+                    pos.y++;
+                    this.transform.eulerAngles = new Vector3(0, 45, 0);
+                }
+                break;
+            case 4:
+                if (moveDirs[3]) {
+                    pos.x--;
+                    this.transform.eulerAngles = new Vector3(0, -90, 0);
+                }
+                break;
+            case 5:
+                if (moveDirs[4]) {
+                    pos.x++;
+                    this.transform.eulerAngles = new Vector3(0, 90, 0);
+                }
+                break;
+            case 6:
+                if (moveDirs[5]) {
+                    pos.x--;
+                    pos.y--;
+                    this.transform.eulerAngles = new Vector3(0, 225, 0);
+                }
+                break;
+            case 7:
+                if (moveDirs[6]) {
+                    pos.y--;
+                    this.transform.eulerAngles = new Vector3(0, 180, 0);
+                }
+                break;
+            case 8:
+                if (moveDirs[7]) {
+                    pos.x++;
+                    pos.y--;
+                    this.transform.eulerAngles = new Vector3(0, 135, 0);
+                }
+                break;
         }
+        foreach (var tile in oldTiles) {
+            tile.tileScript.ChangeVisibility(Visibility.Hidden);
+        }
+        List<Tile> nearbyTiles = GridUtilities.RadialSearch(gridScript.grid, pos, 5);
+        foreach (var tile in nearbyTiles) {
+            tile.tileScript.ChangeVisibility(Visibility.Visable);
+        }
+        oldTiles = nearbyTiles;
+        CheckDirs();
+        if (movesLeft <= 0) {
+            EndTurn();
+        }
+    }
+
+    public void ToggleSleep() {
+        if (!isSleeping) {
+            isSleeping = true;
+            EndTurn();
+        } else {
+            isSleeping = false;
+            StartTurn();
+        }
+    }
+
+    public void Later() {
+        player.NextUnit(this, true);
+    }
+
+    public void Done() {
+        EndTurn();
     }
 }
 

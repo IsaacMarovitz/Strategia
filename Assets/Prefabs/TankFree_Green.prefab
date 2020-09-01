@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 508167116926367502}
   m_Layer: 0
   m_Name: TankFree_Green
-  m_TagString: Player1Unit
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -276,6 +276,8 @@ MonoBehaviour:
   gridScript: {fileID: 0}
   movesLeft: 5
   moveDirs: 0000000000000000
+  isSleeping: 0
+  turnStarted: 0
   turnComplete: 0
 --- !u!65 &508167116926367502
 BoxCollider:

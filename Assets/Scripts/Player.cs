@@ -11,28 +11,51 @@ public class Player : MonoBehaviour {
     public GameObject moveButtons;
     public UIInfo UIInfo;
     public GameObject startUnitPrefab;
-    //[HideInInspector]
-    public bool turnCompleted = false;
     public bool turnStarted = false;
+    public bool turnCompleted = false;
+    [HideInInspector]
+    public GameMode gameMode;
 
-    private Unit currentUnit;
-    private City currentCity;
+    private GameManager gameManager;
+    private List<Unit> unitQueue;
 
-    public void Start() {
-        UIInfo.unitSelected = false;
-        UIInfo.unitWorldPos = Vector3.zero;
-        UIInfo.pos = Vector2Int.zero;
-        UIInfo.movesLeft = 0;
-        UIInfo.moveDirs = new bool[8];
-        UIInfo.day = 1;
-        UIInfo.dir = 1;
-        UIInfo.newMove = false;
+    public void NewDay(GameManager _gameManager) {
+        gameManager = _gameManager;
 
-        UIInfo.citySelected = false;
+        foreach(var unit in playerUnits) {
+            unit.NewDay(this);
+        }
+
+        unitQueue?.Clear();
+        unitQueue = new List<Unit>(playerUnits);
+        turnStarted = false;
+        turnCompleted = false;
     }
 
-    public void TakeTurn() {
-        
+    public void StartTurn(){
+        UIInfo.unit = unitQueue[0];
+        unitQueue[0].StartTurn();
+        turnStarted = true;
+    }
+
+    public void NextUnit(Unit unit, bool movingLater) {
+        if (movingLater) {
+            unitQueue.Remove(unit);
+            unitQueue.Add(unit);
+        } else {
+            unitQueue.Remove(unit);
+        }
+        if (unitQueue.Count > 0) {
+            UIInfo.unit = unitQueue[0];
+            unitQueue[0].StartTurn();
+        } else {
+            TurnComplete();
+        }
+    }
+    
+    public void TurnComplete() {
+        turnCompleted = true;
+        gameManager.NextPlayer();
     }
 
     public void Update() {
@@ -41,25 +64,20 @@ public class Player : MonoBehaviour {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit)) {
                 if (!EventSystem.current.IsPointerOverGameObject()) {
-                    if (hit.transform.tag == "Player1Unit") {
-                        currentUnit?.Deselected();
-                        currentUnit = hit.transform.gameObject.GetComponent<Unit>();
-                        currentUnit.Selected();
-                        UIInfo.unitSelected = true;
+                    if (hit.transform.tag == "Unit") {
+                        UIInfo.unit?.Deselected();
+                        UIInfo.unit = hit.transform.gameObject.GetComponent<Unit>();
+                        UIInfo.unit.Selected();
                     } else {
-                        currentUnit?.Deselected();
-                        currentUnit = null;
-                        UIInfo.unitSelected = false;
+                        UIInfo.unit?.Deselected();
+                        UIInfo.unit = null;
                     }
                     if (hit.transform.tag == "City") {
-                        currentCity?.Deselected();
-                        currentCity = hit.transform.gameObject.GetComponent<City>();
-                        currentCity.Selected();
-                        UIInfo.citySelected = true;
-                        UIInfo.cityWorldPos = currentCity.transform.position;
+                        UIInfo.city?.Deselected();
+                        UIInfo.city = hit.transform.gameObject.GetComponent<City>();
+                        UIInfo.city.Selected();
                     } else {
-                        UIInfo.citySelected = false;
-                        currentCity?.Deselected();
+                        UIInfo.city?.Deselected();
                     }
                 }
             }

@@ -12,8 +12,8 @@ public class City : MonoBehaviour {
     public Strategia.Grid gridScript;
     public string cityName = "London";
 
-    private bool selected = false;
-    private int turnsLeft;
+    //private bool selected = false;
+    public int turnsLeft;
     private int currentIndex;
     private readonly int[] unitTTCs = { 4, 8, 8, 12, 2, 6, 6, 10, 12 };
     private bool oldIsOwned;
@@ -27,23 +27,21 @@ public class City : MonoBehaviour {
     }
 
     public void Update() {
-        if (isOwned && selected) {
-            if (UIInfo.unitType != unitType) {
-                unitType = UIInfo.unitType;
-                currentIndex = (int)unitType;
-                turnsLeft = unitTTCs[currentIndex];
-            }
-            UIInfo.turnsLeft = turnsLeft;
-        }
         if (isOwned && oldIsOwned != isOwned) {
             oldIsOwned = isOwned;
             ShowNearbyTiles();
         }
     }
 
-    public void StartGame() {
+    public void UpdateUnitType(UnitType _unitType) {
+        unitType = _unitType;
+        currentIndex = (int)unitType;
+        turnsLeft = unitTTCs[currentIndex];
+    }
+
+    public Unit StartGame() {
         isOwned = true;
-        CreateUnit();
+        return CreateUnit();
     }
 
     public void TakeTurn() {
@@ -56,19 +54,19 @@ public class City : MonoBehaviour {
         }
     }
 
-    public void CreateUnit() {
+    public Unit CreateUnit() {
         GameObject instantiatedUnit = GameObject.Instantiate(unitPrefabs[currentIndex], new Vector3(pos.x * gridScript.tileWidth, 0.75f, pos.y * gridScript.tileHeight), Quaternion.identity);
         instantiatedUnit.GetComponent<Unit>().pos = pos;
+        return instantiatedUnit.GetComponent<Unit>();
     }
 
     public void Selected() {
-        selected = true;
-        UIInfo.unitType = unitType;
-        UIInfo.cityName = cityName;
+        //selected = true;
+        UIInfo.city = this;
     }
 
     public void Deselected() {
-        selected = false;
+        //selected = false;
     }
 }
 

@@ -6,8 +6,8 @@ namespace Strategia {
 
         public int width = 10;
         public int height = 10;
-        public float tileWidth;
-        public float tileHeight;
+        public float tileWidth = 2;
+        public float tileHeight = 2;
         public float falloffA = 3f;
         public float falloffB = 2.2f;
         public float scale = 7f;
@@ -179,12 +179,21 @@ namespace Strategia {
                     }
                 }
             }
-            ChoosePlayerCities();
         }
 
-        // Choose player cities and start game loop
-        public void ChoosePlayerCities() {
-            cityTiles[0].gameObject.GetComponent<City>().StartGame();
+        // Return player city
+        public Tile ChoosePlayerCity() {
+            Tile cityTile = null;
+            foreach (var city in cityTiles) {
+                City cityScript = city.gameObject.GetComponent<City>();
+                if (!cityScript.isOwned) {
+                    cityScript.isOwned = true;
+                    cityTile = city;
+                    goto Return;
+                } 
+            }
+            Return:
+                return cityTile;
         }
 
         // Delete the grid and clear lists

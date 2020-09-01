@@ -16,38 +16,38 @@ public class CityUI : MonoBehaviour {
     }
 
     public void Update() {
-        if (UIInfo.citySelected) {
+        if (UIInfo.city != null) {
             panel.SetActive(true);
-            transform.position = new Vector3(UIInfo.cityWorldPos.x, yOffset, UIInfo.cityWorldPos.z);
-            cityName.text = UIInfo.cityName;
-            turnsLeft.text = "Days left : " + UIInfo.turnsLeft;
+            transform.position = new Vector3(UIInfo.city.transform.position.x, yOffset, UIInfo.city.transform.position.z);
+            cityName.text = UIInfo.city.cityName;
+            turnsLeft.text = "Days left : " + UIInfo.city.turnsLeft;
             switch (toggleGroup.GetFirstActiveToggle().name) {
                 case "Army":
-                    UIInfo.unitType = UnitType.Army;
+                    UIInfo.city.UpdateUnitType(UnitType.Army);
                     break;
                 case "Parachute":
-                    UIInfo.unitType = UnitType.Parachute;
+                    UIInfo.city.UpdateUnitType(UnitType.Parachute);
                     break;
                 case "Fighter":
-                    UIInfo.unitType = UnitType.Fighter;
+                    UIInfo.city.UpdateUnitType(UnitType.Fighter);
                     break;
                 case "Bomber":
-                    UIInfo.unitType = UnitType.Bomber;
+                    UIInfo.city.UpdateUnitType(UnitType.Bomber);
                     break;
                 case "Transport":
-                    UIInfo.unitType = UnitType.Transport;
+                    UIInfo.city.UpdateUnitType(UnitType.Transport);
                     break;
                 case "Destroyer":
-                    UIInfo.unitType = UnitType.Destroyer;
+                    UIInfo.city.UpdateUnitType(UnitType.Destroyer);
                     break;
                 case "Submarine":
-                    UIInfo.unitType = UnitType.Submarine;
+                    UIInfo.city.UpdateUnitType(UnitType.Submarine);
                     break;
                 case "Carrier":
-                    UIInfo.unitType = UnitType.Carrier;
+                    UIInfo.city.UpdateUnitType(UnitType.Carrier);
                     break;
                 case "Battleship":
-                    UIInfo.unitType = UnitType.Battleship;
+                    UIInfo.city.UpdateUnitType(UnitType.Battleship);
                     break;
                 default:
                     Debug.Log(toggleGroup.GetFirstActiveToggle().name);
