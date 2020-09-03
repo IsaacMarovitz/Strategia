@@ -20,6 +20,7 @@ namespace Strategia {
         public int islandCount;
         public int minimumIslandArea;
         public Transform tileParent;
+        public GameManager gameManager;
         // Sea, Plains, Swamp, Mountains, Trees, City, Costal City
         public GameObject[] prefabs = new GameObject[7];
 
@@ -157,14 +158,14 @@ namespace Strategia {
                             instantiatedTile.transform.tag = "City";
                             cityScript = instantiatedTile.GetComponent<City>();
                             cityScript.pos = new Vector2Int(x, y);
-                            cityScript.gridScript = this;
+                            cityScript.gameManager = gameManager;
                             break;
                         case TileType.CostalCity:
                             instantiatedTile = GameObject.Instantiate(prefabs[6], new Vector3(x * tileWidth, 0, y * tileHeight), Quaternion.Euler(0, 180, 0));
                             instantiatedTile.transform.tag = "City";
                             cityScript = instantiatedTile.GetComponent<City>();
                             cityScript.pos = new Vector2Int(x, y);
-                            cityScript.gridScript = this;
+                            cityScript.gameManager = gameManager;
                             break;
                         default:
                             instantiatedTile = null;
@@ -182,18 +183,20 @@ namespace Strategia {
         }
 
         // Return player city
-        public Tile ChoosePlayerCity() {
-            Tile cityTile = null;
+        public City ChoosePlayerCity() {
+            City cityTile = null;
             foreach (var city in cityTiles) {
-                City cityScript = city.gameObject.GetComponent<City>();
-                if (!cityScript.isOwned) {
-                    cityScript.isOwned = true;
-                    cityTile = city;
-                    goto Return;
-                } 
+                if (city.tileType == TileType.CostalCity) {
+                    City cityScript = city.gameObject.GetComponent<City>();
+                    if (!cityScript.isOwned) {
+                        cityScript.isOwned = true;
+                        cityTile = cityScript;
+                        goto Return;
+                    }
+                }
             }
-            Return:
-                return cityTile;
+        Return:
+            return cityTile;
         }
 
         // Delete the grid and clear lists

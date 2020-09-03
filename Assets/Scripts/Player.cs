@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour {
 
-    public List<Tile> playerCities;
+    public List<City> playerCities;
     public List<Unit> playerUnits;
     public Camera mainCamera;
     public Tile[,] grid;
@@ -22,7 +22,7 @@ public class Player : MonoBehaviour {
     public void NewDay(GameManager _gameManager) {
         gameManager = _gameManager;
 
-        foreach(var unit in playerUnits) {
+        foreach (var unit in playerUnits) {
             unit.NewDay(this);
         }
 
@@ -32,7 +32,25 @@ public class Player : MonoBehaviour {
         turnCompleted = false;
     }
 
-    public void StartTurn(){
+    public void InitaliseStartCity() {
+        playerCities[0].StartGame(this);
+    }
+
+    public void CheckFogOfWar() {
+        foreach (var grid in gameManager.grid.grid) {
+            if (grid.tileScript.visibility == Visibility.Visable) {
+                grid.tileScript.ChangeVisibility(Visibility.Hidden);
+            }
+        }
+        foreach (var unit in playerUnits) {
+            List<Tile> nearbyTiles = GridUtilities.RadialSearch(gameManager.grid.grid, unit.pos, 5);
+            foreach (var tile in nearbyTiles) {
+                tile.tileScript.ChangeVisibility(Visibility.Visable);
+            }
+        }
+    }
+
+    public void StartTurn() {
         UIInfo.unit = unitQueue[0];
         unitQueue[0].StartTurn();
         turnStarted = true;
@@ -46,13 +64,14 @@ public class Player : MonoBehaviour {
             unitQueue.Remove(unit);
         }
         if (unitQueue.Count > 0) {
+            UIInfo.unit?.Deselected();
             UIInfo.unit = unitQueue[0];
             unitQueue[0].StartTurn();
         } else {
             TurnComplete();
         }
     }
-    
+
     public void TurnComplete() {
         turnCompleted = true;
         gameManager.NextPlayer();
@@ -65,19 +84,26 @@ public class Player : MonoBehaviour {
             if (Physics.Raycast(ray, out hit)) {
                 if (!EventSystem.current.IsPointerOverGameObject()) {
                     if (hit.transform.tag == "Unit") {
-                        UIInfo.unit?.Deselected();
-                        UIInfo.unit = hit.transform.gameObject.GetComponent<Unit>();
-                        UIInfo.unit.Selected();
+                        Unit hitUnit = hit.transform.gameObject.GetComponent<Unit>();
+                        if (playerUnits.Contains(hitUnit)) {
+                            UIInfo.unit?.Deselected();
+                            UIInfo.unit = hitUnit;
+                            UIInfo.unit.Selected();
+                        }
                     } else {
                         UIInfo.unit?.Deselected();
                         UIInfo.unit = null;
                     }
                     if (hit.transform.tag == "City") {
-                        UIInfo.city?.Deselected();
-                        UIInfo.city = hit.transform.gameObject.GetComponent<City>();
-                        UIInfo.city.Selected();
+                        City hitCity = hit.transform.gameObject.GetComponent<City>();
+                        if (playerCities.Contains(hitCity)) {
+                            UIInfo.city?.Deselected();
+                            UIInfo.city = hit.transform.gameObject.GetComponent<City>();
+                            UIInfo.city.Selected();
+                        }
                     } else {
                         UIInfo.city?.Deselected();
+                        UIInfo.city = null;
                     }
                 }
             }

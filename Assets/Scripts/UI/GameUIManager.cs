@@ -1,26 +1,32 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class GameUIManager : MonoBehaviour {
 
     public UIInfo UIInfo;
     public TMP_Text movesLeft;
     public TMP_Text dayCounter;
+    public TMP_Text newDayUIText;
     public TMP_Text sleepButtonText;
     public Button sleepButton;
     public Button laterButton;
     public Button doneButton;
+    public GameObject newDayUI;
     public GameManager gameManager;
+    public float newDayWaitTime;
 
     public void Start() {
         sleepButton.onClick.AddListener(Sleep);
         laterButton.onClick.AddListener(Later);
         doneButton.onClick.AddListener(Done);
+        gameManager.newDayDelegate += NewDay;
     }
 
     void Update() {
         dayCounter.text = "Day " + UIInfo.day;
+        newDayUIText.text = "Day " + (UIInfo.day+1);
         if (UIInfo.unit != null) {
             movesLeft.text = "Moves Left: " + UIInfo.unit.movesLeft;
         } else {
@@ -32,6 +38,17 @@ public class GameUIManager : MonoBehaviour {
         } else {
             SetButtons(false);
         }
+    }
+
+    public void NewDay() {
+        newDayUI.SetActive(true);
+        StartCoroutine(Wait(newDayWaitTime));
+    }
+
+    IEnumerator Wait(float waitTime) {
+        yield return new WaitForSeconds(waitTime);
+        newDayUI.SetActive(false);
+        gameManager.NewDay();
     }
 
     public void UpdateUI() {

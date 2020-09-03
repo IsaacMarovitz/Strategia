@@ -16,7 +16,6 @@ public class Unit : MonoBehaviour {
     public UIInfo UIInfo;
 
     public Strategia.Grid gridScript;
-    public Tile[,] grid;
 
     public int movesLeft;
     public bool[] moveDirs = new bool[8];
@@ -84,10 +83,7 @@ public class Unit : MonoBehaviour {
             turnComplete = true;
             moveDirs = new bool[] { false, false, false, false, false, false, false, false };
         } else {
-            if (grid == null) {
-                grid = gridScript.grid;
-            }
-            Tile[] tiles = GridUtilities.DiagonalCheck(grid, gridScript.width, gridScript.height, pos);
+            Tile[] tiles = GridUtilities.DiagonalCheck(gridScript.grid, gridScript.width, gridScript.height, pos);
 
             switch (moveType) {
                 case UnitMoveType.Air:
@@ -185,14 +181,15 @@ public class Unit : MonoBehaviour {
                 }
                 break;
         }
-        foreach (var tile in oldTiles) {
+        /*foreach (var tile in oldTiles) {
             tile.tileScript.ChangeVisibility(Visibility.Hidden);
         }
         List<Tile> nearbyTiles = GridUtilities.RadialSearch(gridScript.grid, pos, 5);
         foreach (var tile in nearbyTiles) {
             tile.tileScript.ChangeVisibility(Visibility.Visable);
         }
-        oldTiles = nearbyTiles;
+        oldTiles = nearbyTiles;*/
+        player.CheckFogOfWar();
         CheckDirs();
         if (movesLeft <= 0) {
             EndTurn();
@@ -218,4 +215,4 @@ public class Unit : MonoBehaviour {
     }
 }
 
-public enum UnitMoveType { Land, Air, Sea };
+public enum UnitMoveType { Land, Air, Sea }

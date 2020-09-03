@@ -5,11 +5,12 @@ using UnityEngine;
 public class City : MonoBehaviour {
 
     public bool isOwned;
+    public Player player;
     public UIInfo UIInfo;
     public UnitType unitType;
     public GameObject[] unitPrefabs = new GameObject[9];
     public Vector2Int pos;
-    public Strategia.Grid gridScript;
+    public GameManager gameManager;
     public string cityName = "London";
 
     //private bool selected = false;
@@ -19,7 +20,7 @@ public class City : MonoBehaviour {
     private bool oldIsOwned;
 
     public void ShowNearbyTiles() {
-        List<Tile> nearbyTiles = GridUtilities.RadialSearch(gridScript.grid, pos, 5);
+        List<Tile> nearbyTiles = GridUtilities.RadialSearch(gameManager.grid.grid, pos, 5);
         foreach (var tile in nearbyTiles) {
             tile.tileScript.ChangeVisibility(Visibility.Visable);
             tile.tileScript.isOwnedByCity = true;
@@ -33,31 +34,35 @@ public class City : MonoBehaviour {
         }
     }
 
-    public void UpdateUnitType(UnitType _unitType) {
-        unitType = _unitType;
+    public void UpdateUnitType(UnitType unitType) {
+        this.unitType = unitType;
         currentIndex = (int)unitType;
         turnsLeft = unitTTCs[currentIndex];
     }
 
-    public Unit StartGame() {
+    public void StartGame(Player player) {
+        this.player = player;
         isOwned = true;
-        return CreateUnit();
+        CreateUnit();
+        gameManager.newDayDelegate += TakeTurn;
     }
 
     public void TakeTurn() {
         if (isOwned) {
             turnsLeft--;
             if (turnsLeft <= 0) {
-                //CreateUnit();
+                CreateUnit();
                 turnsLeft = unitTTCs[currentIndex];
             }
         }
     }
 
-    public Unit CreateUnit() {
-        GameObject instantiatedUnit = GameObject.Instantiate(unitPrefabs[currentIndex], new Vector3(pos.x * gridScript.tileWidth, 0.75f, pos.y * gridScript.tileHeight), Quaternion.identity);
-        instantiatedUnit.GetComponent<Unit>().pos = pos;
-        return instantiatedUnit.GetComponent<Unit>();
+    public void CreateUnit() {
+        GameObject instantiatedUnit = GameObject.Instantiate(unitPrefabs[currentIndex], new Vector3(pos.x * gameManager.grid.tileWidth, 0.75f, pos.y * gameManager.grid.tileHeight), Quaternion.identity);
+        Unit newUnit = instantiatedUnit.GetComponent<Unit>();
+        newUnit.pos = pos;
+        newUnit.gridScript = gameManager.grid;
+        player.playerUnits.Add(newUnit);
     }
 
     public void Selected() {
@@ -70,4 +75,4 @@ public class City : MonoBehaviour {
     }
 }
 
-public enum UnitType { Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, Battleship };
+public enum UnitType { Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, Battleship }

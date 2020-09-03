@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Grid = Strategia.Grid;
 
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour {
     public int numberOfPlayers;
     public GameObject playerPrefab;
     public Transform playerParent;
+    public Action newDayDelegate;
 
     private int currentPlayerIndex = 0;
 
@@ -30,8 +32,7 @@ public class GameManager : MonoBehaviour {
         // Asign player starting cities
         foreach (var player in playerList) {
             player.playerCities.Add(grid.ChoosePlayerCity());
-            player.playerUnits.Add(player.playerCities[0].gameObject.GetComponent<City>().StartGame());
-            player.playerUnits[0].gridScript = grid;
+            player.InitaliseStartCity();
         }
         
         // Start Game
@@ -62,7 +63,7 @@ public class GameManager : MonoBehaviour {
 
     public void DayComplete() {
         dayCompleted = true;
-        NewDay();
+        newDayDelegate?.Invoke();
     }
 
     public void CreatePlayer(int playerIndex) {    
