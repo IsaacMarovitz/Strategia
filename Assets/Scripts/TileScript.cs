@@ -55,18 +55,19 @@ public class TileScript : MonoBehaviour {
         }
     }
 
-    public void ChangeVisibility(Visibility _visibility) {
-        if (!isOwnedByCity) {
-            visibility = _visibility;
-            UpdateTile();
-        }
-    }
     public bool SetUnit(Unit unit) {
-        unitOnTile = unit;
+        unitOnTile = null;
         if (tileType == TileType.City || tileType == TileType.CostalCity) {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public void ChangeVisibility(Visibility _visibility) {
+        if (!isOwnedByCity) {
+            visibility = _visibility;
+            UpdateTile();
         }
     }
 }

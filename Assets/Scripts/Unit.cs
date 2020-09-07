@@ -23,7 +23,7 @@ public class Unit : MonoBehaviour {
     public bool isSleeping = false;
     public bool turnStarted = false;
     public bool turnComplete = false;
-    
+
     private GameObject meshObject;
     private bool selected = false;
     private List<Tile> oldTiles = new List<Tile>();
@@ -185,6 +185,14 @@ public class Unit : MonoBehaviour {
                 }
                 break;
         }
+        /*foreach (var tile in oldTiles) {
+            tile.tileScript.ChangeVisibility(Visibility.Hidden);
+        }
+        List<Tile> nearbyTiles = GridUtilities.RadialSearch(gridScript.grid, pos, 5);
+        foreach (var tile in nearbyTiles) {
+            tile.tileScript.ChangeVisibility(Visibility.Visable);
+        }
+        oldTiles = nearbyTiles;*/
         player.CheckFogOfWar();
         CheckDirs();
         SetTileUnit();
