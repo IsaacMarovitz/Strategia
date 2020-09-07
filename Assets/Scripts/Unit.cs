@@ -23,7 +23,8 @@ public class Unit : MonoBehaviour {
     public bool isSleeping = false;
     public bool turnStarted = false;
     public bool turnComplete = false;
-
+    
+    private GameObject meshObject;
     private bool selected = false;
     private List<Tile> oldTiles = new List<Tile>();
     private Player player;
@@ -75,7 +76,9 @@ public class Unit : MonoBehaviour {
 
     public void Start() {
         movesLeft = moveDistance;
+        meshObject = gameObject.transform.GetChild(0).gameObject;
         CheckDirs();
+        SetTileUnit();
     }
 
     public void CheckDirs() {
@@ -126,6 +129,7 @@ public class Unit : MonoBehaviour {
     }
 
     public void Move(int dir) {
+        gridScript.grid[pos.x, pos.y].tileScript.unitOnTile = null;
         movesLeft--;
         switch (dir) {
             case 1:
@@ -181,18 +185,25 @@ public class Unit : MonoBehaviour {
                 }
                 break;
         }
-        /*foreach (var tile in oldTiles) {
-            tile.tileScript.ChangeVisibility(Visibility.Hidden);
-        }
-        List<Tile> nearbyTiles = GridUtilities.RadialSearch(gridScript.grid, pos, 5);
-        foreach (var tile in nearbyTiles) {
-            tile.tileScript.ChangeVisibility(Visibility.Visable);
-        }
-        oldTiles = nearbyTiles;*/
         player.CheckFogOfWar();
         CheckDirs();
+        SetTileUnit();
         if (movesLeft <= 0) {
             EndTurn();
+        }
+    }
+
+    public void SetTileUnit() {
+        TileScript currentTile = gridScript.grid[pos.x, pos.y].tileScript;
+        if (currentTile.SetUnit(this)) {
+            meshObject.SetActive(false);
+            City currentCity = currentTile.gameObject.GetComponent<City>();
+            if (!currentCity.isOwned) {
+                currentCity.GetOwned(this.player);
+                player.playerCities.Add(currentCity);
+            }
+        } else {
+            meshObject.SetActive(true);
         }
     }
 

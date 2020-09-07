@@ -41,9 +41,13 @@ public class City : MonoBehaviour {
     }
 
     public void StartGame(Player player) {
+        GetOwned(player);
+        CreateUnit();
+    }
+
+    public void GetOwned(Player player) {
         this.player = player;
         isOwned = true;
-        CreateUnit();
         gameManager.newDayDelegate += TakeTurn;
     }
 

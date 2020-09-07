@@ -61,6 +61,14 @@ public class TileScript : MonoBehaviour {
             UpdateTile();
         }
     }
+    public bool SetUnit(Unit unit) {
+        unitOnTile = unit;
+        if (tileType == TileType.City || tileType == TileType.CostalCity) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 public enum Visibility { Undiscovered, Hidden, Visable };
