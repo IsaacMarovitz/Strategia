@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
-public class MoveButtons : MonoBehaviour {
+public class UnitUI : MonoBehaviour {
 
     public Canvas canvas;
     public Button UL;

@@ -13,8 +13,5 @@ public class GridEditor : Editor {
         if (GUILayout.Button("Delete Grid")) {
             grid.DeleteGrid();
         }
-        if (GUILayout.Button("Calculate Cities")) {
-            grid.CalculateCities();
-        }
     }
 }

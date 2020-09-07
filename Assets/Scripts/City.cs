@@ -63,6 +63,7 @@ public class City : MonoBehaviour {
 
     public void CreateUnit() {
         GameObject instantiatedUnit = GameObject.Instantiate(unitPrefabs[currentIndex], new Vector3(pos.x * gameManager.grid.tileWidth, 0.75f, pos.y * gameManager.grid.tileHeight), Quaternion.identity);
+        instantiatedUnit.transform.parent = this.gameManager.transform;
         Unit newUnit = instantiatedUnit.GetComponent<Unit>();
         newUnit.pos = pos;
         newUnit.gridScript = gameManager.grid;
