@@ -1,21 +1,38 @@
 using UnityEngine;
-using System.Collections;
 
 public class CameraController : MonoBehaviour {
 
-    float mainSpeed = 100.0f; 
-    private Vector3 lastMouse = new Vector3(255, 255, 255); 
+    float mainSpeed = 100.0f;
+    private Vector3 lastMouse = new Vector3(255, 255, 255);
+    private GameManager gameManager;
+    private bool isPaused;
 
-    void Update() {
-        Vector3 p = GetBaseInput();
-        p = p * mainSpeed * Time.deltaTime;
-        Vector3 newPosition = transform.position;
-        transform.parent.transform.Translate(p);
-        transform.parent.eulerAngles += GetYRotation();
-        transform.eulerAngles += GetXRotation();
+    void Start() {
+        gameManager = FindObjectOfType<GameManager>();
+        gameManager.pauseGame += Pause;
+        gameManager.resumeGame += Resume;
     }
 
-    private Vector3 GetBaseInput() { 
+    void Pause() {
+        isPaused = true;
+    }
+
+    void Resume() {
+        isPaused = false;
+    }
+
+    void Update() {
+        if (!isPaused) {
+            Vector3 p = GetBaseInput();
+            p = p * mainSpeed * Time.deltaTime;
+            Vector3 newPosition = transform.position;
+            transform.parent.transform.Translate(p);
+            transform.parent.eulerAngles += GetYRotation();
+            transform.eulerAngles += GetXRotation();
+        }
+    }
+
+    private Vector3 GetBaseInput() {
         Vector3 p_Velocity = new Vector3();
         if (Input.GetKey(KeyCode.W)) {
             p_Velocity += new Vector3(0, 0, 0.5f);

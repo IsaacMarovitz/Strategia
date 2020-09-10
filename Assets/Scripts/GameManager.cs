@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour {
     public GameObject playerPrefab;
     public Transform playerParent;*/
     public Action newDayDelegate;
+    public Action pauseGame;
+    public Action resumeGame;
 
     private int currentPlayerIndex = 0;
 
@@ -64,6 +66,14 @@ public class GameManager : MonoBehaviour {
     public void DayComplete() {
         dayCompleted = true;
         newDayDelegate?.Invoke();
+    }
+
+    public void Pause() {
+        pauseGame?.Invoke();
+    }
+
+    public void Resume() {
+        resumeGame?.Invoke();
     }
 
     /*public void CreatePlayer(int playerIndex) {    

@@ -15,9 +15,25 @@ public class Player : MonoBehaviour {
     public bool turnCompleted = false;
     [HideInInspector]
     public GameMode gameMode;
+    public TrelloUI trelloUI;
 
     private GameManager gameManager;
     private List<Unit> unitQueue;
+    private bool isPaused = false;
+
+    public void Start() {
+        gameManager = FindObjectOfType<GameManager>();
+        gameManager.pauseGame += Pause;
+        gameManager.resumeGame += Resume;
+    }
+
+    public void Pause() {
+        isPaused = true;
+    }
+
+    public void Resume() {
+        isPaused = false;
+    }
 
     public void NewDay(GameManager _gameManager) {
         gameManager = _gameManager;
@@ -78,7 +94,7 @@ public class Player : MonoBehaviour {
     }
 
     public void Update() {
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) && !isPaused) {
             RaycastHit hit;
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit)) {
