@@ -9,18 +9,17 @@ public class TrelloUI : MonoBehaviour {
 	
 	public Button reportButton;
     [SerializeField]
-    private TrelloPoster trelloPoster;
+    private TrelloPoster trelloPoster = null;
     [SerializeField]
-    private GameObject reportPanel;
+    private GameObject reportPanel = null;
     [SerializeField]
-    private TMP_InputField cardName;
+    private TMP_InputField cardName = null;
     [SerializeField]
-    private TMP_InputField cardDesc;
+    private TMP_InputField cardDesc = null;
     [SerializeField]
-    private Toggle includeScreenshot;
+    private Toggle includeScreenshot = null;
 
     private Texture2D screenshot;
-    private bool noLabels = false;
 	private GameManager gameManager;
 
 	public void Start() {
