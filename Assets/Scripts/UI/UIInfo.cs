@@ -9,4 +9,5 @@ public class UIInfo : ScriptableObject {
     public bool newMove = false;
 
     public City city;
+    public Player player;
 }

@@ -1,7 +1,14 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraController : MonoBehaviour {
 
+    public Camera mainCamera;
+    public UIInfo UIInfo;
+    public Transform xRotationTransform;
+    public Transform yRotationTransform;
+    // public Vector3 positionOffset;
+    // public Vector2 rotationOffset;
     float mainSpeed = 100.0f;
     private Vector3 lastMouse = new Vector3(255, 255, 255);
     private GameManager gameManager;
@@ -26,9 +33,39 @@ public class CameraController : MonoBehaviour {
             Vector3 p = GetBaseInput();
             p = p * mainSpeed * Time.deltaTime;
             Vector3 newPosition = transform.position;
-            transform.parent.transform.Translate(p);
-            transform.parent.eulerAngles += GetYRotation();
-            transform.eulerAngles += GetXRotation();
+            yRotationTransform.Translate(p);
+            yRotationTransform.eulerAngles += GetYRotation();
+            xRotationTransform.eulerAngles += GetXRotation();
+            if (Input.GetMouseButtonDown(0)) {
+                RaycastHit hit;
+                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out hit)) {
+                    if (!EventSystem.current.IsPointerOverGameObject()) {
+                        if (hit.transform.tag == "Unit") {
+                            Unit hitUnit = hit.transform.gameObject.GetComponent<Unit>();
+                            if (UIInfo.player.playerUnits.Contains(hitUnit)) {
+                                UIInfo.unit?.Deselected();
+                                UIInfo.unit = hitUnit;
+                                UIInfo.unit.Selected();
+                            }
+                        } else {
+                            UIInfo.unit?.Deselected();
+                            UIInfo.unit = null;
+                        }
+                        if (hit.transform.tag == "City") {
+                            City hitCity = hit.transform.gameObject.GetComponent<City>();
+                            if (UIInfo.player.playerCities.Contains(hitCity)) {
+                                UIInfo.city?.Deselected();
+                                UIInfo.city = hit.transform.gameObject.GetComponent<City>();
+                                UIInfo.city.Selected();
+                            }
+                        } else {
+                            UIInfo.city?.Deselected();
+                            UIInfo.city = null;
+                        }
+                    }
+                }
+            }
         }
     }
 

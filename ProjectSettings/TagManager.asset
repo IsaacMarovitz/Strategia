@@ -6,6 +6,7 @@ TagManager:
   tags:
   - City
   - Unit
+  - Player1Unit
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Fog Of War Tex
   - 
   - 
   - 

@@ -12,24 +12,25 @@ public class GameManager : MonoBehaviour {
     public GameMode gameMode = GameMode.LocalMultiplayer;
     public Grid grid;
     public GameInfo gameInfo;
-    /*public int numberOfPlayers;
+    public int numberOfPlayers;
     public GameObject playerPrefab;
-    public Transform playerParent;*/
+    public Transform playerParent;
     public Action newDayDelegate;
     public Action pauseGame;
     public Action resumeGame;
+    public MeshRenderer fogOfWarTexture;
 
     private int currentPlayerIndex = 0;
 
     public void Start() {
         // Recieve game information from GameInfo ScriptableObject at the same time the Grid is being generated with appropriate settings
         gameMode = gameInfo.gameMode;
-        //numberOfPlayers = gameInfo.numberOfPlayers;
+        numberOfPlayers = gameInfo.numberOfPlayers;
 
         // Create players in the appropriate game mode
-        /*for (int i = 0; i < numberOfPlayers; i++) {
+        for (int i = 0; i < numberOfPlayers; i++) {
             CreatePlayer(i+1);            
-        }*/
+        }
 
         // Asign player starting cities
         foreach (var player in playerList) {
@@ -76,14 +77,26 @@ public class GameManager : MonoBehaviour {
         resumeGame?.Invoke();
     }
 
-    /*public void CreatePlayer(int playerIndex) {    
+    public void CreatePlayer(int playerIndex) {    
         GameObject instantiatedPlayer = GameObject.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
         instantiatedPlayer.transform.parent = playerParent;
         instantiatedPlayer.transform.name = "Player " + playerIndex;
         Player player = instantiatedPlayer.GetComponent<Player>();
         player.gameMode = gameMode;
         playerList.Add(player);
-    }*/
+    }
+
+    public void UpdateFogOfWarObjects(float[,] fogOfWarArray) {
+        for (int x = 0; x < grid.width; x++) {
+            for (int y = 0; y < grid.height; y++) {
+                if (fogOfWarArray[x, y] == 0) {
+                    grid.grid[x,y].gameObject.SetActive(false);
+                } else {
+                    grid.grid[x, y].gameObject.SetActive(true);
+                }
+            }
+        }
+    }
 }
 
 public enum GameMode { SinglePlayer, LocalMultiplayer, OnlineMultiplayer };

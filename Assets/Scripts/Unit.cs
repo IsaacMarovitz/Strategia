@@ -16,6 +16,8 @@ public class Unit : MonoBehaviour {
     public UIInfo UIInfo;
 
     public Strategia.Grid gridScript;
+    [HideInInspector]
+    public List<Tile> oldTiles;
 
     public int movesLeft;
     public bool[] moveDirs = new bool[8];
@@ -26,7 +28,6 @@ public class Unit : MonoBehaviour {
 
     private GameObject meshObject;
     private bool selected = false;
-    private List<Tile> oldTiles = new List<Tile>();
     private Player player;
 
     // Move direction go from left to right, top to bottom
@@ -78,7 +79,6 @@ public class Unit : MonoBehaviour {
         movesLeft = moveDistance;
         meshObject = gameObject.transform.GetChild(0).gameObject;
         CheckDirs();
-        SetTileUnit();
     }
 
     public void CheckDirs() {
@@ -129,7 +129,6 @@ public class Unit : MonoBehaviour {
     }
 
     public void Move(int dir) {
-        gridScript.grid[pos.x, pos.y].tileScript.unitOnTile = null;
         movesLeft--;
         switch (dir) {
             case 1:
@@ -185,33 +184,13 @@ public class Unit : MonoBehaviour {
                 }
                 break;
         }
-        /*foreach (var tile in oldTiles) {
-            tile.tileScript.ChangeVisibility(Visibility.Hidden);
+        if (gridScript.grid[pos.x, pos.y].tileType == TileType.City || gridScript.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+            gridScript.grid[pos.x, pos.y].gameObject.GetComponent<City>().GetOwned(player);
         }
-        List<Tile> nearbyTiles = GridUtilities.RadialSearch(gridScript.grid, pos, 5);
-        foreach (var tile in nearbyTiles) {
-            tile.tileScript.ChangeVisibility(Visibility.Visable);
-        }
-        oldTiles = nearbyTiles;*/
-        player.CheckFogOfWar();
+        player.UpdateFogOfWar(this);
         CheckDirs();
-        SetTileUnit();
         if (movesLeft <= 0) {
             EndTurn();
-        }
-    }
-
-    public void SetTileUnit() {
-        TileScript currentTile = gridScript.grid[pos.x, pos.y].tileScript;
-        if (currentTile.SetUnit(this)) {
-            meshObject.SetActive(false);
-            City currentCity = currentTile.gameObject.GetComponent<City>();
-            if (!currentCity.isOwned) {
-                currentCity.GetOwned(this.player);
-                player.playerCities.Add(currentCity);
-            }
-        } else {
-            meshObject.SetActive(true);
         }
     }
 

@@ -17,22 +17,6 @@ public class City : MonoBehaviour {
     public int turnsLeft;
     private int currentIndex;
     private readonly int[] unitTTCs = { 4, 8, 8, 12, 2, 6, 6, 10, 12 };
-    private bool oldIsOwned;
-
-    public void ShowNearbyTiles() {
-        List<Tile> nearbyTiles = GridUtilities.RadialSearch(gameManager.grid.grid, pos, 5);
-        foreach (var tile in nearbyTiles) {
-            tile.tileScript.ChangeVisibility(Visibility.Visable);
-            tile.tileScript.isOwnedByCity = true;
-        }
-    }
-
-    public void Update() {
-        if (isOwned && oldIsOwned != isOwned) {
-            oldIsOwned = isOwned;
-            ShowNearbyTiles();
-        }
-    }
 
     public void UpdateUnitType(UnitType unitType) {
         this.unitType = unitType;
@@ -47,6 +31,7 @@ public class City : MonoBehaviour {
 
     public void GetOwned(Player player) {
         this.player = player;
+        player.playerCities.Add(this);
         isOwned = true;
         gameManager.newDayDelegate += TakeTurn;
     }

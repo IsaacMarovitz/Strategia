@@ -33,6 +33,7 @@ public class TrelloUI : MonoBehaviour {
 	IEnumerator PostCard() {
 		string nameText = cardName.text;
 		string descText = cardDesc.text;
+        ResetUI();
 		reportPanel.SetActive(false);
 		yield return new WaitForEndOfFrame();
 		TakeScreenshot();

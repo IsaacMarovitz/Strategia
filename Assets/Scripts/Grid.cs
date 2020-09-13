@@ -38,7 +38,7 @@ namespace Strategia {
             float[,] noiseMap = PerlinNoise.CalculateNoise(width, height, seed, scale, falloffA, falloffB);
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
-                    grid[x, y] = new Tile(TileType.Sea, null, new Vector2Int(x, y), null, 0);
+                    grid[x, y] = new Tile(TileType.Sea, null, new Vector2Int(x, y), 0);
 
                     float sample = noiseMap[x, y];
 
@@ -90,9 +90,9 @@ namespace Strategia {
             foreach (var tile in grid) {
                 if (tile.tileType == TileType.Plains) {
                     if (GridUtilities.CostalCheck(grid, width, height, tile.index)) {
-                        potentialCityTiles.Add(new Tile(TileType.CostalCity, null, tile.index, null, tile.islandIndex));
+                        potentialCityTiles.Add(new Tile(TileType.CostalCity, null, tile.index, tile.islandIndex));
                     } else {
-                        potentialCityTiles.Add(new Tile(TileType.City, null, tile.index, null, tile.islandIndex));
+                        potentialCityTiles.Add(new Tile(TileType.City, null, tile.index, tile.islandIndex));
                     }
                 }
             }
@@ -174,8 +174,6 @@ namespace Strategia {
                     if (instantiatedTile != null) {
                         instantiatedTile.transform.parent = tileParent;
                         instantiatedTile.name = x + ", " + y;
-                        grid[x, y].tileScript = instantiatedTile.gameObject.GetComponent<TileScript>();
-                        grid[x, y].tileScript.tile = grid[x, y];
                         grid[x, y].gameObject = instantiatedTile;
                     }
                 }
