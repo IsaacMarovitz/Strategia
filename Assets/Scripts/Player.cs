@@ -79,7 +79,9 @@ public class Player : MonoBehaviour {
     }
 
     public void StartTurn() {
+        Debug.Log($"{this.gameObject.name}'s turn is starting");
         UIInfo.player = this;
+        Debug.Log($"{UIInfo.player.gameObject.name} is the player in UIInfo");
         UIInfo.unit = unitQueue[0];
         unitQueue[0].StartTurn();
         turnStarted = true;
@@ -114,6 +116,11 @@ public class Player : MonoBehaviour {
 
     public void TurnComplete() {
         turnCompleted = true;
+        UIInfo.unit = null;
+        UIInfo.city = null;
+        UIInfo.player = null;
+        UIInfo.newMove = false;
+        Debug.Log($"{this.gameObject.name}'s turn is ending");
         gameManager.NextPlayer();
     }
 }

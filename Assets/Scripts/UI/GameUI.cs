@@ -69,7 +69,7 @@ public class GameUI : MonoBehaviour {
     void SetButtons(bool buttonBool) {
         sleepButton.interactable = buttonBool;
         laterButton.interactable = buttonBool;
-        doneButton.interactable= buttonBool;
+        doneButton.interactable = buttonBool;
     }
 
     public void Sleep() {

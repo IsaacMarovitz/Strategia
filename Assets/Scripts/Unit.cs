@@ -41,6 +41,7 @@ public class Unit : MonoBehaviour {
     }
 
     public void StartTurn() {
+        Debug.Log($"{this.gameObject.name} is owned by {player.gameObject.name}");
         turnStarted = true;
         turnComplete = false;
         movesLeft = moveDistance;
@@ -125,11 +126,18 @@ public class Unit : MonoBehaviour {
                 default:
                     break;
             }
+
+            for (int i = 0; i < tiles.Length; i++) {
+                if (tiles[i].unitOnTile != null) {
+                    moveDirs[i] = false;
+                }
+            }
         }
     }
 
     public void Move(int dir) {
         movesLeft--;
+        gridScript.grid[pos.x, pos.y].unitOnTile = null;
         switch (dir) {
             case 1:
                 if (moveDirs[0]) {
@@ -187,6 +195,7 @@ public class Unit : MonoBehaviour {
         if (gridScript.grid[pos.x, pos.y].tileType == TileType.City || gridScript.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
             gridScript.grid[pos.x, pos.y].gameObject.GetComponent<City>().GetOwned(player);
         }
+        gridScript.grid[pos.x, pos.y].unitOnTile = this;
         player.UpdateFogOfWar(this);
         CheckDirs();
         if (movesLeft <= 0) {
