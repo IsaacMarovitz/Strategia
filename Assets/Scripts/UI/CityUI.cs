@@ -5,7 +5,6 @@ using TMPro;
 public class CityUI : MonoBehaviour {
 
     public GameObject panel;
-    public UIInfo UIInfo;
     public TMP_Text cityName;
     public TMP_Text turnsLeft;
     public float yOffset;
@@ -15,17 +14,17 @@ public class CityUI : MonoBehaviour {
     }
 
     public void Update() {
-        if (UIInfo.city != null) {
+        if (UIData.Instance.currentCity != null) {
             panel.SetActive(true);
-            transform.position = new Vector3(UIInfo.city.transform.position.x, yOffset, UIInfo.city.transform.position.z);
-            cityName.text = UIInfo.city.cityName;
-            turnsLeft.text = "Days left : " + UIInfo.city.turnsLeft;
+            transform.position = new Vector3(UIData.Instance.currentCity.transform.position.x, yOffset, UIData.Instance.currentCity.transform.position.z);
+            cityName.text = UIData.Instance.currentCity.cityName;
+            turnsLeft.text = "Days left : " + UIData.Instance.currentCity.turnsLeft;
         } else {
             panel.SetActive(false);
         }
     }
 
     public void ChangeUnitType(int unitType) {
-        UIInfo.city.UpdateUnitType((UnitType)unitType);
+        UIData.Instance.currentCity.UpdateUnitType((UnitType)unitType);
     }
 }

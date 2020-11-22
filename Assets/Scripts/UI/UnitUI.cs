@@ -12,16 +12,15 @@ public class UnitUI : MonoBehaviour {
     public Button DL;
     public Button D;
     public Button DR;
-    public UIInfo UIInfo;
 
     public void Start() {
         canvas.enabled = false;
     }
 
     public void Update() {
-        if (UIInfo.unit != null) {
+        if (UIData.Instance.currentUnit != null) {
             canvas.enabled = true;
-            transform.position = new Vector3(UIInfo.unit.transform.position.x, 0.5f, UIInfo.unit.transform.position.z);
+            transform.position = new Vector3(UIData.Instance.currentUnit.transform.position.x, 0.5f, UIData.Instance.currentUnit.transform.position.z);
 
             UL.interactable = true;
             U.interactable = true;
@@ -31,28 +30,28 @@ public class UnitUI : MonoBehaviour {
             DL.interactable = true;
             D.interactable = true;
             DR.interactable = true;
-            if (!UIInfo.unit.moveDirs[0]) {
+            if (!UIData.Instance.currentUnit.moveDirs[0]) {
                 UL.interactable = false;
             }
-            if (!UIInfo.unit.moveDirs[1]) {
+            if (!UIData.Instance.currentUnit.moveDirs[1]) {
                 U.interactable = false;
             }
-            if (!UIInfo.unit.moveDirs[2]) {
+            if (!UIData.Instance.currentUnit.moveDirs[2]) {
                 UR.interactable = false;
             }
-            if (!UIInfo.unit.moveDirs[3]) {
+            if (!UIData.Instance.currentUnit.moveDirs[3]) {
                 L.interactable = false;
             }
-            if (!UIInfo.unit.moveDirs[4]) {
+            if (!UIData.Instance.currentUnit.moveDirs[4]) {
                 R.interactable = false;
             }
-            if (!UIInfo.unit.moveDirs[5]) {
+            if (!UIData.Instance.currentUnit.moveDirs[5]) {
                 DL.interactable = false;
             }
-            if (!UIInfo.unit.moveDirs[6]) {
+            if (!UIData.Instance.currentUnit.moveDirs[6]) {
                 D.interactable = false;
             }
-            if (!UIInfo.unit.moveDirs[7]) {
+            if (!UIData.Instance.currentUnit.moveDirs[7]) {
                 DR.interactable = false;
             }
 
@@ -63,7 +62,6 @@ public class UnitUI : MonoBehaviour {
 
     
     public void Move(int dir) {
-        UIInfo.dir = dir;
-        UIInfo.newMove = true;
+        UIData.Instance.Move(dir);
     }
 }

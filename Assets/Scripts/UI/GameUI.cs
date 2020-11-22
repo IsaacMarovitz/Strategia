@@ -5,7 +5,6 @@ using System.Collections;
 
 public class GameUI : MonoBehaviour {
 
-    public UIInfo UIInfo;
     public TMP_Text movesLeft;
     public TMP_Text dayCounter;
     public TMP_Text newDayUIText;
@@ -14,26 +13,25 @@ public class GameUI : MonoBehaviour {
     public Button laterButton;
     public Button doneButton;
     public GameObject newDayUI;
-    public GameManager gameManager;
     public float newDayWaitTime;
 
     public void Start() {
         sleepButton.onClick.AddListener(Sleep);
         laterButton.onClick.AddListener(Later);
         doneButton.onClick.AddListener(Done);
-        gameManager.newDayDelegate += NewDay;
+        GameManager.Instance.newDayDelegate += NewDay;
     }
 
     void Update() {
-        dayCounter.text = "Day " + UIInfo.day;
-        newDayUIText.text = "Day " + (UIInfo.day+1);
-        if (UIInfo.unit != null) {
-            movesLeft.text = "Moves Left: " + UIInfo.unit.movesLeft;
+        dayCounter.text = "Day " + GameManager.Instance.day;
+        newDayUIText.text = "Day " + (GameManager.Instance.day+1);
+        if (UIData.Instance.currentUnit != null) {
+            movesLeft.text = "Moves Left: " + UIData.Instance.currentUnit.movesLeft;
         } else {
             movesLeft.text = "";
         }
-        if (!gameManager.dayCompleted) {
-            if (UIInfo.unit != null) 
+        if (!GameManager.Instance.dayCompleted) {
+            if (UIData.Instance.currentUnit != null) 
                 UpdateUI();
         } else {
             SetButtons(false);
@@ -48,17 +46,17 @@ public class GameUI : MonoBehaviour {
     IEnumerator Wait(float waitTime) {
         yield return new WaitForSeconds(waitTime);
         newDayUI.SetActive(false);
-        gameManager.NewDay();
+        GameManager.Instance.NewDay();
     }
 
     public void UpdateUI() {
-        if (!UIInfo.unit.turnStarted) {
-            UIInfo.unit.StartTurn();
-        } else if (UIInfo.unit.isSleeping) {
+        if (!UIData.Instance.currentUnit.turnStarted) {
+            UIData.Instance.currentUnit.StartTurn();
+        } else if (UIData.Instance.currentUnit.isSleeping) {
             SetButtons(false);
             sleepButton.interactable = true;
             sleepButtonText.text = "Wake";
-        } else if (UIInfo.unit.turnComplete) {
+        } else if (UIData.Instance.currentUnit.turnComplete) {
             SetButtons(false);
         } else {
             SetButtons(true);
@@ -73,14 +71,14 @@ public class GameUI : MonoBehaviour {
     }
 
     public void Sleep() {
-        UIInfo.unit.ToggleSleep();
+        UIData.Instance.currentUnit.ToggleSleep();
     }
 
     public void Later() {
-        UIInfo.unit.Later();
+        UIData.Instance.currentUnit.Later();
     }
 
     public void Done() {
-        UIInfo.unit.Done();
+        UIData.Instance.currentUnit.Done();
     }
 }

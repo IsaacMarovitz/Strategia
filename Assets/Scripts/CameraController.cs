@@ -4,7 +4,6 @@ using UnityEngine.EventSystems;
 public class CameraController : MonoBehaviour {
 
     public Camera mainCamera;
-    public UIInfo UIInfo;
     public Transform xRotationTransform;
     public Transform yRotationTransform;
     // public Vector3 positionOffset;
@@ -43,25 +42,21 @@ public class CameraController : MonoBehaviour {
                     if (!EventSystem.current.IsPointerOverGameObject()) {
                         if (hit.transform.tag == "Unit") {
                             Unit hitUnit = hit.transform.gameObject.GetComponent<Unit>();
-                            if (UIInfo.player.playerUnits.Contains(hitUnit)) {
-                                UIInfo.unit?.Deselected();
-                                UIInfo.unit = hitUnit;
-                                UIInfo.unit.Selected();
-                            }
+                            if (GameManager.Instance.GetCurrentPlayer().playerUnits.Contains(hitUnit)) {
+                                UIData.Instance.currentUnit = hitUnit;
+                                Debug.Log("<b>Camera Controller:</b> Found Unit");
+                            } 
                         } else {
-                            UIInfo.unit?.Deselected();
-                            UIInfo.unit = null;
+                            UIData.Instance.currentUnit = null;
                         }
                         if (hit.transform.tag == "City") {
                             City hitCity = hit.transform.gameObject.GetComponent<City>();
-                            if (UIInfo.player.playerCities.Contains(hitCity)) {
-                                UIInfo.city?.Deselected();
-                                UIInfo.city = hit.transform.gameObject.GetComponent<City>();
-                                UIInfo.city.Selected();
+                            if (GameManager.Instance.GetCurrentPlayer().playerCities.Contains(hitCity)) {
+                                UIData.Instance.currentCity = hitCity;
+                                Debug.Log("<b>Camera Controller:</b> Found City");
                             }
                         } else {
-                            UIInfo.city?.Deselected();
-                            UIInfo.city = null;
+                            UIData.Instance.currentCity = null;
                         }
                     }
                 }

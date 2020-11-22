@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class Unit : MonoBehaviour {
 
@@ -13,7 +14,6 @@ public class Unit : MonoBehaviour {
     public bool hasFuel;
     public int maxFuel;
     public int fuel;
-    public UIInfo UIInfo;
 
     public Strategia.Grid gridScript;
     [HideInInspector]
@@ -27,13 +27,13 @@ public class Unit : MonoBehaviour {
     public bool turnComplete = false;
 
     private GameObject meshObject;
-    private bool selected = false;
     private Player player;
 
     // Move direction go from left to right, top to bottom
     // E.G. Left and Up = 1, Up = 2, Right and Up = 3 etc...
 
     public void NewDay(Player _player) {
+        Debug.Log($"<b>{this.gameObject.name}:</b> New Day");
         player = _player;
         movesLeft = moveDistance;
         turnStarted = false;
@@ -41,7 +41,7 @@ public class Unit : MonoBehaviour {
     }
 
     public void StartTurn() {
-        Debug.Log($"{this.gameObject.name} is owned by {player.gameObject.name}");
+        Debug.Log($"<b>{this.gameObject.name}</b>: Turn started");
         turnStarted = true;
         turnComplete = false;
         movesLeft = moveDistance;
@@ -50,30 +50,16 @@ public class Unit : MonoBehaviour {
             EndTurn();
             return;
         }
-        Selected();
     }
 
     public void EndTurn() {
+        Debug.Log($"<b>{this.gameObject.name}</b>: Turn Complete");
         player.NextUnit(this, false);
         turnComplete = true;
     }
 
-    public void Selected() {
-        selected = true;
-    }
-
-    public void Deselected() {
-        selected = false;
-    }
-
     public void Update() {
         transform.position = new Vector3(pos.x * gridScript.tileWidth, transform.position.y, pos.y * gridScript.tileHeight);
-        if (selected) {
-            if (UIInfo.newMove) {
-                UIInfo.newMove = false;
-                Move(UIInfo.dir);
-            }
-        }
     }
 
     public void Start() {
@@ -134,8 +120,14 @@ public class Unit : MonoBehaviour {
             }
         }
     }
+    
+    IEnumerator Wait() {
+        yield return new WaitForSeconds(5);
+        EndTurn();
+    }
 
     public void Move(int dir) {
+        //StartCoroutine(Wait());
         movesLeft--;
         gridScript.grid[pos.x, pos.y].unitOnTile = null;
         switch (dir) {

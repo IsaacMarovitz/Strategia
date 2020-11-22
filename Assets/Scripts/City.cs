@@ -6,7 +6,6 @@ public class City : MonoBehaviour {
 
     public bool isOwned;
     public Player player;
-    public UIInfo UIInfo;
     public UnitType unitType;
     public GameObject[] unitPrefabs = new GameObject[9];
     public Vector2Int pos;
@@ -52,12 +51,12 @@ public class City : MonoBehaviour {
         Unit newUnit = instantiatedUnit.GetComponent<Unit>();
         newUnit.pos = pos;
         newUnit.gridScript = gameManager.grid;
-        player.playerUnits.Add(newUnit);
+        player.AddUnit(newUnit);
     }
 
     public void Selected() {
         //selected = true;
-        UIInfo.city = this;
+        UIData.Instance.currentCity = this;
     }
 
     public void Deselected() {

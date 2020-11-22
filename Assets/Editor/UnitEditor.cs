@@ -9,7 +9,6 @@ public class UnitEditor : Editor {
     public override void OnInspectorGUI() {
         Unit unit = (Unit)target;
 
-        unit.UIInfo = (UIInfo)EditorGUILayout.ObjectField("UI Info", unit.UIInfo, typeof(UIInfo), true);
         unit.gridScript = (Strategia.Grid)EditorGUILayout.ObjectField("Grid", unit.gridScript, typeof(Strategia.Grid), true);
 
         /*if (unit.grid != null) {

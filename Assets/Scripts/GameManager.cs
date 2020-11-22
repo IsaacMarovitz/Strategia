@@ -5,7 +5,9 @@ using Grid = Strategia.Grid;
 
 public class GameManager : MonoBehaviour {
 
-    public UIInfo UIInfo;
+    private static GameManager _instance;
+    public static GameManager Instance { get { return _instance; } }
+
     public int day = 0;
     public List<Player> playerList;
     public bool dayCompleted = true;
@@ -21,6 +23,15 @@ public class GameManager : MonoBehaviour {
     public MeshRenderer fogOfWarTexture;
 
     private int currentPlayerIndex = 0;
+
+    private void Awake() {
+        if (_instance != null && _instance != this) {
+            Destroy(this.gameObject);
+        } else {
+            _instance = this;
+        }
+        DontDestroyOnLoad(_instance);
+    }
 
     public void Start() {
         // Recieve game information from GameInfo ScriptableObject at the same time the Grid is being generated with appropriate settings
@@ -44,27 +55,29 @@ public class GameManager : MonoBehaviour {
 
     public void NewDay() {
         if (dayCompleted) {
+            Debug.Log("<b>GameManager:</b> Starting New Day");
             dayCompleted = false;
             day++;
-            UIInfo.day = day;
             foreach (var player in playerList) {
-                player.NewDay(this);
+                player.NewDay();
             }
             currentPlayerIndex = 0;
-            playerList[currentPlayerIndex].StartTurn();
+            NextPlayer();
         }
     }
 
     public void NextPlayer() {
-        currentPlayerIndex++;
         if (currentPlayerIndex < playerList.Count) {
+            Debug.Log("<b>GameManager:</b> Starting Player " + (currentPlayerIndex+1) + "'s turn");
             playerList[currentPlayerIndex].StartTurn();
         } else {
             DayComplete();
         }
+        currentPlayerIndex++;
     }
 
     public void DayComplete() {
+        Debug.Log("<b>GameManager:</b> Day Complete");
         dayCompleted = true;
         newDayDelegate?.Invoke();
     }
@@ -96,6 +109,10 @@ public class GameManager : MonoBehaviour {
                 }
             }
         }
+    }
+
+    public Player GetCurrentPlayer() {
+        return playerList[currentPlayerIndex-1];
     }
 }
 

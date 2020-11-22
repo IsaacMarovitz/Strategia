@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: UIInfo
   m_EditorClassIdentifier: 
   day: 2
-  unitSelected: 0
   unit: {fileID: 0}
-  dir: 1
+  dir: 8
   newMove: 0
-  citySelected: 0
   city: {fileID: 0}
+  player: {fileID: 0}

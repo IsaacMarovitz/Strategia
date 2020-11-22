@@ -7,32 +7,26 @@ public class Player : MonoBehaviour {
     public List<City> playerCities;
     public List<Unit> playerUnits;
     public Tile[,] grid;
-    public UIInfo UIInfo;
     public GameObject startUnitPrefab;
     public bool turnStarted = false;
     public bool turnCompleted = false;
     [HideInInspector]
     public GameMode gameMode;
 
-    private GameManager gameManager;
     private List<Unit> unitQueue;
     public Texture2D fogOfWarTexture;
     public float[,] fogOfWarMatrix;
-
-    public void Start() {
-        gameManager = FindObjectOfType<GameManager>();
-    }
 
     public void UpdateFogOfWar(Unit unit) {
         foreach (var tile in unit.oldTiles) {
             fogOfWarMatrix[tile.index.x, tile.index.y] = 0.5f;
         }
-        unit.oldTiles = GridUtilities.RadialSearch(gameManager.grid.grid, unit.pos, 5);
+        unit.oldTiles = GridUtilities.RadialSearch(GameManager.Instance.grid.grid, unit.pos, 5);
         foreach (var tile in unit.oldTiles) {
             fogOfWarMatrix[tile.index.x, tile.index.y] = 1f;
         }
         foreach (var city in playerCities) {
-            List<Tile> returnTiles = GridUtilities.RadialSearch(gameManager.grid.grid, city.pos, 5);
+            List<Tile> returnTiles = GridUtilities.RadialSearch(GameManager.Instance.grid.grid, city.pos, 5);
             foreach (var tile in returnTiles) {
                 fogOfWarMatrix[tile.index.x, tile.index.y] = 1.0f;
             }
@@ -41,8 +35,8 @@ public class Player : MonoBehaviour {
     }
 
     public void GenerateTexture() {
-        for (int x = 0; x < gameManager.grid.width; x++) {
-            for (int y = 0; y < gameManager.grid.height; y++) {
+        for (int x = 0; x < GameManager.Instance.grid.width; x++) {
+            for (int y = 0; y < GameManager.Instance.grid.height; y++) {
                 if (fogOfWarMatrix[x, y] == 1) {
                     fogOfWarTexture.SetPixel(x, y, new Color(0, 0, 0, 0));
                 } else if (fogOfWarMatrix[x, y] == 0) {
@@ -56,13 +50,13 @@ public class Player : MonoBehaviour {
         }
         fogOfWarTexture.Apply();
         if (turnStarted && !turnCompleted) {
-            gameManager.fogOfWarTexture.material.mainTexture = fogOfWarTexture;
-            gameManager.UpdateFogOfWarObjects(fogOfWarMatrix);
+            GameManager.Instance.fogOfWarTexture.material.mainTexture = fogOfWarTexture;
+            GameManager.Instance.UpdateFogOfWarObjects(fogOfWarMatrix);
         }
     }
 
-    public void NewDay(GameManager _gameManager) {
-        gameManager = _gameManager;
+    public void NewDay() {
+        Debug.Log($"<b>{this.gameObject.name}:</b> Received Day Start");
 
         foreach (var unit in playerUnits) {
             unit.NewDay(this);
@@ -78,19 +72,22 @@ public class Player : MonoBehaviour {
         playerCities[0].StartGame(this);
     }
 
+    public void AddUnit(Unit unit) {
+        unit.gameObject.name = "Unit " + (playerUnits.Count+1) + ", " + this.gameObject.name;
+        playerUnits.Add(unit);
+    }
+
     public void StartTurn() {
-        Debug.Log($"{this.gameObject.name}'s turn is starting");
-        UIInfo.player = this;
-        Debug.Log($"{UIInfo.player.gameObject.name} is the player in UIInfo");
-        UIInfo.unit = unitQueue[0];
+        Debug.Log($"<b>{this.gameObject.name}:</b> Turn is starting");
+        UIData.Instance.currentUnit = unitQueue[0];
         unitQueue[0].StartTurn();
         turnStarted = true;
         if (fogOfWarMatrix == null) {
-            fogOfWarMatrix = new float[gameManager.grid.width, gameManager.grid.height];
-            fogOfWarTexture = new Texture2D(gameManager.grid.width, gameManager.grid.height);
+            fogOfWarMatrix = new float[GameManager.Instance.grid.width, GameManager.Instance.grid.height];
+            fogOfWarTexture = new Texture2D(GameManager.Instance.grid.width, GameManager.Instance.grid.height);
             fogOfWarTexture.filterMode = FilterMode.Point;
-            for (int x = 0; x < gameManager.grid.width; x++) {
-                for (int y = 0; y < gameManager.grid.height; y++) {
+            for (int x = 0; x < GameManager.Instance.grid.width; x++) {
+                for (int y = 0; y < GameManager.Instance.grid.height; y++) {
                     fogOfWarMatrix[x, y] = 0;
                 }
             }
@@ -106,8 +103,8 @@ public class Player : MonoBehaviour {
             unitQueue.Remove(unit);
         }
         if (unitQueue.Count > 0) {
-            UIInfo.unit?.Deselected();
-            UIInfo.unit = unitQueue[0];
+            Debug.Log($"<b>{this.gameObject.name}:</b> Starting next unit turn");
+            UIData.Instance.currentUnit = unitQueue[0];
             unitQueue[0].StartTurn();
         } else {
             TurnComplete();
@@ -116,11 +113,13 @@ public class Player : MonoBehaviour {
 
     public void TurnComplete() {
         turnCompleted = true;
-        UIInfo.unit = null;
-        UIInfo.city = null;
-        UIInfo.player = null;
-        UIInfo.newMove = false;
-        Debug.Log($"{this.gameObject.name}'s turn is ending");
-        gameManager.NextPlayer();
+        UIData.Instance.currentUnit = null;
+        UIData.Instance.currentCity = null;
+        Debug.Log($"<b>{this.gameObject.name}:</b> Turn is ending");
+        GameManager.Instance.NextPlayer();
+    }
+
+    public Unit GetCurrentUnit() {
+        return unitQueue[0];
     }
 }
