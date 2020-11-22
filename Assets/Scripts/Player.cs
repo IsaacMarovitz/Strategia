@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
@@ -56,8 +55,7 @@ public class Player : MonoBehaviour {
     }
 
     public void NewDay() {
-        Debug.Log($"<b>{this.gameObject.name}:</b> Received Day Start");
-
+        Debug.Log($"<b>{this.gameObject.name}:</b> Received New Day");
         foreach (var unit in playerUnits) {
             unit.NewDay(this);
         }
@@ -68,8 +66,8 @@ public class Player : MonoBehaviour {
         turnCompleted = false;
     }
 
-    public void InitaliseStartCity() {
-        playerCities[0].StartGame(this);
+    public void InitaliseStartCity(City city) {
+        city.StartGame(this);
     }
 
     public void AddUnit(Unit unit) {
@@ -79,9 +77,13 @@ public class Player : MonoBehaviour {
 
     public void StartTurn() {
         Debug.Log($"<b>{this.gameObject.name}:</b> Turn is starting");
-        UIData.Instance.currentUnit = unitQueue[0];
-        unitQueue[0].StartTurn();
         turnStarted = true;
+        if (unitQueue.Count > 0) {
+            UIData.Instance.currentUnit = unitQueue[0];
+            unitQueue[0].StartTurn();
+        } else {
+            TurnComplete();
+        }
         if (fogOfWarMatrix == null) {
             fogOfWarMatrix = new float[GameManager.Instance.grid.width, GameManager.Instance.grid.height];
             fogOfWarTexture = new Texture2D(GameManager.Instance.grid.width, GameManager.Instance.grid.height);
@@ -92,7 +94,9 @@ public class Player : MonoBehaviour {
                 }
             }
         }
-        UpdateFogOfWar(playerUnits[0]);
+        if (playerUnits != null) {
+            UpdateFogOfWar(playerUnits[0]);
+        }
     }
 
     public void NextUnit(Unit unit, bool movingLater) {
@@ -120,6 +124,9 @@ public class Player : MonoBehaviour {
     }
 
     public Unit GetCurrentUnit() {
-        return unitQueue[0];
+        if (unitQueue.Count > 0) {
+            return unitQueue[0];
+        }
+        return null;
     }
 }

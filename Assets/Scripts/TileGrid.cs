@@ -2,17 +2,17 @@
 using UnityEngine;
 
 namespace Strategia {
-    public class Grid : MonoBehaviour {
+    public class TileGrid : MonoBehaviour {
 
-        public int width = 10;
-        public int height = 10;
+        public int width = 100;
+        public int height = 100;
         public float tileWidth = 2;
         public float tileHeight = 2;
-        public float falloffA = 3f;
-        public float falloffB = 2.2f;
-        public float scale = 7f;
-        public int numberOfCostalCities;
-        public int numberofCities;
+        public float falloffA = 6f;
+        public float falloffB = 5f;
+        public float scale = 8f;
+        public int numberOfCostalCities = 10;
+        public int numberOfCities = 10;
         public Tile[,] grid;
         public List<Tile> cityTiles;
         [Range(0, 10000)]
@@ -20,7 +20,6 @@ namespace Strategia {
         public int islandCount;
         public int minimumIslandArea;
         public Transform tileParent;
-        public GameManager gameManager;
         // Sea, Plains, Swamp, Mountains, Trees, City, Costal City
         public GameObject[] prefabs = new GameObject[7];
 
@@ -107,7 +106,7 @@ namespace Strategia {
                         calculatedCostalCities++;
                         grid[city.index.x, city.index.y].tileType = TileType.CostalCity;
                         cityTiles.Add(grid[city.index.x, city.index.y]);
-                    } else if ((city.tileType == TileType.City) && (calculatedCities < numberofCities)) {
+                    } else if ((city.tileType == TileType.City) && (calculatedCities < numberOfCities)) {
                         calculatedCities++;
                         grid[city.index.x, city.index.y].tileType = TileType.City;
                         cityTiles.Add(grid[city.index.x, city.index.y]);
@@ -158,14 +157,12 @@ namespace Strategia {
                             instantiatedTile.transform.tag = "City";
                             cityScript = instantiatedTile.GetComponent<City>();
                             cityScript.pos = new Vector2Int(x, y);
-                            cityScript.gameManager = gameManager;
                             break;
                         case TileType.CostalCity:
                             instantiatedTile = GameObject.Instantiate(prefabs[6], new Vector3(x * tileWidth, 0, y * tileHeight), Quaternion.Euler(0, 180, 0));
                             instantiatedTile.transform.tag = "City";
                             cityScript = instantiatedTile.GetComponent<City>();
                             cityScript.pos = new Vector2Int(x, y);
-                            cityScript.gameManager = gameManager;
                             break;
                         default:
                             instantiatedTile = null;
@@ -180,21 +177,18 @@ namespace Strategia {
             }
         }
 
-        // Return player city
         public City ChoosePlayerCity() {
-            City cityTile = null;
             foreach (var city in cityTiles) {
                 if (city.tileType == TileType.CostalCity) {
                     City cityScript = city.gameObject.GetComponent<City>();
                     if (!cityScript.isOwned) {
                         cityScript.isOwned = true;
-                        cityTile = cityScript;
-                        goto Return;
+                        Debug.Log("<b>Tile Grid:</b> Player starting city chosen");
+                        return cityScript;
                     }
                 }
             }
-        Return:
-            return cityTile;
+            throw new System.Exception("No starting city found!");
         }
 
         // Delete the grid and clear lists

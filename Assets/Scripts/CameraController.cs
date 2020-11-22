@@ -10,13 +10,11 @@ public class CameraController : MonoBehaviour {
     // public Vector2 rotationOffset;
     float mainSpeed = 100.0f;
     private Vector3 lastMouse = new Vector3(255, 255, 255);
-    private GameManager gameManager;
     private bool isPaused;
 
     void Start() {
-        gameManager = FindObjectOfType<GameManager>();
-        gameManager.pauseGame += Pause;
-        gameManager.resumeGame += Resume;
+        GameManager.Instance.pauseGame += Pause;
+        GameManager.Instance.resumeGame += Resume;
     }
 
     void Pause() {

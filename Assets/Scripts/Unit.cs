@@ -8,14 +8,14 @@ public class Unit : MonoBehaviour {
     public Vector2Int pos;
     public int moveDistance;
     public bool moveDistanceReduced;
-    public int moveDistanceReductionFactor;
+    public int moveDistanceReductionFactor = 4;
     public int maxHealth;
     public int health;
     public bool hasFuel;
     public int maxFuel;
     public int fuel;
 
-    public Strategia.Grid gridScript;
+    public Strategia.TileGrid gridScript;
     [HideInInspector]
     public List<Tile> oldTiles;
 
@@ -33,9 +33,7 @@ public class Unit : MonoBehaviour {
     // E.G. Left and Up = 1, Up = 2, Right and Up = 3 etc...
 
     public void NewDay(Player _player) {
-        Debug.Log($"<b>{this.gameObject.name}:</b> New Day");
         player = _player;
-        movesLeft = moveDistance;
         turnStarted = false;
         turnComplete = false;
     }
@@ -45,6 +43,9 @@ public class Unit : MonoBehaviour {
         turnStarted = true;
         turnComplete = false;
         movesLeft = moveDistance;
+        if (moveDistanceReduced) {
+            movesLeft -= moveDistanceReductionFactor;
+        }
         CheckDirs();
         if (isSleeping) {
             EndTurn();
@@ -186,6 +187,12 @@ public class Unit : MonoBehaviour {
         }
         if (gridScript.grid[pos.x, pos.y].tileType == TileType.City || gridScript.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
             gridScript.grid[pos.x, pos.y].gameObject.GetComponent<City>().GetOwned(player);
+        }
+        if (gridScript.grid[pos.x, pos.y].tileType == TileType.Swamp && moveType == UnitMoveType.Land) {
+            moveDistanceReduced = true;
+            movesLeft -= moveDistanceReductionFactor;
+        } else {
+            moveDistanceReduced = false;
         }
         gridScript.grid[pos.x, pos.y].unitOnTile = this;
         player.UpdateFogOfWar(this);

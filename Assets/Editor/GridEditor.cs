@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(Strategia.Grid))]
-public class GridEditor : Editor {
+[CustomEditor(typeof(Strategia.TileGrid))]
+public class TileGridEditor : Editor {
     public override void OnInspectorGUI() {
         DrawDefaultInspector();
 
-        Strategia.Grid grid = (Strategia.Grid)target;
+        Strategia.TileGrid grid = (Strategia.TileGrid)target;
         if (GUILayout.Button("Create Grid")) {
             grid.CreateGrid();
         }

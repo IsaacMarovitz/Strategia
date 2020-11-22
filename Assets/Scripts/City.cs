@@ -1,20 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class City : MonoBehaviour {
 
-    public bool isOwned;
+    public bool isOwned = false;
     public Player player;
     public UnitType unitType;
     public GameObject[] unitPrefabs = new GameObject[9];
     public Vector2Int pos;
-    public GameManager gameManager;
     public string cityName = "London";
 
-    //private bool selected = false;
     public int turnsLeft;
-    private int currentIndex;
+    public int currentIndex;
     private readonly int[] unitTTCs = { 4, 8, 8, 12, 2, 6, 6, 10, 12 };
 
     public void UpdateUnitType(UnitType unitType) {
@@ -26,13 +22,19 @@ public class City : MonoBehaviour {
     public void StartGame(Player player) {
         GetOwned(player);
         CreateUnit();
+        turnsLeft = unitTTCs[currentIndex];
     }
 
     public void GetOwned(Player player) {
+        if (isOwned) {
+            if (this.player != null) {
+                this.player.playerCities.Remove(this);
+            }
+        }
         this.player = player;
-        player.playerCities.Add(this);
+        this.player.playerCities.Add(this);
         isOwned = true;
-        gameManager.newDayDelegate += TakeTurn;
+        GameManager.Instance.newDayDelegate += TakeTurn;
     }
 
     public void TakeTurn() {
@@ -46,21 +48,12 @@ public class City : MonoBehaviour {
     }
 
     public void CreateUnit() {
-        GameObject instantiatedUnit = GameObject.Instantiate(unitPrefabs[currentIndex], new Vector3(pos.x * gameManager.grid.tileWidth, 0.75f, pos.y * gameManager.grid.tileHeight), Quaternion.identity);
-        instantiatedUnit.transform.parent = this.gameManager.transform;
+        GameObject instantiatedUnit = GameObject.Instantiate(unitPrefabs[currentIndex], new Vector3(pos.x * GameManager.Instance.grid.tileWidth, 0.75f, pos.y * GameManager.Instance.grid.tileHeight), Quaternion.identity);
+        instantiatedUnit.transform.parent = player.gameObject.transform;
         Unit newUnit = instantiatedUnit.GetComponent<Unit>();
         newUnit.pos = pos;
-        newUnit.gridScript = gameManager.grid;
+        newUnit.gridScript = GameManager.Instance.grid;
         player.AddUnit(newUnit);
-    }
-
-    public void Selected() {
-        //selected = true;
-        UIData.Instance.currentCity = this;
-    }
-
-    public void Deselected() {
-        //selected = false;
     }
 }
 

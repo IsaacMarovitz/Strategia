@@ -9,7 +9,7 @@ public class UnitEditor : Editor {
     public override void OnInspectorGUI() {
         Unit unit = (Unit)target;
 
-        unit.gridScript = (Strategia.Grid)EditorGUILayout.ObjectField("Grid", unit.gridScript, typeof(Strategia.Grid), true);
+        unit.gridScript = (Strategia.TileGrid)EditorGUILayout.ObjectField("Grid", unit.gridScript, typeof(Strategia.TileGrid), true);
 
         /*if (unit.grid != null) {
             showGridData = EditorGUILayout.Foldout(showGridData, "Grid Data");
@@ -23,6 +23,8 @@ public class UnitEditor : Editor {
         unit.movesLeft = EditorGUILayout.IntSlider("Moves Left", unit.movesLeft, 0, unit.moveDistance);
         unit.moveType = (UnitMoveType)EditorGUILayout.EnumPopup("Move Type", unit.moveType);
         unit.moveDistance = EditorGUILayout.IntField("Move Distance", unit.moveDistance);
+        unit.moveDistanceReductionFactor = EditorGUILayout.IntSlider("Move Distance Reduction Factor", unit.moveDistanceReductionFactor, 0, unit.moveDistance);
+        unit.moveDistanceReduced = EditorGUILayout.Toggle("Move Distance Reduced", unit.moveDistanceReduced);
         if (unit.moveDistance < 0) {
             unit.moveDistance = 0;
         }

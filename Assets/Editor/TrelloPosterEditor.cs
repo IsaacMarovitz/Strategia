@@ -1,7 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEditor;
-using System.Collections;
 
 namespace Trello {
     [CustomEditor(typeof(TrelloPoster))]

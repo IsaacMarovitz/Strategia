@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Grid = Strategia.Grid;
+using TileGrid = Strategia.TileGrid;
 
 public class GameManager : MonoBehaviour {
 
@@ -12,7 +13,7 @@ public class GameManager : MonoBehaviour {
     public List<Player> playerList;
     public bool dayCompleted = true;
     public GameMode gameMode = GameMode.LocalMultiplayer;
-    public Grid grid;
+    public TileGrid grid;
     public GameInfo gameInfo;
     public int numberOfPlayers;
     public GameObject playerPrefab;
@@ -44,13 +45,19 @@ public class GameManager : MonoBehaviour {
         }
 
         // Asign player starting cities
-        foreach (var player in playerList) {
-            player.playerCities.Add(grid.ChoosePlayerCity());
-            player.InitaliseStartCity();
+        foreach (Player player in playerList) {
+            Debug.Log("<b>Game Manager:</b> Choosing " + player.gameObject.name + " starting city");
+            City returnedCity = grid.ChoosePlayerCity();
+            player.InitaliseStartCity(returnedCity);
+            StartCoroutine(Wait());
         }
         
         // Start Game
         NewDay();
+    }
+    
+    public IEnumerator Wait() {
+        yield return new WaitForSeconds(2);
     }
 
     public void NewDay() {
@@ -58,6 +65,9 @@ public class GameManager : MonoBehaviour {
             Debug.Log("<b>GameManager:</b> Starting New Day");
             dayCompleted = false;
             day++;
+            if (day > 1000) {
+                throw new System.Exception("Day Count Surpassed Limit!");
+            }
             foreach (var player in playerList) {
                 player.NewDay();
             }
