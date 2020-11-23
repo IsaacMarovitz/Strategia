@@ -173,9 +173,10 @@ GameObject:
   - component: {fileID: 9097731783778226778}
   - component: {fileID: 491560645487207398}
   - component: {fileID: 8670854747056438808}
+  - component: {fileID: 8705473648252392975}
   m_Layer: 0
   m_Name: Mesh
-  m_TagString: Untagged
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -248,6 +249,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &8705473648252392975
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3323007357735260035}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2.5, z: 2.5}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3354916976622783175
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,7 +272,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4024992501267447158}
   - component: {fileID: -6780373010043179265}
-  - component: {fileID: 508167116926367502}
   m_Layer: 0
   m_Name: TankFree_Green
   m_TagString: Unit
@@ -313,19 +326,6 @@ MonoBehaviour:
   isSleeping: 0
   turnStarted: 0
   turnComplete: 0
---- !u!65 &508167116926367502
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3354916976622783175}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 2.5, z: 2.5}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3916225007155662313
 GameObject:
   m_ObjectHideFlags: 0

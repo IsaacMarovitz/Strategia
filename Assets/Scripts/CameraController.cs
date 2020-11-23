@@ -39,7 +39,7 @@ public class CameraController : MonoBehaviour {
                 if (Physics.Raycast(ray, out hit)) {
                     if (!EventSystem.current.IsPointerOverGameObject()) {
                         if (hit.transform.tag == "Unit") {
-                            Unit hitUnit = hit.transform.gameObject.GetComponent<Unit>();
+                            Unit hitUnit = hit.transform.parent.gameObject.GetComponent<Unit>();
                             if (GameManager.Instance.GetCurrentPlayer().playerUnits.Contains(hitUnit)) {
                                 UIData.Instance.currentUnit = hitUnit;
                                 Debug.Log("<b>Camera Controller:</b> Found Unit");

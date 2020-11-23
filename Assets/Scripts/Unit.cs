@@ -29,6 +29,7 @@ public class Unit : MonoBehaviour {
 
     private GameObject meshObject;
     private Player player;
+    private City oldCity;
 
     // Move direction go from left to right, top to bottom
     // E.G. Left and Up = 1, Up = 2, Right and Up = 3 etc...
@@ -74,6 +75,10 @@ public class Unit : MonoBehaviour {
         movesLeft = moveDistance;
         meshObject = gameObject.transform.GetChild(0).gameObject;
         gridScript.grid[pos.x, pos.y].unitOnTile = this;
+        City city = gridScript.grid[pos.x, pos.y].gameObject.GetComponent<City>();
+        city.AddUnit(this);
+        oldCity = city;
+        this.transform.GetChild(0).gameObject.SetActive(false);
         CheckDirs();
     }
 
@@ -124,8 +129,17 @@ public class Unit : MonoBehaviour {
 
             for (int i = 0; i < tiles.Length; i++) {
                 if (tiles[i].unitOnTile != null) {
-                    moveDirs[i] = false;
-                }
+                    if (tiles[i].tileType == TileType.City || tiles[i].tileType == TileType.CostalCity) {
+                        City city = tiles[i].gameObject.GetComponent<City>();
+                        Debug.Log(city);
+                        if (!player.playerCities.Contains(city)) {
+                            moveDirs[i] = false;
+                        }             
+                    } else {
+                        moveDirs[i] = false;
+                        Debug.Log(tiles[i].index + ", " + tiles[i].tileType);
+                    }
+                } 
             }
         }
     }
@@ -193,8 +207,18 @@ public class Unit : MonoBehaviour {
                 }
                 break;
         }
+        if (oldCity != null) {
+            oldCity.RemoveUnit(this);
+            oldCity = null;
+        }
         if (gridScript.grid[pos.x, pos.y].tileType == TileType.City || gridScript.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
-            gridScript.grid[pos.x, pos.y].gameObject.GetComponent<City>().GetOwned(player);
+            City city = gridScript.grid[pos.x, pos.y].gameObject.GetComponent<City>();
+            city.GetOwned(player);
+            city.AddUnit(this);
+            oldCity = city;
+            this.transform.GetChild(0).gameObject.SetActive(false);
+        } else {
+            this.transform.GetChild(0).gameObject.SetActive(true);
         }
         if (gridScript.grid[pos.x, pos.y].tileType == TileType.Swamp && moveType == UnitMoveType.Land) {
             moveDistanceReduced = true;

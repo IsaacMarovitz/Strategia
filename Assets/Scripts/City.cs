@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class City : MonoBehaviour {
 
@@ -8,6 +9,7 @@ public class City : MonoBehaviour {
     public GameObject[] unitPrefabs = new GameObject[9];
     public Vector2Int pos;
     public string cityName = "London";
+    public List<Unit> unitsInCity;
 
     public int turnsLeft;
     public int currentIndex;
@@ -54,6 +56,14 @@ public class City : MonoBehaviour {
         newUnit.pos = pos;
         newUnit.gridScript = GameManager.Instance.grid;
         player.AddUnit(newUnit);
+    }
+
+    public void AddUnit(Unit unit) {
+        unitsInCity.Add(unit);
+    }
+
+    public void RemoveUnit(Unit unit) {
+        unitsInCity.Remove(unit);
     }
 }
 
