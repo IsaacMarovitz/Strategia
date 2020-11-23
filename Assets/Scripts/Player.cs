@@ -73,10 +73,6 @@ public class Player : MonoBehaviour {
 
     public void AddUnit(Unit unit) {
         unit.gameObject.name = "Unit " + (playerUnits.Count+1) + ", " + this.gameObject.name;
-        if (playerColor.r == 0f && playerColor.g == 0f && playerColor.b == 0f) {
-            playerColor = Color.HSVToRGB(Random.Range(0f, 1f), 1f, 0.7f);
-        }
-        Debug.Log(playerColor);
         unit.SetColor(playerColor);
         playerUnits.Add(unit);
     }

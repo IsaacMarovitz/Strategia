@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour {
     public MeshRenderer fogOfWarTexture;
 
     private int currentPlayerIndex = 0;
+    private float hueOffset;
 
     private void Awake() {
         if (_instance != null && _instance != this) {
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour {
         // Recieve game information from GameInfo ScriptableObject at the same time the Grid is being generated with appropriate settings
         gameMode = gameInfo.gameMode;
         numberOfPlayers = gameInfo.numberOfPlayers;
+        hueOffset = 1f / numberOfPlayers;
 
         // Create players in the appropriate game mode
         for (int i = 0; i < numberOfPlayers; i++) {
@@ -106,6 +108,7 @@ public class GameManager : MonoBehaviour {
         instantiatedPlayer.transform.name = "Player " + playerIndex;
         Player player = instantiatedPlayer.GetComponent<Player>();
         player.gameMode = gameMode;
+        player.playerColor = Color.HSVToRGB(playerIndex*hueOffset, 1f, 0.7f);
         playerList.Add(player);
     }
 
