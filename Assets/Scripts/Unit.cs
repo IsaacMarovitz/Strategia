@@ -66,6 +66,7 @@ public class Unit : MonoBehaviour {
     public void Start() {
         movesLeft = moveDistance;
         meshObject = gameObject.transform.GetChild(0).gameObject;
+        gridScript.grid[pos.x, pos.y].unitOnTile = this;
         CheckDirs();
     }
 

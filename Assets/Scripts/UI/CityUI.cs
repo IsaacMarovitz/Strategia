@@ -24,6 +24,8 @@ public class CityUI : MonoBehaviour {
     }
 
     public void ChangeUnitType(int unitType) {
-        UIData.Instance.currentCity.UpdateUnitType((UnitType)unitType);
+        if (UIData.Instance.currentCity != null) {
+            UIData.Instance.currentCity.UpdateUnitType((UnitType)unitType);
+        }
     }
 }

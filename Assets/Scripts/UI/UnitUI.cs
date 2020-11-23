@@ -12,6 +12,7 @@ public class UnitUI : MonoBehaviour {
     public Button DL;
     public Button D;
     public Button DR;
+    public float yOffset = 1f;
 
     public void Start() {
         canvas.enabled = false;
@@ -20,7 +21,7 @@ public class UnitUI : MonoBehaviour {
     public void Update() {
         if (UIData.Instance.currentUnit != null) {
             canvas.enabled = true;
-            transform.position = new Vector3(UIData.Instance.currentUnit.transform.position.x, 0.5f, UIData.Instance.currentUnit.transform.position.z);
+            transform.position = new Vector3(UIData.Instance.currentUnit.transform.position.x, yOffset, UIData.Instance.currentUnit.transform.position.z);
 
             UL.interactable = true;
             U.interactable = true;

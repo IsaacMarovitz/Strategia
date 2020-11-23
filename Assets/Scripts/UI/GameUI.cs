@@ -71,14 +71,20 @@ public class GameUI : MonoBehaviour {
     }
 
     public void Sleep() {
-        UIData.Instance.currentUnit.ToggleSleep();
+        if (UIData.Instance.currentUnit != null) {
+            UIData.Instance.currentUnit.ToggleSleep();
+        }
     }
 
     public void Later() {
-        UIData.Instance.currentUnit.Later();
+        if (UIData.Instance.currentUnit != null) {
+            UIData.Instance.currentUnit.Later();
+        }
     }
 
     public void Done() {
-        UIData.Instance.currentUnit.Done();
+        if (UIData.Instance.currentUnit != null) {
+            UIData.Instance.currentUnit.Done();
+        }
     }
 }
