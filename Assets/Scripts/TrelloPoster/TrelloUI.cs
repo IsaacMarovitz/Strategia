@@ -8,6 +8,8 @@ using Trello;
 public class TrelloUI : MonoBehaviour {
 	
 	public Button reportButton;
+    public FailureUI failureUI;
+    public GameObject sucessPanel;
     [SerializeField]
     private TrelloPoster trelloPoster = null;
     [SerializeField]
@@ -37,7 +39,7 @@ public class TrelloUI : MonoBehaviour {
 		reportPanel.SetActive(false);
 		yield return new WaitForEndOfFrame();
 		TakeScreenshot();
-		StartCoroutine(trelloPoster.PostCard(new TrelloCard(nameText, descText, trelloPoster.CardList, trelloPoster.CardLabel, includeScreenshot.isOn ? screenshot.EncodeToPNG() : null)));
+		StartCoroutine(trelloPoster.PostCard(new TrelloCard(nameText, descText, trelloPoster.CardList, trelloPoster.CardLabel, includeScreenshot.isOn ? screenshot.EncodeToPNG() : null), Failure));
 		Resume();
 	}
 
@@ -68,5 +70,13 @@ public class TrelloUI : MonoBehaviour {
     public void ResetUI() {
         cardName.text = "";
         cardDesc.text = "";
+    }
+
+    public void Failure(string error) {
+        if (!string.IsNullOrEmpty(error)) {
+            failureUI.DisplayError(error);
+        } else {
+            sucessPanel.SetActive(true);
+        }
     }
 }
