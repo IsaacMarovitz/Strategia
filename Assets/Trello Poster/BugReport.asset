@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BugReport
   m_EditorClassIdentifier: 
   key: e24a5cc4bf65f02b93ddc4e9700f118d
-  token: dc1d2ae061d2e6bee2cab9c88ded4ca5881b479b6f0de61ed80253eaf283c2b0
+  token: sd
   boardId: 5f467882f2c21f17149fd050
   cardList: 5f5a21401b8f7c89f5d811ee
   cardLabel: 5f467882cdabcf46c0e7b8c6
