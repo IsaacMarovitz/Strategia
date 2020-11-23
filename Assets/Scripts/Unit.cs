@@ -14,6 +14,7 @@ public class Unit : MonoBehaviour {
     public bool hasFuel;
     public int maxFuel;
     public int fuel;
+    public MeshRenderer[] meshes;
 
     public Strategia.TileGrid gridScript;
     [HideInInspector]
@@ -36,6 +37,12 @@ public class Unit : MonoBehaviour {
         player = _player;
         turnStarted = false;
         turnComplete = false;
+    }
+
+    public void SetColor(Color color) {
+        for (int i = 0; i < meshes.Length; i++) {
+            meshes[i].material.color = color;
+        }
     }
 
     public void StartTurn() {

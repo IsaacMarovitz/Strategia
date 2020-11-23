@@ -7,6 +7,8 @@ public class UnitEditor : Editor {
     /*bool showGridData = false;*/
 
     public override void OnInspectorGUI() {
+
+        SerializedObject so = new SerializedObject(target);
         Unit unit = (Unit)target;
 
         unit.gridScript = (Strategia.TileGrid)EditorGUILayout.ObjectField("Grid", unit.gridScript, typeof(Strategia.TileGrid), true);
@@ -51,6 +53,9 @@ public class UnitEditor : Editor {
             }
             unit.fuel = EditorGUILayout.IntSlider("Fuel", unit.fuel, 0, unit.maxFuel);
         }
+        SerializedProperty meshArray = so.FindProperty("meshes");
+        EditorGUILayout.PropertyField(meshArray, true);
+        so.ApplyModifiedProperties();
         if (GUILayout.Button("Check Dirs")) {
             unit.CheckDirs();
         }
