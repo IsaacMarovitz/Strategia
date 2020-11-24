@@ -6370,7 +6370,6 @@ GameObject:
   m_Component:
   - component: {fileID: 758358880}
   - component: {fileID: 758358882}
-  - component: {fileID: 758358881}
   m_Layer: 5
   m_Name: Sucess Manager
   m_TagString: Untagged
@@ -6378,8 +6377,8 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
---- !u!4 &758358880
-Transform:
+--- !u!224 &758358880
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -6393,21 +6392,11 @@ Transform:
   m_Father: {fileID: 848510006}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &758358881
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 758358879}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dc30ca2503625a448ede8a93fb61093, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvas: {fileID: 1642801529}
-  dragRectTransform: {fileID: 2035455439}
-  backgroundImage: {fileID: 2035455440}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &758358882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8618,6 +8607,7 @@ GameObject:
   - component: {fileID: 962473655}
   - component: {fileID: 962473654}
   - component: {fileID: 962473653}
+  - component: {fileID: 962473656}
   m_Layer: 5
   m_Name: TrelloPanel
   m_TagString: Untagged
@@ -8712,6 +8702,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 962473651}
   m_CullTransparentMesh: 0
+--- !u!114 &962473656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962473651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dc30ca2503625a448ede8a93fb61093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 1187035553}
+  dragRectTransform: {fileID: 1201380498}
+  backgroundImage: {fileID: 962473654}
 --- !u!1 &969789284
 GameObject:
   m_ObjectHideFlags: 0
@@ -10625,7 +10630,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1201380498}
   - component: {fileID: 1201380499}
-  - component: {fileID: 1201380500}
   m_Layer: 5
   m_Name: TrelloManager
   m_TagString: Untagged
@@ -10633,8 +10637,8 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
---- !u!4 &1201380498
-Transform:
+--- !u!224 &1201380498
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -10648,6 +10652,11 @@ Transform:
   m_Father: {fileID: 1187035554}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1201380499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10668,21 +10677,6 @@ MonoBehaviour:
   cardName: {fileID: 391024749}
   cardDesc: {fileID: 1191533300}
   includeScreenshot: {fileID: 658863411}
---- !u!114 &1201380500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1201380497}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dc30ca2503625a448ede8a93fb61093, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvas: {fileID: 1642801529}
-  dragRectTransform: {fileID: 962473652}
-  backgroundImage: {fileID: 962473654}
 --- !u!1 &1203854348
 GameObject:
   m_ObjectHideFlags: 0
@@ -13121,6 +13115,7 @@ GameObject:
   - component: {fileID: 1569569188}
   - component: {fileID: 1569569190}
   - component: {fileID: 1569569189}
+  - component: {fileID: 1569569191}
   m_Layer: 5
   m_Name: Failure Panel
   m_TagString: Untagged
@@ -13188,6 +13183,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1569569187}
   m_CullTransparentMesh: 0
+--- !u!114 &1569569191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1569569187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dc30ca2503625a448ede8a93fb61093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 450415170}
+  dragRectTransform: {fileID: 2043591996}
+  backgroundImage: {fileID: 1569569189}
 --- !u!1 &1578939443
 GameObject:
   m_ObjectHideFlags: 0
@@ -14296,7 +14306,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1788379917}
   - component: {fileID: 1788379918}
-  - component: {fileID: 1788379919}
   m_Layer: 5
   m_Name: Error Manager
   m_TagString: Untagged
@@ -14304,8 +14313,8 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
---- !u!4 &1788379917
-Transform:
+--- !u!224 &1788379917
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -14319,6 +14328,11 @@ Transform:
   m_Father: {fileID: 627285578}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1788379918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14338,21 +14352,6 @@ MonoBehaviour:
   sucessPanel: {fileID: 2035455438}
   errorText: {fileID: 1184569289}
   trelloPoster: {fileID: 11400000, guid: 522d1418e5f564c4695885f4692662ce, type: 2}
---- !u!114 &1788379919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1788379916}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dc30ca2503625a448ede8a93fb61093, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvas: {fileID: 1642801529}
-  dragRectTransform: {fileID: 1873395190}
-  backgroundImage: {fileID: 1873395191}
 --- !u!1 &1809100972
 GameObject:
   m_ObjectHideFlags: 0
@@ -15402,6 +15401,7 @@ GameObject:
   - component: {fileID: 1873395190}
   - component: {fileID: 1873395192}
   - component: {fileID: 1873395191}
+  - component: {fileID: 1873395193}
   m_Layer: 5
   m_Name: Error Panel
   m_TagString: Untagged
@@ -15469,6 +15469,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1873395189}
   m_CullTransparentMesh: 0
+--- !u!114 &1873395193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1873395189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dc30ca2503625a448ede8a93fb61093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 627285577}
+  dragRectTransform: {fileID: 1788379917}
+  backgroundImage: {fileID: 1873395191}
 --- !u!1 &1873597042
 GameObject:
   m_ObjectHideFlags: 0
@@ -16979,6 +16994,7 @@ GameObject:
   - component: {fileID: 2035455439}
   - component: {fileID: 2035455441}
   - component: {fileID: 2035455440}
+  - component: {fileID: 2035455442}
   m_Layer: 5
   m_Name: Sucess Panel
   m_TagString: Untagged
@@ -17045,6 +17061,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2035455438}
   m_CullTransparentMesh: 0
+--- !u!114 &2035455442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035455438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dc30ca2503625a448ede8a93fb61093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 848510009}
+  dragRectTransform: {fileID: 758358880}
+  backgroundImage: {fileID: 2035455440}
 --- !u!1 &2036252384
 GameObject:
   m_ObjectHideFlags: 0
@@ -17168,7 +17199,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2043591996}
   - component: {fileID: 2043591998}
-  - component: {fileID: 2043591997}
   m_Layer: 5
   m_Name: Failure Manager
   m_TagString: Untagged
@@ -17176,8 +17206,8 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
---- !u!4 &2043591996
-Transform:
+--- !u!224 &2043591996
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -17191,21 +17221,11 @@ Transform:
   m_Father: {fileID: 450415167}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2043591997
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2043591995}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dc30ca2503625a448ede8a93fb61093, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvas: {fileID: 1642801529}
-  dragRectTransform: {fileID: 1569569188}
-  backgroundImage: {fileID: 1569569189}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2043591998
 MonoBehaviour:
   m_ObjectHideFlags: 0
