@@ -7149,14 +7149,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 794698290}
-  UL: {fileID: 1345157683}
-  U: {fileID: 166321090}
-  UR: {fileID: 943492680}
-  L: {fileID: 1724882516}
-  R: {fileID: 482572117}
-  DL: {fileID: 1073521061}
-  D: {fileID: 1925708875}
-  DR: {fileID: 422074010}
+  buttons:
+  - {fileID: 1345157683}
+  - {fileID: 166321090}
+  - {fileID: 943492680}
+  - {fileID: 1724882516}
+  - {fileID: 482572117}
+  - {fileID: 1073521061}
+  - {fileID: 1925708875}
+  - {fileID: 422074010}
   yOffset: 1
 --- !u!1 &797910431
 GameObject:
