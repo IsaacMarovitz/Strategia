@@ -4768,8 +4768,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -4779,7 +4779,7 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
+  m_overflowMode: 1
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
@@ -6386,7 +6386,7 @@ RectTransform:
   m_GameObject: {fileID: 758358879}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 5}
-  m_LocalScale: {x: 1.632653, y: 1.632653, z: 1.632653}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2035455439}
   m_Father: {fileID: 848510006}
@@ -6395,7 +6395,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 210, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &758358882
 MonoBehaviour:
@@ -8624,7 +8624,7 @@ RectTransform:
   m_GameObject: {fileID: 962473651}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6125, y: 0.6125, z: 0.6125}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2008252917}
   - {fileID: 391024752}
@@ -8715,6 +8715,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 1187035553}
+  canvasRectTransform: {fileID: 1187035554}
   dragRectTransform: {fileID: 1201380498}
   backgroundImage: {fileID: 962473654}
 --- !u!1 &969789284
@@ -10646,7 +10647,7 @@ RectTransform:
   m_GameObject: {fileID: 1201380497}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 5}
-  m_LocalScale: {x: 1.632653, y: 1.632653, z: 1.632653}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 962473652}
   m_Father: {fileID: 1187035554}
@@ -10655,7 +10656,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 210, y: 185}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1201380499
 MonoBehaviour:
@@ -13132,7 +13133,7 @@ RectTransform:
   m_GameObject: {fileID: 1569569187}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6125, y: 0.6125, z: 0.6125}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1948368352}
   - {fileID: 2036252385}
@@ -13196,6 +13197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 450415170}
+  canvasRectTransform: {fileID: 450415167}
   dragRectTransform: {fileID: 2043591996}
   backgroundImage: {fileID: 1569569189}
 --- !u!1 &1578939443
@@ -14322,7 +14324,7 @@ RectTransform:
   m_GameObject: {fileID: 1788379916}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 5}
-  m_LocalScale: {x: 1.632653, y: 1.632653, z: 1.632653}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1873395190}
   m_Father: {fileID: 627285578}
@@ -14331,7 +14333,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 210, y: 185}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1788379918
 MonoBehaviour:
@@ -15418,7 +15420,7 @@ RectTransform:
   m_GameObject: {fileID: 1873395189}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6125, y: 0.6125, z: 0.6125}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 697380493}
   - {fileID: 175357136}
@@ -15482,6 +15484,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 627285577}
+  canvasRectTransform: {fileID: 627285578}
   dragRectTransform: {fileID: 1788379917}
   backgroundImage: {fileID: 1873395191}
 --- !u!1 &1873597042
@@ -17011,7 +17014,7 @@ RectTransform:
   m_GameObject: {fileID: 2035455438}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6125, y: 0.6125, z: 0.6125}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1663466472}
   - {fileID: 450931407}
@@ -17074,6 +17077,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 848510009}
+  canvasRectTransform: {fileID: 848510006}
   dragRectTransform: {fileID: 758358880}
   backgroundImage: {fileID: 2035455440}
 --- !u!1 &2036252384
@@ -17215,7 +17219,7 @@ RectTransform:
   m_GameObject: {fileID: 2043591995}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 5}
-  m_LocalScale: {x: 1.632653, y: 1.632653, z: 1.632653}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1569569188}
   m_Father: {fileID: 450415167}
@@ -17224,7 +17228,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 210, y: 185}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2043591998
 MonoBehaviour:

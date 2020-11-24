@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 public class DragWindow : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler {
 
     [SerializeField] private Canvas canvas = null;
+    [SerializeField] private RectTransform canvasRectTransform = null;
     [SerializeField] private RectTransform dragRectTransform = null;
     [SerializeField] private Image backgroundImage = null;
     private Color backgroundColor;
@@ -20,6 +21,20 @@ public class DragWindow : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     public void OnDrag(PointerEventData eventData) {
         dragRectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        Vector2 anchoredPosition = dragRectTransform.anchoredPosition;
+        if (anchoredPosition.x + dragRectTransform.rect.width > canvasRectTransform.rect.width / 2) {
+            anchoredPosition.x = canvasRectTransform.rect.width / 2 - dragRectTransform.rect.width;
+        }
+        if (anchoredPosition.y + dragRectTransform.rect.height > canvasRectTransform.rect.height / 2) {
+            anchoredPosition.y = canvasRectTransform.rect.height / 2 - dragRectTransform.rect.height;
+        }
+        if (-(anchoredPosition.x - dragRectTransform.rect.width) > canvasRectTransform.rect.width / 2) {
+            anchoredPosition.x = -(canvasRectTransform.rect.width / 2) + dragRectTransform.rect.width;
+        }
+        if (-(anchoredPosition.y - dragRectTransform.rect.height) > canvasRectTransform.rect.height / 2) {
+            anchoredPosition.y = -(canvasRectTransform.rect.height / 2) + dragRectTransform.rect.height;
+        }
+        dragRectTransform.anchoredPosition = anchoredPosition;
     }
 
     public void OnEndDrag(PointerEventData eventData) {
