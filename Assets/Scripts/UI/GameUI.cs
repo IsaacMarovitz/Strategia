@@ -9,18 +9,24 @@ public class GameUI : MonoBehaviour {
     public TMP_Text dayCounter;
     public TMP_Text newDayUIText;
     public TMP_Text sleepButtonText;
+    public TMP_Text nextPlayerText;
     public Button sleepButton;
     public Button laterButton;
     public Button doneButton;
+    public Button nextPlayerButton;
     public Image unitImage;
     public GameObject newDayUI;
     public float newDayWaitTime;
+    public GameObject nextPlayerUI;
+    public bool nextPlayerUIEnabled = true;
 
     public void Start() {
         sleepButton.onClick.AddListener(Sleep);
         laterButton.onClick.AddListener(Later);
         doneButton.onClick.AddListener(Done);
+        nextPlayerButton.onClick.AddListener(NextPlayerButton);
         GameManager.Instance.newDayDelegate += NewDay;
+        GameManager.Instance.nextPlayerDelegate += NextPlayer;
     }
 
     void Update() {
@@ -41,13 +47,26 @@ public class GameUI : MonoBehaviour {
 
     public void NewDay() {
         newDayUI.SetActive(true);
-        StartCoroutine(Wait(newDayWaitTime));
+        StartCoroutine(NewDayWait(newDayWaitTime));
     }
 
-    IEnumerator Wait(float waitTime) {
+    IEnumerator NewDayWait(float waitTime) {
         yield return new WaitForSeconds(waitTime);
         newDayUI.SetActive(false);
         GameManager.Instance.NewDay();
+    }
+
+    public void NextPlayerButton() {
+        nextPlayerUI.SetActive(false);
+        GameManager.Instance.Resume();
+    }
+
+    public void NextPlayer() {
+        if (nextPlayerUIEnabled) {
+            nextPlayerUI.SetActive(true);
+            GameManager.Instance.Pause();
+            nextPlayerText.text = $"Player {GameManager.Instance.currentPlayerIndex}'s Turn";
+        }
     }
 
     public void UpdateUI() {

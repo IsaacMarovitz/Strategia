@@ -19,11 +19,12 @@ public class GameManager : MonoBehaviour {
     public GameObject playerPrefab;
     public Transform playerParent;
     public Action newDayDelegate;
+    public Action nextPlayerDelegate;
     public Action pauseGame;
     public Action resumeGame;
     public MeshRenderer fogOfWarTexture;
+    public int currentPlayerIndex = 0;
 
-    private int currentPlayerIndex = 0;
     private float hueOffset;
 
     private void Awake() {
@@ -83,6 +84,7 @@ public class GameManager : MonoBehaviour {
             Debug.Log("<b>GameManager:</b> Starting Player " + (currentPlayerIndex+1) + "'s turn");
             playerList[currentPlayerIndex].StartTurn();
             currentPlayerIndex++;
+            nextPlayerDelegate?.Invoke();
         } else {
             DayComplete();
         }
