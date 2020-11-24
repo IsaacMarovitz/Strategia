@@ -17,8 +17,6 @@ public class Unit : MonoBehaviour {
     public MeshRenderer[] meshes;
 
     public Strategia.TileGrid gridScript;
-    [HideInInspector]
-    public List<Tile> oldTiles;
 
     public int movesLeft;
     public bool[] moveDirs = new bool[8];
@@ -30,6 +28,7 @@ public class Unit : MonoBehaviour {
     private GameObject meshObject;
     private Player player;
     private City oldCity;
+    private GameObject mainMesh;
 
     // Move direction go from left to right, top to bottom
     // E.G. Left and Up = 1, Up = 2, Right and Up = 3 etc...
@@ -72,13 +71,14 @@ public class Unit : MonoBehaviour {
     }
 
     public void Start() {
+        mainMesh = this.transform.GetChild(0).gameObject;
         movesLeft = moveDistance;
         meshObject = gameObject.transform.GetChild(0).gameObject;
         gridScript.grid[pos.x, pos.y].unitOnTile = this;
         City city = gridScript.grid[pos.x, pos.y].gameObject.GetComponent<City>();
         city.AddUnit(this);
         oldCity = city;
-        this.transform.GetChild(0).gameObject.SetActive(false);
+        mainMesh.SetActive(false);
         CheckDirs();
     }
 
@@ -216,9 +216,9 @@ public class Unit : MonoBehaviour {
             city.GetOwned(player);
             city.AddUnit(this);
             oldCity = city;
-            this.transform.GetChild(0).gameObject.SetActive(false);
+            mainMesh.SetActive(false);
         } else {
-            this.transform.GetChild(0).gameObject.SetActive(true);
+            mainMesh.SetActive(true);
         }
         if (gridScript.grid[pos.x, pos.y].tileType == TileType.Swamp && moveType == UnitMoveType.Land) {
             moveDistanceReduced = true;
@@ -227,7 +227,7 @@ public class Unit : MonoBehaviour {
             moveDistanceReduced = false;
         }
         gridScript.grid[pos.x, pos.y].unitOnTile = this;
-        player.UpdateFogOfWar(this);
+        player.UpdateFogOfWar();
         CheckDirs();
         if (movesLeft <= 0) {
             EndTurn();

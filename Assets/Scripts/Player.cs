@@ -17,20 +17,27 @@ public class Player : MonoBehaviour {
     public Texture2D fogOfWarTexture;
     public float[,] fogOfWarMatrix;
 
-    public void UpdateFogOfWar(Unit unit) {
-        foreach (var tile in unit.oldTiles) {
-            fogOfWarMatrix[tile.index.x, tile.index.y] = 0.5f;
-        }
-        unit.oldTiles = GridUtilities.RadialSearch(GameManager.Instance.grid.grid, unit.pos, 5);
-        foreach (var tile in unit.oldTiles) {
-            fogOfWarMatrix[tile.index.x, tile.index.y] = 1f;
-        }
-        foreach (var city in playerCities) {
-            List<Tile> returnTiles = GridUtilities.RadialSearch(GameManager.Instance.grid.grid, city.pos, 5);
-            foreach (var tile in returnTiles) {
-                fogOfWarMatrix[tile.index.x, tile.index.y] = 1.0f;
+    public void UpdateFogOfWar() {
+        for (int x = 0; x < GameManager.Instance.grid.width; x++) {
+            for (int y = 0; y < GameManager.Instance.grid.height; y++) {
+                if (fogOfWarMatrix[x, y] == 1f) {
+                    fogOfWarMatrix[x, y] = 0.5f;
+                }
             }
         }
+        foreach (var unit in playerUnits) {
+            List<Tile> revealedTiles = GridUtilities.RadialSearch(GameManager.Instance.grid.grid, unit.pos, 5);
+            foreach (var tile in revealedTiles) {
+                fogOfWarMatrix[tile.index.x, tile.index.y] = 1f;
+            }
+        }
+        foreach (var city in playerCities) {
+            List<Tile> revealedTiles = GridUtilities.RadialSearch(GameManager.Instance.grid.grid, city.pos, 5);
+            foreach (var tile in revealedTiles) {
+                fogOfWarMatrix[tile.index.x, tile.index.y] = 1f;
+            }
+        }
+
         GenerateTexture();
     }
 
@@ -97,7 +104,7 @@ public class Player : MonoBehaviour {
             }
         }
         if (playerUnits != null) {
-            UpdateFogOfWar(playerUnits[0]);
+            UpdateFogOfWar();
         }
     }
 

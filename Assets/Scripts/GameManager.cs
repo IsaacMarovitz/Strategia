@@ -82,10 +82,10 @@ public class GameManager : MonoBehaviour {
         if (currentPlayerIndex < playerList.Count) {
             Debug.Log("<b>GameManager:</b> Starting Player " + (currentPlayerIndex+1) + "'s turn");
             playerList[currentPlayerIndex].StartTurn();
+            currentPlayerIndex++;
         } else {
             DayComplete();
         }
-        currentPlayerIndex++;
     }
 
     public void DayComplete() {

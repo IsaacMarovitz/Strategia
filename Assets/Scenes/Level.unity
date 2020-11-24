@@ -10663,7 +10663,7 @@ MonoBehaviour:
   reportButton: {fileID: 293283037}
   failureUI: {fileID: 2043591998}
   sucessPanel: {fileID: 2035455438}
-  trelloPoster: {fileID: 11400000, guid: b92b4f0ea59e2ee4581c57973ecfb1ed, type: 2}
+  trelloPoster: {fileID: 11400000, guid: 522d1418e5f564c4695885f4692662ce, type: 2}
   reportPanel: {fileID: 962473651}
   cardName: {fileID: 391024749}
   cardDesc: {fileID: 1191533300}
@@ -14337,7 +14337,7 @@ MonoBehaviour:
   failureUI: {fileID: 2043591998}
   sucessPanel: {fileID: 2035455438}
   errorText: {fileID: 1184569289}
-  trelloPoster: {fileID: 11400000, guid: b92b4f0ea59e2ee4581c57973ecfb1ed, type: 2}
+  trelloPoster: {fileID: 11400000, guid: 522d1418e5f564c4695885f4692662ce, type: 2}
 --- !u!114 &1788379919
 MonoBehaviour:
   m_ObjectHideFlags: 0
