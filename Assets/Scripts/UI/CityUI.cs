@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class CityUI : MonoBehaviour {
 
@@ -12,7 +13,7 @@ public class CityUI : MonoBehaviour {
     public GameObject unitButtonPrefab;
 
     private City oldCity;
-    private bool buttonsUpdated = false;
+    private bool hasUpdated = false;
 
     public void Start() {
         panel.SetActive(false);
@@ -24,12 +25,17 @@ public class CityUI : MonoBehaviour {
             transform.position = new Vector3(UIData.Instance.currentCity.transform.position.x, yOffset, UIData.Instance.currentCity.transform.position.z);
             cityName.text = UIData.Instance.currentCity.cityName;
             turnsLeft.text = "Days left : " + UIData.Instance.currentCity.turnsLeft;
-            if (!buttonsUpdated) {
+            if (oldCity != UIData.Instance.currentCity) {
+                hasUpdated = false;
+                oldCity = UIData.Instance.currentCity;
+            }
+            if (!hasUpdated) {
+                hasUpdated = true;
                 UpdateUnitButtons();
             }
         } else {
             panel.SetActive(false);
-            buttonsUpdated = false;
+            hasUpdated = false;
         }
     }
 
@@ -40,7 +46,6 @@ public class CityUI : MonoBehaviour {
     }
 
     public void UpdateUnitButtons() {
-        buttonsUpdated = true;
         for (int i = horizontalLayoutGroup.transform.childCount-1; i >= 0; i--) {
             GameObject.Destroy(horizontalLayoutGroup.transform.GetChild(i).gameObject);
         }
@@ -49,15 +54,6 @@ public class CityUI : MonoBehaviour {
             newButton.transform.SetParent(horizontalLayoutGroup.transform, false);
             UnitButtonUI unitButton = newButton.GetComponent<UnitButtonUI>();
             unitButton.unit = unit;
-        }
-        if (horizontalLayoutGroup.gameObject.transform.childCount > 4) {
-            horizontalLayoutGroup.childControlWidth = true;
-        } else {
-            horizontalLayoutGroup.childControlWidth = false;
-            for (int i = 0; i < horizontalLayoutGroup.gameObject.transform.childCount - 1; i++) {
-                Transform child = horizontalLayoutGroup.gameObject.transform.GetChild(i);
-                child.GetComponent<RectTransform>().sizeDelta = new Vector2(20, 20);
-            }
         }
     }
 }
