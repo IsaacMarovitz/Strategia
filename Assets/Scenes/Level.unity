@@ -13763,6 +13763,7 @@ MonoBehaviour:
   sleepButton: {fileID: 1886830872}
   laterButton: {fileID: 1739210246}
   doneButton: {fileID: 2100231158}
+  unitImage: {fileID: 1097796217}
   newDayUI: {fileID: 2078506989}
   newDayWaitTime: 1
 --- !u!1 &1663466471

@@ -29,6 +29,7 @@ public class Unit : MonoBehaviour {
     private Player player;
     private City oldCity;
     private GameObject mainMesh;
+    private bool isInCity = true;
 
     // Move direction go from left to right, top to bottom
     // E.G. Left and Up = 1, Up = 2, Right and Up = 3 etc...
@@ -68,6 +69,11 @@ public class Unit : MonoBehaviour {
 
     public void Update() {
         transform.position = new Vector3(pos.x * gridScript.tileWidth, transform.position.y, pos.y * gridScript.tileHeight);
+        if (GameManager.Instance.GetCurrentPlayer().fogOfWarMatrix[pos.x, pos.y] != 1f) {
+            mainMesh.SetActive(false);
+        } else if (!isInCity) {
+            mainMesh.SetActive(true);
+        }
     }
 
     public void Start() {
@@ -78,6 +84,7 @@ public class Unit : MonoBehaviour {
         City city = gridScript.grid[pos.x, pos.y].gameObject.GetComponent<City>();
         city.AddUnit(this);
         oldCity = city;
+        isInCity = true;
         mainMesh.SetActive(false);
         CheckDirs();
     }
@@ -216,8 +223,10 @@ public class Unit : MonoBehaviour {
             city.GetOwned(player);
             city.AddUnit(this);
             oldCity = city;
+            isInCity = true;
             mainMesh.SetActive(false);
         } else {
+            isInCity = false;
             mainMesh.SetActive(true);
         }
         if (gridScript.grid[pos.x, pos.y].tileType == TileType.Swamp && moveType == UnitMoveType.Land) {

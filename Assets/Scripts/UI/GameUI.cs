@@ -12,6 +12,7 @@ public class GameUI : MonoBehaviour {
     public Button sleepButton;
     public Button laterButton;
     public Button doneButton;
+    public Image unitImage;
     public GameObject newDayUI;
     public float newDayWaitTime;
 
@@ -62,6 +63,7 @@ public class GameUI : MonoBehaviour {
             SetButtons(true);
             sleepButtonText.text = "Sleep";
         }
+        unitImage.color = GameManager.Instance.GetCurrentPlayer().playerColor;
     }
 
     void SetButtons(bool buttonBool) {
