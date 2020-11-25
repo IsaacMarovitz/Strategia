@@ -54,7 +54,7 @@ public class Unit : MonoBehaviour {
         if (moveDistanceReduced) {
             movesLeft -= moveDistanceReductionFactor;
         }
-        CheckDirs();
+        //CheckDirs();
         if (isSleeping) {
             EndTurn();
             return;
@@ -74,6 +74,7 @@ public class Unit : MonoBehaviour {
         } else if (!isInCity) {
             mainMesh.SetActive(true);
         }
+        CheckDirs();
     }
 
     public void Start() {
@@ -87,7 +88,7 @@ public class Unit : MonoBehaviour {
         oldCity = city;
         isInCity = true;
         mainMesh.SetActive(false);
-        CheckDirs();
+        //CheckDirs();
     }
 
     public void Attack(int posX, int posY) {
@@ -160,28 +161,34 @@ public class Unit : MonoBehaviour {
                     break;
             }
 
-            for (int i = 0; i < tiles.Length; i++) {
-                if (tiles[i].unitOnTile != null) {
-                    if (tiles[i].tileType == TileType.City || tiles[i].tileType == TileType.CostalCity) {
-                        City city = tiles[i].gameObject.GetComponent<City>();
-                        if (!player.playerCities.Contains(city)) {
-                            moveDirs[i] = MoveType.Attack;
-                        }            
+            if (turnStarted && !turnComplete) {
+                for (int i = 0; i < tiles.Length; i++) {
+                    if (tiles[i].unitOnTile != null) {
+                        if (tiles[i].tileType == TileType.City || tiles[i].tileType == TileType.CostalCity) {
+                            City city = tiles[i].gameObject.GetComponent<City>();
+                            if (!player.playerCities.Contains(city)) {
+                                moveDirs[i] = MoveType.Attack;
+                            }
+                        } else {
+                            if (player.playerUnits.Contains(tiles[i].unitOnTile)) {
+                                moveDirs[i] = MoveType.No;
+                            } else {
+                                moveDirs[i] = MoveType.Attack;
+                            }
+                        }
                     } else {
-                        moveDirs[i] = MoveType.Attack;
-                    }
-                } else {
-                    if (tiles[i].tileType == TileType.City || tiles[i].tileType == TileType.CostalCity) {
-                        City city = tiles[i].gameObject.GetComponent<City>();
-                        if (!player.playerCities.Contains(city) && moveType != UnitMoveType.Land) {
-                            moveDirs[i] = MoveType.No;
+                        if (tiles[i].tileType == TileType.City || tiles[i].tileType == TileType.CostalCity) {
+                            City city = tiles[i].gameObject.GetComponent<City>();
+                            if (!player.playerCities.Contains(city) && moveType != UnitMoveType.Land) {
+                                moveDirs[i] = MoveType.No;
+                            }
                         }
                     }
                 }
             }
         }
     }
-    
+
     IEnumerator Wait() {
         yield return new WaitForSeconds(5);
         EndTurn();
@@ -198,7 +205,7 @@ public class Unit : MonoBehaviour {
                     pos.y++;
                     this.transform.eulerAngles = new Vector3(0, -45, 0);
                 } else if (moveDirs[0] == MoveType.Attack) {
-                    Attack(pos.x-1, pos.y+1);
+                    Attack(pos.x - 1, pos.y + 1);
                 }
                 break;
             case 2:
@@ -206,7 +213,7 @@ public class Unit : MonoBehaviour {
                     pos.y++;
                     this.transform.eulerAngles = new Vector3(0, 0, 0);
                 } else if (moveDirs[1] == MoveType.Attack) {
-                    Attack(pos.x, pos.y+1);
+                    Attack(pos.x, pos.y + 1);
                 }
                 break;
             case 3:
@@ -215,7 +222,7 @@ public class Unit : MonoBehaviour {
                     pos.y++;
                     this.transform.eulerAngles = new Vector3(0, 45, 0);
                 } else if (moveDirs[2] == MoveType.Attack) {
-                    Attack(pos.x+1, pos.x+1);
+                    Attack(pos.x + 1, pos.x + 1);
                 }
                 break;
             case 4:
@@ -223,7 +230,7 @@ public class Unit : MonoBehaviour {
                     pos.x--;
                     this.transform.eulerAngles = new Vector3(0, -90, 0);
                 } else if (moveDirs[3] == MoveType.Attack) {
-                    Attack(pos.x-1, pos.y);
+                    Attack(pos.x - 1, pos.y);
                 }
                 break;
             case 5:
@@ -231,7 +238,7 @@ public class Unit : MonoBehaviour {
                     pos.x++;
                     this.transform.eulerAngles = new Vector3(0, 90, 0);
                 } else if (moveDirs[4] == MoveType.Attack) {
-                    Attack(pos.x+1, pos.y);
+                    Attack(pos.x + 1, pos.y);
                 }
                 break;
             case 6:
@@ -240,7 +247,7 @@ public class Unit : MonoBehaviour {
                     pos.y--;
                     this.transform.eulerAngles = new Vector3(0, 225, 0);
                 } else if (moveDirs[5] == MoveType.Attack) {
-                    Attack(pos.x-1, pos.y-1);
+                    Attack(pos.x - 1, pos.y - 1);
                 }
                 break;
             case 7:
@@ -248,7 +255,7 @@ public class Unit : MonoBehaviour {
                     pos.y--;
                     this.transform.eulerAngles = new Vector3(0, 180, 0);
                 } else if (moveDirs[6] == MoveType.Attack) {
-                    Attack(pos.x, pos.y-1);
+                    Attack(pos.x, pos.y - 1);
                 }
                 break;
             case 8:
@@ -257,7 +264,7 @@ public class Unit : MonoBehaviour {
                     pos.y--;
                     this.transform.eulerAngles = new Vector3(0, 135, 0);
                 } else if (moveDirs[7] == MoveType.Attack) {
-                    Attack(pos.x+1, pos.y-1);
+                    Attack(pos.x + 1, pos.y - 1);
                 }
                 break;
         }
@@ -284,7 +291,7 @@ public class Unit : MonoBehaviour {
         }
         gridScript.grid[pos.x, pos.y].unitOnTile = this;
         player.UpdateFogOfWar();
-        CheckDirs();
+        //CheckDirs();
         if (movesLeft <= 0) {
             EndTurn();
         }
