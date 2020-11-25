@@ -6,11 +6,14 @@ public class CameraController : MonoBehaviour {
     public Camera mainCamera;
     public Transform xRotationTransform;
     public Transform yRotationTransform;
-    // public Vector3 positionOffset;
-    // public Vector2 rotationOffset;
+    public Vector3 positionOffset;
+    public Vector2 rotationOffset;
     float mainSpeed = 100.0f;
+
     private Vector3 lastMouse = new Vector3(255, 255, 255);
     private bool isPaused;
+    private Unit oldUnit;
+    private City oldCity;
 
     void Start() {
         GameManager.Instance.pauseGame += Pause;
@@ -29,7 +32,6 @@ public class CameraController : MonoBehaviour {
         if (!isPaused) {
             Vector3 p = GetBaseInput();
             p = p * mainSpeed * Time.deltaTime;
-            Vector3 newPosition = transform.position;
             yRotationTransform.Translate(p);
             yRotationTransform.eulerAngles += GetYRotation();
             xRotationTransform.eulerAngles += GetXRotation();
@@ -42,8 +44,9 @@ public class CameraController : MonoBehaviour {
                             Unit hitUnit = hit.transform.parent.gameObject.GetComponent<Unit>();
                             if (GameManager.Instance.GetCurrentPlayer().playerUnits.Contains(hitUnit)) {
                                 UIData.Instance.currentUnit = hitUnit;
+                                Focus(hitUnit.gameObject.transform.position);
                                 Debug.Log("<b>Camera Controller:</b> Found Unit");
-                            } 
+                            }
                         } else {
                             UIData.Instance.currentUnit = null;
                         }
@@ -51,6 +54,7 @@ public class CameraController : MonoBehaviour {
                             City hitCity = hit.transform.gameObject.GetComponent<City>();
                             if (GameManager.Instance.GetCurrentPlayer().playerCities.Contains(hitCity)) {
                                 UIData.Instance.currentCity = hitCity;
+                                Focus(hitCity.gameObject.transform.position);
                                 Debug.Log("<b>Camera Controller:</b> Found City");
                             }
                         } else {
@@ -58,6 +62,19 @@ public class CameraController : MonoBehaviour {
                         }
                     }
                 }
+            }
+        }
+        if (UIData.Instance.currentCity != null) {
+            if (oldCity != UIData.Instance.currentCity) {
+                oldCity = UIData.Instance.currentCity;
+                oldUnit = null;
+                Focus(oldCity.gameObject.transform.position);
+            } 
+        } else if (UIData.Instance.currentUnit != null) {
+            if (oldUnit != UIData.Instance.currentUnit) {
+                oldUnit = UIData.Instance.currentUnit;
+                oldCity = null;
+                Focus(oldUnit.gameObject.transform.position);
             }
         }
     }
@@ -105,5 +122,11 @@ public class CameraController : MonoBehaviour {
             p_Rotation += new Vector3(-1, 0, 0);
         }
         return p_Rotation;
+    }
+
+    public void Focus(Vector3 pos) {
+        yRotationTransform.position = pos + positionOffset;
+        yRotationTransform.eulerAngles = new Vector3(0, rotationOffset.y, 0);
+        xRotationTransform.eulerAngles = new Vector3(rotationOffset.x, 0, 0);
     }
 }

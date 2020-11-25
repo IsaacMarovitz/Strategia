@@ -91,18 +91,16 @@ public class Unit : MonoBehaviour {
     }
 
     public void Attack(int posX, int posY) {
-        Debug.Log("Attacking!");
         Unit unitToAttack = gridScript.grid[posX, posY].unitOnTile;
         if (unitToAttack != null) {
             Debug.Log($"<b>{this.gameObject.name}:</b> Attacking {unitToAttack.gameObject.name}!");
             unitToAttack.TakeDamage(10);
         } else {
-            Debug.Log("Could not find unit!");
+            Debug.LogWarning($"<b>{this.gameObject.name}:</b> Could not find unit!");
         }
     }
 
     public void TakeDamage(int damage) {
-        Debug.Log("Taking Damage!");
         health -= damage;
         if (health <= 0) {
             Debug.Log($"<b>{this.gameObject.name}:</b> Took {damage} damage, and died!");
