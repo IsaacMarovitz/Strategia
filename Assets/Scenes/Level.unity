@@ -5242,6 +5242,8 @@ MonoBehaviour:
   mainCamera: {fileID: 1923705158}
   xRotationTransform: {fileID: 663163356}
   yRotationTransform: {fileID: 1507278418}
+  positionOffset: {x: 0, y: 21, z: -12}
+  rotationOffset: {x: 45, y: 0}
 --- !u!1 &627285574
 GameObject:
   m_ObjectHideFlags: 0
