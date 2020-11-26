@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.VFX;
 
 [CustomEditor(typeof(Unit))]
 public class UnitEditor : Editor {
@@ -12,6 +13,7 @@ public class UnitEditor : Editor {
         Unit unit = (Unit)target;
 
         unit.gridScript = (Strategia.TileGrid)EditorGUILayout.ObjectField("Grid", unit.gridScript, typeof(Strategia.TileGrid), true);
+        unit.sleepEffect = (VisualEffect)EditorGUILayout.ObjectField("Sleep Effect Prefab", unit.sleepEffect, typeof(VisualEffect), true);
 
         /*if (unit.grid != null) {
             showGridData = EditorGUILayout.Foldout(showGridData, "Grid Data");

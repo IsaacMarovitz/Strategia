@@ -7,13 +7,8 @@ public class UnitUI : MonoBehaviour {
     public Button[] buttons = new Button[9];
     public float yOffset = 1f;
 
-    public void Start() {
-        canvas.enabled = false;
-    }
-
     public void Update() {
         if (UIData.Instance.currentUnit != null) {
-            canvas.enabled = true;
             transform.position = new Vector3(UIData.Instance.currentUnit.transform.position.x, yOffset, UIData.Instance.currentUnit.transform.position.z);
 
             for (int i = 0; i < buttons.Length; i++) {
@@ -28,6 +23,7 @@ public class UnitUI : MonoBehaviour {
                     buttons[i].targetGraphic.color = Color.white;
                 }
             }
+            canvas.enabled = true;
         } else {
             canvas.enabled = false;
         }

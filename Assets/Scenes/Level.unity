@@ -5171,9 +5171,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 620992388}
-  - component: {fileID: 620992389}
   - component: {fileID: 620992390}
   - component: {fileID: 620992391}
+  - component: {fileID: 620992389}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -5663,7 +5663,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 663163353}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a2fba25a5cd15594e8f050a11e386c80, type: 3}
   m_Name: 
@@ -10593,8 +10593,8 @@ MonoBehaviour:
   numberOfCostalCities: 10
   numberOfCities: 10
   cityTiles: []
-  seed: 0
-  islandCount: 0
+  seed: 8292
+  islandCount: 7
   minimumIslandArea: 0
   tileParent: {fileID: 1182266815}
   prefabs:
@@ -14239,7 +14239,7 @@ MonoBehaviour:
   newDayUI: {fileID: 2078506989}
   newDayWaitTime: 1
   nextPlayerUI: {fileID: 1556359576}
-  nextPlayerUIEnabled: 1
+  nextPlayerUIEnabled: 0
 --- !u!1 &1663466471
 GameObject:
   m_ObjectHideFlags: 0

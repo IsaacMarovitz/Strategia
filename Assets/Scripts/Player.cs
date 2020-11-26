@@ -63,7 +63,7 @@ public class Player : MonoBehaviour {
     }
 
     public void NewDay() {
-        Debug.Log($"<b>{this.gameObject.name}:</b> Received New Day");
+        //Debug.Log($"<b>{this.gameObject.name}:</b> Received New Day");
         foreach (var unit in playerUnits) {
             unit.NewDay(this);
         }

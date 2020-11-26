@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.VFX;
 using System.Collections.Generic;
 using System.Collections;
 
@@ -17,9 +18,10 @@ public class Unit : MonoBehaviour {
     public MeshRenderer[] meshes;
 
     public Strategia.TileGrid gridScript;
+    public VisualEffect sleepEffect;
 
     public int movesLeft;
-    public MoveType[] moveDirs = new MoveType[8];
+    public MoveType[] moveDirs;
 
     public bool isSleeping = false;
     public bool turnStarted = false;
@@ -54,7 +56,6 @@ public class Unit : MonoBehaviour {
         if (moveDistanceReduced) {
             movesLeft -= moveDistanceReductionFactor;
         }
-        //CheckDirs();
         if (isSleeping) {
             EndTurn();
             return;
@@ -78,6 +79,7 @@ public class Unit : MonoBehaviour {
     }
 
     public void Start() {
+        moveDirs = new MoveType[8];
         mainMesh = this.transform.GetChild(0).gameObject;
         movesLeft = moveDistance;
         meshObject = gameObject.transform.GetChild(0).gameObject;
@@ -88,7 +90,6 @@ public class Unit : MonoBehaviour {
         oldCity = city;
         isInCity = true;
         mainMesh.SetActive(false);
-        //CheckDirs();
     }
 
     public void Attack(int posX, int posY) {
@@ -195,7 +196,6 @@ public class Unit : MonoBehaviour {
     }
 
     public void Move(int dir) {
-        //StartCoroutine(Wait());
         movesLeft--;
         gridScript.grid[pos.x, pos.y].unitOnTile = null;
         switch (dir) {
@@ -291,7 +291,6 @@ public class Unit : MonoBehaviour {
         }
         gridScript.grid[pos.x, pos.y].unitOnTile = this;
         player.UpdateFogOfWar();
-        //CheckDirs();
         if (movesLeft <= 0) {
             EndTurn();
         }
@@ -300,9 +299,11 @@ public class Unit : MonoBehaviour {
     public void ToggleSleep() {
         if (!isSleeping) {
             isSleeping = true;
+            sleepEffect.Play();
             EndTurn();
         } else {
             isSleeping = false;
+            sleepEffect.Stop();
             StartTurn();
         }
     }
