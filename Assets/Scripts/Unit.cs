@@ -79,6 +79,7 @@ public class Unit : MonoBehaviour {
     }
 
     public void Start() {
+        sleepEffect.enabled = false;
         moveDirs = new MoveType[8];
         mainMesh = this.transform.GetChild(0).gameObject;
         movesLeft = moveDistance;
@@ -299,6 +300,7 @@ public class Unit : MonoBehaviour {
     public void ToggleSleep() {
         if (!isSleeping) {
             isSleeping = true;
+            sleepEffect.enabled = true;
             sleepEffect.Play();
             EndTurn();
         } else {

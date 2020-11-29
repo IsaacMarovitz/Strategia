@@ -21518,7 +21518,7 @@ MonoBehaviour:
   newDayUI: {fileID: 2078506989}
   newDayWaitTime: 1
   nextPlayerUI: {fileID: 1556359576}
-  nextPlayerUIEnabled: 0
+  nextPlayerUIEnabled: 1
 --- !u!1 &1658456953
 GameObject:
   m_ObjectHideFlags: 0
