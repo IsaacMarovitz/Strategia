@@ -34,8 +34,14 @@ public class GameUI : MonoBehaviour {
         newDayUIText.text = "Day " + (GameManager.Instance.day+1);
         if (UIData.Instance.currentUnit != null) {
             movesLeft.text = "Moves Left: " + UIData.Instance.currentUnit.movesLeft;
+            sleepButton.interactable = true;
+            laterButton.interactable = true;
+            doneButton.interactable = true;
         } else {
             movesLeft.text = "";
+            sleepButton.interactable = false;
+            laterButton.interactable = false;
+            doneButton.interactable = false;
         }
         if (!GameManager.Instance.dayCompleted) {
             if (UIData.Instance.currentUnit != null) 
