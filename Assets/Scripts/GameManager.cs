@@ -84,7 +84,13 @@ public class GameManager : MonoBehaviour {
             //Debug.Log("<b>GameManager:</b> Starting Player " + (currentPlayerIndex+1) + "'s turn");
             currentPlayerIndex++;
             nextPlayerDelegate?.Invoke();
-            playerList[currentPlayerIndex-1].StartTurn();
+            Player nextPlayer = playerList[currentPlayerIndex-1];
+            if (nextPlayer.HasDied() || nextPlayer.hasDied) {
+                Debug.Log($"<b>GameManager:</b> Player {currentPlayerIndex} has died!");
+                NextPlayer();
+            } else {
+                nextPlayer.StartTurn();
+            }
         } else {
             DayComplete();
         }

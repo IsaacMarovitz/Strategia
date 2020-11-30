@@ -12,6 +12,7 @@ public class Player : MonoBehaviour {
     [HideInInspector]
     public GameMode gameMode;
     public Color playerColor;
+    public bool hasDied = false;
 
     private List<Unit> unitQueue;
     public Texture2D fogOfWarTexture;
@@ -137,5 +138,13 @@ public class Player : MonoBehaviour {
             return unitQueue[0];
         }
         return null;
+    }
+
+    public bool HasDied() {
+        if (playerUnits.Count <= 0 && playerCities.Count <= 0) {
+            hasDied = true;
+            return true;
+        } 
+        return false;
     }
 }
