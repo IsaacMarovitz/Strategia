@@ -46,7 +46,7 @@ public class Player : MonoBehaviour {
         for (int x = 0; x < GameManager.Instance.grid.width; x++) {
             for (int y = 0; y < GameManager.Instance.grid.height; y++) {
                 if (fogOfWarMatrix[x, y] == 1) {
-                    fogOfWarTexture.SetPixel(x, y, new Color(0, 0, 0, 0));
+                    fogOfWarTexture.SetPixel(x, y, new Color(1, 1, 1, 0));
                 } else if (fogOfWarMatrix[x, y] == 0) {
                     fogOfWarTexture.SetPixel(x, y, Color.black);
                 } else if (fogOfWarMatrix[x, y] == 0.5f) {
