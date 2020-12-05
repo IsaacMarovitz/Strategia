@@ -9,21 +9,25 @@ public class UnitUI : MonoBehaviour {
 
     public void Update() {
         if (UIData.Instance.currentUnit != null) {
-            transform.position = new Vector3(UIData.Instance.currentUnit.transform.position.x, yOffset, UIData.Instance.currentUnit.transform.position.z);
+            if (!UIData.Instance.currentUnit.isSleeping) {
+                transform.position = new Vector3(UIData.Instance.currentUnit.transform.position.x, yOffset, UIData.Instance.currentUnit.transform.position.z);
 
-            for (int i = 0; i < buttons.Length; i++) {
-                if (UIData.Instance.currentUnit.moveDirs[i] == MoveType.No) {
-                    buttons[i].interactable = false;
-                    buttons[i].targetGraphic.color = Color.white;
-                } else if (UIData.Instance.currentUnit.moveDirs[i] == MoveType.Attack) {
-                    buttons[i].interactable = true;
-                    buttons[i].targetGraphic.color = Color.red;
-                } else if (UIData.Instance.currentUnit.moveDirs[i] == MoveType.Move) {
-                    buttons[i].interactable = true;
-                    buttons[i].targetGraphic.color = Color.white;
+                for (int i = 0; i < buttons.Length; i++) {
+                    if (UIData.Instance.currentUnit.moveDirs[i] == MoveType.No) {
+                        buttons[i].interactable = false;
+                        buttons[i].targetGraphic.color = Color.white;
+                    } else if (UIData.Instance.currentUnit.moveDirs[i] == MoveType.Attack) {
+                        buttons[i].interactable = true;
+                        buttons[i].targetGraphic.color = Color.red;
+                    } else if (UIData.Instance.currentUnit.moveDirs[i] == MoveType.Move) {
+                        buttons[i].interactable = true;
+                        buttons[i].targetGraphic.color = Color.white;
+                    }
                 }
+                canvas.enabled = true;
+            } else {
+                canvas.enabled = false;
             }
-            canvas.enabled = true;
         } else {
             canvas.enabled = false;
         }

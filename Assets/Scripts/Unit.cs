@@ -40,6 +40,10 @@ public class Unit : MonoBehaviour {
         player = _player;
         turnStarted = false;
         turnComplete = false;
+        movesLeft = moveDistance;
+        if (moveDistanceReduced) {
+            movesLeft -= moveDistanceReductionFactor;
+        }
     }
 
     public void SetColor(Color color) {
@@ -52,10 +56,6 @@ public class Unit : MonoBehaviour {
         Debug.Log($"<b>{this.gameObject.name}</b>: Turn started");
         turnStarted = true;
         turnComplete = false;
-        movesLeft = moveDistance;
-        if (moveDistanceReduced) {
-            movesLeft -= moveDistanceReductionFactor;
-        }
         if (isSleeping) {
             EndTurn();
             return;
@@ -306,6 +306,7 @@ public class Unit : MonoBehaviour {
         } else {
             isSleeping = false;
             sleepEffect.Stop();
+            player.AddToUnitQueue(this);
             StartTurn();
         }
     }

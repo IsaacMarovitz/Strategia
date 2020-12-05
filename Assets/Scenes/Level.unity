@@ -1381,7 +1381,7 @@ Transform:
   m_LocalScale: {x: 20, y: 20, z: 20}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &74971539
 GameObject:
@@ -1476,7 +1476,7 @@ RectTransform:
   m_Children:
   - {fileID: 2107092303}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3268,7 +3268,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 50, y: 0, z: 0}
 --- !u!1 &199716598
 GameObject:
@@ -11401,7 +11401,7 @@ Transform:
   m_LocalScale: {x: 50, y: 50, z: 50}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &778729583
 GameObject:
@@ -17891,7 +17891,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1340233094
 GameObject:
@@ -27623,7 +27623,7 @@ Transform:
   - {fileID: 647621848}
   - {fileID: 1116920251}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2075221726
 GameObject:
@@ -28357,7 +28357,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2134149675
 GameObject:
@@ -28675,7 +28675,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &919132148213432269
 GameObject:
@@ -29810,8 +29810,8 @@ MonoBehaviour:
   okButton: {fileID: 3290877365833396691}
   reportButton: {fileID: 439535932}
   errorPanel: {fileID: 3290877366210543312}
-  failureUI: {fileID: 0}
-  sucessPanel: {fileID: 0}
+  failureUI: {fileID: 930935945}
+  sucessPanel: {fileID: 1888057610}
   errorText: {fileID: 642953001}
   trelloPoster: {fileID: 11400000, guid: 522d1418e5f564c4695885f4692662ce, type: 2}
 --- !u!224 &3290877365184290715
@@ -30398,7 +30398,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6296840165055635194, guid: 0a6934465c83c0d4b8f5d5b83c80f1d7, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6296840165055635194, guid: 0a6934465c83c0d4b8f5d5b83c80f1d7, type: 3}
       propertyPath: m_AnchorMax.x

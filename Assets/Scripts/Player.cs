@@ -147,4 +147,8 @@ public class Player : MonoBehaviour {
         } 
         return false;
     }
+
+    public void AddToUnitQueue(Unit unit) {
+        unitQueue.Add(unit);
+    }
 }
