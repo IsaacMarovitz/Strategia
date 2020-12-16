@@ -211,6 +211,8 @@ inline void InitializeStandardLitSurfaceData(float2 uv, out SurfaceData outSurfa
     outSurfaceData.normalTS = SampleNormal(uv, TEXTURE2D_ARGS(_BumpMap, sampler_BumpMap), _BumpScale);
     outSurfaceData.occlusion = SampleOcclusion(uv);
     outSurfaceData.emission = SampleEmission(uv, _EmissionColor.rgb, TEXTURE2D_ARGS(_EmissionMap, sampler_EmissionMap));
+    outSurfaceData.clearCoatMask = 1;
+    outSurfaceData.clearCoatSmoothness = 1;
 }
 
 #endif // UNIVERSAL_INPUT_SURFACE_PBR_INCLUDED
