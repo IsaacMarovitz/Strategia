@@ -65,6 +65,18 @@ public class City : MonoBehaviour {
     public void RemoveUnit(Unit unit) {
         unitsInCity.Remove(unit);
     }
+
+    public void Nuke() {
+        foreach (var unit in unitsInCity) {
+            unit.Die();
+            GameObject.Destroy(unit.gameObject);
+        }
+        unitsInCity.Clear();
+        isOwned = false;
+        player.playerCities.Remove(this);
+        player = null;
+        GameManager.Instance.newDayDelegate -= TakeTurn;
+    }
 }
 
 public enum UnitType { Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, Battleship }

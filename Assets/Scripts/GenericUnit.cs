@@ -3,7 +3,7 @@ using UnityEngine.VFX;
 using System.Collections.Generic;
 using System.Collections;
 
-public class Unit : MonoBehaviour {
+public class GenericUnit : MonoBehaviour {
 
     public UnitMoveType moveType;
     public Vector2Int pos;
@@ -64,7 +64,7 @@ public class Unit : MonoBehaviour {
 
     public void EndTurn() {
         Debug.Log($"<b>{this.gameObject.name}</b>: Turn Complete");
-        player.NextUnit(this, false);
+        //player.NextUnit(this, false);
         turnComplete = true;
     }
 
@@ -85,9 +85,9 @@ public class Unit : MonoBehaviour {
         movesLeft = moveDistance;
         meshObject = gameObject.transform.GetChild(0).gameObject;
         health = maxHealth;
-        gridScript.grid[pos.x, pos.y].unitOnTile = this;
+        //gridScript.grid[pos.x, pos.y].unitOnTile = this;
         City city = gridScript.grid[pos.x, pos.y].gameObject.GetComponent<City>();
-        city.AddUnit(this);
+        //city.AddUnit(this);
         oldCity = city;
         isInCity = true;
         mainMesh.SetActive(false);
@@ -107,10 +107,10 @@ public class Unit : MonoBehaviour {
         health -= damage;
         if (health <= 0) {
             Debug.Log($"<b>{this.gameObject.name}:</b> Took {damage} damage, and died!");
-            player.playerUnits.Remove(this);
+            //player.playerUnits.Remove(this);
             gridScript.grid[pos.x, pos.y].unitOnTile = null;
             if (isInCity) {
-                oldCity.RemoveUnit(this);
+                //oldCity.RemoveUnit(this);
             }
             GameObject.Destroy(this.gameObject);
         } else {
@@ -270,13 +270,13 @@ public class Unit : MonoBehaviour {
                 break;
         }
         if (oldCity != null) {
-            oldCity.RemoveUnit(this);
+            //oldCity.RemoveUnit(this);
             oldCity = null;
         }
         if (gridScript.grid[pos.x, pos.y].tileType == TileType.City || gridScript.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
             City city = gridScript.grid[pos.x, pos.y].gameObject.GetComponent<City>();
             city.GetOwned(player);
-            city.AddUnit(this);
+            //city.AddUnit(this);
             oldCity = city;
             isInCity = true;
             mainMesh.SetActive(false);
@@ -290,7 +290,7 @@ public class Unit : MonoBehaviour {
         } else {
             moveDistanceReduced = false;
         }
-        gridScript.grid[pos.x, pos.y].unitOnTile = this;
+        //gridScript.grid[pos.x, pos.y].unitOnTile = this;
         player.UpdateFogOfWar();
         if (movesLeft <= 0) {
             EndTurn();
@@ -306,17 +306,13 @@ public class Unit : MonoBehaviour {
         } else {
             isSleeping = false;
             sleepEffect.Stop();
-            player.AddToUnitQueue(this);
+            //player.AddToUnitQueue(this);
             StartTurn();
         }
     }
 
     public void Later() {
-        player.NextUnit(this, true);
-    }
-
-    public void Done() {
-        EndTurn();
+        //player.NextUnit(this, true);
     }
 }
 

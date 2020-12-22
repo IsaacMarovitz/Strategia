@@ -33,7 +33,7 @@ public class GameUI : MonoBehaviour {
         dayCounter.text = "Day " + GameManager.Instance.day;
         newDayUIText.text = "Day " + (GameManager.Instance.day+1);
         if (UIData.Instance.currentUnit != null) {
-            movesLeft.text = "Moves Left: " + UIData.Instance.currentUnit.movesLeft;
+            movesLeft.text = "Moves Left: " + UIData.Instance.currentUnit.moves;
             sleepButton.interactable = true;
             laterButton.interactable = true;
             doneButton.interactable = true;
@@ -76,13 +76,13 @@ public class GameUI : MonoBehaviour {
     }
 
     public void UpdateUI() {
-        if (!UIData.Instance.currentUnit.turnStarted) {
+        if (UIData.Instance.currentUnit.turnStage == TurnStage.Waiting) {
             UIData.Instance.currentUnit.StartTurn();
-        } else if (UIData.Instance.currentUnit.isSleeping) {
+        } else if (UIData.Instance.currentUnit.turnStage == TurnStage.Sleeping) {
             SetButtons(false);
             sleepButton.interactable = true;
             sleepButtonText.text = "Wake";
-        } else if (UIData.Instance.currentUnit.turnComplete) {
+        } else if (UIData.Instance.currentUnit.turnStage == TurnStage.Complete) {
             SetButtons(false);
         } else {
             SetButtons(true);
@@ -111,7 +111,7 @@ public class GameUI : MonoBehaviour {
 
     public void Done() {
         if (UIData.Instance.currentUnit != null) {
-            UIData.Instance.currentUnit.Done();
+            UIData.Instance.currentUnit.EndTurn();
         }
     }
 }

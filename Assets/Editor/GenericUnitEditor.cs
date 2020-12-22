@@ -2,15 +2,15 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.VFX;
 
-[CustomEditor(typeof(Unit))]
-public class UnitEditor : Editor {
+[CustomEditor(typeof(GenericMenu))]
+public class GenericUnitEditor : Editor {
 
     /*bool showGridData = false;*/
 
     public override void OnInspectorGUI() {
 
         SerializedObject so = new SerializedObject(target);
-        Unit unit = (Unit)target;
+        GenericUnit unit = (GenericUnit)target;
 
         unit.gridScript = (Strategia.TileGrid)EditorGUILayout.ObjectField("Grid", unit.gridScript, typeof(Strategia.TileGrid), true);
         unit.sleepEffect = (VisualEffect)EditorGUILayout.ObjectField("Sleep Effect Prefab", unit.sleepEffect, typeof(VisualEffect), true);
@@ -24,13 +24,13 @@ public class UnitEditor : Editor {
                 }
             }
         }*/
-        unit.moves = EditorGUILayout.IntSlider("Moves Left", unit.moves, 0, unit.maxMoves);
-        unit.turnStage = (TurnStage)EditorGUILayout.EnumPopup("Turn Stage", unit.turnStage);
-        unit.maxMoves = EditorGUILayout.IntField("Move Distance", unit.maxMoves);
-        //unit.moveDistanceReductionFactor = EditorGUILayout.IntSlider("Move Distance Reduction Factor", unit.moveDistanceReductionFactor, 0, unit.maxMoves);
-        //unit.moveDistanceReduced = EditorGUILayout.Toggle("Move Distance Reduced", unit.moveDistanceReduced);
-        if (unit.maxMoves < 0) {
-            unit.maxMoves = 0;
+        unit.movesLeft = EditorGUILayout.IntSlider("Moves Left", unit.movesLeft, 0, unit.moveDistance);
+        unit.moveType = (UnitMoveType)EditorGUILayout.EnumPopup("Move Type", unit.moveType);
+        unit.moveDistance = EditorGUILayout.IntField("Move Distance", unit.moveDistance);
+        unit.moveDistanceReductionFactor = EditorGUILayout.IntSlider("Move Distance Reduction Factor", unit.moveDistanceReductionFactor, 0, unit.moveDistance);
+        unit.moveDistanceReduced = EditorGUILayout.Toggle("Move Distance Reduced", unit.moveDistanceReduced);
+        if (unit.movesLeft < 0) {
+            unit.moveDistance = 0;
         }
         if (unit.gridScript != null) {
             unit.pos.x = EditorGUILayout.IntSlider("X Position", unit.pos.x, 1, unit.gridScript.width - 2);
@@ -47,14 +47,14 @@ public class UnitEditor : Editor {
             unit.maxHealth = 0;
         }
         unit.health = EditorGUILayout.IntSlider("Health", unit.health, 0, unit.maxHealth);
-        /*unit.hasFuel = EditorGUILayout.Toggle("Has Fuel", unit.hasFuel);
+        unit.hasFuel = EditorGUILayout.Toggle("Has Fuel", unit.hasFuel);
         if (unit.hasFuel) {
             unit.maxFuel = EditorGUILayout.IntField("Max Fuel", unit.maxFuel);
             if (unit.maxFuel < 0) {
                 unit.maxFuel = 0;
             }
             unit.fuel = EditorGUILayout.IntSlider("Fuel", unit.fuel, 0, unit.maxFuel);
-        }*/
+        }
         SerializedProperty meshArray = so.FindProperty("meshes");
         EditorGUILayout.PropertyField(meshArray, true);
         so.ApplyModifiedProperties();
