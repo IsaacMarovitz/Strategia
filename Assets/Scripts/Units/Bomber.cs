@@ -6,6 +6,7 @@ public class Bomber : Unit {
     public int blastRadius = 5;
 
     public override void Start() {
+        base.Start();
         unitType = UnitType.Bomber;
         // Set damage percentages in order of Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
         damagePercentages = new float[9] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f };
@@ -14,6 +15,7 @@ public class Bomber : Unit {
     public override void CheckDirs() {
         base.CheckDirs();
 
+        Tile[] tiles = GridUtilities.DiagonalCheck(gridScript.grid, gridScript.width, gridScript.height, pos);
         for (int i = 0; i < tiles.Length; i++) {
             if (tiles[i] == null) {
                 moveDirs[i] = TileMoveStatus.Blocked;

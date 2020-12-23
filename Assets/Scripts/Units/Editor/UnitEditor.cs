@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.VFX;
 
 namespace Strategia.Editor {
@@ -51,6 +52,7 @@ namespace Strategia.Editor {
             EditorGUILayout.Space(10);
             unit.gridScript = (Strategia.TileGrid)EditorGUILayout.ObjectField("Grid", unit.gridScript, typeof(Strategia.TileGrid), true);
             unit.sleepEffect = (VisualEffect)EditorGUILayout.ObjectField("Sleep Effect", unit.sleepEffect, typeof(VisualEffect), true);
+            unit.mainMesh = (GameObject)EditorGUILayout.ObjectField("Main Mesh", unit.mainMesh, typeof(GameObject), true);
         }
     }
 }

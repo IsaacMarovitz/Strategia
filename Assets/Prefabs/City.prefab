@@ -100,7 +100,7 @@ MonoBehaviour:
   player: {fileID: 0}
   unitType: 0
   unitPrefabs:
-  - {fileID: 3354916976622783175, guid: 643945f7ae3d5bf4da5390396323865e, type: 3}
+  - {fileID: 264212343977508145, guid: 781b5237506c27549b6a7aba2e685906, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

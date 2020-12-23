@@ -14,23 +14,27 @@ public class Unit : MonoBehaviour {
     public TurnStage turnStage = TurnStage.Waiting;
     public float[] damagePercentages = new float[9];
     public UnitType unitType;
+    public City oldCity;
+    public bool isInCity;
+    public GameObject mainMesh;
 
     public Strategia.TileGrid gridScript;
     public VisualEffect sleepEffect;
 
-    protected GameObject mainMesh;
-    protected Tile[] tiles;
     protected Player player;
-    protected City oldCity;
-    protected bool isInCity;
+
+    public void Awake() {
+        // Replace this later with something a lot more modular
+        mainMesh = this.gameObject.transform.GetChild(0).gameObject;
+        sleepEffect = this.gameObject.transform.GetComponentInChildren<VisualEffect>();
+    }
 
     public virtual void Start() {
         sleepEffect.enabled = false;
         moves = maxMoves;
         health = maxHealth;
-        // Get player main mesh?
-        // Set unitOnTile in gridScript to this unit
-        // Add unit to starting city (Perhaps do this on GameManager instead)
+        mainMesh.SetActive(false);
+        gridScript.grid[pos.x, pos.y].unitOnTile = this;
     }
 
     public void Update() {
@@ -53,22 +57,33 @@ public class Unit : MonoBehaviour {
         Debug.Log($"<b>{this.gameObject.name}:</b> Turn started");
         turnStage = TurnStage.Started;
         if (turnStage == TurnStage.Sleeping) {
-            // If unit is sleeping, move on
+            EndTurn();
+            return;
         }
     }
 
     public void EndTurn() {
         Debug.Log($"<b>{this.gameObject.name}:</b> Turn complete");
-        // player.NextUnit(this, false);
+        player.NextUnit(this, false);
         turnStage = TurnStage.Complete;
     }
 
     public void ToggleSleep() {
-
+        if (turnStage != TurnStage.Sleeping) {
+            turnStage = TurnStage.Sleeping;
+            sleepEffect.enabled = true;
+            sleepEffect.Play();
+            EndTurn();
+        } else {
+            turnStage = TurnStage.Started;
+            sleepEffect.Stop();
+            player.AddToUnitQueue(this);
+            StartTurn();
+        }
     }
 
     public void Later() {
-
+        player.NextUnit(this, true);
     }
 
     public void Attack(Vector2Int unitPos) {
@@ -99,8 +114,6 @@ public class Unit : MonoBehaviour {
             return;
         }
 
-        tiles = GridUtilities.DiagonalCheck(gridScript.grid, gridScript.width, gridScript.height, pos);
-
         // Each unit implements it's own logic here
     }
 
@@ -125,15 +138,29 @@ public class Unit : MonoBehaviour {
         } else if (moveDirs[dir - 1] == TileMoveStatus.Attack) {
             Attack(pos += offset);
         }
-        // Remove from old city if old city != null
-        // Add to new city if on city
-        // Set grid script unit on tile to this
+
+        if (oldCity != null) { oldCity = null; };
+
+        if (gridScript.grid[pos.x, pos.y].tileType == TileType.City || gridScript.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+            City city = gridScript.grid[pos.x, pos.y].gameObject.GetComponent<City>();
+            city.GetOwned(player);
+            city.AddUnit(this);
+            oldCity = city;
+            isInCity = true;
+            mainMesh.SetActive(false);
+        } else {
+            isInCity = false;
+            mainMesh.SetActive(true);
+        }
+
+        gridScript.grid[pos.x, pos.y].unitOnTile = this;
+
         player.UpdateFogOfWar();
     }
 
     public void SetColor(Color color) {
-        // Set color
-    }
+        mainMesh.GetComponent<MeshRenderer>().material.color = color;
+    }  
 
     public void SetPos(Vector2Int _pos) {
         transform.position = new Vector3(_pos.x * gridScript.tileWidth, yOffset, _pos.y * gridScript.tileHeight);

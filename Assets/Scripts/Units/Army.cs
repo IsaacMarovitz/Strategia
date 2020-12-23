@@ -1,9 +1,12 @@
+using UnityEngine;
+
 public class Army : Unit {
 
     public bool isMoveDistanceReduced;
     public int reducedMoveDistance;
 
     public override void Start() {
+        base.Start();
         unitType = UnitType.Army;
         // Set damage percentages in order of Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
         damagePercentages = new float[9] {0.34f, 0f, 0.25f, 0f, 0.2f, 0.1f, 0.3f, 0.1f, 0f};
@@ -20,6 +23,7 @@ public class Army : Unit {
     public override void CheckDirs() {
         base.CheckDirs();
 
+        Tile[] tiles = GridUtilities.DiagonalCheck(gridScript.grid, gridScript.width, gridScript.height, pos);
         for (int i = 0; i < tiles.Length; i++) {
             if (tiles[i] == null) {
                 moveDirs[i] = TileMoveStatus.Blocked;

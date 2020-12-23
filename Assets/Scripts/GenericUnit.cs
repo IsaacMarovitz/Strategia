@@ -97,7 +97,7 @@ public class GenericUnit : MonoBehaviour {
         Unit unitToAttack = gridScript.grid[posX, posY].unitOnTile;
         if (unitToAttack != null) {
             Debug.Log($"<b>{this.gameObject.name}:</b> Attacking {unitToAttack.gameObject.name}!");
-            unitToAttack.TakeDamage(10);
+            //unitToAttack.TakeDamage(10);
         } else {
             Debug.LogWarning($"<b>{this.gameObject.name}:</b> Could not find unit!");
         }
