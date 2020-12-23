@@ -33,7 +33,6 @@ public class Unit : MonoBehaviour {
         sleepEffect.enabled = false;
         moves = maxMoves;
         health = maxHealth;
-        mainMesh.SetActive(false);
         gridScript.grid[pos.x, pos.y].unitOnTile = this;
     }
 
@@ -43,6 +42,9 @@ public class Unit : MonoBehaviour {
             mainMesh.SetActive(false);
         } else if (!isInCity) {
             mainMesh.SetActive(true);
+        }
+        if (gridScript.grid[pos.x, pos.y].tileType == TileType.City || gridScript.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+            mainMesh.SetActive(false);
         }
         CheckDirs();
     }
@@ -128,9 +130,9 @@ public class Unit : MonoBehaviour {
             offset.x++;
         }
         if (dir <= 3) {
-            offset.y--;
-        } else if (dir >= 6) {
             offset.y++;
+        } else if (dir >= 6) {
+            offset.y--;
         }
         if (moveDirs[dir - 1] == TileMoveStatus.Move) {
             pos += offset;
@@ -154,13 +156,15 @@ public class Unit : MonoBehaviour {
         }
 
         gridScript.grid[pos.x, pos.y].unitOnTile = this;
-
+        if (moves <= 0) {
+            EndTurn();
+        }
         player.UpdateFogOfWar();
     }
 
     public void SetColor(Color color) {
         mainMesh.GetComponent<MeshRenderer>().material.color = color;
-    }  
+    }
 
     public void SetPos(Vector2Int _pos) {
         transform.position = new Vector3(_pos.x * gridScript.tileWidth, yOffset, _pos.y * gridScript.tileHeight);
