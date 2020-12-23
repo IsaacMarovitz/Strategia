@@ -79,4 +79,3 @@ public class City : MonoBehaviour {
     }
 }
 
-public enum UnitType { Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, Battleship }

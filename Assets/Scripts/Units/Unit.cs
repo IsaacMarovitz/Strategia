@@ -12,6 +12,8 @@ public class Unit : MonoBehaviour {
     public int damageAmount;
     public TileMoveStatus[] moveDirs = new TileMoveStatus[8];
     public TurnStage turnStage = TurnStage.Waiting;
+    public float[] damagePercentages = new float[9];
+    public UnitType unitType;
 
     public Strategia.TileGrid gridScript;
     public VisualEffect sleepEffect;
@@ -22,7 +24,7 @@ public class Unit : MonoBehaviour {
     protected City oldCity;
     protected bool isInCity;
 
-    public void Start() {
+    public virtual void Start() {
         sleepEffect.enabled = false;
         moves = maxMoves;
         health = maxHealth;
@@ -73,13 +75,14 @@ public class Unit : MonoBehaviour {
         Unit unitToAttack = gridScript.grid[pos.x, pos.y].unitOnTile;
         if (unitToAttack != null) {
             Debug.Log($"<b>{this.gameObject.name}:</b> Attacking {unitToAttack.gameObject.name}");
-            unitToAttack.TakeDamage(damageAmount);
+            unitToAttack.TakeDamage(this);
         } else {
             Debug.LogWarning($"<b>{this.gameObject.name}:</b> Could not find unit to attack at {unitPos}!");
         }
     }
 
-    public void TakeDamage(int damage) {
+    public void TakeDamage(Unit unit) {
+        int damage = Mathf.RoundToInt(maxHealth * unit.damagePercentages[(int)unitType]);
         health -= damage;
         if (health <= 0) {
             Debug.Log($"<b>{this.gameObject.name}:</b> Took {damage} damage, and died!");
@@ -147,3 +150,4 @@ public class Unit : MonoBehaviour {
 
 public enum TurnStage { Waiting, Started, Complete, Sleeping }
 public enum TileMoveStatus { Move, Transport, Attack, Blocked }
+public enum UnitType { Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, Battleship }

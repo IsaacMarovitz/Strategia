@@ -6,6 +6,13 @@ public class Fighter : Unit {
     public int maxFuel;
     public int fuelPerMove;
 
+    public override void Start() {
+        unitType = UnitType.Fighter;
+        // Set damage percentages in order of Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
+        damagePercentages = new float[9] { 0.5f, 1f, 0.34f, 1f, 0.5f, 0.25f, 0.5f, 0.2f, 0.1f };
+    }
+
+
     public override void NewDay(Player _player) {
         base.NewDay(_player);
 
@@ -26,30 +33,30 @@ public class Fighter : Unit {
         }
 
         if (turnStage == TurnStage.Started) {
-                for (int i = 0; i < tiles.Length; i++) {
-                    if (tiles[i].unitOnTile != null) {
-                        if (tiles[i].tileType == TileType.City || tiles[i].tileType == TileType.CostalCity) {
-                            City city = tiles[i].gameObject.GetComponent<City>();
-                            if (!player.playerCities.Contains(city)) {
-                                moveDirs[i] = TileMoveStatus.Attack;
-                            }
-                        } else {
-                            if (player.playerUnits.Contains(tiles[i].unitOnTile)) {
-                                moveDirs[i] = TileMoveStatus.Blocked;
-                            } else {
-                                moveDirs[i] = TileMoveStatus.Attack;
-                            }
+            for (int i = 0; i < tiles.Length; i++) {
+                if (tiles[i].unitOnTile != null) {
+                    if (tiles[i].tileType == TileType.City || tiles[i].tileType == TileType.CostalCity) {
+                        City city = tiles[i].gameObject.GetComponent<City>();
+                        if (!player.playerCities.Contains(city)) {
+                            moveDirs[i] = TileMoveStatus.Attack;
                         }
                     } else {
-                        if (tiles[i].tileType == TileType.City || tiles[i].tileType == TileType.CostalCity) {
-                            City city = tiles[i].gameObject.GetComponent<City>();
-                            if (!player.playerCities.Contains(city)) {
-                                moveDirs[i] = TileMoveStatus.Blocked;
-                            }
+                        if (player.playerUnits.Contains(tiles[i].unitOnTile)) {
+                            moveDirs[i] = TileMoveStatus.Blocked;
+                        } else {
+                            moveDirs[i] = TileMoveStatus.Attack;
+                        }
+                    }
+                } else {
+                    if (tiles[i].tileType == TileType.City || tiles[i].tileType == TileType.CostalCity) {
+                        City city = tiles[i].gameObject.GetComponent<City>();
+                        if (!player.playerCities.Contains(city)) {
+                            moveDirs[i] = TileMoveStatus.Blocked;
                         }
                     }
                 }
             }
+        }
     }
 
     public override void Move(int dir) {
