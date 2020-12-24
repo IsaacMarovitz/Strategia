@@ -148,7 +148,7 @@ public class GenericUnit : MonoBehaviour {
                         }
                     }
                     break;
-                case UnitMoveType.Sea:
+                case UnitMoveType.Sea: 
                     for (int i = 0; i < tiles.Length; i++) {
                         if (tiles[i] == null) {
                             moveDirs[i] = MoveType.No;

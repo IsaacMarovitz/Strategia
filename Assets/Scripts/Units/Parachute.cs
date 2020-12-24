@@ -3,12 +3,21 @@ using UnityEngine;
 public class Parachute : Unit {
 
     public GameObject unitPrefab;
+    public int fuel;
+    public int maxFuel;
+    public int fuelPerMove;
 
     public override void Start() {
         base.Start();
         unitType = UnitType.Parachute;
         // Set damage percentages in order of Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
         damagePercentages = new float[9] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f };
+    }
+
+    public override void NewDay(Player _player) {
+        base.NewDay(_player);
+
+        fuel = maxFuel;
     }
 
     public override void CheckDirs() {
@@ -38,6 +47,22 @@ public class Parachute : Unit {
                     }
                 }
             }
+        }
+    }
+
+    public override void Move(int dir) {
+        base.Move(dir);
+
+        if (gridScript.grid[pos.x, pos.y].tileType == TileType.City || gridScript.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+            fuel = maxFuel;
+        } else {
+            fuel -= fuelPerMove;
+        }
+
+        if (fuel <= 0) {
+            Debug.Log($"<b>{this.gameObject.name}:</b> Ran out of fuel and crashed!");
+            Die();
+            GameObject.Destroy(this.gameObject);
         }
     }
 

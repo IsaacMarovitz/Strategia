@@ -11,6 +11,7 @@ public class CityUI : MonoBehaviour {
     public float yOffset;
     public HorizontalLayoutGroup horizontalLayoutGroup;
     public GameObject unitButtonPrefab;
+    public List<Toggle> costalCityToggles;
 
     private City oldCity;
     private bool hasUpdated = false;
@@ -32,6 +33,15 @@ public class CityUI : MonoBehaviour {
             if (!hasUpdated) {
                 hasUpdated = true;
                 UpdateUnitButtons();
+                if (GameManager.Instance.grid.grid[UIData.Instance.currentCity.pos.x, UIData.Instance.currentCity.pos.y].tileType == TileType.CostalCity) {
+                    foreach (var toggle in costalCityToggles) {
+                        toggle.interactable = true;
+                    }
+                } else {
+                    foreach (var toggle in costalCityToggles) {
+                        toggle.interactable = false;
+                    }
+                }
             }
         } else {
             panel.SetActive(false);
@@ -46,7 +56,7 @@ public class CityUI : MonoBehaviour {
     }
 
     public void UpdateUnitButtons() {
-        for (int i = horizontalLayoutGroup.transform.childCount-1; i >= 0; i--) {
+        for (int i = horizontalLayoutGroup.transform.childCount - 1; i >= 0; i--) {
             GameObject.Destroy(horizontalLayoutGroup.transform.GetChild(i).gameObject);
         }
         foreach (var unit in UIData.Instance.currentCity.unitsInCity) {

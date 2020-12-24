@@ -4134,6 +4134,12 @@ MonoBehaviour:
   yOffset: 8
   horizontalLayoutGroup: {fileID: 1913791713}
   unitButtonPrefab: {fileID: 8986836473174575349, guid: 2c659e0bfface9c4ea8ee750e7648465, type: 3}
+  costalCityToggles:
+  - {fileID: 1843955341}
+  - {fileID: 462564725}
+  - {fileID: 896854762}
+  - {fileID: 2104642127}
+  - {fileID: 414630639}
 --- !u!1 &254375604
 GameObject:
   m_ObjectHideFlags: 0
