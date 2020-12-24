@@ -51,23 +51,25 @@ public class Unit : MonoBehaviour {
 
     public virtual void NewDay(Player _player) {
         player = _player;
-        turnStage = TurnStage.Waiting;
+        if (turnStage != TurnStage.Sleeping) {
+            turnStage = TurnStage.Waiting;
+        } 
         moves = maxMoves;
     }
 
     public void StartTurn() {
         Debug.Log($"<b>{this.gameObject.name}:</b> Turn started");
-        turnStage = TurnStage.Started;
         if (turnStage == TurnStage.Sleeping) {
             EndTurn();
             return;
+        } else {
+            turnStage = TurnStage.Started;
         }
     }
 
     public void EndTurn() {
         Debug.Log($"<b>{this.gameObject.name}:</b> Turn complete");
         player.NextUnit(this, false);
-        turnStage = TurnStage.Complete;
     }
 
     public void ToggleSleep() {
@@ -134,7 +136,6 @@ public class Unit : MonoBehaviour {
         } else if (dir >= 6) {
             offset.y--;
         }
-        print(moveDirs[dir - 1]);
         if (moveDirs[dir - 1] == TileMoveStatus.Move) {
             pos += offset;
             this.transform.eulerAngles = new Vector3(0, rotationOffset[dir - 1], 0);
@@ -158,6 +159,7 @@ public class Unit : MonoBehaviour {
 
         gridScript.grid[pos.x, pos.y].unitOnTile = this;
         if (moves <= 0) {
+            turnStage = TurnStage.Complete;
             EndTurn();
         }
         player.UpdateFogOfWar();
