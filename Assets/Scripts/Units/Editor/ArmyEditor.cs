@@ -3,6 +3,9 @@ using UnityEditor;
 namespace Strategia.Editor {
     [CustomEditor(typeof(Army))]
     public class ArmyEditor : UnitEditor {
+
+        public bool showReducedMovement = false;
+
         public override void OnInspectorGUI() {
             base.OnInspectorGUI();
 
@@ -10,11 +13,12 @@ namespace Strategia.Editor {
             Army army = (Army)target;
 
             EditorGUILayout.Space(10);
-            EditorGUILayout.LabelField("Reduced Movement", EditorStyles.boldLabel);
-            army.reducedMoveDistance = EditorGUILayout.IntSlider("Reduced Move Distance", army.reducedMoveDistance, 0, army.maxMoves);
-            army.isMoveDistanceReduced = EditorGUILayout.Toggle("Is Move Distance Reduced", army.isMoveDistanceReduced);
-
-            Others();
+            showReducedMovement = EditorGUILayout.BeginFoldoutHeaderGroup(showReducedMovement, "Reduced Movement");
+            if (showReducedMovement) {
+                army.reducedMoveDistance = EditorGUILayout.IntSlider("Reduced Move Distance", army.reducedMoveDistance, 0, army.maxMoves);
+                army.isMoveDistanceReduced = EditorGUILayout.Toggle("Is Move Distance Reduced", army.isMoveDistanceReduced);
+            }
+            EditorGUILayout.EndFoldoutHeaderGroup();
 
             so.ApplyModifiedProperties();
         }

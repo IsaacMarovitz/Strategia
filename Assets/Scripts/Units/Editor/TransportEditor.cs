@@ -9,7 +9,6 @@ namespace Strategia.Editor {
             SerializedObject so = new SerializedObject(target);
             Transport transport = (Transport)target;
 
-            Others();
             so.ApplyModifiedProperties();
         }
     }

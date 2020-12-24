@@ -9,7 +9,6 @@ namespace Strategia.Editor {
             SerializedObject so = new SerializedObject(target);
             Destroyer destroyer = (Destroyer)target;
 
-            Others();
             so.ApplyModifiedProperties();
         }
     }

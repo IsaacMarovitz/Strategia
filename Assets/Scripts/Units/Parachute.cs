@@ -69,11 +69,17 @@ public class Parachute : Unit {
     public void DeployArmy() {
         Army army = GameObject.Instantiate(unitPrefab, Vector3.zero, Quaternion.identity).GetComponent<Army>();
         army.SetPos(pos);
+        army.gridScript = gridScript;
+        army.gameObject.transform.parent = this.gameObject.transform.parent;
+        army.player = player;
         Die();
         gridScript.grid[pos.x, pos.y].unitOnTile = army;
         player.playerUnits.Add(army);
         if (isInCity) {
             oldCity.AddUnit(army);
+            army.isInCity = true;
+            army.mainMesh.SetActive(false);
+            army.oldCity = oldCity;
         }
         GameObject.Destroy(this.gameObject);
     }

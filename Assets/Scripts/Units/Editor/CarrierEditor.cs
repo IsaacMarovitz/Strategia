@@ -9,7 +9,6 @@ namespace Strategia.Editor {
             SerializedObject so = new SerializedObject(target);
             Carrier carrier = (Carrier)target;
 
-            Others();
             so.ApplyModifiedProperties();
         }
     }

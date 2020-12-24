@@ -174,6 +174,9 @@ public class Player : MonoBehaviour {
             unit.gridScript = GameManager.Instance.grid;
             unit.gameObject.transform.parent = this.gameObject.transform;
             unit.player = this;
+            unit.mainMesh.SetActive(false);
+            unit.isInCity = true;
+            unit.oldCity = GameManager.Instance.grid.grid[pos.x, pos.y].gameObject.GetComponent<City>();
             AddUnit(unit);
             GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = unit;
             GameManager.Instance.grid.grid[pos.x, pos.y].gameObject.GetComponent<City>().AddUnit(unit);

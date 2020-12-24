@@ -9,7 +9,6 @@ namespace Strategia.Editor {
             SerializedObject so = new SerializedObject(target);
             Submarine submarine = (Submarine)target;
 
-            Others();
             so.ApplyModifiedProperties();
         }
     }

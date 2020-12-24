@@ -7,6 +7,9 @@ namespace Strategia.Editor {
     public class UnitEditor : UnityEditor.Editor {
 
         public Unit unit;
+        public bool showMovement = false;
+        public bool showHealth = false;
+        public bool showPosition = false;
 
         public override void OnInspectorGUI() {
 
@@ -14,29 +17,42 @@ namespace Strategia.Editor {
             unit = (Unit)target;
 
             unit.turnStage = (TurnStage)EditorGUILayout.EnumPopup("Turn Stage", unit.turnStage);
+            unit.gridScript = (Strategia.TileGrid)EditorGUILayout.ObjectField("Grid", unit.gridScript, typeof(Strategia.TileGrid), true);
+            unit.sleepEffect = (VisualEffect)EditorGUILayout.ObjectField("Sleep Effect", unit.sleepEffect, typeof(VisualEffect), true);
+            unit.mainMesh = (GameObject)EditorGUILayout.ObjectField("Main Mesh", unit.mainMesh, typeof(GameObject), true);
 
             EditorGUILayout.Space(10);
-            EditorGUILayout.LabelField("Movement", EditorStyles.boldLabel);
-            unit.moves = EditorGUILayout.IntSlider("Moves Left", unit.moves, 0, unit.maxMoves);
-            unit.maxMoves = EditorGUILayout.IntField("Move Distance", unit.maxMoves);
+            showMovement = EditorGUILayout.BeginFoldoutHeaderGroup(showMovement, "Movement");
+            if (showMovement) {
+                unit.moves = EditorGUILayout.IntSlider("Moves Left", unit.moves, 0, unit.maxMoves);
+                unit.maxMoves = EditorGUILayout.IntField("Move Distance", unit.maxMoves);
+            }
+            EditorGUILayout.EndFoldoutHeaderGroup();
 
             if (unit.maxMoves < 0) {
                 unit.maxMoves = 0;
             }
 
             EditorGUILayout.Space(10);
-            EditorGUILayout.LabelField("Health", EditorStyles.boldLabel);
-            unit.health = EditorGUILayout.IntSlider("Health", unit.health, 0, unit.maxHealth);
-            unit.maxHealth = EditorGUILayout.IntField("Max Health", unit.maxHealth);
+            showHealth = EditorGUILayout.BeginFoldoutHeaderGroup(showHealth, "Health");
+            if (showHealth) {
+                unit.health = EditorGUILayout.IntSlider("Health", unit.health, 0, unit.maxHealth);
+                unit.maxHealth = EditorGUILayout.IntField("Max Health", unit.maxHealth);
+            }
+            EditorGUILayout.EndFoldoutHeaderGroup();
+
             if (unit.maxHealth < 0) {
                 unit.maxHealth = 0;
             }
 
             if (unit.gridScript != null) {
                 EditorGUILayout.Space(10);
-                EditorGUILayout.LabelField("Position", EditorStyles.boldLabel);
-                unit.pos.x = EditorGUILayout.IntSlider("X Position", unit.pos.x, 1, unit.gridScript.width - 2);
-                unit.pos.y = EditorGUILayout.IntSlider("Y Position", unit.pos.y, 1, unit.gridScript.height - 2);
+                showPosition = EditorGUILayout.BeginFoldoutHeaderGroup(showPosition, "Position");
+                if (showPosition) {
+                    unit.pos.x = EditorGUILayout.IntSlider("X Position", unit.pos.x, 1, unit.gridScript.width - 2);
+                    unit.pos.y = EditorGUILayout.IntSlider("Y Position", unit.pos.y, 1, unit.gridScript.height - 2);
+                }
+                EditorGUILayout.EndFoldoutHeaderGroup();
             }
             if (unit.pos.x < 0) {
                 unit.pos.x = 0;
@@ -46,13 +62,6 @@ namespace Strategia.Editor {
             }
 
             so.ApplyModifiedProperties();
-        }
-
-        public void Others() {
-            EditorGUILayout.Space(10);
-            unit.gridScript = (Strategia.TileGrid)EditorGUILayout.ObjectField("Grid", unit.gridScript, typeof(Strategia.TileGrid), true);
-            unit.sleepEffect = (VisualEffect)EditorGUILayout.ObjectField("Sleep Effect", unit.sleepEffect, typeof(VisualEffect), true);
-            unit.mainMesh = (GameObject)EditorGUILayout.ObjectField("Main Mesh", unit.mainMesh, typeof(GameObject), true);
         }
     }
 }
