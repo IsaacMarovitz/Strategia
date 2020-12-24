@@ -32,6 +32,8 @@ public class Army : Unit {
                     if (tiles[i].unitOnTile.GetType() == typeof(Transport)) {
                         moveDirs[i] = TileMoveStatus.Transport;
                     }
+                } else {
+                    moveDirs[i] = TileMoveStatus.Blocked;
                 }
             } else if (tiles[i].tileType == TileType.Trees) {
                 moveDirs[i] = TileMoveStatus.Blocked;

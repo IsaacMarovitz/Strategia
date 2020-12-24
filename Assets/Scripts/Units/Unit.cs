@@ -21,7 +21,7 @@ public class Unit : MonoBehaviour {
     public Strategia.TileGrid gridScript;
     public VisualEffect sleepEffect;
 
-    protected Player player;
+    public Player player;
 
     public void Awake() {
         // Replace this later with something a lot more modular
@@ -89,7 +89,7 @@ public class Unit : MonoBehaviour {
     }
 
     public void Attack(Vector2Int unitPos) {
-        Unit unitToAttack = gridScript.grid[pos.x, pos.y].unitOnTile;
+        Unit unitToAttack = gridScript.grid[unitPos.x, unitPos.y].unitOnTile;
         if (unitToAttack != null) {
             Debug.Log($"<b>{this.gameObject.name}:</b> Attacking {unitToAttack.gameObject.name}");
             unitToAttack.TakeDamage(this);
@@ -121,8 +121,8 @@ public class Unit : MonoBehaviour {
 
     public virtual void Move(int dir) {
         moves--;
+        int[] rotationOffset = new int[8] { -45, 0, 45, -90, 90, 225, 180, 135 };
         gridScript.grid[pos.x, pos.y].unitOnTile = null;
-        int[] rotationOffset = new int[8] { -45, 0, 45, -90, 90, 255, 180, 135 };
         Vector2Int offset = Vector2Int.zero;
         if (dir == 1 || dir == 4 || dir == 6) {
             offset.x--;
@@ -134,11 +134,12 @@ public class Unit : MonoBehaviour {
         } else if (dir >= 6) {
             offset.y--;
         }
+        print(moveDirs[dir - 1]);
         if (moveDirs[dir - 1] == TileMoveStatus.Move) {
             pos += offset;
             this.transform.eulerAngles = new Vector3(0, rotationOffset[dir - 1], 0);
         } else if (moveDirs[dir - 1] == TileMoveStatus.Attack) {
-            Attack(pos += offset);
+            Attack(pos + offset);
         }
 
         if (oldCity != null) { oldCity = null; };

@@ -6,7 +6,6 @@ public class Player : MonoBehaviour {
     public List<City> playerCities;
     public List<Unit> playerUnits;
     public Tile[,] grid;
-    public GameObject startUnitPrefab;
     public bool turnStarted = false;
     public bool turnCompleted = false;
     [HideInInspector]
@@ -15,27 +14,46 @@ public class Player : MonoBehaviour {
     public bool hasDied = false;
 
     private List<Unit> unitQueue;
+    private bool revealAllTiles = false;
     public Texture2D fogOfWarTexture;
     public float[,] fogOfWarMatrix;
 
     public void UpdateFogOfWar() {
-        for (int x = 0; x < GameManager.Instance.grid.width; x++) {
-            for (int y = 0; y < GameManager.Instance.grid.height; y++) {
-                if (fogOfWarMatrix[x, y] == 1f) {
-                    fogOfWarMatrix[x, y] = 0.5f;
+        if (fogOfWarMatrix == null) {
+            fogOfWarMatrix = new float[GameManager.Instance.grid.width, GameManager.Instance.grid.height];
+            fogOfWarTexture = new Texture2D(GameManager.Instance.grid.width, GameManager.Instance.grid.height);
+            fogOfWarTexture.filterMode = FilterMode.Point;
+            for (int x = 0; x < GameManager.Instance.grid.width; x++) {
+                for (int y = 0; y < GameManager.Instance.grid.height; y++) {
+                    fogOfWarMatrix[x, y] = 0;
                 }
             }
         }
-        foreach (var unit in playerUnits) {
-            List<Tile> revealedTiles = GridUtilities.RadialSearch(GameManager.Instance.grid.grid, unit.pos, 5);
-            foreach (var tile in revealedTiles) {
-                fogOfWarMatrix[tile.index.x, tile.index.y] = 1f;
+        if (!revealAllTiles) {
+            for (int x = 0; x < GameManager.Instance.grid.width; x++) {
+                for (int y = 0; y < GameManager.Instance.grid.height; y++) {
+                    if (fogOfWarMatrix[x, y] == 1f) {
+                        fogOfWarMatrix[x, y] = 0.5f;
+                    }
+                }
             }
-        }
-        foreach (var city in playerCities) {
-            List<Tile> revealedTiles = GridUtilities.RadialSearch(GameManager.Instance.grid.grid, city.pos, 5);
-            foreach (var tile in revealedTiles) {
-                fogOfWarMatrix[tile.index.x, tile.index.y] = 1f;
+            foreach (var unit in playerUnits) {
+                List<Tile> revealedTiles = GridUtilities.RadialSearch(GameManager.Instance.grid.grid, unit.pos, 5);
+                foreach (var tile in revealedTiles) {
+                    fogOfWarMatrix[tile.index.x, tile.index.y] = 1f;
+                }
+            }
+            foreach (var city in playerCities) {
+                List<Tile> revealedTiles = GridUtilities.RadialSearch(GameManager.Instance.grid.grid, city.pos, 5);
+                foreach (var tile in revealedTiles) {
+                    fogOfWarMatrix[tile.index.x, tile.index.y] = 1f;
+                }
+            }
+        } else {
+            for (int x = 0; x < GameManager.Instance.grid.width; x++) {
+                for (int y = 0; y < GameManager.Instance.grid.height; y++) {
+                    fogOfWarMatrix[x, y] = 1f;
+                }
             }
         }
 
@@ -80,7 +98,7 @@ public class Player : MonoBehaviour {
     }
 
     public void AddUnit(Unit unit) {
-        unit.gameObject.name = "Unit " + (playerUnits.Count+1) + ", " + this.gameObject.name;
+        unit.gameObject.name = "Unit " + (playerUnits.Count + 1) + ", " + this.gameObject.name;
         unit.SetColor(playerColor);
         playerUnits.Add(unit);
     }
@@ -93,16 +111,6 @@ public class Player : MonoBehaviour {
             unitQueue[0].StartTurn();
         } else {
             TurnComplete();
-        }
-        if (fogOfWarMatrix == null) {
-            fogOfWarMatrix = new float[GameManager.Instance.grid.width, GameManager.Instance.grid.height];
-            fogOfWarTexture = new Texture2D(GameManager.Instance.grid.width, GameManager.Instance.grid.height);
-            fogOfWarTexture.filterMode = FilterMode.Point;
-            for (int x = 0; x < GameManager.Instance.grid.width; x++) {
-                for (int y = 0; y < GameManager.Instance.grid.height; y++) {
-                    fogOfWarMatrix[x, y] = 0;
-                }
-            }
         }
         if (playerUnits != null) {
             UpdateFogOfWar();
@@ -144,11 +152,45 @@ public class Player : MonoBehaviour {
         if (playerUnits.Count <= 0 && playerCities.Count <= 0) {
             hasDied = true;
             return true;
-        } 
+        }
         return false;
     }
 
     public void AddToUnitQueue(Unit unit) {
         unitQueue.Add(unit);
     }
+
+#if UNITY_EDITOR
+    public void RevealAllTiles() {
+        revealAllTiles = true;
+        UpdateFogOfWar();
+    }
+
+    public void SpawnArmy(Vector2Int pos) {
+        if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+            Unit unit = GameObject.Instantiate(playerCities[0].unitPrefabs[0], Vector3.zero, Quaternion.identity).GetComponent<Unit>();
+            unit.gameObject.transform.position = new Vector3(GameManager.Instance.grid.tileWidth * pos.x, unit.yOffset, GameManager.Instance.grid.tileHeight);
+            unit.pos = pos;
+            unit.gridScript = GameManager.Instance.grid;
+            unit.gameObject.transform.parent = this.gameObject.transform;
+            unit.player = this;
+            AddUnit(unit);
+            GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = unit;
+            GameManager.Instance.grid.grid[pos.x, pos.y].gameObject.GetComponent<City>().AddUnit(unit);
+        } else {
+            if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.Plains || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.Swamp) {
+                if (GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile == null) {
+                    Unit unit = GameObject.Instantiate(playerCities[0].unitPrefabs[0], Vector3.zero, Quaternion.identity).GetComponent<Unit>();
+                    unit.gameObject.transform.position = new Vector3(GameManager.Instance.grid.tileWidth * pos.x, unit.yOffset, GameManager.Instance.grid.tileHeight);
+                    unit.pos = pos;
+                    unit.gridScript = GameManager.Instance.grid;
+                    unit.gameObject.transform.parent = this.gameObject.transform;
+                    unit.player = this;
+                    AddUnit(unit);
+                    GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = unit;
+                }
+            }
+        }
+    }
+#endif
 }
