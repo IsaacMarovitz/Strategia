@@ -1,11 +1,19 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Carrier : Unit {
+
+    public List<Fighter> fightersOnCarrier;
+
     public override void Start() {
         base.Start();
         unitType = UnitType.Carrier;
         // Set damage percentages in order of Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
         damagePercentages = new float[9] { 0f, 0f, 0f, 0f, 0.5f, 0.1f, 0f, 0.25f, 0f };
+    }
+
+    public override void Update() {
+        base.Update();
     }
 
     public override void CheckDirs() {
@@ -48,6 +56,21 @@ public class Carrier : Unit {
                     }
                 }
             }
+        }
+    }
+
+    public override void Die() {
+        base.Die();
+        foreach (var figher in fightersOnCarrier) {
+            figher.Die();
+            GameObject.Destroy(figher.gameObject);
+        }
+    }
+
+    public override void Move(int dir) {
+        base.Move(dir);
+        foreach (var fighter in fightersOnCarrier) {
+            fighter.pos = pos;
         }
     }
 }

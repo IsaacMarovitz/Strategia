@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public enum TileType {Sea, Plains, Swamp, Mountains, Trees, City, CostalCity};
 
@@ -8,6 +9,7 @@ public class Tile {
     public TileType tileType;
     public GameObject gameObject;
     public int islandIndex;
+    //public List<Unit> unitOnTile = new List<Unit>();
     public Unit unitOnTile;
 
     public Tile(TileType _tileType, GameObject _gameObject, Vector2Int _index, int _islandIndex) {

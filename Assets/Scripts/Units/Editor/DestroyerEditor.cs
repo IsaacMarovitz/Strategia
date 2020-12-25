@@ -5,11 +5,10 @@ namespace Strategia.Editor {
     public class DestroyerEditor : UnitEditor {
         public override void OnInspectorGUI() {
             base.OnInspectorGUI();
-
-            SerializedObject so = new SerializedObject(target);
+            serializedObject.Update();
             Destroyer destroyer = (Destroyer)target;
 
-            so.ApplyModifiedProperties();
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

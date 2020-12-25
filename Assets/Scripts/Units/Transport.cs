@@ -11,8 +11,6 @@ public class Transport : Unit {
         unitType = UnitType.Transport;
         // Set damage percentages in order of Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
         damagePercentages = new float[9] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f };
-        maxMoves = 50;
-        maxHealth = 50;
     }
 
     public override void Update() {
@@ -66,7 +64,6 @@ public class Transport : Unit {
 
     public override void Move(int dir) {
         base.Move(dir);
-
         foreach (var army in armiesOnTransport) {
             army.pos = pos;
         }

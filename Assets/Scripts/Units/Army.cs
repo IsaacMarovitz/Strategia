@@ -36,29 +36,7 @@ public class Army : Unit {
         for (int i = 0; i < tiles.Length; i++) {
             if (tiles[i] == null) {
                 moveDirs[i] = TileMoveStatus.Blocked;
-            } else if (tiles[i].tileType == TileType.Sea) {
-                if (tiles[i].unitOnTile != null) {
-                    if (tiles[i].unitOnTile.GetType() == typeof(Transport)) {
-                        if (player.playerUnits.Contains(tiles[i].unitOnTile)) {
-                            if (!tiles[i].unitOnTile.GetComponent<Transport>().isTransportFull) {
-                                moveDirs[i] = TileMoveStatus.Transport;
-                            } else {
-                                moveDirs[i] = TileMoveStatus.Blocked;
-                            }
-                        } else {
-                            if (!isOnTransport) {
-                                moveDirs[i] = TileMoveStatus.Attack;
-                            } else {
-                                moveDirs[i] = TileMoveStatus.Blocked;
-                            }
-                        }
-                    } else {
-                        moveDirs[i] = TileMoveStatus.Blocked;
-                    }
-                } else {
-                    moveDirs[i] = TileMoveStatus.Blocked;
-                }
-            } else if (tiles[i].tileType == TileType.Trees) {
+            } else if (tiles[i].tileType == TileType.Trees || tiles[i].tileType == TileType.Mountains || tiles[i].tileType == TileType.Sea) {
                 moveDirs[i] = TileMoveStatus.Blocked;
             } else {
                 moveDirs[i] = TileMoveStatus.Move;
@@ -77,7 +55,13 @@ public class Army : Unit {
                         }
                     } else {
                         if (player.playerUnits.Contains(tiles[i].unitOnTile)) {
-                            if (moveDirs[i] != TileMoveStatus.Transport) {
+                            if (player.playerUnits.GetType() == typeof(Transport)) {
+                                if (!tiles[i].unitOnTile.GetComponent<Transport>().isTransportFull) {
+                                    moveDirs[i] = TileMoveStatus.Transport;
+                                } else {
+                                    moveDirs[i] = TileMoveStatus.Blocked;
+                                }
+                            } else {
                                 moveDirs[i] = TileMoveStatus.Blocked;
                             }
                         } else {
@@ -88,7 +72,7 @@ public class Army : Unit {
                             }
                         }
                     }
-                }
+                } 
             }
         }
     }
@@ -123,7 +107,7 @@ public class Army : Unit {
         } else if (moveDirs[dir - 1] == TileMoveStatus.Transport) {
             pos += offset;
             isOnTransport = true;
-            gridScript.grid[pos.x, pos.y].unitOnTile.GetComponent<Transport>().armiesOnTransport.Add(this);
+            ((Transport)gridScript.grid[pos.x, pos.y].unitOnTile).armiesOnTransport.Add(this);
         }
 
         if (oldCity != null) {

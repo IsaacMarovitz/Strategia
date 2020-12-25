@@ -9,16 +9,19 @@ namespace Strategia.Editor {
 
         public override void OnInspectorGUI() {
             base.OnInspectorGUI();
-
-            SerializedObject so = new SerializedObject(target);
+            serializedObject.Update();
             Parachute parachute = (Parachute)target;
+
+            SerializedProperty fuel_prop = serializedObject.FindProperty("fuel");
+            SerializedProperty fuelPerMove_prop = serializedObject.FindProperty("fuelPerMove");
+            SerializedProperty maxFuel_prop = serializedObject.FindProperty("maxFuel");
 
             EditorGUILayout.Space(10);
             showFuel = EditorGUILayout.BeginFoldoutHeaderGroup(showFuel, "Fuel");
             if (showFuel) {
-                parachute.fuel = EditorGUILayout.IntSlider("Fuel", parachute.fuel, 0, parachute.maxFuel);
-                parachute.fuelPerMove = EditorGUILayout.IntSlider("Fuel Per Move", parachute.fuelPerMove, 0, parachute.maxFuel);
-                parachute.maxFuel = EditorGUILayout.IntField("Max Fuel", parachute.maxFuel);
+                fuel_prop.intValue = EditorGUILayout.IntSlider("Fuel", fuel_prop.intValue, 0, maxFuel_prop.intValue);
+                fuelPerMove_prop.intValue = EditorGUILayout.IntSlider("Fuel Per Move", fuelPerMove_prop.intValue, 0, maxFuel_prop.intValue);
+                EditorGUILayout.PropertyField(maxFuel_prop);
             }
             EditorGUILayout.EndFoldoutHeaderGroup();
 
@@ -27,7 +30,7 @@ namespace Strategia.Editor {
                 parachute.DeployArmy();
             }
 
-            so.ApplyModifiedProperties();
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

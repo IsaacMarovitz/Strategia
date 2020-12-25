@@ -5,11 +5,10 @@ namespace Strategia.Editor {
     public class SubmarineEditor : UnitEditor {
         public override void OnInspectorGUI() {
             base.OnInspectorGUI();
-
-            SerializedObject so = new SerializedObject(target);
+            serializedObject.Update();
             Submarine submarine = (Submarine)target;
 
-            so.ApplyModifiedProperties();
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

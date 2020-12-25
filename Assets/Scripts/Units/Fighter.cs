@@ -5,12 +5,21 @@ public class Fighter : Unit {
     public int fuel;
     public int maxFuel;
     public int fuelPerMove;
+    public bool isOnCarrier = false;
 
     public override void Start() {
         base.Start();
         unitType = UnitType.Fighter;
         // Set damage percentages in order of Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
         damagePercentages = new float[9] { 0.5f, 1f, 0.34f, 1f, 0.5f, 0.25f, 0.5f, 0.2f, 0.1f };
+    }
+
+    public override void Update() {
+        base.Update();
+        if (isOnCarrier) {
+            isInCity = false;
+            mainMesh.SetActive(false);
+        }
     }
 
 
@@ -23,7 +32,7 @@ public class Fighter : Unit {
     public override void CheckDirs() {
         base.CheckDirs();
 
-        Tile[] tiles = GridUtilities.DiagonalCheck(gridScript.grid, gridScript.width, gridScript.height, pos);   
+        Tile[] tiles = GridUtilities.DiagonalCheck(gridScript.grid, gridScript.width, gridScript.height, pos);
         for (int i = 0; i < tiles.Length; i++) {
             if (tiles[i] == null) {
                 moveDirs[i] = TileMoveStatus.Blocked;
@@ -44,7 +53,11 @@ public class Fighter : Unit {
                         }
                     } else {
                         if (player.playerUnits.Contains(tiles[i].unitOnTile)) {
-                            moveDirs[i] = TileMoveStatus.Blocked;
+                            if (player.playerUnits.GetType() == typeof(Carrier)) {
+                                moveDirs[i] = TileMoveStatus.Transport;
+                            } else {
+                                moveDirs[i] = TileMoveStatus.Blocked;
+                            }
                         } else {
                             moveDirs[i] = TileMoveStatus.Attack;
                         }
@@ -62,7 +75,63 @@ public class Fighter : Unit {
     }
 
     public override void Move(int dir) {
-        base.Move(dir);
+        moves--;
+        int[] rotationOffset = new int[8] { -45, 0, 45, -90, 90, 225, 180, 135 };
+        Vector2Int offset = Vector2Int.zero;
+        if (dir == 1 || dir == 4 || dir == 6) {
+            offset.x--;
+        } else if (dir == 3 || dir == 5 || dir == 8) {
+            offset.x++;
+        }
+        if (dir <= 3) {
+            offset.y++;
+        } else if (dir >= 6) {
+            offset.y--;
+        }
+        if (moveDirs[dir - 1] == TileMoveStatus.Move) {
+            if (isOnCarrier) {
+                isOnCarrier = false;
+                mainMesh.SetActive(true);
+                ((Carrier)gridScript.grid[pos.x, pos.y].unitOnTile).fightersOnCarrier.Remove(this);
+            } else {
+                gridScript.grid[pos.x, pos.y].unitOnTile = null;
+            }
+            pos += offset;
+            gridScript.grid[pos.x, pos.y].unitOnTile = this;
+            this.transform.eulerAngles = new Vector3(0, rotationOffset[dir - 1], 0);
+        } else if (moveDirs[dir - 1] == TileMoveStatus.Attack) {
+            Attack(pos + offset);
+        } else if (moveDirs[dir - 1] == TileMoveStatus.Transport) {
+            pos += offset;
+            isOnCarrier = true;
+            ((Carrier)gridScript.grid[pos.x, pos.y].unitOnTile).fightersOnCarrier.Add(this);
+            fuel = maxFuel;
+        }
+
+        if (oldCity != null) {
+            oldCity.RemoveUnit(this);
+            oldCity = null;
+            isInCity = false;
+            mainMesh.SetActive(true);
+        }
+
+        if (gridScript.grid[pos.x, pos.y].tileType == TileType.City || gridScript.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+            City city = gridScript.grid[pos.x, pos.y].gameObject.GetComponent<City>();
+            city.GetOwned(player);
+            city.AddUnit(this);
+            oldCity = city;
+            isInCity = true;
+            mainMesh.SetActive(false);
+        } else {
+            isInCity = false;
+            mainMesh.SetActive(true);
+        }
+
+        if (moves <= 0) {
+            turnStage = TurnStage.Complete;
+            EndTurn();
+        }
+        player.UpdateFogOfWar();
 
         if (gridScript.grid[pos.x, pos.y].tileType == TileType.City || gridScript.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
             fuel = maxFuel;
