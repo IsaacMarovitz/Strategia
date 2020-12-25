@@ -23,6 +23,9 @@ public class UnitUI : MonoBehaviour {
                         } else if (UIData.Instance.currentUnit.moveDirs[i] == TileMoveStatus.Move) {
                             buttons[i].interactable = true;
                             buttons[i].targetGraphic.color = Color.white;
+                        } else if (UIData.Instance.currentUnit.moveDirs[i] == TileMoveStatus.Transport) {
+                            buttons[i].interactable = true;
+                            buttons[i].targetGraphic.color = Color.white;
                         }
                     } else {
                         buttons[i].interactable = false;

@@ -12,6 +12,7 @@ public class CityUI : MonoBehaviour {
     public HorizontalLayoutGroup horizontalLayoutGroup;
     public GameObject unitButtonPrefab;
     public List<Toggle> costalCityToggles;
+    public Toggle[] toggles;
 
     private City oldCity;
     private bool hasUpdated = false;
@@ -33,6 +34,13 @@ public class CityUI : MonoBehaviour {
             if (!hasUpdated) {
                 hasUpdated = true;
                 UpdateUnitButtons();
+                for (int i = 0; i < toggles.Length; i++) {
+                    if (i == (int)UIData.Instance.currentCity.unitType) {
+                        toggles[i].isOn = true;
+                    } else {
+                        toggles[i].isOn = false;
+                    }
+                }
                 if (GameManager.Instance.grid.grid[UIData.Instance.currentCity.pos.x, UIData.Instance.currentCity.pos.y].tileType == TileType.CostalCity) {
                     foreach (var toggle in costalCityToggles) {
                         toggle.interactable = true;

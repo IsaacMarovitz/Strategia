@@ -9,7 +9,7 @@ public class Army : Unit {
         base.Start();
         unitType = UnitType.Army;
         // Set damage percentages in order of Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
-        damagePercentages = new float[9] {0.34f, 0f, 0.25f, 0f, 0.2f, 0.1f, 0.3f, 0.1f, 0f};
+        damagePercentages = new float[9] { 0.34f, 0f, 0.25f, 0f, 0.2f, 0.1f, 0.3f, 0.1f, 0f };
     }
 
     public override void NewDay(Player _player) {
@@ -30,7 +30,9 @@ public class Army : Unit {
             } else if (tiles[i].tileType == TileType.Sea) {
                 if (tiles[i].unitOnTile != null) {
                     if (tiles[i].unitOnTile.GetType() == typeof(Transport)) {
-                        moveDirs[i] = TileMoveStatus.Transport;
+                        if (!tiles[i].unitOnTile.GetComponent<Transport>().isTransportFull) {
+                            moveDirs[i] = TileMoveStatus.Transport;
+                        }
                     }
                 } else {
                     moveDirs[i] = TileMoveStatus.Blocked;
@@ -63,7 +65,56 @@ public class Army : Unit {
     }
 
     public override void Move(int dir) {
-        base.Move(dir);
+        moves--;
+        int[] rotationOffset = new int[8] { -45, 0, 45, -90, 90, 225, 180, 135 };
+        Vector2Int offset = Vector2Int.zero;
+        if (dir == 1 || dir == 4 || dir == 6) {
+            offset.x--;
+        } else if (dir == 3 || dir == 5 || dir == 8) {
+            offset.x++;
+        }
+        if (dir <= 3) {
+            offset.y++;
+        } else if (dir >= 6) {
+            offset.y--;
+        }
+        if (moveDirs[dir - 1] == TileMoveStatus.Move) {
+            gridScript.grid[pos.x, pos.y].unitOnTile = null;
+            pos += offset;
+            gridScript.grid[pos.x, pos.y].unitOnTile = this;
+            this.transform.eulerAngles = new Vector3(0, rotationOffset[dir - 1], 0);
+        } else if (moveDirs[dir - 1] == TileMoveStatus.Attack) {
+            Attack(pos + offset);
+        } else if (moveDirs[dir - 1] == TileMoveStatus.Transport) {
+            pos += offset;
+            mainMesh.SetActive(false);
+            gridScript.grid[pos.x, pos.y].unitOnTile.GetComponent<Transport>().armiesOnTransport.Add(this);
+        }
+
+        if (oldCity != null) { 
+            oldCity.RemoveUnit(this);
+            oldCity = null; 
+            isInCity = false;
+            mainMesh.SetActive(true);
+        }
+        
+        if (gridScript.grid[pos.x, pos.y].tileType == TileType.City || gridScript.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+            City city = gridScript.grid[pos.x, pos.y].gameObject.GetComponent<City>();
+            city.GetOwned(player);
+            city.AddUnit(this);
+            oldCity = city;
+            isInCity = true;
+            mainMesh.SetActive(false);
+        } else {
+            isInCity = false;
+            mainMesh.SetActive(true);
+        }
+
+        if (moves <= 0) {
+            turnStage = TurnStage.Complete;
+            EndTurn();
+        }
+        player.UpdateFogOfWar();
 
         if (gridScript.grid[pos.x, pos.y].tileType == TileType.Swamp) {
             isMoveDistanceReduced = true;

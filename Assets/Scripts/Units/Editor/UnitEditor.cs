@@ -26,6 +26,7 @@ namespace Strategia.Editor {
             if (showMovement) {
                 unit.moves = EditorGUILayout.IntSlider("Moves Left", unit.moves, 0, unit.maxMoves);
                 unit.maxMoves = EditorGUILayout.IntField("Move Distance", unit.maxMoves);
+                unit.yOffset = EditorGUILayout.FloatField("Y Offset", unit.yOffset);
             }
             EditorGUILayout.EndFoldoutHeaderGroup();
 

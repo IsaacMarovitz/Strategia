@@ -36,7 +36,7 @@ public class Unit : MonoBehaviour {
         gridScript.grid[pos.x, pos.y].unitOnTile = this;
     }
 
-    public void Update() {
+    public virtual void Update() {
         SetPos(pos);
         if (GameManager.Instance.GetCurrentPlayer().fogOfWarMatrix[pos.x, pos.y] != 1f) {
             mainMesh.SetActive(false);
@@ -143,7 +143,12 @@ public class Unit : MonoBehaviour {
             Attack(pos + offset);
         }
 
-        if (oldCity != null) { oldCity = null; };
+        if (oldCity != null) { 
+            oldCity.RemoveUnit(this);
+            oldCity = null; 
+            isInCity = false;
+            mainMesh.SetActive(true);
+        }
 
         if (gridScript.grid[pos.x, pos.y].tileType == TileType.City || gridScript.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
             City city = gridScript.grid[pos.x, pos.y].gameObject.GetComponent<City>();

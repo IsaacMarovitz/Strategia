@@ -1,11 +1,26 @@
 using UnityEngine;
+using System.Collections.Generic;
 
+// 6 armies per transport
 public class Transport : Unit {
+
+    public List<Army> armiesOnTransport;
+    public bool isTransportFull;
+
     public override void Start() {
         base.Start();
         unitType = UnitType.Transport;
         // Set damage percentages in order of Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
         damagePercentages = new float[9] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f };
+    }
+
+    public override void Update() {
+        base.Update();
+        if (armiesOnTransport.Count >= 6) {
+            isTransportFull = true;
+        } else {
+            isTransportFull = false;
+        }
     }
 
     public override void CheckDirs() {
@@ -35,6 +50,14 @@ public class Transport : Unit {
                     }
                 }
             }
+        }
+    }
+
+    public override void Move(int dir) {
+        base.Move(dir);
+
+        foreach (var army in armiesOnTransport) {
+            army.pos = pos;
         }
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Invisible unless immediatley adjacent
 public class Submarine : Unit {
     public override void Start() {
         base.Start();
