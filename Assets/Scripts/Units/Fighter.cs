@@ -53,7 +53,7 @@ public class Fighter : Unit {
                         }
                     } else {
                         if (player.playerUnits.Contains(tiles[i].unitOnTile)) {
-                            if (player.playerUnits.GetType() == typeof(Carrier)) {
+                            if (tiles[i].unitOnTile.GetType() == typeof(Carrier)) {
                                 moveDirs[i] = TileMoveStatus.Transport;
                             } else {
                                 moveDirs[i] = TileMoveStatus.Blocked;

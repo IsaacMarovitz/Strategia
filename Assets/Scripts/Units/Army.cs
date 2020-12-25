@@ -55,7 +55,7 @@ public class Army : Unit {
                         }
                     } else {
                         if (player.playerUnits.Contains(tiles[i].unitOnTile)) {
-                            if (player.playerUnits.GetType() == typeof(Transport)) {
+                            if (tiles[i].unitOnTile.GetType() == typeof(Transport)) {
                                 if (!tiles[i].unitOnTile.GetComponent<Transport>().isTransportFull) {
                                     moveDirs[i] = TileMoveStatus.Transport;
                                 } else {
