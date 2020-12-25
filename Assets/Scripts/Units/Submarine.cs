@@ -16,10 +16,12 @@ public class Submarine : Unit {
         for (int i = 0; i < tiles.Length; i++) {
             if (tiles[i] == null) {
                 moveDirs[i] = TileMoveStatus.Blocked;
-            } else if (tiles[i].tileType != TileType.Sea) {
-                moveDirs[i] = TileMoveStatus.Blocked;
-            } else {
+            } else if (tiles[i].tileType == TileType.Sea) {
                 moveDirs[i] = TileMoveStatus.Move;
+            } else if (tiles[i].tileType == TileType.CostalCity) {
+                moveDirs[i] = TileMoveStatus.Move;
+            } else {
+                moveDirs[i] = TileMoveStatus.Blocked;
             }
         }
 

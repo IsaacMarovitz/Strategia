@@ -9,32 +9,28 @@ public class UnitUI : MonoBehaviour {
 
     public void Update() {
         if (UIData.Instance.currentUnit != null) {
-            if (UIData.Instance.currentUnit.turnStage != TurnStage.Sleeping) {
-                transform.position = new Vector3(UIData.Instance.currentUnit.transform.position.x, yOffset, UIData.Instance.currentUnit.transform.position.z);
+            transform.position = new Vector3(UIData.Instance.currentUnit.transform.position.x, yOffset, UIData.Instance.currentUnit.transform.position.z);
 
-                for (int i = 0; i < buttons.Length; i++) {
-                    if (UIData.Instance.currentUnit.moves > 0) {
-                        if (UIData.Instance.currentUnit.moveDirs[i] == TileMoveStatus.Blocked) {
-                            buttons[i].interactable = false;
-                            buttons[i].targetGraphic.color = Color.white;
-                        } else if (UIData.Instance.currentUnit.moveDirs[i] == TileMoveStatus.Attack) {
-                            buttons[i].interactable = true;
-                            buttons[i].targetGraphic.color = Color.red;
-                        } else if (UIData.Instance.currentUnit.moveDirs[i] == TileMoveStatus.Move) {
-                            buttons[i].interactable = true;
-                            buttons[i].targetGraphic.color = Color.white;
-                        } else if (UIData.Instance.currentUnit.moveDirs[i] == TileMoveStatus.Transport) {
-                            buttons[i].interactable = true;
-                            buttons[i].targetGraphic.color = Color.white;
-                        }
-                    } else {
+            for (int i = 0; i < buttons.Length; i++) {
+                if (UIData.Instance.currentUnit.moves > 0 && UIData.Instance.currentUnit.turnStage != TurnStage.Sleeping) {
+                    if (UIData.Instance.currentUnit.moveDirs[i] == TileMoveStatus.Blocked) {
                         buttons[i].interactable = false;
+                        buttons[i].targetGraphic.color = Color.white;
+                    } else if (UIData.Instance.currentUnit.moveDirs[i] == TileMoveStatus.Attack) {
+                        buttons[i].interactable = true;
+                        buttons[i].targetGraphic.color = Color.red;
+                    } else if (UIData.Instance.currentUnit.moveDirs[i] == TileMoveStatus.Move) {
+                        buttons[i].interactable = true;
+                        buttons[i].targetGraphic.color = Color.white;
+                    } else if (UIData.Instance.currentUnit.moveDirs[i] == TileMoveStatus.Transport) {
+                        buttons[i].interactable = true;
+                        buttons[i].targetGraphic.color = Color.white;
                     }
+                } else {
+                    buttons[i].interactable = false;
                 }
-                canvas.enabled = true;
-            } else {
-                canvas.enabled = false;
             }
+            canvas.enabled = true;
         } else {
             canvas.enabled = false;
         }

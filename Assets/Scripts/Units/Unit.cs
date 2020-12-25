@@ -178,7 +178,7 @@ public class Unit : MonoBehaviour {
         transform.position = new Vector3(_pos.x * gridScript.tileWidth, yOffset, _pos.y * gridScript.tileHeight);
     }
 
-    public void Die() {
+    public virtual void Die() {
         player.playerUnits.Remove(this);
         gridScript.grid[pos.x, pos.y].unitOnTile = null;
         if (isInCity) {

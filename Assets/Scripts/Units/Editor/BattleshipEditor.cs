@@ -5,11 +5,10 @@ namespace Strategia.Editor {
     public class BattleshipEditor : UnitEditor {
         public override void OnInspectorGUI() {
             base.OnInspectorGUI();
-
-            SerializedObject so = new SerializedObject(target);
+            serializedObject.Update();
             Battleship battleship = (Battleship)target;
 
-            so.ApplyModifiedProperties();
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

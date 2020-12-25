@@ -3,6 +3,7 @@ using UnityEngine;
 public class Army : Unit {
 
     public bool isMoveDistanceReduced;
+    public bool isOnTransport = false;
     public int reducedMoveDistance;
 
     public override void Start() {
@@ -10,6 +11,14 @@ public class Army : Unit {
         unitType = UnitType.Army;
         // Set damage percentages in order of Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
         damagePercentages = new float[9] { 0.34f, 0f, 0.25f, 0f, 0.2f, 0.1f, 0.3f, 0.1f, 0f };
+    }
+
+    public override void Update() {
+        base.Update();
+        if (isOnTransport) {
+            isInCity = false;
+            mainMesh.SetActive(false);
+        }
     }
 
     public override void NewDay(Player _player) {
@@ -30,9 +39,19 @@ public class Army : Unit {
             } else if (tiles[i].tileType == TileType.Sea) {
                 if (tiles[i].unitOnTile != null) {
                     if (tiles[i].unitOnTile.GetType() == typeof(Transport)) {
-                        if (!tiles[i].unitOnTile.GetComponent<Transport>().isTransportFull) {
-                            moveDirs[i] = TileMoveStatus.Transport;
+                        if (player.playerUnits.Contains(tiles[i].unitOnTile)) {
+                            if (!tiles[i].unitOnTile.GetComponent<Transport>().isTransportFull) {
+                                moveDirs[i] = TileMoveStatus.Transport;
+                            } else {
+                                moveDirs[i] = TileMoveStatus.Blocked;
+                            }
+                        } else {
+                            if (!isOnTransport) {
+                                moveDirs[i] = TileMoveStatus.Attack;
+                            }
                         }
+                    } else {
+                        moveDirs[i] = TileMoveStatus.Blocked;
                     }
                 } else {
                     moveDirs[i] = TileMoveStatus.Blocked;
@@ -50,13 +69,19 @@ public class Army : Unit {
                     if (tiles[i].tileType == TileType.City || tiles[i].tileType == TileType.CostalCity) {
                         City city = tiles[i].gameObject.GetComponent<City>();
                         if (!player.playerCities.Contains(city)) {
-                            moveDirs[i] = TileMoveStatus.Attack;
+                            if (!isOnTransport) {
+                                moveDirs[i] = TileMoveStatus.Attack;
+                            }
                         }
                     } else {
                         if (player.playerUnits.Contains(tiles[i].unitOnTile)) {
-                            moveDirs[i] = TileMoveStatus.Blocked;
+                            if (moveDirs[i] != TileMoveStatus.Transport) {
+                                moveDirs[i] = TileMoveStatus.Blocked;
+                            }
                         } else {
-                            moveDirs[i] = TileMoveStatus.Attack;
+                            if (!isOnTransport) {
+                                moveDirs[i] = TileMoveStatus.Attack;
+                            }
                         }
                     }
                 }
@@ -79,7 +104,13 @@ public class Army : Unit {
             offset.y--;
         }
         if (moveDirs[dir - 1] == TileMoveStatus.Move) {
-            gridScript.grid[pos.x, pos.y].unitOnTile = null;
+            if (isOnTransport) {
+                isOnTransport = false;
+                mainMesh.SetActive(true);
+                ((Transport)gridScript.grid[pos.x, pos.y].unitOnTile).armiesOnTransport.Remove(this);
+            } else {
+                gridScript.grid[pos.x, pos.y].unitOnTile = null;
+            }
             pos += offset;
             gridScript.grid[pos.x, pos.y].unitOnTile = this;
             this.transform.eulerAngles = new Vector3(0, rotationOffset[dir - 1], 0);
@@ -87,17 +118,17 @@ public class Army : Unit {
             Attack(pos + offset);
         } else if (moveDirs[dir - 1] == TileMoveStatus.Transport) {
             pos += offset;
-            mainMesh.SetActive(false);
+            isOnTransport = true;
             gridScript.grid[pos.x, pos.y].unitOnTile.GetComponent<Transport>().armiesOnTransport.Add(this);
         }
 
-        if (oldCity != null) { 
+        if (oldCity != null) {
             oldCity.RemoveUnit(this);
-            oldCity = null; 
+            oldCity = null;
             isInCity = false;
             mainMesh.SetActive(true);
         }
-        
+
         if (gridScript.grid[pos.x, pos.y].tileType == TileType.City || gridScript.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
             City city = gridScript.grid[pos.x, pos.y].gameObject.GetComponent<City>();
             city.GetOwned(player);

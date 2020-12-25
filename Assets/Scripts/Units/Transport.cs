@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-// 6 armies per transport
 public class Transport : Unit {
 
     public List<Army> armiesOnTransport;
@@ -12,6 +11,8 @@ public class Transport : Unit {
         unitType = UnitType.Transport;
         // Set damage percentages in order of Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
         damagePercentages = new float[9] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f };
+        maxMoves = 50;
+        maxHealth = 50;
     }
 
     public override void Update() {
@@ -30,10 +31,12 @@ public class Transport : Unit {
         for (int i = 0; i < tiles.Length; i++) {
             if (tiles[i] == null) {
                 moveDirs[i] = TileMoveStatus.Blocked;
-            } else if (tiles[i].tileType != TileType.Sea) {
-                moveDirs[i] = TileMoveStatus.Blocked;
-            } else {
+            } else if (tiles[i].tileType == TileType.Sea) {
                 moveDirs[i] = TileMoveStatus.Move;
+            } else if (tiles[i].tileType == TileType.CostalCity) {
+                moveDirs[i] = TileMoveStatus.Move;
+            } else {
+                moveDirs[i] = TileMoveStatus.Blocked;
             }
         }
 
@@ -50,6 +53,14 @@ public class Transport : Unit {
                     }
                 }
             }
+        }
+    }
+
+    public override void Die() {
+        base.Die();
+        foreach (var army in armiesOnTransport) {
+            army.Die();
+            GameObject.Destroy(army.gameObject);
         }
     }
 

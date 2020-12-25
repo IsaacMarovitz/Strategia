@@ -191,9 +191,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1944994115408235136}
-  - component: {fileID: 2898570421519202166}
+  - component: {fileID: -176550003427491717}
   m_Layer: 0
-  m_Name: Test
+  m_Name: Army
   m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -214,7 +214,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2898570421519202166
+--- !u!114 &-176550003427491717
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -229,16 +229,32 @@ MonoBehaviour:
   pos: {x: 0, y: 0}
   yOffset: 0
   health: 0
-  maxHealth: 0
+  maxHealth: 30
   moves: 0
-  maxMoves: 0
+  maxMoves: 3
   damageAmount: 0
   moveDirs: 0000000000000000000000000000000000000000000000000000000000000000
   turnStage: 0
+  damagePercentages:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  unitType: 0
+  oldCity: {fileID: 0}
+  isInCity: 0
+  mainMesh: {fileID: 0}
   gridScript: {fileID: 0}
   sleepEffect: {fileID: 0}
+  player: {fileID: 0}
   isMoveDistanceReduced: 0
-  reducedMoveDistance: 0
+  isOnTranport: 0
+  reducedMoveDistance: 1
 --- !u!1 &1238425569375608352
 GameObject:
   m_ObjectHideFlags: 0

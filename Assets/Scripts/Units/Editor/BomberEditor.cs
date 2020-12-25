@@ -9,16 +9,19 @@ namespace Strategia.Editor {
 
         public override void OnInspectorGUI() {
             base.OnInspectorGUI();
-
-            SerializedObject so = new SerializedObject(target);
+            serializedObject.Update();
             Bomber bomber = (Bomber)target;
+
+            SerializedProperty fuel_prop = serializedObject.FindProperty("fuel");
+            SerializedProperty fuelPerMove_prop = serializedObject.FindProperty("fuelPerMove");
+            SerializedProperty maxFuel_prop = serializedObject.FindProperty("maxFuel");
 
             EditorGUILayout.Space(10);
             showFuel = EditorGUILayout.BeginFoldoutHeaderGroup(showFuel, "Fuel");
             if (showFuel) {
-                bomber.fuel = EditorGUILayout.IntSlider("Fuel", bomber.fuel, 0, bomber.maxFuel);
-                bomber.fuelPerMove = EditorGUILayout.IntSlider("Fuel Per Move", bomber.fuelPerMove, 0, bomber.maxFuel);
-                bomber.maxFuel = EditorGUILayout.IntField("Max Fuel", bomber.maxFuel);
+                fuel_prop.intValue = EditorGUILayout.IntSlider("Fuel", fuel_prop.intValue, 0, maxFuel_prop.intValue);
+                fuelPerMove_prop.intValue = EditorGUILayout.IntSlider("Fuel Per Move", fuelPerMove_prop.intValue, 0, maxFuel_prop.intValue);
+                EditorGUILayout.PropertyField(maxFuel_prop);
             }
             EditorGUILayout.EndFoldoutHeaderGroup();
 
@@ -27,7 +30,7 @@ namespace Strategia.Editor {
                 bomber.Detonate();
             }
 
-            so.ApplyModifiedProperties();
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }
