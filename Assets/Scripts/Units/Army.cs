@@ -48,6 +48,8 @@ public class Army : Unit {
                         } else {
                             if (!isOnTransport) {
                                 moveDirs[i] = TileMoveStatus.Attack;
+                            } else {
+                                moveDirs[i] = TileMoveStatus.Blocked;
                             }
                         }
                     } else {
@@ -81,6 +83,8 @@ public class Army : Unit {
                         } else {
                             if (!isOnTransport) {
                                 moveDirs[i] = TileMoveStatus.Attack;
+                            } else {
+                                moveDirs[i] = TileMoveStatus.Blocked;
                             }
                         }
                     }
