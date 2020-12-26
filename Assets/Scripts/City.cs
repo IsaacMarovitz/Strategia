@@ -54,7 +54,6 @@ public class City : MonoBehaviour {
         instantiatedUnit.transform.parent = player.gameObject.transform;
         Unit newUnit = instantiatedUnit.GetComponent<Unit>();
         newUnit.pos = pos;
-        newUnit.gridScript = GameManager.Instance.grid;
         newUnit.oldCity = this;
         player.AddUnit(newUnit);
         AddUnit(newUnit);

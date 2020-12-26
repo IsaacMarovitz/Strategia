@@ -124,10 +124,13 @@ public class GameManager : MonoBehaviour {
         for (int x = 0; x < grid.width; x++) {
             for (int y = 0; y < grid.height; y++) {
                 if (fogOfWarArray[x, y] == 0) {
-                    grid.grid[x,y].gameObject.SetActive(false);
+                    if (grid.grid[x, y].gameObject.transform.childCount > 0) {
+                        grid.grid[x,y].gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                    }
                 } else {
-                    grid.grid[x, y].gameObject.SetActive(true);
-                }
+                    if (grid.grid[x, y].gameObject.transform.childCount > 0) {
+                        grid.grid[x,y].gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                    }                }
             }
         }
     }

@@ -24,7 +24,7 @@ public class Bomber : Unit {
     public override void CheckDirs() {
         base.CheckDirs();
 
-        Tile[] tiles = GridUtilities.DiagonalCheck(gridScript.grid, gridScript.width, gridScript.height, pos);
+        Tile[] tiles = GridUtilities.DiagonalCheck(pos);
         for (int i = 0; i < tiles.Length; i++) {
             if (tiles[i] == null) {
                 moveDirs[i] = TileMoveStatus.Blocked;
@@ -54,7 +54,7 @@ public class Bomber : Unit {
     public override void Move(int dir) {
         base.Move(dir);
 
-        if (gridScript.grid[pos.x, pos.y].tileType == TileType.City || gridScript.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+        if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
             fuel = maxFuel;
         } else {
             fuel -= fuelPerMove;
@@ -68,7 +68,7 @@ public class Bomber : Unit {
     }
 
     public void Detonate() {
-        List<Tile> tilesInRange = GridUtilities.RadialSearch(gridScript.grid, pos, blastRadius);
+        List<Tile> tilesInRange = GridUtilities.RadialSearch(pos, blastRadius);
         foreach (var tile in tilesInRange) {
             if (tile.tileType == TileType.City || tile.tileType == TileType.CostalCity) {
                 tile.gameObject.GetComponent<City>().Nuke();

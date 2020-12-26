@@ -23,7 +23,7 @@ public class Parachute : Unit {
     public override void CheckDirs() {
         base.CheckDirs();
 
-        Tile[] tiles = GridUtilities.DiagonalCheck(gridScript.grid, gridScript.width, gridScript.height, pos);
+        Tile[] tiles = GridUtilities.DiagonalCheck(pos);
         for (int i = 0; i < tiles.Length; i++) {
             if (tiles[i] == null) {
                 moveDirs[i] = TileMoveStatus.Blocked;
@@ -53,7 +53,7 @@ public class Parachute : Unit {
     public override void Move(int dir) {
         base.Move(dir);
 
-        if (gridScript.grid[pos.x, pos.y].tileType == TileType.City || gridScript.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+        if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
             fuel = maxFuel;
         } else {
             fuel -= fuelPerMove;
@@ -69,11 +69,10 @@ public class Parachute : Unit {
     public void DeployArmy() {
         Army army = GameObject.Instantiate(unitPrefab, Vector3.zero, Quaternion.identity).GetComponent<Army>();
         army.SetPos(pos);
-        army.gridScript = gridScript;
         army.gameObject.transform.parent = this.gameObject.transform.parent;
         army.player = player;
         Die();
-        gridScript.grid[pos.x, pos.y].unitOnTile = army;
+        GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = army;
         player.playerUnits.Add(army);
         if (isInCity) {
             oldCity.AddUnit(army);

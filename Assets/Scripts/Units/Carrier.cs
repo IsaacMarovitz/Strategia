@@ -19,7 +19,7 @@ public class Carrier : Unit {
     public override void CheckDirs() {
         base.CheckDirs();
 
-        Tile[] tiles = GridUtilities.DiagonalCheck(gridScript.grid, gridScript.width, gridScript.height, pos);
+        Tile[] tiles = GridUtilities.DiagonalCheck(pos);
         for (int i = 0; i < tiles.Length; i++) {
             if (tiles[i] == null) {
                 moveDirs[i] = TileMoveStatus.Blocked;

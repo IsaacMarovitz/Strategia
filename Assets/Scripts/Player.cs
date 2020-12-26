@@ -38,13 +38,13 @@ public class Player : MonoBehaviour {
                 }
             }
             foreach (var unit in playerUnits) {
-                List<Tile> revealedTiles = GridUtilities.RadialSearch(GameManager.Instance.grid.grid, unit.pos, 5);
+                List<Tile> revealedTiles = GridUtilities.RadialSearch(unit.pos, 5);
                 foreach (var tile in revealedTiles) {
                     fogOfWarMatrix[tile.index.x, tile.index.y] = 1f;
                 }
             }
             foreach (var city in playerCities) {
-                List<Tile> revealedTiles = GridUtilities.RadialSearch(GameManager.Instance.grid.grid, city.pos, 5);
+                List<Tile> revealedTiles = GridUtilities.RadialSearch(city.pos, 5);
                 foreach (var tile in revealedTiles) {
                     fogOfWarMatrix[tile.index.x, tile.index.y] = 1f;
                 }
@@ -171,7 +171,6 @@ public class Player : MonoBehaviour {
             Unit unit = GameObject.Instantiate(playerCities[0].unitPrefabs[0], Vector3.zero, Quaternion.identity).GetComponent<Unit>();
             unit.gameObject.transform.position = new Vector3(GameManager.Instance.grid.tileWidth * pos.x, unit.yOffset, GameManager.Instance.grid.tileHeight);
             unit.pos = pos;
-            unit.gridScript = GameManager.Instance.grid;
             unit.gameObject.transform.parent = this.gameObject.transform;
             unit.player = this;
             unit.mainMesh.SetActive(false);
@@ -186,7 +185,6 @@ public class Player : MonoBehaviour {
                     Unit unit = GameObject.Instantiate(playerCities[0].unitPrefabs[0], Vector3.zero, Quaternion.identity).GetComponent<Unit>();
                     unit.gameObject.transform.position = new Vector3(GameManager.Instance.grid.tileWidth * pos.x, unit.yOffset, GameManager.Instance.grid.tileHeight);
                     unit.pos = pos;
-                    unit.gridScript = GameManager.Instance.grid;
                     unit.gameObject.transform.parent = this.gameObject.transform;
                     unit.player = this;
                     AddUnit(unit);

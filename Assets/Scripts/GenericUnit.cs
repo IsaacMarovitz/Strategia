@@ -123,7 +123,7 @@ public class GenericUnit : MonoBehaviour {
             turnComplete = true;
             moveDirs = new MoveType[] { MoveType.No, MoveType.No, MoveType.No, MoveType.No, MoveType.No, MoveType.No, MoveType.No, MoveType.No };
         } else {
-            Tile[] tiles = GridUtilities.DiagonalCheck(gridScript.grid, gridScript.width, gridScript.height, pos);
+            Tile[] tiles = GridUtilities.DiagonalCheck(pos);
 
             switch (moveType) {
                 case UnitMoveType.Air:

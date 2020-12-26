@@ -8,6 +8,7 @@ public class CameraController : MonoBehaviour {
     public Transform yRotationTransform;
     public Vector3 positionOffset;
     public Vector2 rotationOffset;
+    public LayerMask ignoredLayers;
     float mainSpeed = 100.0f;
 
     private Vector3 lastMouse = new Vector3(255, 255, 255);
@@ -35,9 +36,18 @@ public class CameraController : MonoBehaviour {
             yRotationTransform.Translate(p);
             yRotationTransform.eulerAngles += GetYRotation();
             xRotationTransform.eulerAngles += GetXRotation();
+            RaycastHit hit;
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit, ignoredLayers)) {
+                if (!EventSystem.current.IsPointerOverGameObject()) {
+                    Vector2Int gridPos = new Vector2Int(Mathf.RoundToInt(hit.transform.position.x / GameManager.Instance.grid.tileWidth), Mathf.RoundToInt(hit.transform.position.z / GameManager.Instance.grid.tileHeight));
+                    if (gridPos.x < GameManager.Instance.grid.width && gridPos.y < GameManager.Instance.grid.height && gridPos.x > 0 && gridPos.y > 0) {
+                        UIData.Instance.mouseOverTile = GameManager.Instance.grid.grid[gridPos.x, gridPos.y];
+                    }
+                }
+            }
             if (Input.GetMouseButtonDown(0)) {
-                RaycastHit hit;
-                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+                ray = mainCamera.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out hit)) {
                     if (!EventSystem.current.IsPointerOverGameObject()) {
                         if (hit.transform.tag == "Unit") {
@@ -69,7 +79,7 @@ public class CameraController : MonoBehaviour {
                 oldCity = UIData.Instance.currentCity;
                 oldUnit = null;
                 Focus(oldCity.gameObject.transform.position);
-            } 
+            }
         } else if (UIData.Instance.currentUnit != null) {
             if (oldUnit != UIData.Instance.currentUnit) {
                 oldUnit = UIData.Instance.currentUnit;

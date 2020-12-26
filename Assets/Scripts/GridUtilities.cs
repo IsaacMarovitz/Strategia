@@ -3,7 +3,10 @@ using System.Collections.Generic;
 
 public static class GridUtilities {
     // Check if surrounding tiles (not including diagonals) are sea tiles
-    public static bool CostalCheck(Tile[,] grid, int width, int height, Vector2Int pos) {
+    public static bool CostalCheck(Vector2Int pos) {
+        int width = GameManager.Instance.grid.width;
+        int height = GameManager.Instance.grid.height;
+        Tile[,] grid = GameManager.Instance.grid.grid;
         if ((pos.x > 0) && (grid[pos.x - 1, pos.y].tileType == TileType.Sea)) {
             return true;
         } else if ((pos.y > 0) && (grid[pos.x, pos.y - 1].tileType == TileType.Sea)) {
@@ -18,7 +21,10 @@ public static class GridUtilities {
     }
 
     // Return all surrounding tiles including diagonals
-    public static Tile[] DiagonalCheck(Tile[,] grid, int width, int height, Vector2Int pos) {
+    public static Tile[] DiagonalCheck(Vector2Int pos) {
+        Tile[,] grid = GameManager.Instance.grid.grid;
+        int width = GameManager.Instance.grid.width;
+        int height = GameManager.Instance.grid.height;
         Tile[] tiles = new Tile[8];
         if (pos.x > 0 && pos.y < height - 1) {
             tiles[0] = grid[pos.x - 1, pos.y + 1];
@@ -48,7 +54,8 @@ public static class GridUtilities {
     }
 
     // Perform a radial search of surrounding tiles (includes starting tile in return list)
-    public static List<Tile> RadialSearch(Tile[,] grid, Vector2Int pos, int radius) {
+    public static List<Tile> RadialSearch(Vector2Int pos, int radius) {
+        Tile[,] grid = GameManager.Instance.grid.grid;
         List<Tile> tilesInRange = new List<Tile>();
         Tile startingPoint = grid[pos.x, pos.y];
         foreach (var tile in grid) {
@@ -60,7 +67,8 @@ public static class GridUtilities {
     }
 
     // Check for a tile 'island' using a flood fill algorithm
-    public static List<Tile> FloodFill(Tile[,] grid, Tile startingPoint) {
+    public static List<Tile> FloodFill(Tile startingPoint) {
+        Tile[,] grid = GameManager.Instance.grid.grid;
         if (startingPoint.tileType == TileType.Sea) {
             return null;
         }
@@ -96,5 +104,67 @@ public static class GridUtilities {
             }
         }
         return islandTiles;
+    }
+
+    // Find the shortest path between two tiles with A*
+    public static void FindPath(Tile startTile, Tile targetTile, List<TileType> tileTypes) {
+        Heap<Tile> openSet = new Heap<Tile>(GameManager.Instance.grid.MaxSize);
+        HashSet<Tile> closedSet = new HashSet<Tile>();
+        openSet.Add(startTile);
+
+        while (openSet.Count > 0) {
+            Tile currentTile = openSet.RemoveFirst();
+            closedSet.Add(currentTile);
+
+            if (currentTile == targetTile) {
+                RetracePath(startTile, targetTile);
+                return;
+            }
+
+            foreach (Tile neighbour in DiagonalCheck(currentTile.index)) {
+                if (neighbour == null) {
+                    continue;
+                }
+                if (tileTypes.Contains(neighbour.tileType) || neighbour.unitOnTile != null){
+                    neighbour.walkable = false;
+                }
+                if (!neighbour.walkable || closedSet.Contains(neighbour)) {
+                    continue;
+                }
+
+                int newMovementCostToNeighbour = currentTile.gCost + GetDistance(currentTile, neighbour);
+                if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour)) {
+                    neighbour.gCost = newMovementCostToNeighbour;
+                    neighbour.hCost = GetDistance(neighbour, targetTile);
+                    neighbour.parent = currentTile;
+
+                    if (!openSet.Contains(neighbour))
+                        openSet.Add(neighbour);
+                }
+            }
+        }
+    }
+
+    static void RetracePath(Tile startTile, Tile endTile) {
+        List<Tile> path = new List<Tile>();
+        Tile currentTile = endTile;
+
+        while (currentTile != startTile) {
+            path.Add(currentTile);
+            currentTile = currentTile.parent;
+        }
+        path.Add(startTile);
+        path.Reverse();
+        GameManager.Instance.grid.path = path;
+    }
+
+    static int GetDistance(Tile tileA, Tile tileB) {
+        int distX = Mathf.Abs(tileA.index.x - tileB.index.x);
+        int distY = Mathf.Abs(tileA.index.y - tileB.index.y);
+
+        if (distX > distY) {
+            return 14 * distY + 10 * (distX - distY);
+        }
+        return 14 * distX + 10 * (distY - distX);
     }
 }

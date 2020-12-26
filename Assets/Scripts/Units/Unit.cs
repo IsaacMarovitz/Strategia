@@ -17,10 +17,7 @@ public class Unit : MonoBehaviour {
     public City oldCity;
     public bool isInCity;
     public GameObject mainMesh;
-
-    public Strategia.TileGrid gridScript;
     public VisualEffect sleepEffect;
-
     public Player player;
 
     public void Awake() {
@@ -33,7 +30,7 @@ public class Unit : MonoBehaviour {
         sleepEffect.enabled = false;
         moves = maxMoves;
         health = maxHealth;
-        gridScript.grid[pos.x, pos.y].unitOnTile = this;
+        GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = this;
     }
 
     public virtual void Update() {
@@ -43,7 +40,7 @@ public class Unit : MonoBehaviour {
         } else if (!isInCity) {
             mainMesh.SetActive(true);
         }
-        if (gridScript.grid[pos.x, pos.y].tileType == TileType.City || gridScript.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+        if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
             mainMesh.SetActive(false);
         }
         CheckDirs();
@@ -91,7 +88,7 @@ public class Unit : MonoBehaviour {
     }
 
     public void Attack(Vector2Int unitPos) {
-        Unit unitToAttack = gridScript.grid[unitPos.x, unitPos.y].unitOnTile;
+        Unit unitToAttack = GameManager.Instance.grid.grid[unitPos.x, unitPos.y].unitOnTile;
         if (unitToAttack != null) {
             Debug.Log($"<b>{this.gameObject.name}:</b> Attacking {unitToAttack.gameObject.name}");
             unitToAttack.TakeDamage(this);
@@ -124,7 +121,7 @@ public class Unit : MonoBehaviour {
     public virtual void Move(int dir) {
         moves--;
         int[] rotationOffset = new int[8] { -45, 0, 45, -90, 90, 225, 180, 135 };
-        gridScript.grid[pos.x, pos.y].unitOnTile = null;
+        GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = null;
         Vector2Int offset = Vector2Int.zero;
         if (dir == 1 || dir == 4 || dir == 6) {
             offset.x--;
@@ -150,8 +147,8 @@ public class Unit : MonoBehaviour {
             mainMesh.SetActive(true);
         }
 
-        if (gridScript.grid[pos.x, pos.y].tileType == TileType.City || gridScript.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
-            City city = gridScript.grid[pos.x, pos.y].gameObject.GetComponent<City>();
+        if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+            City city = GameManager.Instance.grid.grid[pos.x, pos.y].gameObject.GetComponent<City>();
             city.GetOwned(player);
             city.AddUnit(this);
             oldCity = city;
@@ -162,7 +159,7 @@ public class Unit : MonoBehaviour {
             mainMesh.SetActive(true);
         }
 
-        gridScript.grid[pos.x, pos.y].unitOnTile = this;
+        GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = this;
         if (moves <= 0) {
             turnStage = TurnStage.Complete;
             EndTurn();
@@ -175,12 +172,12 @@ public class Unit : MonoBehaviour {
     }
 
     public void SetPos(Vector2Int _pos) {
-        transform.position = new Vector3(_pos.x * gridScript.tileWidth, yOffset, _pos.y * gridScript.tileHeight);
+        transform.position = new Vector3(_pos.x * GameManager.Instance.grid.tileWidth, yOffset, _pos.y * GameManager.Instance.grid.tileHeight);
     }
 
     public virtual void Die() {
         player.playerUnits.Remove(this);
-        gridScript.grid[pos.x, pos.y].unitOnTile = null;
+        GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = null;
         if (isInCity) {
             oldCity.RemoveUnit(this);
         }

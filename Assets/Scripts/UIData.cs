@@ -7,6 +7,7 @@ public class UIData : MonoBehaviour {
 
     public Unit currentUnit;
     public City currentCity;
+    public Tile mouseOverTile;
 
     private void Awake() {
         if (_instance != null && _instance != this) {

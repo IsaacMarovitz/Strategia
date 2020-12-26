@@ -22,8 +22,40 @@ namespace Strategia {
         public Transform tileParent;
         // Sea, Plains, Swamp, Mountains, Trees, City, Costal City
         public GameObject[] prefabs = new GameObject[7];
+        [Space(10)]
+        public bool onlyShowPathGizmos;
+        public List<Tile> path;
 
         private List<List<Tile>> islandList = new List<List<Tile>>();
+
+        void OnDrawGizmos() {
+            if (onlyShowPathGizmos) {
+                if (path != null) {
+                    foreach (var tile in path) {
+                        Gizmos.color = Color.black;
+                        Gizmos.DrawCube(Vector3.up + tile.gameObject.transform.position, new Vector3(tileWidth - 0.1f, 1, tileHeight - 0.1f));
+                    }
+                }
+            } else {
+                if (grid != null) {
+                    foreach (var tile in grid) {
+                        Gizmos.color = (tile.walkable) ? Color.white : Color.red;
+                        if (path != null) {
+                            if (path.Contains(tile)) {
+                                Gizmos.color = Color.black;
+                            }
+                        }
+                        Gizmos.DrawCube(Vector3.up + tile.gameObject.transform.position, new Vector3(tileWidth - 0.1f, 1, tileHeight - 0.1f));
+                    }
+                }
+            }
+        }
+
+        public int MaxSize {
+            get {
+                return width * height;
+            }
+        }
 
         void Awake() {
             CreateGrid();
@@ -38,6 +70,7 @@ namespace Strategia {
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
                     grid[x, y] = new Tile(TileType.Sea, null, new Vector2Int(x, y), 0);
+                    grid[x, y].walkable = true;
 
                     float sample = noiseMap[x, y];
 
@@ -66,7 +99,7 @@ namespace Strategia {
             int islandIndex = 1;
             foreach (var tile in grid) {
                 if (tile.islandIndex == 0 && tile.tileType != TileType.Sea) {
-                    List<Tile> islandTiles = GridUtilities.FloodFill(grid, tile);
+                    List<Tile> islandTiles = GridUtilities.FloodFill(tile);
                     islandList.Add(islandTiles);
                     if (islandTiles.Count < minimumIslandArea) {
                         foreach (var islandTile in islandTiles) {
@@ -88,7 +121,7 @@ namespace Strategia {
             List<Tile> potentialCityTiles = new List<Tile>();
             foreach (var tile in grid) {
                 if (tile.tileType == TileType.Plains) {
-                    if (GridUtilities.CostalCheck(grid, width, height, tile.index)) {
+                    if (GridUtilities.CostalCheck(tile.index)) {
                         potentialCityTiles.Add(new Tile(TileType.CostalCity, null, tile.index, tile.islandIndex));
                     } else {
                         potentialCityTiles.Add(new Tile(TileType.City, null, tile.index, tile.islandIndex));

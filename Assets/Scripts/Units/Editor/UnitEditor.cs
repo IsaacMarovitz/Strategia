@@ -15,7 +15,6 @@ namespace Strategia.Editor {
             Unit unit = (Unit)target;
 
             SerializedProperty turnStage_prop = serializedObject.FindProperty("turnStage");
-            SerializedProperty gridScript_prop = serializedObject.FindProperty("gridScript");
             SerializedProperty sleepEffect_prop = serializedObject.FindProperty("sleepEffect");
             SerializedProperty mainMesh_prop = serializedObject.FindProperty("mainMesh");
 
@@ -29,7 +28,6 @@ namespace Strategia.Editor {
             SerializedProperty pos_prop = serializedObject.FindProperty("pos");
 
             EditorGUILayout.PropertyField(turnStage_prop);
-            EditorGUILayout.PropertyField(gridScript_prop);
             EditorGUILayout.PropertyField(sleepEffect_prop);
             EditorGUILayout.PropertyField(mainMesh_prop);
 
@@ -58,15 +56,16 @@ namespace Strategia.Editor {
                 maxHealth_prop.intValue = 0;
             }
 
-            if (unit.gridScript != null) {
+            if (GameManager.Instance != null) {
                 EditorGUILayout.Space(10);
                 showPosition = EditorGUILayout.BeginFoldoutHeaderGroup(showPosition, "Position");
                 if (showPosition) {
-                    pos_prop.vector2IntValue = new Vector2Int(EditorGUILayout.IntSlider("X Position", pos_prop.vector2IntValue.x, 1, unit.gridScript.width - 2), pos_prop.vector2IntValue.y);
-                    pos_prop.vector2IntValue = new Vector2Int(pos_prop.vector2IntValue.x, EditorGUILayout.IntSlider("Y Position", pos_prop.vector2IntValue.y, 1, unit.gridScript.height - 2));
+                    pos_prop.vector2IntValue = new Vector2Int(EditorGUILayout.IntSlider("X Position", pos_prop.vector2IntValue.x, 1, GameManager.Instance.grid.width - 2), pos_prop.vector2IntValue.y);
+                    pos_prop.vector2IntValue = new Vector2Int(pos_prop.vector2IntValue.x, EditorGUILayout.IntSlider("Y Position", pos_prop.vector2IntValue.y, 1, GameManager.Instance.grid.height - 2));
                 }
                 EditorGUILayout.EndFoldoutHeaderGroup();
             }
+
             if (pos_prop.vector2IntValue.x < 0) {
                 pos_prop.vector2IntValue = new Vector2Int(0, pos_prop.vector2IntValue.y);
             }

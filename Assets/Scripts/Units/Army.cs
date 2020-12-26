@@ -32,7 +32,7 @@ public class Army : Unit {
     public override void CheckDirs() {
         base.CheckDirs();
 
-        Tile[] tiles = GridUtilities.DiagonalCheck(gridScript.grid, gridScript.width, gridScript.height, pos);
+        Tile[] tiles = GridUtilities.DiagonalCheck(pos);
         for (int i = 0; i < tiles.Length; i++) {
             if (tiles[i] == null) {
                 moveDirs[i] = TileMoveStatus.Blocked;
@@ -95,19 +95,19 @@ public class Army : Unit {
             if (isOnTransport) {
                 isOnTransport = false;
                 mainMesh.SetActive(true);
-                ((Transport)gridScript.grid[pos.x, pos.y].unitOnTile).armiesOnTransport.Remove(this);
+                ((Transport)GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile).armiesOnTransport.Remove(this);
             } else {
-                gridScript.grid[pos.x, pos.y].unitOnTile = null;
+                GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = null;
             }
             pos += offset;
-            gridScript.grid[pos.x, pos.y].unitOnTile = this;
+            GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = this;
             this.transform.eulerAngles = new Vector3(0, rotationOffset[dir - 1], 0);
         } else if (moveDirs[dir - 1] == TileMoveStatus.Attack) {
             Attack(pos + offset);
         } else if (moveDirs[dir - 1] == TileMoveStatus.Transport) {
             pos += offset;
             isOnTransport = true;
-            ((Transport)gridScript.grid[pos.x, pos.y].unitOnTile).armiesOnTransport.Add(this);
+            ((Transport)GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile).armiesOnTransport.Add(this);
         }
 
         if (oldCity != null) {
@@ -117,8 +117,8 @@ public class Army : Unit {
             mainMesh.SetActive(true);
         }
 
-        if (gridScript.grid[pos.x, pos.y].tileType == TileType.City || gridScript.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
-            City city = gridScript.grid[pos.x, pos.y].gameObject.GetComponent<City>();
+        if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+            City city = GameManager.Instance.grid.grid[pos.x, pos.y].gameObject.GetComponent<City>();
             city.GetOwned(player);
             city.AddUnit(this);
             oldCity = city;
@@ -135,7 +135,7 @@ public class Army : Unit {
         }
         player.UpdateFogOfWar();
 
-        if (gridScript.grid[pos.x, pos.y].tileType == TileType.Swamp) {
+        if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.Swamp) {
             isMoveDistanceReduced = true;
             moves -= reducedMoveDistance;
         } else {
