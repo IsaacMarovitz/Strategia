@@ -33,15 +33,6 @@ public class Army : Unit {
         base.CheckDirs();
 
         Tile[] tiles = GridUtilities.DiagonalCheck(pos);
-        for (int i = 0; i < tiles.Length; i++) {
-            if (tiles[i] == null) {
-                moveDirs[i] = TileMoveStatus.Blocked;
-            } else if (tiles[i].tileType == TileType.Trees || tiles[i].tileType == TileType.Mountains || tiles[i].tileType == TileType.Sea) {
-                moveDirs[i] = TileMoveStatus.Blocked;
-            } else {
-                moveDirs[i] = TileMoveStatus.Move;
-            }
-        }
 
         if (turnStage == TurnStage.Started) {
             for (int i = 0; i < tiles.Length; i++) {

@@ -67,9 +67,9 @@ MonoBehaviour:
   oldCity: {fileID: 0}
   isInCity: 0
   mainMesh: {fileID: 0}
-  gridScript: {fileID: 0}
   sleepEffect: {fileID: 0}
   player: {fileID: 0}
+  blockedTileTypes: 0100000002000000030000000400000005000000
   armiesOnTransport: []
   isTransportFull: 0
 --- !u!1 &4182168041821793745

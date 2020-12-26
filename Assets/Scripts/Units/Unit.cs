@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.VFX;
+using System.Collections.Generic;
 
 public class Unit : MonoBehaviour {
 
@@ -19,6 +20,7 @@ public class Unit : MonoBehaviour {
     public GameObject mainMesh;
     public VisualEffect sleepEffect;
     public Player player;
+    public List<TileType> blockedTileTypes;
 
     public void Awake() {
         // Replace this later with something a lot more modular
@@ -50,7 +52,7 @@ public class Unit : MonoBehaviour {
         player = _player;
         if (turnStage != TurnStage.Sleeping) {
             turnStage = TurnStage.Waiting;
-        } 
+        }
         moves = maxMoves;
     }
 
@@ -114,7 +116,16 @@ public class Unit : MonoBehaviour {
             turnStage = TurnStage.Complete;
             return;
         }
-
+        Tile[] tiles = GridUtilities.DiagonalCheck(pos);
+        for (int i = 0; i < tiles.Length; i++) {
+            if (tiles[i] == null) {
+                moveDirs[i] = TileMoveStatus.Blocked;
+            } else if (blockedTileTypes.Contains(tiles[i].tileType)) {
+                moveDirs[i] = TileMoveStatus.Blocked;
+            } else {
+                moveDirs[i] = TileMoveStatus.Move;
+            }
+        }
         // Each unit implements it's own logic here
     }
 
@@ -140,9 +151,9 @@ public class Unit : MonoBehaviour {
             Attack(pos + offset);
         }
 
-        if (oldCity != null) { 
+        if (oldCity != null) {
             oldCity.RemoveUnit(this);
-            oldCity = null; 
+            oldCity = null;
             isInCity = false;
             mainMesh.SetActive(true);
         }

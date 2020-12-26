@@ -249,11 +249,11 @@ MonoBehaviour:
   oldCity: {fileID: 0}
   isInCity: 0
   mainMesh: {fileID: 0}
-  gridScript: {fileID: 0}
   sleepEffect: {fileID: 0}
   player: {fileID: 0}
+  blockedTileTypes: 000000000300000004000000
   isMoveDistanceReduced: 0
-  isOnTranport: 0
+  isOnTransport: 0
   reducedMoveDistance: 1
 --- !u!1 &1238425569375608352
 GameObject:

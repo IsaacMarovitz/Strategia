@@ -25,16 +25,7 @@ public class Bomber : Unit {
         base.CheckDirs();
 
         Tile[] tiles = GridUtilities.DiagonalCheck(pos);
-        for (int i = 0; i < tiles.Length; i++) {
-            if (tiles[i] == null) {
-                moveDirs[i] = TileMoveStatus.Blocked;
-            } else if (tiles[i].tileType == TileType.Mountains) {
-                moveDirs[i] = TileMoveStatus.Blocked;
-            } else {
-                moveDirs[i] = TileMoveStatus.Move;
-            }
-        }
-
+        
         if (turnStage == TurnStage.Started) {
             for (int i = 0; i < tiles.Length; i++) {
                 if (tiles[i].unitOnTile != null) {

@@ -4,8 +4,6 @@ using UnityEngine;
 public class PathDrawer : MonoBehaviour {
 
     public LineRenderer lineRenderer;
-    public List<TileType> tileTypes;
-
     private Unit unit;
     private Tile city;
     private List<Tile> oldPositions;
@@ -20,7 +18,7 @@ public class PathDrawer : MonoBehaviour {
     void Update() {
         if (UIData.Instance.currentUnit != null && UIData.Instance.mouseOverTile != null) {
             if (UIData.Instance.currentUnit != oldUnit || UIData.Instance.mouseOverTile != oldMouseOverTile) {
-                GridUtilities.FindPath(GameManager.Instance.grid.grid[UIData.Instance.currentUnit.pos.x, UIData.Instance.currentUnit.pos.y], UIData.Instance.mouseOverTile, tileTypes);
+                GridUtilities.FindPath(GameManager.Instance.grid.grid[UIData.Instance.currentUnit.pos.x, UIData.Instance.currentUnit.pos.y], UIData.Instance.mouseOverTile, UIData.Instance.currentUnit.blockedTileTypes);
             }
         }
         if (GameManager.Instance.grid.path != null && oldPositions != GameManager.Instance.grid.path) {
