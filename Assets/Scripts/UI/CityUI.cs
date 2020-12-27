@@ -8,6 +8,7 @@ public class CityUI : MonoBehaviour {
     public GameObject panel;
     public TMP_Text cityName;
     public TMP_Text turnsLeft;
+    public TMP_InputField inputField;
     public float yOffset;
     public HorizontalLayoutGroup horizontalLayoutGroup;
     public GameObject unitButtonPrefab;
@@ -73,5 +74,17 @@ public class CityUI : MonoBehaviour {
             UnitButtonUI unitButton = newButton.GetComponent<UnitButtonUI>();
             unitButton.unit = unit;
         }
+    }
+
+    public void ShowInputField() {
+        inputField.gameObject.SetActive(true);
+        inputField.text = UIData.Instance.currentCity.cityName;
+        GameManager.Instance.Pause();
+    }
+
+    public void FinishChangingName() {
+        UIData.Instance.currentCity.cityName = inputField.text;
+        inputField.gameObject.SetActive(false);
+        GameManager.Instance.Resume();
     }
 }

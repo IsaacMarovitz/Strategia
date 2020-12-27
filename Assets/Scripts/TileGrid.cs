@@ -23,12 +23,12 @@ namespace Strategia {
         // Sea, Plains, Swamp, Mountains, Trees, City, Costal City
         public GameObject[] prefabs = new GameObject[7];
         [Space(10)]
-        public bool onlyShowPathGizmos;
+        //public bool onlyShowPathGizmos;
         public List<Tile> path;
 
         private List<List<Tile>> islandList = new List<List<Tile>>();
 
-        void OnDrawGizmos() {
+        /*void OnDrawGizmos() {
             if (onlyShowPathGizmos) {
                 if (path != null) {
                     foreach (var tile in path) {
@@ -49,7 +49,7 @@ namespace Strategia {
                     }
                 }
             }
-        }
+        }*/
 
         public int MaxSize {
             get {

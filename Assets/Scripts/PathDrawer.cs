@@ -1,9 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class PathDrawer : MonoBehaviour {
 
     public LineRenderer lineRenderer;
+    public TMP_Text numberOfMoves;
+    public Canvas canvas;
+
     private Unit unit;
     private Tile city;
     private List<Tile> oldPositions;
@@ -18,13 +23,24 @@ public class PathDrawer : MonoBehaviour {
     void Update() {
         if (UIData.Instance.currentUnit != null && UIData.Instance.mouseOverTile != null) {
             if (UIData.Instance.currentUnit != oldUnit || UIData.Instance.mouseOverTile != oldMouseOverTile) {
+                lineRenderer.enabled = true;
+                canvas.enabled = true;
                 GridUtilities.FindPath(GameManager.Instance.grid.grid[UIData.Instance.currentUnit.pos.x, UIData.Instance.currentUnit.pos.y], UIData.Instance.mouseOverTile, UIData.Instance.currentUnit.blockedTileTypes);
             }
+        } else {
+            lineRenderer.enabled = false;
+            canvas.enabled = false;
         }
         if (GameManager.Instance.grid.path != null && oldPositions != GameManager.Instance.grid.path) {
-            oldPositions = GameManager.Instance.grid.path;
-            lineRenderer.positionCount = GameManager.Instance.grid.path.Count;
-            lineRenderer.SetPositions(TilesToWorldPositions(GameManager.Instance.grid.path));
+            if (GameManager.Instance.grid.path.Count > 0) {
+                oldPositions = GameManager.Instance.grid.path;
+                lineRenderer.positionCount = GameManager.Instance.grid.path.Count;
+                lineRenderer.SetPositions(TilesToWorldPositions(GameManager.Instance.grid.path));
+                numberOfMoves.text = GameManager.Instance.grid.path.Count.ToString();
+                int midIndex = Mathf.RoundToInt((GameManager.Instance.grid.path.Count - 1) / 2);
+                canvas.transform.position = new Vector3(GameManager.Instance.grid.path[midIndex].gameObject.transform.position.x, 2, GameManager.Instance.grid.path[midIndex].gameObject.transform.position.z);
+                canvas.transform.eulerAngles = new Vector3(-90, 0, 0);
+            }
         }
     }
 
