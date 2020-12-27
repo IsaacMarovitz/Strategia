@@ -19,6 +19,7 @@ public class Unit : MonoBehaviour {
     public bool isInCity;
     public GameObject mainMesh;
     public VisualEffect sleepEffect;
+    public Sprite unitIcon;
     public Player player;
     public List<TileType> blockedTileTypes;
 

@@ -231,7 +231,7 @@ MonoBehaviour:
   health: 0
   maxHealth: 30
   moves: 0
-  maxMoves: 3
+  maxMoves: 2
   damageAmount: 0
   moveDirs: 0000000000000000000000000000000000000000000000000000000000000000
   turnStage: 0
@@ -250,6 +250,7 @@ MonoBehaviour:
   isInCity: 0
   mainMesh: {fileID: 0}
   sleepEffect: {fileID: 0}
+  unitIcon: {fileID: 21300000, guid: 7c10a3de55f9d3e4a8a9a6a00930c2f1, type: 3}
   player: {fileID: 0}
   blockedTileTypes: 000000000300000004000000
   isMoveDistanceReduced: 0
