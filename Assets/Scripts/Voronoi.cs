@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public static class Voronoi {
 
-    public static Texture2D GenerateVoronoi(List<Vector2> points) {
+    public static Texture2D GenerateVoronoi(List<Tile> points) {
         Texture2D returnTexture = new Texture2D(GameManager.Instance.grid.width, GameManager.Instance.grid.height);
         returnTexture.filterMode = FilterMode.Point;
         returnTexture.wrapMode = TextureWrapMode.Repeat;
@@ -20,11 +20,11 @@ public static class Voronoi {
         return returnTexture;
     }
 
-    public static int GetClosestPointIndex(Vector2Int pixel, List<Vector2> points) {
+    public static int GetClosestPointIndex(Vector2Int pixel, List<Tile> points) {
         float smallestDistance = float.MaxValue;
         int index = 0;
         for (int i = 0; i < points.Count; i++) {
-            float distance = ManhattanDistance(pixel, points[i]);
+            float distance = ManhattanDistance(pixel, points[i].index);
             if (distance < smallestDistance) {
                 smallestDistance = distance;
                 index = i;

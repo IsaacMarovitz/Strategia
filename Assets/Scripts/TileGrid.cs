@@ -25,6 +25,7 @@ namespace Strategia {
         [Space(10)]
         //public bool onlyShowPathGizmos;
         public List<Tile> path;
+        public Texture2D voronoiTexture;
 
         private List<List<Tile>> islandList = new List<List<Tile>>();
 
@@ -91,6 +92,7 @@ namespace Strategia {
             }
             CalculateIslands();
             CalculateCities();
+            voronoiTexture = Voronoi.GenerateVoronoi(cityTiles);
             SpawnTiles();
         }
 

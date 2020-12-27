@@ -15,6 +15,7 @@ public class Player : MonoBehaviour {
 
     private List<Unit> unitQueue;
     private bool revealAllTiles = false;
+    public Texture2D minimapTexture;
     public Texture2D fogOfWarTexture;
     public float[,] fogOfWarMatrix;
 
@@ -23,6 +24,8 @@ public class Player : MonoBehaviour {
             fogOfWarMatrix = new float[GameManager.Instance.grid.width, GameManager.Instance.grid.height];
             fogOfWarTexture = new Texture2D(GameManager.Instance.grid.width, GameManager.Instance.grid.height);
             fogOfWarTexture.filterMode = FilterMode.Point;
+            minimapTexture = new Texture2D(GameManager.Instance.grid.width, GameManager.Instance.grid.height);
+            minimapTexture.filterMode = FilterMode.Point;
             for (int x = 0; x < GameManager.Instance.grid.width; x++) {
                 for (int y = 0; y < GameManager.Instance.grid.height; y++) {
                     fogOfWarMatrix[x, y] = 0;
@@ -65,16 +68,20 @@ public class Player : MonoBehaviour {
             for (int y = 0; y < GameManager.Instance.grid.height; y++) {
                 if (fogOfWarMatrix[x, y] == 1) {
                     fogOfWarTexture.SetPixel(x, y, new Color(1, 1, 1, 0));
+                    minimapTexture.SetPixel(x, y, GameManager.Instance.grid.voronoiTexture.GetPixel(x, y));
                 } else if (fogOfWarMatrix[x, y] == 0) {
                     fogOfWarTexture.SetPixel(x, y, Color.black);
+                    minimapTexture.SetPixel(x, y, Color.black);
                 } else if (fogOfWarMatrix[x, y] == 0.5f) {
                     fogOfWarTexture.SetPixel(x, y, new Color(1, 1, 1, 0.5f));
+                    minimapTexture.SetPixel(x, y, GameManager.Instance.grid.voronoiTexture.GetPixel(x, y));
                 } else {
                     fogOfWarTexture.SetPixel(x, y, Color.red);
                 }
             }
         }
         fogOfWarTexture.Apply();
+        minimapTexture.Apply();
         if (turnStarted && !turnCompleted) {
             GameManager.Instance.fogOfWarTexture.material.mainTexture = fogOfWarTexture;
             GameManager.Instance.UpdateFogOfWarObjects(fogOfWarMatrix);

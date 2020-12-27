@@ -27,7 +27,6 @@ public class GameManager : MonoBehaviour {
 
     private float hueOffset;
 
-
     private void Awake() {
         if (_instance != null && _instance != this) {
             Destroy(this.gameObject);
