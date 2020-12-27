@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Bomber : Unit {
 
-    public int blastRadius = 5;
+    public int blastRadius = 2;
     public int fuel;
     public int maxFuel;
     public int fuelPerMove;
