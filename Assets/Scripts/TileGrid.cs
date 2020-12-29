@@ -14,7 +14,7 @@ namespace Strategia {
         public int numberOfCostalCities = 10;
         public int numberOfCities = 10;
         public Tile[,] grid;
-        public List<Tile> cityTiles;
+        public List<City> cityTiles;
         [Range(0, 10000)]
         public int seed;
         public int islandCount;
@@ -92,8 +92,11 @@ namespace Strategia {
             }
             CalculateIslands();
             CalculateCities();
-            voronoiTexture = Voronoi.GenerateVoronoi(cityTiles);
             SpawnTiles();
+            foreach (var tile in grid) {
+                tile.cityOfInfluence = Voronoi.GetCityOfInfluence(tile.pos, cityTiles);
+            }
+            voronoiTexture = Voronoi.GenerateVoronoi(cityTiles);
         }
 
         // Assign an island index to every tile and destroy islands that are too small
@@ -123,10 +126,10 @@ namespace Strategia {
             List<Tile> potentialCityTiles = new List<Tile>();
             foreach (var tile in grid) {
                 if (tile.tileType == TileType.Plains) {
-                    if (GridUtilities.CostalCheck(tile.index)) {
-                        potentialCityTiles.Add(new Tile(TileType.CostalCity, null, tile.index, tile.islandIndex));
+                    if (GridUtilities.CostalCheck(tile.pos)) {
+                        potentialCityTiles.Add(new Tile(TileType.CostalCity, null, tile.pos, tile.islandIndex));
                     } else {
-                        potentialCityTiles.Add(new Tile(TileType.City, null, tile.index, tile.islandIndex));
+                        potentialCityTiles.Add(new Tile(TileType.City, null, tile.pos, tile.islandIndex));
                     }
                 }
             }
@@ -139,12 +142,10 @@ namespace Strategia {
                 foreach (var city in potentialCityTiles) {
                     if ((city.tileType == TileType.CostalCity) && (calculatedCostalCities < numberOfCostalCities)) {
                         calculatedCostalCities++;
-                        grid[city.index.x, city.index.y].tileType = TileType.CostalCity;
-                        cityTiles.Add(grid[city.index.x, city.index.y]);
+                        grid[city.pos.x, city.pos.y].tileType = TileType.CostalCity;
                     } else if ((city.tileType == TileType.City) && (calculatedCities < numberOfCities)) {
                         calculatedCities++;
-                        grid[city.index.x, city.index.y].tileType = TileType.City;
-                        cityTiles.Add(grid[city.index.x, city.index.y]);
+                        grid[city.pos.x, city.pos.y].tileType = TileType.City;
                     }
                 }
                 outOfCities = true;
@@ -192,12 +193,14 @@ namespace Strategia {
                             instantiatedTile.transform.tag = "City";
                             cityScript = instantiatedTile.GetComponent<City>();
                             cityScript.pos = new Vector2Int(x, y);
+                            cityTiles.Add(cityScript);
                             break;
                         case TileType.CostalCity:
                             instantiatedTile = GameObject.Instantiate(prefabs[6], new Vector3(x * tileWidth, 0, y * tileHeight), Quaternion.Euler(0, 180, 0));
                             instantiatedTile.transform.tag = "City";
                             cityScript = instantiatedTile.GetComponent<City>();
                             cityScript.pos = new Vector2Int(x, y);
+                            cityTiles.Add(cityScript);
                             break;
                         default:
                             instantiatedTile = null;
@@ -214,7 +217,7 @@ namespace Strategia {
 
         public City ChoosePlayerCity() {
             foreach (var city in cityTiles) {
-                if (city.tileType == TileType.CostalCity) {
+                if (grid[city.pos.x, city.pos.y].tileType == TileType.CostalCity) {
                     City cityScript = city.gameObject.GetComponent<City>();
                     if (!cityScript.isOwned) {
                         cityScript.isOwned = true;

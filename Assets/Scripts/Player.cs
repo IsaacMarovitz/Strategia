@@ -43,13 +43,13 @@ public class Player : MonoBehaviour {
             foreach (var unit in playerUnits) {
                 List<Tile> revealedTiles = GridUtilities.RadialSearch(unit.pos, 5);
                 foreach (var tile in revealedTiles) {
-                    fogOfWarMatrix[tile.index.x, tile.index.y] = 1f;
+                    fogOfWarMatrix[tile.pos.x, tile.pos.y] = 1f;
                 }
             }
             foreach (var city in playerCities) {
                 List<Tile> revealedTiles = GridUtilities.RadialSearch(city.pos, 5);
                 foreach (var tile in revealedTiles) {
-                    fogOfWarMatrix[tile.index.x, tile.index.y] = 1f;
+                    fogOfWarMatrix[tile.pos.x, tile.pos.y] = 1f;
                 }
             }
         } else {
@@ -68,13 +68,21 @@ public class Player : MonoBehaviour {
             for (int y = 0; y < GameManager.Instance.grid.height; y++) {
                 if (fogOfWarMatrix[x, y] == 1) {
                     fogOfWarTexture.SetPixel(x, y, new Color(1, 1, 1, 0));
-                    minimapTexture.SetPixel(x, y, GameManager.Instance.grid.voronoiTexture.GetPixel(x, y));
+                    if (GameManager.Instance.grid.grid[x, y].cityOfInfluence.player != null) {
+                        minimapTexture.SetPixel(x, y, GameManager.Instance.grid.grid[x, y].cityOfInfluence.player.playerColor);
+                    } else {
+                        minimapTexture.SetPixel(x, y, Color.grey);
+                    }
                 } else if (fogOfWarMatrix[x, y] == 0) {
                     fogOfWarTexture.SetPixel(x, y, Color.black);
                     minimapTexture.SetPixel(x, y, Color.black);
                 } else if (fogOfWarMatrix[x, y] == 0.5f) {
                     fogOfWarTexture.SetPixel(x, y, new Color(1, 1, 1, 0.5f));
-                    minimapTexture.SetPixel(x, y, GameManager.Instance.grid.voronoiTexture.GetPixel(x, y));
+                    if (GameManager.Instance.grid.grid[x, y].cityOfInfluence.player != null) {
+                        minimapTexture.SetPixel(x, y, GameManager.Instance.grid.grid[x, y].cityOfInfluence.player.playerColor);
+                    } else {
+                        minimapTexture.SetPixel(x, y, Color.grey);
+                    }
                 } else {
                     fogOfWarTexture.SetPixel(x, y, Color.red);
                 }

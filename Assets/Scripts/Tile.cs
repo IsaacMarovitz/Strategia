@@ -4,11 +4,12 @@ public enum TileType { Sea, Plains, Swamp, Mountains, Trees, City, CostalCity };
 
 [System.Serializable]
 public class Tile : IHeapItem<Tile> {
-    public Vector2Int index;
+    public Vector2Int pos;
     public TileType tileType;
     public GameObject gameObject;
     public int islandIndex;
     public Unit unitOnTile;
+    public City cityOfInfluence;
 
     public bool walkable;
     public int gCost;
@@ -39,15 +40,15 @@ public class Tile : IHeapItem<Tile> {
         return -compare;
     }
 
-    public Tile(bool walkable, Vector2Int index) {
+    public Tile(bool walkable, Vector2Int pos) {
         this.walkable = walkable;
-        this.index = index;
+        this.pos = pos;
     }
 
     public Tile(TileType _tileType, GameObject _gameObject, Vector2Int _index, int _islandIndex) {
         tileType = _tileType;
         gameObject = _gameObject;
-        index = _index;
+        pos = _index;
         islandIndex = _islandIndex;
     }
 }

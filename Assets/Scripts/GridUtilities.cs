@@ -59,7 +59,7 @@ public static class GridUtilities {
         List<Tile> tilesInRange = new List<Tile>();
         Tile startingPoint = grid[pos.x, pos.y];
         foreach (var tile in grid) {
-            if ((Mathf.Pow((startingPoint.index.x - tile.index.x), 2) + (Mathf.Pow((startingPoint.index.y - tile.index.y), 2))) < Mathf.Pow(radius, 2)) {
+            if ((Mathf.Pow((startingPoint.pos.x - tile.pos.x), 2) + (Mathf.Pow((startingPoint.pos.y - tile.pos.y), 2))) < Mathf.Pow(radius, 2)) {
                 tilesInRange.Add(tile);
             }
         }
@@ -82,22 +82,22 @@ public static class GridUtilities {
             tileQueue.Dequeue();
             Tile nextTile;
 
-            nextTile = grid[n.index.x - 1, n.index.y];
+            nextTile = grid[n.pos.x - 1, n.pos.y];
             if (nextTile.tileType != TileType.Sea && !islandTiles.Contains(nextTile)) {
                 islandTiles.Add(nextTile);
                 tileQueue.Enqueue(nextTile);
             }
-            nextTile = grid[n.index.x + 1, n.index.y];
+            nextTile = grid[n.pos.x + 1, n.pos.y];
             if (nextTile.tileType != TileType.Sea && !islandTiles.Contains(nextTile)) {
                 islandTiles.Add(nextTile);
                 tileQueue.Enqueue(nextTile);
             }
-            nextTile = grid[n.index.x, n.index.y + 1];
+            nextTile = grid[n.pos.x, n.pos.y + 1];
             if (nextTile.tileType != TileType.Sea && !islandTiles.Contains(nextTile)) {
                 islandTiles.Add(nextTile);
                 tileQueue.Enqueue(nextTile);
             }
-            nextTile = grid[n.index.x - 1, n.index.y - 1];
+            nextTile = grid[n.pos.x - 1, n.pos.y - 1];
             if (nextTile.tileType != TileType.Sea && !islandTiles.Contains(nextTile)) {
                 islandTiles.Add(nextTile);
                 tileQueue.Enqueue(nextTile);
@@ -121,7 +121,7 @@ public static class GridUtilities {
                 return;
             }
 
-            foreach (Tile neighbour in DiagonalCheck(currentTile.index)) {
+            foreach (Tile neighbour in DiagonalCheck(currentTile.pos)) {
                 if (neighbour == null) {
                     continue;
                 }
@@ -159,8 +159,8 @@ public static class GridUtilities {
     }
 
     static int GetDistance(Tile tileA, Tile tileB) {
-        int distX = Mathf.Abs(tileA.index.x - tileB.index.x);
-        int distY = Mathf.Abs(tileA.index.y - tileB.index.y);
+        int distX = Mathf.Abs(tileA.pos.x - tileB.pos.x);
+        int distY = Mathf.Abs(tileA.pos.y - tileB.pos.y);
 
         if (distX > distY) {
             return 14 * distY + 10 * (distX - distY);

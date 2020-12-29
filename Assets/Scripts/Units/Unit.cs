@@ -23,6 +23,8 @@ public class Unit : MonoBehaviour {
     public Player player;
     public List<TileType> blockedTileTypes;
 
+    protected List<Tile> path;
+
     public void Awake() {
         // Replace this later with something a lot more modular
         mainMesh = this.gameObject.transform.GetChild(0).gameObject;
@@ -128,6 +130,17 @@ public class Unit : MonoBehaviour {
             }
         }
         // Each unit implements it's own logic here
+    }
+
+    public virtual void MoveE(List<Tile> path) {
+        for (int i = 0; i < path.Count; i++) {
+            if (moves > 0) {
+                moves--;
+                this.gameObject.transform.LookAt(path[i].gameObject.transform.position, Vector3.up);
+                pos = path[i].pos;
+                path.RemoveAt(i);
+            }
+        }
     }
 
     public virtual void Move(int dir) {

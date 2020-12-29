@@ -1,43 +1,49 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UnitUI : MonoBehaviour {
 
+    public LineRenderer lineRenderer;
+    public TMP_Text numberOfMoves;
     public Canvas canvas;
-    public Button[] buttons = new Button[9];
-    public float yOffset = 1f;
 
-    public void Update() {
-        if (UIData.Instance.currentUnit != null) {
-            transform.position = new Vector3(UIData.Instance.currentUnit.transform.position.x, yOffset, UIData.Instance.currentUnit.transform.position.z);
+    private List<Tile> oldPositions;
+    private Unit oldUnit;
+    private Tile oldMouseOverTile;
 
-            for (int i = 0; i < buttons.Length; i++) {
-                if (UIData.Instance.currentUnit.moves > 0 && UIData.Instance.currentUnit.turnStage != TurnStage.Sleeping) {
-                    if (UIData.Instance.currentUnit.moveDirs[i] == TileMoveStatus.Blocked) {
-                        buttons[i].interactable = false;
-                        buttons[i].targetGraphic.color = Color.white;
-                    } else if (UIData.Instance.currentUnit.moveDirs[i] == TileMoveStatus.Attack) {
-                        buttons[i].interactable = true;
-                        buttons[i].targetGraphic.color = Color.red;
-                    } else if (UIData.Instance.currentUnit.moveDirs[i] == TileMoveStatus.Move) {
-                        buttons[i].interactable = true;
-                        buttons[i].targetGraphic.color = Color.white;
-                    } else if (UIData.Instance.currentUnit.moveDirs[i] == TileMoveStatus.Transport) {
-                        buttons[i].interactable = true;
-                        buttons[i].targetGraphic.color = Color.white;
-                    }
-                } else {
-                    buttons[i].interactable = false;
-                }
+    void Update() {
+        if (UIData.Instance.currentUnit != null && UIData.Instance.mouseOverTile != null) {
+            if (UIData.Instance.currentUnit != oldUnit || UIData.Instance.mouseOverTile != oldMouseOverTile) {
+                lineRenderer.enabled = true;
+                canvas.enabled = true;
+                GridUtilities.FindPath(GameManager.Instance.grid.grid[UIData.Instance.currentUnit.pos.x, UIData.Instance.currentUnit.pos.y], UIData.Instance.mouseOverTile, UIData.Instance.currentUnit.blockedTileTypes);
             }
-            canvas.enabled = true;
         } else {
+            lineRenderer.enabled = false;
             canvas.enabled = false;
+        }
+        if (GameManager.Instance.grid.path != null && oldPositions != GameManager.Instance.grid.path) {
+            if (GameManager.Instance.grid.path.Count > 0) {
+                oldPositions = GameManager.Instance.grid.path;
+                lineRenderer.positionCount = GameManager.Instance.grid.path.Count;
+                lineRenderer.SetPositions(TilesToWorldPositions(GameManager.Instance.grid.path));
+                numberOfMoves.text = GameManager.Instance.grid.path.Count.ToString();
+                int midIndex = Mathf.RoundToInt((GameManager.Instance.grid.path.Count - 1) / 2);
+                canvas.transform.position = new Vector3(GameManager.Instance.grid.path[midIndex].gameObject.transform.position.x, 2, GameManager.Instance.grid.path[midIndex].gameObject.transform.position.z);
+                canvas.transform.eulerAngles = new Vector3(-90, 0, 0);
+            }
         }
     }
 
-
-    public void Move(int dir) {
-        UIData.Instance.Move(dir);
+    Vector3[] TilesToWorldPositions(List<Tile> tiles) {
+        Vector3[] positions = new Vector3[tiles.Count];
+        for (int i = 0; i < tiles.Count; i++) {
+            positions[i] = new Vector3(GameManager.Instance.grid.tileWidth * tiles[i].pos.x, 1, GameManager.Instance.grid.tileHeight * tiles[i].pos.y);
+        }
+        positions[0] = new Vector3(positions[0].x, 0, positions[0].z);
+        positions[positions.Length - 1] = new Vector3(positions[positions.Length - 1].x, 0, positions[positions.Length - 1].z);
+        return positions;
     }
 }
