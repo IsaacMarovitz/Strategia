@@ -20,7 +20,7 @@ public class Parachute : Unit {
         fuel = maxFuel;
     }
 
-    public override void CheckDirs() {
+    /*public override void CheckDirs() {
         base.CheckDirs();
 
         Tile[] tiles = GridUtilities.DiagonalCheck(pos);
@@ -39,10 +39,29 @@ public class Parachute : Unit {
                 }
             }
         }
+    }*/
+
+    public override TileMoveStatus CheckDir(Tile tile) {
+        TileMoveStatus returnMoveStatus = base.CheckDir(tile);
+
+        if (turnStage == TurnStage.Started) {
+            if (tile.unitOnTile != null) {
+                returnMoveStatus = TileMoveStatus.Blocked;
+            } else {
+                if (tile.tileType == TileType.City || tile.tileType == TileType.CostalCity) {
+                    City city = tile.gameObject.GetComponent<City>();
+                    if (!player.playerCities.Contains(city)) {
+                        returnMoveStatus = TileMoveStatus.Blocked;
+                    }
+                }
+            }
+        }
+
+        return returnMoveStatus;
     }
 
-    public override void Move(int dir) {
-        base.Move(dir);
+    public override void PerformMove(Tile tileToMoveTo) {
+        base.PerformMove(tileToMoveTo);
 
         if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
             fuel = maxFuel;
@@ -58,19 +77,24 @@ public class Parachute : Unit {
     }
 
     public void DeployArmy() {
-        Army army = GameObject.Instantiate(unitPrefab, Vector3.zero, Quaternion.identity).GetComponent<Army>();
-        army.SetPos(pos);
-        army.gameObject.transform.parent = this.gameObject.transform.parent;
-        army.player = player;
-        Die();
-        GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = army;
-        player.playerUnits.Add(army);
-        if (isInCity) {
-            oldCity.AddUnit(army);
-            army.isInCity = true;
-            army.mainMesh.SetActive(false);
-            army.oldCity = oldCity;
+        if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType != TileType.Sea || GameManager.Instance.grid.grid[pos.x, pos.y].tileType != TileType.Mountains || GameManager.Instance.grid.grid[pos.x, pos.y].tileType != TileType.Trees) {
+            Army army = GameObject.Instantiate(unitPrefab, Vector3.zero, Quaternion.identity).GetComponent<Army>();
+            army.SetPos(pos);
+            army.gameObject.transform.parent = this.gameObject.transform.parent;
+            army.player = player;
+            Die();
+            GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = army;
+            player.playerUnits.Add(army);
+            if (isInCity) {
+                oldCity.AddUnit(army);
+                army.isInCity = true;
+                army.mainMesh.SetActive(false);
+                army.oldCity = oldCity;
+            }
+            Debug.Log($"<b>{this.gameObject.name}:</b> Deployed army!");
+            GameObject.Destroy(this.gameObject);
+        } else {
+            Debug.Log($"<b>{this.gameObject.name}:</b> Invalid deploy location!");
         }
-        GameObject.Destroy(this.gameObject);
     }
 }

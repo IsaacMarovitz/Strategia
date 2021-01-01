@@ -233,7 +233,6 @@ MonoBehaviour:
   moves: 0
   maxMoves: 2
   damageAmount: 0
-  moveDirs: 0000000000000000000000000000000000000000000000000000000000000000
   turnStage: 0
   damagePercentages:
   - 0

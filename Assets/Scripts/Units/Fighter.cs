@@ -29,7 +29,7 @@ public class Fighter : Unit {
         fuel = maxFuel;
     }
 
-    public override void CheckDirs() {
+    /*public override void CheckDirs() {
         base.CheckDirs();
 
         Tile[] tiles = GridUtilities.DiagonalCheck(pos);
@@ -63,67 +63,43 @@ public class Fighter : Unit {
                 }
             }
         }
+    }*/
+
+    public override TileMoveStatus CheckDir(Tile tile) {
+        TileMoveStatus returnMoveStatus = base.CheckDir(tile);
+
+        if (turnStage == TurnStage.Started) {
+            if (tile.unitOnTile != null) {
+                if (tile.tileType == TileType.City || tile.tileType == TileType.CostalCity) {
+                    City city = tile.gameObject.GetComponent<City>();
+                    if (!player.playerCities.Contains(city)) {
+                        returnMoveStatus = TileMoveStatus.Attack;
+                    }
+                } else {
+                    if (player.playerUnits.Contains(tile.unitOnTile)) {
+                        if (tile.unitOnTile.GetType() == typeof(Carrier)) {
+                            returnMoveStatus = TileMoveStatus.Transport;
+                        } else {
+                            returnMoveStatus = TileMoveStatus.Blocked;
+                        }
+                    } else {
+                        returnMoveStatus = TileMoveStatus.Attack;
+                    }
+                }
+            } else {
+                if (tile.tileType == TileType.City || tile.tileType == TileType.CostalCity) {
+                    City city = tile.gameObject.GetComponent<City>();
+                    if (!player.playerCities.Contains(city)) {
+                        returnMoveStatus = TileMoveStatus.Blocked;
+                    }
+                }
+            }
+        }
+
+        return returnMoveStatus;
     }
 
-    public override void Move(int dir) {
-        moves--;
-        int[] rotationOffset = new int[8] { -45, 0, 45, -90, 90, 225, 180, 135 };
-        Vector2Int offset = Vector2Int.zero;
-        if (dir == 1 || dir == 4 || dir == 6) {
-            offset.x--;
-        } else if (dir == 3 || dir == 5 || dir == 8) {
-            offset.x++;
-        }
-        if (dir <= 3) {
-            offset.y++;
-        } else if (dir >= 6) {
-            offset.y--;
-        }
-        if (moveDirs[dir - 1] == TileMoveStatus.Move) {
-            if (isOnCarrier) {
-                isOnCarrier = false;
-                mainMesh.SetActive(true);
-                ((Carrier)GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile).fightersOnCarrier.Remove(this);
-            } else {
-                GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = null;
-            }
-            pos += offset;
-            GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = this;
-            this.transform.eulerAngles = new Vector3(0, rotationOffset[dir - 1], 0);
-        } else if (moveDirs[dir - 1] == TileMoveStatus.Attack) {
-            Attack(pos + offset);
-        } else if (moveDirs[dir - 1] == TileMoveStatus.Transport) {
-            pos += offset;
-            isOnCarrier = true;
-            ((Carrier)GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile).fightersOnCarrier.Add(this);
-            fuel = maxFuel;
-        }
-
-        if (oldCity != null) {
-            oldCity.RemoveUnit(this);
-            oldCity = null;
-            isInCity = false;
-            mainMesh.SetActive(true);
-        }
-
-        if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
-            City city = GameManager.Instance.grid.grid[pos.x, pos.y].gameObject.GetComponent<City>();
-            city.GetOwned(player);
-            city.AddUnit(this);
-            oldCity = city;
-            isInCity = true;
-            mainMesh.SetActive(false);
-        } else {
-            isInCity = false;
-            mainMesh.SetActive(true);
-        }
-
-        if (moves <= 0) {
-            turnStage = TurnStage.Complete;
-            EndTurn();
-        }
-        player.UpdateFogOfWar();
-
+    public override void PerformMove(Tile tileToMoveTo) {
         if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
             fuel = maxFuel;
         } else {
@@ -134,6 +110,27 @@ public class Fighter : Unit {
             Debug.Log($"<b>{this.gameObject.name}:</b> Ran out of fuel and crashed!");
             Die();
             GameObject.Destroy(this.gameObject);
+        }
+    }
+
+    public override void TransportCheck() {
+        base.TransportCheck();
+        if (isOnCarrier) {
+            isOnCarrier = false;
+            mainMesh.SetActive(true);
+            ((Carrier)GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile).fightersOnCarrier.Remove(this);
+        } else {
+            GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = null;
+        }
+    }
+
+    public override void TransportMove(Tile tileToMoveTo, TileMoveStatus tileMoveStatus) {
+        base.TransportMove(tileToMoveTo, tileMoveStatus);
+        if (tileMoveStatus == TileMoveStatus.Transport) {
+            pos += tileToMoveTo.pos;
+            isOnCarrier = true;
+            ((Carrier)GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile).fightersOnCarrier.Add(this);
+            fuel = maxFuel;
         }
     }
 }

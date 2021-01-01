@@ -8,13 +8,14 @@ public class UnitUI : MonoBehaviour {
     public LineRenderer lineRenderer;
     public TMP_Text numberOfMoves;
     public Canvas canvas;
+    public bool showLine = false;
 
     private List<Tile> oldPositions;
     private Unit oldUnit;
     private Tile oldMouseOverTile;
 
     void Update() {
-        if (UIData.Instance.currentUnit != null && UIData.Instance.mouseOverTile != null) {
+        if (UIData.Instance.currentUnit != null && UIData.Instance.mouseOverTile != null && showLine) {
             if (UIData.Instance.currentUnit != oldUnit || UIData.Instance.mouseOverTile != oldMouseOverTile) {
                 lineRenderer.enabled = true;
                 canvas.enabled = true;
@@ -29,7 +30,7 @@ public class UnitUI : MonoBehaviour {
                 oldPositions = GameManager.Instance.grid.path;
                 lineRenderer.positionCount = GameManager.Instance.grid.path.Count;
                 lineRenderer.SetPositions(TilesToWorldPositions(GameManager.Instance.grid.path));
-                numberOfMoves.text = GameManager.Instance.grid.path.Count.ToString();
+                numberOfMoves.text = (GameManager.Instance.grid.path.Count - 1).ToString();
                 int midIndex = Mathf.RoundToInt((GameManager.Instance.grid.path.Count - 1) / 2);
                 canvas.transform.position = new Vector3(GameManager.Instance.grid.path[midIndex].gameObject.transform.position.x, 2, GameManager.Instance.grid.path[midIndex].gameObject.transform.position.z);
                 canvas.transform.eulerAngles = new Vector3(-90, 0, 0);
@@ -40,10 +41,8 @@ public class UnitUI : MonoBehaviour {
     Vector3[] TilesToWorldPositions(List<Tile> tiles) {
         Vector3[] positions = new Vector3[tiles.Count];
         for (int i = 0; i < tiles.Count; i++) {
-            positions[i] = new Vector3(GameManager.Instance.grid.tileWidth * tiles[i].pos.x, 1, GameManager.Instance.grid.tileHeight * tiles[i].pos.y);
+            positions[i] = new Vector3(GameManager.Instance.grid.tileWidth * tiles[i].pos.x, 0, GameManager.Instance.grid.tileHeight * tiles[i].pos.y);
         }
-        positions[0] = new Vector3(positions[0].x, 0, positions[0].z);
-        positions[positions.Length - 1] = new Vector3(positions[positions.Length - 1].x, 0, positions[positions.Length - 1].z);
         return positions;
     }
 }

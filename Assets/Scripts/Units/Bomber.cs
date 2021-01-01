@@ -21,11 +21,11 @@ public class Bomber : Unit {
         fuel = maxFuel;
     }
 
-    public override void CheckDirs() {
+    /*public override void CheckDirs() {
         base.CheckDirs();
 
         Tile[] tiles = GridUtilities.DiagonalCheck(pos);
-        
+
         if (turnStage == TurnStage.Started) {
             for (int i = 0; i < tiles.Length; i++) {
                 if (tiles[i].unitOnTile != null) {
@@ -40,10 +40,29 @@ public class Bomber : Unit {
                 }
             }
         }
+    }*/
+
+    public override TileMoveStatus CheckDir(Tile tile) {
+        TileMoveStatus returnMoveStatus = base.CheckDir(tile);
+
+        if (turnStage == TurnStage.Started) {
+            if (tile.unitOnTile != null) {
+                returnMoveStatus = TileMoveStatus.Blocked;
+            } else {
+                if (tile.tileType == TileType.City || tile.tileType == TileType.CostalCity) {
+                    City city = tile.gameObject.GetComponent<City>();
+                    if (!player.playerCities.Contains(city)) {
+                        returnMoveStatus = TileMoveStatus.Blocked;
+                    }
+                }
+            }
+        }
+
+        return returnMoveStatus;
     }
 
-    public override void Move(int dir) {
-        base.Move(dir);
+    public override void PerformMove(Tile tileToMoveTo) {
+        base.PerformMove(tileToMoveTo);
 
         if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
             fuel = maxFuel;

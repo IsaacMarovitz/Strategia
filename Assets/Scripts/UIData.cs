@@ -18,9 +18,9 @@ public class UIData : MonoBehaviour {
         DontDestroyOnLoad(_instance);
     }
 
-    public void Move(int dir) {
+    public void Move() {
         if (currentUnit != null) {
-            currentUnit.Move(dir);
+            currentUnit.MoveAlongPath();
         }
     }
 }

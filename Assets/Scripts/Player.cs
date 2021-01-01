@@ -153,6 +153,9 @@ public class Player : MonoBehaviour {
         UIData.Instance.currentUnit = null;
         UIData.Instance.currentCity = null;
         Debug.Log($"<b>{this.gameObject.name}:</b> Turn is ending");
+        foreach (var unit in playerUnits) {
+            unit.MoveAlongSetPath();
+        }
         GameManager.Instance.NextPlayer();
     }
 

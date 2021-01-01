@@ -15,6 +15,7 @@ namespace Strategia.Editor {
             SerializedProperty fuel_prop = serializedObject.FindProperty("fuel");
             SerializedProperty fuelPerMove_prop = serializedObject.FindProperty("fuelPerMove");
             SerializedProperty maxFuel_prop = serializedObject.FindProperty("maxFuel");
+            SerializedProperty unitPrefab_prop = serializedObject.FindProperty("unitPrefab");
 
             EditorGUILayout.Space(10);
             showFuel = EditorGUILayout.BeginFoldoutHeaderGroup(showFuel, "Fuel");
@@ -26,6 +27,7 @@ namespace Strategia.Editor {
             EditorGUILayout.EndFoldoutHeaderGroup();
 
             EditorGUILayout.Space(10);
+            EditorGUILayout.PropertyField(unitPrefab_prop);
             if (GUILayout.Button("Deploy Army") && EditorApplication.isPlaying) {
                 parachute.DeployArmy();
             }

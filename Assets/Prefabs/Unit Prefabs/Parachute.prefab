@@ -276,7 +276,7 @@ MonoBehaviour:
   unitIcon: {fileID: 0}
   player: {fileID: 0}
   blockedTileTypes: 03000000
-  unitPrefab: {fileID: 0}
+  unitPrefab: {fileID: 264212343977508145, guid: 781b5237506c27549b6a7aba2e685906, type: 3}
   fuel: 0
   maxFuel: 30
   fuelPerMove: 1

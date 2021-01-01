@@ -11,7 +11,6 @@ public class Unit : MonoBehaviour {
     public int moves;
     public int maxMoves;
     public int damageAmount;
-    public TileMoveStatus[] moveDirs = new TileMoveStatus[8];
     public TurnStage turnStage = TurnStage.Waiting;
     public float[] damagePercentages = new float[9];
     public UnitType unitType;
@@ -24,6 +23,7 @@ public class Unit : MonoBehaviour {
     public List<TileType> blockedTileTypes;
 
     protected List<Tile> path;
+    protected bool pathWasSetThisTurn;
 
     public void Awake() {
         // Replace this later with something a lot more modular
@@ -48,7 +48,7 @@ public class Unit : MonoBehaviour {
         if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
             mainMesh.SetActive(false);
         }
-        CheckDirs();
+        //CheckDirs();
     }
 
     public virtual void NewDay(Player _player) {
@@ -64,6 +64,11 @@ public class Unit : MonoBehaviour {
         if (turnStage == TurnStage.Sleeping) {
             EndTurn();
             return;
+        } else if (path != null) {
+            if (path.Count > 0) {
+                EndTurn();
+                return;
+            }
         } else {
             turnStage = TurnStage.Started;
         }
@@ -114,36 +119,95 @@ public class Unit : MonoBehaviour {
         }
     }
 
-    public virtual void CheckDirs() {
+    public virtual TileMoveStatus CheckDir(Tile tile) {
+        TileMoveStatus returnMoveStatus = new TileMoveStatus();
+        if (blockedTileTypes.Contains(tile.tileType)) {
+            returnMoveStatus = TileMoveStatus.Blocked;
+        } else {
+            returnMoveStatus = TileMoveStatus.Move;
+        }
+        return returnMoveStatus;
+    }
+
+    public void MoveAlongSetPath() {
+        for (int i = 0; i < path.Count; i++) {
+            if (path[i] != GameManager.Instance.grid.grid[pos.x, pos.y]) {
+                if (moves > 0) {
+                    PerformMove(path[i]);
+                    path.RemoveAt(i);
+                }
+            }
+        }
+    }
+
+    public virtual void MoveAlongPath() {
+        path = GameManager.Instance.grid.path;
+        pathWasSetThisTurn = true;
+        for (int i = 0; i < path.Count; i++) {
+            if (path[i] != GameManager.Instance.grid.grid[pos.x, pos.y]) {
+                if (moves > 0) {
+                    PerformMove(path[i]);
+                    path.RemoveAt(i);
+                } else {
+                    turnStage = TurnStage.Complete;
+                    pathWasSetThisTurn = false;
+                    EndTurn();
+                }
+            }
+        }
+    }
+
+    public virtual void PerformMove(Tile tileToMoveTo) {
+        moves--;
+        TileMoveStatus tileMoveStatus = CheckDir(tileToMoveTo);
+        if (tileMoveStatus == TileMoveStatus.Move) {
+            TransportCheck();
+            this.gameObject.transform.LookAt(tileToMoveTo.gameObject.transform.position, Vector3.up);
+            this.gameObject.transform.eulerAngles = new Vector3(0, this.gameObject.transform.eulerAngles.y, 0);
+            pos = tileToMoveTo.pos;
+        } else if (tileMoveStatus == TileMoveStatus.Attack) {
+            if (pathWasSetThisTurn) {
+                Attack(tileToMoveTo.pos);
+            } else {
+                this.gameObject.transform.LookAt(tileToMoveTo.gameObject.transform.position, Vector3.up);
+                this.gameObject.transform.eulerAngles = new Vector3(0, this.gameObject.transform.eulerAngles.y, 0);
+                path.Clear();
+            }
+        }
+
+        TransportMove(tileToMoveTo, tileMoveStatus);
+
+        if (oldCity != null) {
+            oldCity.RemoveUnit(this);
+            oldCity = null;
+            isInCity = false;
+            mainMesh.SetActive(true);
+        }
+
+        if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+            City city = GameManager.Instance.grid.grid[pos.x, pos.y].gameObject.GetComponent<City>();
+            city.GetOwned(player);
+            city.AddUnit(this);
+            oldCity = city;
+            isInCity = true;
+            mainMesh.SetActive(false);
+        } else {
+            isInCity = false;
+            mainMesh.SetActive(true);
+        }
+        GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = this;
         if (moves <= 0) {
             turnStage = TurnStage.Complete;
-            return;
+            EndTurn();
         }
-        Tile[] tiles = GridUtilities.DiagonalCheck(pos);
-        for (int i = 0; i < tiles.Length; i++) {
-            if (tiles[i] == null) {
-                moveDirs[i] = TileMoveStatus.Blocked;
-            } else if (blockedTileTypes.Contains(tiles[i].tileType)) {
-                moveDirs[i] = TileMoveStatus.Blocked;
-            } else {
-                moveDirs[i] = TileMoveStatus.Move;
-            }
-        }
-        // Each unit implements it's own logic here
+        player.UpdateFogOfWar();
     }
 
-    public virtual void MoveE(List<Tile> path) {
-        for (int i = 0; i < path.Count; i++) {
-            if (moves > 0) {
-                moves--;
-                this.gameObject.transform.LookAt(path[i].gameObject.transform.position, Vector3.up);
-                pos = path[i].pos;
-                path.RemoveAt(i);
-            }
-        }
-    }
+    public virtual void TransportCheck() { }
 
-    public virtual void Move(int dir) {
+    public virtual void TransportMove(Tile tileToMoveTo, TileMoveStatus tileMoveStatus) { }
+
+    /*public virtual void Move(int dir) {
         moves--;
         int[] rotationOffset = new int[8] { -45, 0, 45, -90, 90, 225, 180, 135 };
         GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = null;
@@ -190,7 +254,7 @@ public class Unit : MonoBehaviour {
             EndTurn();
         }
         player.UpdateFogOfWar();
-    }
+    }*/
 
     public void SetColor(Color color) {
         mainMesh.GetComponent<MeshRenderer>().material.color = color;

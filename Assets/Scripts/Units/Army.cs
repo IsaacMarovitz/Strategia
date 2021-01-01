@@ -29,7 +29,7 @@ public class Army : Unit {
         }
     }
 
-    public override void CheckDirs() {
+    /*public override void CheckDirs() {
         base.CheckDirs();
 
         Tile[] tiles = GridUtilities.DiagonalCheck(pos);
@@ -63,12 +63,79 @@ public class Army : Unit {
                             }
                         }
                     }
-                } 
+                }
             }
+        }
+    }*/
+
+    public override TileMoveStatus CheckDir(Tile tile) {
+        TileMoveStatus returnMoveStatus = base.CheckDir(tile);
+        
+        if (turnStage == TurnStage.Started) {
+            if (tile.unitOnTile != null) {
+                if (tile.tileType == TileType.City || tile.tileType == TileType.CostalCity) {
+                    City city = tile.gameObject.GetComponent<City>();
+                    if (!player.playerCities.Contains(city)) {
+                        if (!isOnTransport) {
+                            returnMoveStatus = TileMoveStatus.Attack;
+                        }
+                    }
+                } else {
+                    if (player.playerUnits.Contains(tile.unitOnTile)) {
+                        if (tile.unitOnTile.GetType() == typeof(Transport)) {
+                            if (!tile.unitOnTile.GetComponent<Transport>().isTransportFull) {
+                                returnMoveStatus = TileMoveStatus.Transport;
+                            } else {
+                                returnMoveStatus = TileMoveStatus.Blocked;
+                            }
+                        } else {
+                            returnMoveStatus = TileMoveStatus.Blocked;
+                        }
+                    } else {
+                        if (!isOnTransport) {
+                            returnMoveStatus = TileMoveStatus.Attack;
+                        } else {
+                            returnMoveStatus = TileMoveStatus.Blocked;
+                        }
+                    }
+                }
+            }
+        }
+
+        return returnMoveStatus;
+    }
+
+    public override void PerformMove(Tile tileToMoveTo) {
+        base.PerformMove(tileToMoveTo);
+        if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.Swamp) {
+            isMoveDistanceReduced = true;
+            moves -= reducedMoveDistance;
+        } else {
+            isMoveDistanceReduced = false;
         }
     }
 
-    public override void Move(int dir) {
+    public override void TransportCheck() {
+        base.TransportCheck();
+        if (isOnTransport) {
+            isOnTransport = false;
+            mainMesh.SetActive(true);
+            ((Transport)GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile).armiesOnTransport.Remove(this);
+        } else {
+            GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = null;
+        }
+    }
+
+    public override void TransportMove(Tile tileToMoveTo, TileMoveStatus tileMoveStatus) {
+        base.TransportMove(tileToMoveTo, tileMoveStatus);
+        if (tileMoveStatus == TileMoveStatus.Transport) {
+            pos += tileToMoveTo.pos;
+            isOnTransport = true;
+            ((Transport)GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile).armiesOnTransport.Add(this);
+        }
+    }
+
+    /*public override void Move(int dir) {
         moves--;
         int[] rotationOffset = new int[8] { -45, 0, 45, -90, 90, 225, 180, 135 };
         Vector2Int offset = Vector2Int.zero;
@@ -132,5 +199,5 @@ public class Army : Unit {
         } else {
             isMoveDistanceReduced = false;
         }
-    }
+    }*/
 }

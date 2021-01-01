@@ -9,6 +9,7 @@ public class CameraController : MonoBehaviour {
     public Vector3 positionOffset;
     public Vector2 rotationOffset;
     public LayerMask ignoredLayers;
+    public UnitUI unitUI;
     float mainSpeed = 100.0f;
 
     private Vector3 lastMouse = new Vector3(255, 255, 255);
@@ -46,7 +47,7 @@ public class CameraController : MonoBehaviour {
                     }
                 }
             }
-            if (Input.GetMouseButtonDown(0)) {
+            if (Input.GetMouseButtonDown(0) && !unitUI.showLine) {
                 ray = mainCamera.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out hit)) {
                     if (!EventSystem.current.IsPointerOverGameObject()) {

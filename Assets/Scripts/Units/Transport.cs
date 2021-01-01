@@ -22,7 +22,7 @@ public class Transport : Unit {
         }
     }
 
-    public override void CheckDirs() {
+    /*public override void CheckDirs() {
         base.CheckDirs();
 
         Tile[] tiles = GridUtilities.DiagonalCheck(pos);
@@ -41,6 +41,25 @@ public class Transport : Unit {
                 }
             }
         }
+    }*/
+
+    public override TileMoveStatus CheckDir(Tile tile) {
+        TileMoveStatus returnMoveStatus = base.CheckDir(tile);
+
+        if (turnStage == TurnStage.Started) {
+            if (tile.unitOnTile != null) {
+                returnMoveStatus = TileMoveStatus.Blocked;
+            } else {
+                if (tile.tileType == TileType.CostalCity) {
+                    City city = tile.gameObject.GetComponent<City>();
+                    if (!player.playerCities.Contains(city)) {
+                        returnMoveStatus = TileMoveStatus.Blocked;
+                    }
+                }
+            }
+        }
+
+        return returnMoveStatus;
     }
 
     public override void Die() {
@@ -51,8 +70,8 @@ public class Transport : Unit {
         }
     }
 
-    public override void Move(int dir) {
-        base.Move(dir);
+    public override void PerformMove(Tile tileToMoveTo) {
+        base.PerformMove(tileToMoveTo);
         foreach (var army in armiesOnTransport) {
             army.pos = pos;
         }
