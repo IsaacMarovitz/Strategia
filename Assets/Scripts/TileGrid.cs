@@ -209,6 +209,8 @@ namespace Strategia {
                     if (instantiatedTile != null) {
                         instantiatedTile.transform.parent = tileParent;
                         instantiatedTile.name = x + ", " + y;
+                        TileTag tileTag = instantiatedTile.GetComponent<TileTag>();
+                        tileTag.pos = new Vector2Int(x, y);
                         grid[x, y].gameObject = instantiatedTile;
                     }
                 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - City
   - Unit
+  - Tile
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - 
   - 
   - Fog Of War Tex
-  - 
+  - Tiles
   - 
   - 
   - 

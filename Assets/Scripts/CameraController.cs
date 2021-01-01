@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class CameraController : MonoBehaviour {
 
@@ -11,6 +12,7 @@ public class CameraController : MonoBehaviour {
     public LayerMask ignoredLayers;
     public UnitUI unitUI;
     float mainSpeed = 100.0f;
+    public List<GameObject> objectsToIgnore;
 
     private Vector3 lastMouse = new Vector3(255, 255, 255);
     private bool isPaused;
@@ -40,10 +42,10 @@ public class CameraController : MonoBehaviour {
             RaycastHit hit;
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, ignoredLayers)) {
-                if (!EventSystem.current.IsPointerOverGameObject()) {
-                    Vector2Int gridPos = new Vector2Int(Mathf.RoundToInt(hit.transform.position.x / GameManager.Instance.grid.tileWidth), Mathf.RoundToInt(hit.transform.position.z / GameManager.Instance.grid.tileHeight));
-                    if (gridPos.x < GameManager.Instance.grid.width && gridPos.y < GameManager.Instance.grid.height && gridPos.x > 0 && gridPos.y > 0) {
-                        UIData.Instance.mouseOverTile = GameManager.Instance.grid.grid[gridPos.x, gridPos.y];
+                if (!IsMouseOverUI()) {
+                    if (hit.transform.tag == "Tile") {
+                        TileTag tileTag = hit.transform.gameObject.GetComponent<TileTag>();
+                        UIData.Instance.mouseOverTile = GameManager.Instance.grid.grid[tileTag.pos.x, tileTag.pos.y];
                     }
                 }
             }
@@ -139,5 +141,20 @@ public class CameraController : MonoBehaviour {
         yRotationTransform.position = pos + positionOffset;
         yRotationTransform.eulerAngles = new Vector3(0, rotationOffset.y, 0);
         xRotationTransform.eulerAngles = new Vector3(rotationOffset.x, 0, 0);
+    }
+
+    private bool IsMouseOverUI() {
+        PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+        pointerEventData.position = Input.mousePosition;
+
+        List<RaycastResult> raycastResultList = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerEventData, raycastResultList);
+        for (int i = 0; i < raycastResultList.Count; i++) {
+            if (objectsToIgnore.Contains(raycastResultList[i].gameObject)) {
+                raycastResultList.RemoveAt(i);
+                i--;
+            }
+        }
+        return raycastResultList.Count > 0;
     }
 }

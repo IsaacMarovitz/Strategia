@@ -8366,8 +8366,11 @@ MonoBehaviour:
   rotationOffset: {x: 45, y: 0}
   ignoredLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 311
   unitUI: {fileID: 794698292}
+  objectsToIgnore:
+  - {fileID: 967098102}
+  - {fileID: 2052646187}
 --- !u!1 &626656591
 GameObject:
   m_ObjectHideFlags: 0
@@ -25808,7 +25811,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 279
+    m_Bits: 791
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
