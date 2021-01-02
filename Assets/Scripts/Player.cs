@@ -144,7 +144,8 @@ public class Player : MonoBehaviour {
             UIData.Instance.currentUnit = unitQueue[0];
             unitQueue[0].StartTurn();
         } else {
-            EndTurnButton();
+            TurnComplete();
+            // EndTurnButton();
         }
     }
 

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1881263763124860493}
   - component: {fileID: 9180961263521707809}
   - component: {fileID: 2212230180112321381}
+  - component: {fileID: 1012046795064030711}
   m_Layer: 5
   m_Name: City Name
   m_TagString: Untagged
@@ -134,6 +135,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1012046795064030711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821254616105554076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feac964f12a469c46bd8d44ee790225f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1188385406521069216
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,6 +305,7 @@ GameObject:
   - component: {fileID: 2532415529674907250}
   - component: {fileID: 6528056785530341196}
   - component: {fileID: 5928765305242594945}
+  - component: {fileID: 2855054575234425239}
   m_Layer: 5
   m_Name: City Name UI
   m_TagString: Untagged
@@ -308,7 +322,7 @@ RectTransform:
   m_GameObject: {fileID: 6543857413735686047}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_Children:
   - {fileID: 3313434251899456765}
   m_Father: {fileID: 1960805916009960474}
@@ -390,6 +404,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0dafef5e0f504e440a0de7f481f3acc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2855054575234425239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6543857413735686047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feac964f12a469c46bd8d44ee790225f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7067662329382781766
@@ -485,6 +511,7 @@ GameObject:
   - component: {fileID: 3313434251899456765}
   - component: {fileID: 3195880859139335691}
   - component: {fileID: 685782200813532462}
+  - component: {fileID: 4601315196958167081}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -501,7 +528,7 @@ RectTransform:
   m_GameObject: {fileID: 8370339070033944765}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1881263763124860493}
   m_Father: {fileID: 6831419077571909321}
@@ -550,3 +577,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4601315196958167081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370339070033944765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feac964f12a469c46bd8d44ee790225f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

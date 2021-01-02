@@ -12,7 +12,6 @@ public class CameraController : MonoBehaviour {
     public LayerMask ignoredLayers;
     public UnitUI unitUI;
     float mainSpeed = 100.0f;
-    public List<GameObject> objectsToIgnore;
 
     private Vector3 lastMouse = new Vector3(255, 255, 255);
     private bool isPaused;
@@ -52,7 +51,7 @@ public class CameraController : MonoBehaviour {
             if (Input.GetMouseButtonDown(0) && !unitUI.showLine) {
                 ray = mainCamera.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out hit)) {
-                    if (!EventSystem.current.IsPointerOverGameObject()) {
+                    if (!IsMouseOverUI()) {
                         if (hit.transform.tag == "Unit") {
                             Unit hitUnit = hit.transform.parent.gameObject.GetComponent<Unit>();
                             if (GameManager.Instance.GetCurrentPlayer().playerUnits.Contains(hitUnit)) {
@@ -150,7 +149,7 @@ public class CameraController : MonoBehaviour {
         List<RaycastResult> raycastResultList = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerEventData, raycastResultList);
         for (int i = 0; i < raycastResultList.Count; i++) {
-            if (objectsToIgnore.Contains(raycastResultList[i].gameObject)) {
+            if (raycastResultList[i].gameObject.GetComponent<IgnoreRaycast>() != null) {
                 raycastResultList.RemoveAt(i);
                 i--;
             }

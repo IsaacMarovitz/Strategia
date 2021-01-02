@@ -20,6 +20,7 @@ public class GameUI : MonoBehaviour {
     public Button endTurnButton;
     public Button nextPlayerButton;
     public Image unitImage;
+    public Slider healthSlider;
     public GameObject customButtonParent;
     public GameObject newDayUI;
     public float newDayWaitTime;
@@ -58,6 +59,8 @@ public class GameUI : MonoBehaviour {
         } else {
             endTurnButton.interactable = false;
             if (UIData.Instance.currentUnit != null) {
+                healthSlider.maxValue = UIData.Instance.currentUnit.maxHealth;
+                healthSlider.value = UIData.Instance.currentUnit.health;
                 movesLeft.text = "Moves Left: " + UIData.Instance.currentUnit.moves;
                 fuelLeft.text = "";
                 if (UIData.Instance.currentUnit.GetType() == typeof(Bomber)) {
