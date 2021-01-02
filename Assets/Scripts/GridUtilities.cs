@@ -126,14 +126,11 @@ public static class GridUtilities {
                     continue;
                 }
                 if (neighbour.unitOnTile != null) {
-                    if (neighbour.tileType == TileType.City || neighbour.tileType == TileType.CostalCity) {
-                        neighbour.walkable = true;
-                    } else {
-                        Debug.Log(neighbour.gameObject.name);
-                        neighbour.walkable = false;
-                    }
+                    neighbour.walkable = false;
                 } else if (tileTypes.Contains(neighbour.tileType)) {
                     neighbour.walkable = false;
+                } else {
+                    neighbour.walkable = true;
                 }
                 if (!neighbour.walkable || closedSet.Contains(neighbour)) {
                     continue;

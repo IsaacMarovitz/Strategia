@@ -35,7 +35,9 @@ public class Unit : MonoBehaviour {
         sleepEffect.enabled = false;
         moves = maxMoves;
         health = maxHealth;
-        GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = this;
+        if (!(GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity)) {
+            GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = this;
+        }
     }
 
     public virtual void Update() {
@@ -64,12 +66,12 @@ public class Unit : MonoBehaviour {
         if (turnStage == TurnStage.Sleeping) {
             EndTurn();
             return;
-        } /*else if (path != null) {
+        } else if (path != null) {
             if (path.Count > 0) {
                 EndTurn();
                 return;
             }
-        }*/ else {
+        } else {
             turnStage = TurnStage.Started;
         }
     }
@@ -98,7 +100,17 @@ public class Unit : MonoBehaviour {
     }
 
     public void Attack(Vector2Int unitPos) {
-        Unit unitToAttack = GameManager.Instance.grid.grid[unitPos.x, unitPos.y].unitOnTile;
+        Unit unitToAttack = null;
+        if (GameManager.Instance.grid.grid[unitPos.x, unitPos.y].tileType == TileType.City || GameManager.Instance.grid.grid[unitPos.x, unitPos.y].tileType == TileType.CostalCity) {
+            City tileCity = GameManager.Instance.grid.grid[unitPos.x, unitPos.y].gameObject.GetComponent<City>();
+            if (tileCity != null) {
+                if (tileCity.unitsInCity.Count > 0) {
+                    unitToAttack = tileCity.unitsInCity[0];
+                }
+            }
+        } else {
+            unitToAttack = GameManager.Instance.grid.grid[unitPos.x, unitPos.y].unitOnTile;
+        }
         if (unitToAttack != null) {
             Debug.Log($"<b>{this.gameObject.name}:</b> Attacking {unitToAttack.gameObject.name}");
             unitToAttack.TakeDamage(this);
@@ -165,6 +177,7 @@ public class Unit : MonoBehaviour {
 
     public virtual void PerformMove(Tile tileToMoveTo) {
         moves--;
+        GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = null;
         TileMoveStatus tileMoveStatus = CheckDir(tileToMoveTo);
         if (tileMoveStatus == TileMoveStatus.Move) {
             TransportCheck();
@@ -200,8 +213,8 @@ public class Unit : MonoBehaviour {
         } else {
             isInCity = false;
             mainMesh.SetActive(true);
+            GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = this;
         }
-        GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = this;
         if (moves <= 0) {
             turnStage = TurnStage.Complete;
             EndTurn();

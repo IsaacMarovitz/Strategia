@@ -26,6 +26,7 @@ namespace Strategia {
         //public bool onlyShowPathGizmos;
         public List<Tile> path;
         public Texture2D voronoiTexture;
+        public Tile foundTile;
 
         private List<List<Tile>> islandList = new List<List<Tile>>();
 
@@ -243,5 +244,10 @@ namespace Strategia {
             tempList.Clear();
             cityTiles?.Clear();
         }
+#if UNITY_EDITOR
+        public void FindTile(Vector2Int pos) {
+            foundTile = grid[pos.x, pos.y];
+        }
+#endif
     }
 }

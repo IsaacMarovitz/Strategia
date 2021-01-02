@@ -17,6 +17,7 @@ public class GameUI : MonoBehaviour {
     public Button laterButton;
     public Button doneButton;
     public Button customButton;
+    public Button endTurnButton;
     public Button nextPlayerButton;
     public Image unitImage;
     public GameObject customButtonParent;
@@ -33,6 +34,7 @@ public class GameUI : MonoBehaviour {
         sleepButton.onClick.AddListener(Sleep);
         laterButton.onClick.AddListener(Later);
         doneButton.onClick.AddListener(Done);
+        endTurnButton.onClick.AddListener(EndTurn);
         nextPlayerButton.onClick.AddListener(NextPlayerButton);
         GameManager.Instance.newDayDelegate += NewDay;
         GameManager.Instance.nextPlayerDelegate += NextPlayer;
@@ -43,57 +45,70 @@ public class GameUI : MonoBehaviour {
         dayCounter.text = "Day " + GameManager.Instance.day;
         newDayUIText.text = "Day " + (GameManager.Instance.day + 1);
         customButtonParent.SetActive(false);
-        if (UIData.Instance.currentUnit != null) {
-            movesLeft.text = "Moves Left: " + UIData.Instance.currentUnit.moves;
-            fuelLeft.text = "";
-            if (UIData.Instance.currentUnit.GetType() == typeof(Bomber)) {
-                fuelLeft.text = "Fuel: " + ((Bomber)UIData.Instance.currentUnit).fuel;
-                customButtonText.text = "Detonate";
-                customButton.onClick.RemoveAllListeners();
-                customButton.onClick.AddListener(Detonate);
-                customButtonParent.SetActive(true);
-            } else if (UIData.Instance.currentUnit.GetType() == typeof(Fighter)) {
-                fuelLeft.text = "Fuel: " + ((Fighter)UIData.Instance.currentUnit).fuel;
-            } else if (UIData.Instance.currentUnit.GetType() == typeof(Parachute)) {
-                fuelLeft.text = "Fuel: " + ((Parachute)UIData.Instance.currentUnit).fuel;
-                customButtonText.text = "Deploy";
-                customButton.onClick.RemoveAllListeners();
-                customButton.onClick.AddListener(Deploy);
-                customButtonParent.SetActive(true);
-            } else {
-                fuelLeft.text = "";
-            }
-            sleepButton.interactable = true;
-            laterButton.interactable = true;
-            doneButton.interactable = true;
-            if (!moveButton.interactable && UIData.Instance.currentUnit != oldUnit) {
-                oldUnit = UIData.Instance.currentUnit;
-                moveButton.interactable = true;
-                unitUI.showLine = false;
-            }
-            if (Input.GetMouseButtonDown(1) && unitUI.showLine) {
-                unitUI.showLine = false;
-                moveButton.interactable = true;
-            } else if (Input.GetMouseButtonDown(0) && unitUI.showLine) {
-                unitUI.showLine = false;
-                moveButton.interactable = true;
-                UIData.Instance.Move();
-            }
-        } else {
+        if (GameManager.Instance.GetCurrentPlayer().turnCompleted) {
             movesLeft.text = "";
             fuelLeft.text = "";
             moveButton.interactable = false;
             sleepButton.interactable = false;
             laterButton.interactable = false;
             doneButton.interactable = false;
+            endTurnButton.interactable = true;
             customButtonParent.SetActive(false);
             oldUnit = null;
-        }
-        if (!GameManager.Instance.dayCompleted) {
-            if (UIData.Instance.currentUnit != null)
-                UpdateUI();
         } else {
-            SetButtons(false);
+            endTurnButton.interactable = false;
+            if (UIData.Instance.currentUnit != null) {
+                movesLeft.text = "Moves Left: " + UIData.Instance.currentUnit.moves;
+                fuelLeft.text = "";
+                if (UIData.Instance.currentUnit.GetType() == typeof(Bomber)) {
+                    fuelLeft.text = "Fuel: " + ((Bomber)UIData.Instance.currentUnit).fuel;
+                    customButtonText.text = "Detonate";
+                    customButton.onClick.RemoveAllListeners();
+                    customButton.onClick.AddListener(Detonate);
+                    customButtonParent.SetActive(true);
+                } else if (UIData.Instance.currentUnit.GetType() == typeof(Fighter)) {
+                    fuelLeft.text = "Fuel: " + ((Fighter)UIData.Instance.currentUnit).fuel;
+                } else if (UIData.Instance.currentUnit.GetType() == typeof(Parachute)) {
+                    fuelLeft.text = "Fuel: " + ((Parachute)UIData.Instance.currentUnit).fuel;
+                    customButtonText.text = "Deploy";
+                    customButton.onClick.RemoveAllListeners();
+                    customButton.onClick.AddListener(Deploy);
+                    customButtonParent.SetActive(true);
+                } else {
+                    fuelLeft.text = "";
+                }
+                sleepButton.interactable = true;
+                laterButton.interactable = true;
+                doneButton.interactable = true;
+                if (!moveButton.interactable && UIData.Instance.currentUnit != oldUnit) {
+                    oldUnit = UIData.Instance.currentUnit;
+                    moveButton.interactable = true;
+                    unitUI.showLine = false;
+                }
+                if (Input.GetMouseButtonDown(1) && unitUI.showLine) {
+                    unitUI.showLine = false;
+                    moveButton.interactable = true;
+                } else if (Input.GetMouseButtonDown(0) && unitUI.showLine) {
+                    unitUI.showLine = false;
+                    moveButton.interactable = true;
+                    UIData.Instance.Move();
+                }
+            } else {
+                movesLeft.text = "";
+                fuelLeft.text = "";
+                moveButton.interactable = false;
+                sleepButton.interactable = false;
+                laterButton.interactable = false;
+                doneButton.interactable = false;
+                customButtonParent.SetActive(false);
+                oldUnit = null;
+            }
+            if (!GameManager.Instance.dayCompleted) {
+                if (UIData.Instance.currentUnit != null)
+                    UpdateUI();
+            } else {
+                SetButtons(false);
+            }
         }
     }
 
@@ -184,5 +199,9 @@ public class GameUI : MonoBehaviour {
                 ((Parachute)UIData.Instance.currentUnit).DeployArmy();
             }
         }
+    }
+
+    public void EndTurn() {
+        GameManager.Instance.GetCurrentPlayer().TurnComplete();
     }
 }

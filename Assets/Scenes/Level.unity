@@ -16159,6 +16159,16 @@ MonoBehaviour:
   - {fileID: 5815842155762721886, guid: 8e04f3ebf7afb2940baeb68df356d4b9, type: 3}
   path: []
   voronoiTexture: {fileID: 0}
+  foundTile:
+    pos: {x: 0, y: 0}
+    tileType: 0
+    gameObject: {fileID: 0}
+    islandIndex: 0
+    unitOnTile: {fileID: 0}
+    cityOfInfluence: {fileID: 0}
+    walkable: 0
+    gCost: 0
+    hCost: 0
 --- !u!1 &1186852834
 GameObject:
   m_ObjectHideFlags: 0
@@ -21393,6 +21403,7 @@ MonoBehaviour:
   laterButton: {fileID: 1739210246}
   doneButton: {fileID: 2100231158}
   customButton: {fileID: 811321731}
+  endTurnButton: {fileID: 1507880573}
   nextPlayerButton: {fileID: 98375445}
   unitImage: {fileID: 1097796217}
   customButtonParent: {fileID: 105931029}
