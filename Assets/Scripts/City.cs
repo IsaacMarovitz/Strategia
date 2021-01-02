@@ -1,19 +1,39 @@
 ﻿using UnityEngine;
+using TMPro;
 using System.Collections.Generic;
 
 public class City : MonoBehaviour {
 
     public bool isOwned = false;
+    public bool showCityNameUI = true;
     public Player player;
     public UnitType unitType;
     public GameObject[] unitPrefabs = new GameObject[9];
     public Vector2Int pos;
     public string cityName = "London";
     public List<Unit> unitsInCity;
+    public Canvas canvas;
+    public TMP_Text cityNameText;
 
     public int turnsLeft;
     public int currentIndex;
     private readonly int[] unitTTCs = { 4, 8, 8, 12, 2, 6, 6, 10, 12 };
+
+    public void Awake() {
+        canvas = GetComponentInChildren<Canvas>();
+        cityNameText = GetComponentInChildren<TMP_Text>();
+        canvas.worldCamera = Camera.main;
+        canvas.enabled = false;
+    }
+
+    public void Update() {
+        if (isOwned && showCityNameUI) {
+            canvas.enabled = true;
+            cityNameText.text = cityName;
+        } else {
+            canvas.enabled = false;
+        }
+    }
 
     public void UpdateUnitType(UnitType unitType) {
         this.unitType = unitType;
@@ -28,6 +48,7 @@ public class City : MonoBehaviour {
     }
 
     public void GetOwned(Player player) {
+        this.transform.GetChild(0).GetComponent<MeshRenderer>().materials[0].color = player.playerColor;
         if (isOwned) {
             if (this.player != null) {
                 this.player.playerCities.Remove(this);

@@ -33,7 +33,6 @@ public class UnitUI : MonoBehaviour {
                 numberOfMoves.text = (GameManager.Instance.grid.path.Count - 1).ToString();
                 int midIndex = Mathf.RoundToInt((GameManager.Instance.grid.path.Count - 1) / 2);
                 canvas.transform.position = new Vector3(GameManager.Instance.grid.path[midIndex].gameObject.transform.position.x, 2, GameManager.Instance.grid.path[midIndex].gameObject.transform.position.z);
-                canvas.transform.eulerAngles = new Vector3(-90, 0, 0);
             }
         }
     }

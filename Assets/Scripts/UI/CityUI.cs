@@ -24,12 +24,16 @@ public class CityUI : MonoBehaviour {
 
     public void Update() {
         if (UIData.Instance.currentCity != null) {
+            UIData.Instance.currentCity.showCityNameUI = false;
             panel.SetActive(true);
             transform.position = new Vector3(UIData.Instance.currentCity.transform.position.x, yOffset, UIData.Instance.currentCity.transform.position.z);
             cityName.text = UIData.Instance.currentCity.cityName;
             turnsLeft.text = "Days left : " + UIData.Instance.currentCity.turnsLeft;
             if (oldCity != UIData.Instance.currentCity) {
                 hasUpdated = false;
+                if (oldCity != null) {
+                    oldCity.showCityNameUI = true;
+                }
                 oldCity = UIData.Instance.currentCity;
             }
             if (!hasUpdated) {
@@ -55,6 +59,9 @@ public class CityUI : MonoBehaviour {
         } else {
             panel.SetActive(false);
             hasUpdated = false;
+            if (oldCity != null) {
+                oldCity.showCityNameUI = true;
+            }
         }
     }
 
