@@ -64,12 +64,12 @@ public class Unit : MonoBehaviour {
         if (turnStage == TurnStage.Sleeping) {
             EndTurn();
             return;
-        } else if (path != null) {
+        } /*else if (path != null) {
             if (path.Count > 0) {
                 EndTurn();
                 return;
             }
-        } else {
+        }*/ else {
             turnStage = TurnStage.Started;
         }
     }
@@ -130,11 +130,13 @@ public class Unit : MonoBehaviour {
     }
 
     public void MoveAlongSetPath() {
-        for (int i = 0; i < path.Count; i++) {
-            if (path[i] != GameManager.Instance.grid.grid[pos.x, pos.y]) {
-                if (moves > 0) {
-                    PerformMove(path[i]);
-                    path.RemoveAt(i);
+        if (path != null) {
+            for (int i = 0; i < path.Count; i++) {
+                if (path[i] != GameManager.Instance.grid.grid[pos.x, pos.y]) {
+                    if (moves > 0) {
+                        PerformMove(path[i]);
+                        path.RemoveAt(i);
+                    }
                 }
             }
         }
@@ -148,11 +150,15 @@ public class Unit : MonoBehaviour {
                 if (moves > 0) {
                     PerformMove(path[i]);
                     path.RemoveAt(i);
+                    i--;
                 } else {
                     turnStage = TurnStage.Complete;
                     pathWasSetThisTurn = false;
                     EndTurn();
                 }
+            } else {
+                path.RemoveAt(i);
+                i--;
             }
         }
     }

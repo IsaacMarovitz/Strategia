@@ -43,8 +43,8 @@ public class CameraController : MonoBehaviour {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, ignoredLayers)) {
                 if (!IsMouseOverUI()) {
-                    if (hit.transform.tag == "Tile") {
-                        TileTag tileTag = hit.transform.gameObject.GetComponent<TileTag>();
+                    TileTag tileTag = hit.transform.gameObject.GetComponent<TileTag>();
+                    if (tileTag != null) {
                         UIData.Instance.mouseOverTile = GameManager.Instance.grid.grid[tileTag.pos.x, tileTag.pos.y];
                     }
                 }
