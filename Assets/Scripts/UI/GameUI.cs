@@ -49,10 +49,7 @@ public class GameUI : MonoBehaviour {
         if (GameManager.Instance.GetCurrentPlayer().turnCompleted) {
             movesLeft.text = "";
             fuelLeft.text = "";
-            moveButton.interactable = false;
-            sleepButton.interactable = false;
-            laterButton.interactable = false;
-            doneButton.interactable = false;
+            SetButtons(false);
             endTurnButton.interactable = true;
             customButtonParent.SetActive(false);
             oldUnit = null;
@@ -80,9 +77,7 @@ public class GameUI : MonoBehaviour {
                 } else {
                     fuelLeft.text = "";
                 }
-                sleepButton.interactable = true;
-                laterButton.interactable = true;
-                doneButton.interactable = true;
+                SetButtons(true);
                 if (!moveButton.interactable && UIData.Instance.currentUnit != oldUnit) {
                     oldUnit = UIData.Instance.currentUnit;
                     moveButton.interactable = true;
@@ -99,10 +94,7 @@ public class GameUI : MonoBehaviour {
             } else {
                 movesLeft.text = "";
                 fuelLeft.text = "";
-                moveButton.interactable = false;
-                sleepButton.interactable = false;
-                laterButton.interactable = false;
-                doneButton.interactable = false;
+                SetButtons(false);
                 customButtonParent.SetActive(false);
                 oldUnit = null;
             }
@@ -157,6 +149,7 @@ public class GameUI : MonoBehaviour {
     }
 
     void SetButtons(bool buttonBool) {
+        moveButton.interactable = buttonBool;
         sleepButton.interactable = buttonBool;
         laterButton.interactable = buttonBool;
         doneButton.interactable = buttonBool;

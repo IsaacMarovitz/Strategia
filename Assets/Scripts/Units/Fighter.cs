@@ -29,42 +29,6 @@ public class Fighter : Unit {
         fuel = maxFuel;
     }
 
-    /*public override void CheckDirs() {
-        base.CheckDirs();
-
-        Tile[] tiles = GridUtilities.DiagonalCheck(pos);
-
-        if (turnStage == TurnStage.Started) {
-            for (int i = 0; i < tiles.Length; i++) {
-                if (tiles[i].unitOnTile != null) {
-                    if (tiles[i].tileType == TileType.City || tiles[i].tileType == TileType.CostalCity) {
-                        City city = tiles[i].gameObject.GetComponent<City>();
-                        if (!player.playerCities.Contains(city)) {
-                            moveDirs[i] = TileMoveStatus.Attack;
-                        }
-                    } else {
-                        if (player.playerUnits.Contains(tiles[i].unitOnTile)) {
-                            if (tiles[i].unitOnTile.GetType() == typeof(Carrier)) {
-                                moveDirs[i] = TileMoveStatus.Transport;
-                            } else {
-                                moveDirs[i] = TileMoveStatus.Blocked;
-                            }
-                        } else {
-                            moveDirs[i] = TileMoveStatus.Attack;
-                        }
-                    }
-                } else {
-                    if (tiles[i].tileType == TileType.City || tiles[i].tileType == TileType.CostalCity) {
-                        City city = tiles[i].gameObject.GetComponent<City>();
-                        if (!player.playerCities.Contains(city)) {
-                            moveDirs[i] = TileMoveStatus.Blocked;
-                        }
-                    }
-                }
-            }
-        }
-    }*/
-
     public override TileMoveStatus CheckDir(Tile tile) {
         TileMoveStatus returnMoveStatus = base.CheckDir(tile);
 

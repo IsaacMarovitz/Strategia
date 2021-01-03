@@ -22,27 +22,6 @@ public class Transport : Unit {
         }
     }
 
-    /*public override void CheckDirs() {
-        base.CheckDirs();
-
-        Tile[] tiles = GridUtilities.DiagonalCheck(pos);
-
-        if (turnStage == TurnStage.Started) {
-            for (int i = 0; i < tiles.Length; i++) {
-                if (tiles[i].unitOnTile != null) {
-                    moveDirs[i] = TileMoveStatus.Blocked;
-                } else {
-                    if (tiles[i].tileType == TileType.CostalCity) {
-                        City city = tiles[i].gameObject.GetComponent<City>();
-                        if (!player.playerCities.Contains(city)) {
-                            moveDirs[i] = TileMoveStatus.Blocked;
-                        }
-                    }
-                }
-            }
-        }
-    }*/
-
     public override TileMoveStatus CheckDir(Tile tile) {
         TileMoveStatus returnMoveStatus = base.CheckDir(tile);
 

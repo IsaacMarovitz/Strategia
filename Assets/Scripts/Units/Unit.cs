@@ -50,7 +50,6 @@ public class Unit : MonoBehaviour {
         if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
             mainMesh.SetActive(false);
         }
-        //CheckDirs();
     }
 
     public virtual void NewDay(Player _player) {
@@ -68,8 +67,11 @@ public class Unit : MonoBehaviour {
             return;
         } else if (path != null) {
             if (path.Count > 0) {
+                turnStage = TurnStage.Complete;
                 EndTurn();
                 return;
+            } else {
+                turnStage = TurnStage.Started;
             }
         } else {
             turnStage = TurnStage.Started;
@@ -176,7 +178,6 @@ public class Unit : MonoBehaviour {
     }
 
     public virtual void PerformMove(Tile tileToMoveTo) {
-        moves--;
         GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = null;
         TileMoveStatus tileMoveStatus = CheckDir(tileToMoveTo);
         if (tileMoveStatus == TileMoveStatus.Move) {
@@ -191,8 +192,16 @@ public class Unit : MonoBehaviour {
                 this.gameObject.transform.LookAt(tileToMoveTo.gameObject.transform.position, Vector3.up);
                 this.gameObject.transform.eulerAngles = new Vector3(0, this.gameObject.transform.eulerAngles.y, 0);
                 path.Clear();
+                GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = this;
+                return;
             }
+        } else if (tileMoveStatus == TileMoveStatus.Blocked) {
+            path.Clear();
+            GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = this;
+            return;
         }
+
+        moves--;
 
         TransportMove(tileToMoveTo, tileMoveStatus);
 
@@ -225,55 +234,6 @@ public class Unit : MonoBehaviour {
     public virtual void TransportCheck() { }
 
     public virtual void TransportMove(Tile tileToMoveTo, TileMoveStatus tileMoveStatus) { }
-
-    /*public virtual void Move(int dir) {
-        moves--;
-        int[] rotationOffset = new int[8] { -45, 0, 45, -90, 90, 225, 180, 135 };
-        GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = null;
-        Vector2Int offset = Vector2Int.zero;
-        if (dir == 1 || dir == 4 || dir == 6) {
-            offset.x--;
-        } else if (dir == 3 || dir == 5 || dir == 8) {
-            offset.x++;
-        }
-        if (dir <= 3) {
-            offset.y++;
-        } else if (dir >= 6) {
-            offset.y--;
-        }
-        if (moveDirs[dir - 1] == TileMoveStatus.Move) {
-            pos += offset;
-            this.transform.eulerAngles = new Vector3(0, rotationOffset[dir - 1], 0);
-        } else if (moveDirs[dir - 1] == TileMoveStatus.Attack) {
-            Attack(pos + offset);
-        }
-
-        if (oldCity != null) {
-            oldCity.RemoveUnit(this);
-            oldCity = null;
-            isInCity = false;
-            mainMesh.SetActive(true);
-        }
-
-        if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
-            City city = GameManager.Instance.grid.grid[pos.x, pos.y].gameObject.GetComponent<City>();
-            city.GetOwned(player);
-            city.AddUnit(this);
-            oldCity = city;
-            isInCity = true;
-            mainMesh.SetActive(false);
-        } else {
-            isInCity = false;
-            mainMesh.SetActive(true);
-        }
-
-        GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = this;
-        if (moves <= 0) {
-            turnStage = TurnStage.Complete;
-            EndTurn();
-        }
-        player.UpdateFogOfWar();
-    }*/
 
     public void SetColor(Color color) {
         mainMesh.GetComponent<MeshRenderer>().material.color = color;
