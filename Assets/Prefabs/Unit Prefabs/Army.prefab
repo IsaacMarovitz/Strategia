@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pos: {x: 0, y: 0}
-  yOffset: 0
+  yOffset: 0.7
   health: 0
   maxHealth: 30
   moves: 0

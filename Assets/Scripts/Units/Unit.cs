@@ -163,7 +163,6 @@ public class Unit : MonoBehaviour {
             if (path[i] != GameManager.Instance.grid.grid[pos.x, pos.y]) {
                 if (moves > 0) {
                     PerformMove(path[i]);
-                    path.RemoveAt(i);
                     i--;
                 } else {
                     turnStage = TurnStage.Complete;
@@ -185,9 +184,12 @@ public class Unit : MonoBehaviour {
             this.gameObject.transform.LookAt(tileToMoveTo.gameObject.transform.position, Vector3.up);
             this.gameObject.transform.eulerAngles = new Vector3(0, this.gameObject.transform.eulerAngles.y, 0);
             pos = tileToMoveTo.pos;
+            path.Remove(tileToMoveTo);
         } else if (tileMoveStatus == TileMoveStatus.Attack) {
             if (pathWasSetThisTurn) {
                 Attack(tileToMoveTo.pos);
+                path.Clear();
+                return;
             } else {
                 this.gameObject.transform.LookAt(tileToMoveTo.gameObject.transform.position, Vector3.up);
                 this.gameObject.transform.eulerAngles = new Vector3(0, this.gameObject.transform.eulerAngles.y, 0);

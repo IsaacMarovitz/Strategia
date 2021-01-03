@@ -107,7 +107,7 @@ public static class GridUtilities {
     }
 
     // Find the shortest path between two tiles with A*
-    public static void FindPath(Tile startTile, Tile targetTile, List<TileType> tileTypes) {
+    public static void FindPath(Tile startTile, Tile targetTile) {
         Heap<Tile> openSet = new Heap<Tile>(GameManager.Instance.grid.MaxSize);
         HashSet<Tile> closedSet = new HashSet<Tile>();
         openSet.Add(startTile);
@@ -125,13 +125,13 @@ public static class GridUtilities {
                 if (neighbour == null) {
                     continue;
                 }
-                if (neighbour.unitOnTile != null) {
+                
+                TileMoveStatus tileMoveStatus = UIData.Instance.currentUnit.CheckDir(neighbour);
+                neighbour.walkable = true;
+                if (tileMoveStatus == TileMoveStatus.Blocked) {
                     neighbour.walkable = false;
-                } else if (tileTypes.Contains(neighbour.tileType)) {
-                    neighbour.walkable = false;
-                } else {
-                    neighbour.walkable = true;
                 }
+
                 if (!neighbour.walkable || closedSet.Contains(neighbour)) {
                     continue;
                 }

@@ -97,6 +97,7 @@ public class GameUI : MonoBehaviour {
                 SetButtons(false);
                 customButtonParent.SetActive(false);
                 oldUnit = null;
+                GameManager.Instance.grid.path = null;
             }
             if (!GameManager.Instance.dayCompleted) {
                 if (UIData.Instance.currentUnit != null)
