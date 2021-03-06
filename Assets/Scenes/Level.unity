@@ -29659,7 +29659,7 @@ MonoBehaviour:
   reportButton: {fileID: 293283037}
   failureUI: {fileID: 930935945}
   sucessPanel: {fileID: 1888057610}
-  trelloPoster: {fileID: 11400000, guid: 522d1418e5f564c4695885f4692662ce, type: 2}
+  trelloPoster: {fileID: 0}
   reportPanel: {fileID: 1474818282586197749}
   cardName: {fileID: 668283678}
   cardDesc: {fileID: 739269975}
@@ -30228,7 +30228,7 @@ MonoBehaviour:
   failureUI: {fileID: 930935945}
   sucessPanel: {fileID: 1888057610}
   errorText: {fileID: 642953001}
-  trelloPoster: {fileID: 11400000, guid: 522d1418e5f564c4695885f4692662ce, type: 2}
+  trelloPoster: {fileID: 0}
 --- !u!224 &3290877365184290715
 RectTransform:
   m_ObjectHideFlags: 0
@@ -30806,11 +30806,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6296840165055597972, guid: 0a6934465c83c0d4b8f5d5b83c80f1d7, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -163.56982
+      value: -163.57031
       objectReference: {fileID: 0}
     - target: {fileID: 6296840165055597972, guid: 0a6934465c83c0d4b8f5d5b83c80f1d7, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -269.80005
+      value: -269.7998
+      objectReference: {fileID: 0}
+    - target: {fileID: 6296840165055614104, guid: 0a6934465c83c0d4b8f5d5b83c80f1d7, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -163.7207
+      objectReference: {fileID: 0}
+    - target: {fileID: 6296840165055614104, guid: 0a6934465c83c0d4b8f5d5b83c80f1d7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -93.62988
       objectReference: {fileID: 0}
     - target: {fileID: 6296840165055635194, guid: 0a6934465c83c0d4b8f5d5b83c80f1d7, type: 3}
       propertyPath: m_Pivot.x
@@ -30938,7 +30946,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6296840166628027695, guid: 0a6934465c83c0d4b8f5d5b83c80f1d7, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -163.56982
+      value: -163.57031
       objectReference: {fileID: 0}
     - target: {fileID: 6296840166628027695, guid: 0a6934465c83c0d4b8f5d5b83c80f1d7, type: 3}
       propertyPath: m_AnchoredPosition.y
