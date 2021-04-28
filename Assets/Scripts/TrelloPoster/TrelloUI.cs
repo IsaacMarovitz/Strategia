@@ -26,6 +26,9 @@ public class TrelloUI : MonoBehaviour {
 
 	public void Start() {
 		gameManager = GameObject.FindObjectOfType<GameManager>();
+        if (trelloPoster == null) {
+            Debug.LogWarning($"<b>{this.gameObject.name}:</b> No assigned Trello Poster SO!");
+        }
 	}
 
     public void StartPostCard() {
@@ -33,14 +36,18 @@ public class TrelloUI : MonoBehaviour {
     }
 
 	IEnumerator PostCard() {
-		string nameText = cardName.text;
-		string descText = cardDesc.text;
-        ResetUI();
-		reportPanel.SetActive(false);
-		yield return new WaitForEndOfFrame();
-		TakeScreenshot();
-		StartCoroutine(trelloPoster.PostCard(new TrelloCard(nameText, descText, trelloPoster.CardList, trelloPoster.CardLabel, includeScreenshot.isOn ? screenshot.EncodeToPNG() : null), Failure));
-		Resume();
+        if (trelloPoster != null) {
+            string nameText = cardName.text;
+            string descText = cardDesc.text;
+            ResetUI();
+            reportPanel.SetActive(false);
+            yield return new WaitForEndOfFrame();
+            TakeScreenshot();
+            StartCoroutine(trelloPoster.PostCard(new TrelloCard(nameText, descText, trelloPoster.CardList, trelloPoster.CardLabel, includeScreenshot.isOn ? screenshot.EncodeToPNG() : null), Failure));
+            Resume();
+        } else {
+            Debug.LogWarning($"<b>{this.gameObject.name}:</b> No assigned Trello Poster SO!");
+        }
 	}
 
     private List<Dropdown.OptionData> GetDropdownOptions(TrelloCardOption[] cardOptions) {

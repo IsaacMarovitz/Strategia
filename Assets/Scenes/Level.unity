@@ -5224,7 +5224,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 344342324}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Menus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5761,7 +5761,7 @@ GameObject:
   m_Component:
   - component: {fileID: 434845493}
   - component: {fileID: 434845494}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Pause UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9385,7 +9385,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 0
-    m_SensorSize: {x: 1.5639535, y: 1}
+    m_SensorSize: {x: 1.8697674, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -13297,7 +13297,7 @@ GameObject:
   m_Component:
   - component: {fileID: 884899028}
   - component: {fileID: 884899029}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Menu UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19271,7 +19271,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1406244064
 Transform:
   m_ObjectHideFlags: 0
@@ -19815,7 +19815,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1475809962}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Error & Reporting UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20791,7 +20791,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1575573023}
   - component: {fileID: 1575573024}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Audio UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25709,7 +25709,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1892583707}
   - component: {fileID: 1892583708}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Video UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29683,7 +29683,7 @@ MonoBehaviour:
   reportButton: {fileID: 293283037}
   failureUI: {fileID: 930935945}
   sucessPanel: {fileID: 1888057610}
-  trelloPoster: {fileID: 0}
+  trelloPoster: {fileID: 11400000, guid: 265132648249747dd93d4682f076fef9, type: 2}
   reportPanel: {fileID: 1474818282586197749}
   cardName: {fileID: 668283678}
   cardDesc: {fileID: 739269975}
@@ -30253,7 +30253,7 @@ MonoBehaviour:
   failureUI: {fileID: 930935945}
   sucessPanel: {fileID: 1888057610}
   errorText: {fileID: 642953001}
-  trelloPoster: {fileID: 0}
+  trelloPoster: {fileID: 11400000, guid: 265132648249747dd93d4682f076fef9, type: 2}
 --- !u!224 &3290877365184290715
 RectTransform:
   m_ObjectHideFlags: 0

@@ -36,6 +36,9 @@ public class ErrorUI : MonoBehaviour {
     void Start() {
         okButton.onClick.AddListener(Ok);
         reportButton.onClick.AddListener(Report);
+        if (trelloPoster == null) {
+            Debug.LogWarning($"<b>{this.gameObject.name}:</b> No assigned Trello Poster SO!");
+        }
     }   
 
     void Ok() {
@@ -43,6 +46,10 @@ public class ErrorUI : MonoBehaviour {
     }
 
     void Report() {
+        if (trelloPoster == null) {
+            Debug.LogWarning($"<b>{this.gameObject.name}:</b> No assigned Trello Poster SO!");
+            return;
+        }
         StartCoroutine(trelloPoster.PostCard(new TrelloCard(logString, errorString, trelloPoster.CardList, trelloPoster.CardLabel, null), Failure));
         Ok();
     }
