@@ -149,7 +149,7 @@ public class Unit : MonoBehaviour {
                 if (path[i] != GameManager.Instance.grid.grid[pos.x, pos.y]) {
                     if (moves > 0) {
                         PerformMove(path[i]);
-                        path.RemoveAt(i);
+                        i--;
                     }
                 }
             }

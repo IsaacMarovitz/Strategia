@@ -121,14 +121,14 @@ public class Player : MonoBehaviour {
     public void StartTurn() {
         Debug.Log($"<b>{this.gameObject.name}:</b> Turn is starting");
         turnStarted = true;
+        if (playerUnits != null) {
+            UpdateFogOfWar();
+        }
         if (unitQueue.Count > 0) {
             UIData.Instance.currentUnit = unitQueue[0];
             unitQueue[0].StartTurn();
         } else {
             TurnComplete();
-        }
-        if (playerUnits != null) {
-            UpdateFogOfWar();
         }
     }
 
@@ -151,8 +151,8 @@ public class Player : MonoBehaviour {
 
     public void EndTurnButton() {
         turnCompleted = true;
-        UIData.Instance.currentUnit = null;
-        UIData.Instance.currentCity = null;
+        //UIData.Instance.currentUnit = null;
+        //UIData.Instance.currentCity = null;
     }
 
     public void TurnComplete() {

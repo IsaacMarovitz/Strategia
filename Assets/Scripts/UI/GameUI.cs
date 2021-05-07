@@ -46,6 +46,7 @@ public class GameUI : MonoBehaviour {
         dayCounter.text = "Day " + GameManager.Instance.day;
         newDayUIText.text = "Day " + (GameManager.Instance.day + 1);
         customButtonParent.SetActive(false);
+        unitImage.color = GameManager.Instance.GetCurrentPlayer().playerColor;
         if (GameManager.Instance.GetCurrentPlayer().turnCompleted) {
             movesLeft.text = "";
             fuelLeft.text = "";
@@ -146,7 +147,6 @@ public class GameUI : MonoBehaviour {
             SetButtons(true);
             sleepButtonText.text = "Sleep";
         }
-        unitImage.color = GameManager.Instance.GetCurrentPlayer().playerColor;
     }
 
     void SetButtons(bool buttonBool) {
