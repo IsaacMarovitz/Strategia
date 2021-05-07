@@ -19,7 +19,8 @@ public class CityListUI : MonoBehaviour {
         for (int i = 0; i < numberOfCities; i++) {
             GameObject instantiatedObject = GameObject.Instantiate(cityPrefab);
             instantiatedObject.transform.SetParent(content.transform);
-            instantiatedObject.transform.localScale = new Vector3(1, 1, 1);
+            instantiatedObject.transform.localScale = Vector3.one;
+            instantiatedObject.transform.localPosition = Vector3.zero;
             instantiatedObject.transform.name = $"City List UI Object {i+1}";
             cityListUIObjects.Add(instantiatedObject.GetComponent<CityListUIObject>());
         }
