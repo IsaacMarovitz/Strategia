@@ -77,7 +77,6 @@ public class Army : Unit {
     }
 
     public override void TransportCheck() {
-        base.TransportCheck();
         if (isOnTransport) {
             isOnTransport = false;
             mainMesh.SetActive(true);
@@ -90,7 +89,7 @@ public class Army : Unit {
     public override void TransportMove(Tile tileToMoveTo, TileMoveStatus tileMoveStatus) {
         base.TransportMove(tileToMoveTo, tileMoveStatus);
         if (tileMoveStatus == TileMoveStatus.Transport) {
-            pos += tileToMoveTo.pos;
+            pos = tileToMoveTo.pos;
             isOnTransport = true;
             ((Transport)GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile).armiesOnTransport.Add(this);
         }

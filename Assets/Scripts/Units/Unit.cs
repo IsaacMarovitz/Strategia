@@ -177,7 +177,6 @@ public class Unit : MonoBehaviour {
     }
 
     public virtual void PerformMove(Tile tileToMoveTo) {
-        GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = null;
         TileMoveStatus tileMoveStatus = CheckDir(tileToMoveTo);
         if (tileMoveStatus == TileMoveStatus.Move) {
             TransportCheck();
@@ -233,7 +232,9 @@ public class Unit : MonoBehaviour {
         player.UpdateFogOfWar();
     }
 
-    public virtual void TransportCheck() { }
+    public virtual void TransportCheck() { 
+        GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = null;
+    }
 
     public virtual void TransportMove(Tile tileToMoveTo, TileMoveStatus tileMoveStatus) { }
 
