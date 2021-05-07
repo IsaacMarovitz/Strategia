@@ -10,32 +10,36 @@ public class CityListUI : MonoBehaviour {
     public Button cityUIButton;
     public Button xButton;
 
-    public List<City> cities = new List<City>();
+    public List<CityListUIObject> cityListUIObjects = new List<CityListUIObject>();
 
     void Start() {
         cityUIButton.onClick.AddListener(ShowMenu);
         xButton.onClick.AddListener(CloseMenu);
+        int numberOfCities = GameManager.Instance.grid.cityTiles.Count;
+        for (int i = 0; i < numberOfCities; i++) {
+            GameObject instantiatedObject = GameObject.Instantiate(cityPrefab);
+            instantiatedObject.transform.SetParent(content.transform);
+            instantiatedObject.transform.localScale = new Vector3(1, 1, 1);
+            instantiatedObject.transform.name = $"City List UI Object {i+1}";
+            cityListUIObjects.Add(instantiatedObject.GetComponent<CityListUIObject>());
+        }
     }
 
     void Update() {
-        if (cityListMenu.activeSelf) {
-            Player currentPlayer = GameManager.Instance.GetCurrentPlayer();
-            foreach (var playerCity in currentPlayer.playerCities) {
-                if (!cities.Contains(playerCity)) {
-                    Debug.Log("Updating");
-                    cities.Clear();
-                    foreach (var city in currentPlayer.playerCities) {
-                        cities.Add(city);
-                    }
-                    foreach (Transform child in content.transform) {
-                        GameObject.Destroy(child.gameObject);
-                    }
-                    foreach (City city in cities) {
-                        GameObject instantiatedObject = GameObject.Instantiate(cityPrefab);
-                        instantiatedObject.transform.SetParent(content.transform);
-                        instantiatedObject.transform.localScale = new Vector3(1, 1, 1);
-                        instantiatedObject.GetComponent<CityListUIObject>().cityNameText.text = city.cityName;
-                    }
+        UpdateCityList();
+    }
+
+    public void UpdateCityList() {
+        Player currentPlayer = GameManager.Instance.GetCurrentPlayer();
+        if (currentPlayer != null) {
+            List<City> cities = currentPlayer.playerCities;
+            
+            for (int i = 0; i < cityListUIObjects.Count; i++) {
+                if (i < cities.Count) {
+                    cityListUIObjects[i].gameObject.SetActive(true);
+                    cityListUIObjects[i].cityNameText.text = cities[i].cityName;
+                } else {
+                    cityListUIObjects[i].gameObject.SetActive(false);
                 }
             }
         }

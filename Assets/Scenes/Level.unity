@@ -1525,7 +1525,7 @@ MonoBehaviour:
   cityListMenu: {fileID: 2035664277}
   cityUIButton: {fileID: 689978620}
   xButton: {fileID: 1093646566}
-  cities: []
+  cityListUIObjects: []
 --- !u!1 &78628645
 GameObject:
   m_ObjectHideFlags: 0
@@ -9385,7 +9385,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 0
-    m_SensorSize: {x: 1.1232558, y: 1}
+    m_SensorSize: {x: 1.8325582, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
