@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using DG.Tweening;
 
 public class CameraController : MonoBehaviour {
 
@@ -13,7 +14,6 @@ public class CameraController : MonoBehaviour {
     public UnitUI unitUI;
     float mainSpeed = 100.0f;
 
-    private Vector3 lastMouse = new Vector3(255, 255, 255);
     private bool isPaused;
     private Unit oldUnit;
     private City oldCity;
@@ -117,10 +117,10 @@ public class CameraController : MonoBehaviour {
     private Vector3 GetYRotation() {
         Vector3 p_Rotation = new Vector3();
         if (Input.GetKey(KeyCode.Q)) {
-            p_Rotation += new Vector3(0, -0.5f, 0);
+            p_Rotation += new Vector3(0, -1f, 0);
         }
         if (Input.GetKey(KeyCode.E)) {
-            p_Rotation += new Vector3(0, 0.5f, 0);
+            p_Rotation += new Vector3(0, 1f, 0);
         }
         return p_Rotation;
     }
@@ -128,18 +128,18 @@ public class CameraController : MonoBehaviour {
     private Vector3 GetXRotation() {
         Vector3 p_Rotation = new Vector3();
         if (Input.GetKey(KeyCode.R)) {
-            p_Rotation += new Vector3(1, 0, 0);
+            p_Rotation += new Vector3(-1, 0, 0);
         }
         if (Input.GetKey(KeyCode.F)) {
-            p_Rotation += new Vector3(-1, 0, 0);
+            p_Rotation += new Vector3(1, 0, 0);
         }
         return p_Rotation;
     }
 
     public void Focus(Vector3 pos) {
-        yRotationTransform.position = pos + positionOffset;
-        yRotationTransform.eulerAngles = new Vector3(0, rotationOffset.y, 0);
-        xRotationTransform.eulerAngles = new Vector3(rotationOffset.x, 0, 0);
+        yRotationTransform.DOMove(pos + positionOffset, 0.5f);
+        yRotationTransform.DORotate(new Vector3(0, rotationOffset.y, 0), 0.5f);
+        xRotationTransform.DORotate(new Vector3(rotationOffset.x, 0, 0), 0.5f);
     }
 
     private bool IsMouseOverUI() {

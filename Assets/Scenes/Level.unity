@@ -8148,6 +8148,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 311
   unitUI: {fileID: 794698292}
+  mainSpeed: 100
 --- !u!1 &626656591
 GameObject:
   m_ObjectHideFlags: 0
@@ -9055,7 +9056,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 0
-    m_SensorSize: {x: 0.9883721, y: 1}
+    m_SensorSize: {x: 0.98953485, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -9071,7 +9072,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 663163353}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -26514,11 +26515,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1923705159}
   - component: {fileID: 1923705158}
+  - component: {fileID: 1923705161}
   - component: {fileID: 1923705162}
   - component: {fileID: 1923705164}
   - component: {fileID: 1923705157}
   - component: {fileID: 1923705160}
-  - component: {fileID: 1923705161}
   - component: {fileID: 1923705163}
   m_Layer: 0
   m_Name: Main Camera
