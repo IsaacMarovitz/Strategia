@@ -8148,7 +8148,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 311
   unitUI: {fileID: 794698292}
-  mainSpeed: 100
 --- !u!1 &626656591
 GameObject:
   m_ObjectHideFlags: 0
@@ -9056,7 +9055,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 0
-    m_SensorSize: {x: 0.98953485, y: 1}
+    m_SensorSize: {x: 1.5186046, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
