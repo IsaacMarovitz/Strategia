@@ -8073,7 +8073,6 @@ GameObject:
   - component: {fileID: 620992388}
   - component: {fileID: 620992390}
   - component: {fileID: 620992391}
-  - component: {fileID: 620992389}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -8097,19 +8096,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &620992389
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 620992387}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 200, y: 40, z: 200}
-  m_Center: {x: 100, y: 25, z: 100}
 --- !u!114 &620992390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8140,10 +8126,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 1923705158}
-  xRotationTransform: {fileID: 663163356}
-  yRotationTransform: {fileID: 1507278418}
-  positionOffset: {x: 0, y: 21, z: -12}
-  rotationOffset: {x: 45, y: 0}
+  virtualCamera: {fileID: 663163356}
+  cameraRig: {fileID: 1507278418}
+  normalSpeed: 0.5
+  fastSpeed: 1.5
+  movementTime: 10
+  rotationAmount: {x: 1, y: 1}
+  zoomAmount: {x: 0, y: -5, z: 5}
+  maxPosition: {x: 220, y: 100, z: 220}
+  minPosition: {x: -20, y: 0, z: -20}
+  zoomLimits: {x: -10, y: 40}
+  xRotationLimits: {x: 0, y: 90}
   ignoredLayers:
     serializedVersion: 2
     m_Bits: 311
@@ -9001,31 +8994,13 @@ GameObject:
   m_Component:
   - component: {fileID: 663163356}
   - component: {fileID: 663163355}
-  - component: {fileID: 663163354}
   m_Layer: 0
-  m_Name: CM vcam1
+  m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &663163354
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 663163353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2fba25a5cd15594e8f050a11e386c80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ConfineMode: 1
-  m_BoundingVolume: {fileID: 620992389}
-  m_BoundingShape2D: {fileID: 0}
-  m_ConfineScreenEdges: 1
-  m_Damping: 0.3
 --- !u!114 &663163355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9071,14 +9046,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 663163353}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: 0, y: 30, z: -50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 616297176}
   m_Father: {fileID: 1507278418}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
 --- !u!1 &663820851
 GameObject:
   m_ObjectHideFlags: 0
@@ -19975,7 +19950,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1507278418}
   m_Layer: 0
-  m_Name: Camera Container
+  m_Name: Camera Rig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19989,7 +19964,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1507278417}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 100, y: 45, z: 100}
+  m_LocalPosition: {x: 100, y: 20, z: 100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 663163356}
@@ -26585,8 +26560,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1923705156}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 100, y: 45, z: 100}
+  m_LocalRotation: {x: 0.38268343, y: -0, z: -0, w: 0.92387956}
+  m_LocalPosition: {x: 100, y: 50, z: 50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1406244064}

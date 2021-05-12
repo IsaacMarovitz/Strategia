@@ -1,26 +1,59 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
-using DG.Tweening;
 
 public class CameraController : MonoBehaviour {
 
+    public static CameraController instance;
+
     public Camera mainCamera;
-    public Transform xRotationTransform;
-    public Transform yRotationTransform;
-    public Vector3 positionOffset;
-    public Vector2 rotationOffset;
+    public Transform virtualCamera;
+    public Transform cameraRig;
+
+    [Space(10)]
+    public float normalSpeed = 0.5f;
+    public float fastSpeed = 1.5f;
+    public float movementTime = 10;
+    public Vector2 rotationAmount = new Vector2(1, 1);
+    public Vector3 zoomAmount = new Vector3(0, -5, -5);
+
+    [Space(10)]
+    public Vector3 maxPosition = new Vector3(220, 100, 220);
+    public Vector3 minPosition = new Vector3(-20, -0, -20);
+    // x = min, y = max
+    public Vector2 zoomLimits = new Vector2(-10, 40);
+    public Vector2 xRotationLimits = new Vector2(0, 90);
+
+    [Space(10)]
     public LayerMask ignoredLayers;
     public UnitUI unitUI;
-    float mainSpeed = 100.0f;
 
     private bool isPaused;
     private Unit oldUnit;
     private City oldCity;
+    private float movementSpeed;
+
+    private Vector3 newPosition;
+    private Quaternion newRotation;
+    private Vector3 newZoom;
+    private float newXRotation;
+
+    private Vector3 dragStartPosition;
+    private Vector3 dragCurrentPosition;
+    private Vector3 rotateStartPosition;
+    private Vector3 rotateCurrentPosition;
+    private Vector3 startingZoom;
 
     void Start() {
         GameManager.Instance.pauseGame += Pause;
         GameManager.Instance.resumeGame += Resume;
+
+        instance = this;
+        newPosition = cameraRig.position;
+        newRotation = cameraRig.rotation;
+        startingZoom = virtualCamera.transform.localPosition;
+        newZoom = startingZoom;
+        newXRotation = virtualCamera.transform.localRotation.eulerAngles.x;
     }
 
     void Pause() {
@@ -33,11 +66,6 @@ public class CameraController : MonoBehaviour {
 
     void Update() {
         if (!isPaused) {
-            Vector3 p = GetBaseInput();
-            p = p * mainSpeed * Time.deltaTime;
-            yRotationTransform.Translate(p);
-            yRotationTransform.eulerAngles += GetYRotation();
-            xRotationTransform.eulerAngles += GetXRotation();
             RaycastHit hit;
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, ignoredLayers)) {
@@ -91,27 +119,111 @@ public class CameraController : MonoBehaviour {
         }
     }
 
-    private Vector3 GetBaseInput() {
-        Vector3 p_Velocity = new Vector3();
-        if (Input.GetKey(KeyCode.W)) {
-            p_Velocity += new Vector3(0, 0, 0.5f);
+    public void LateUpdate() {
+        if (!isPaused) {
+            GetMouseInput();
+            GetMovementInput();
         }
-        if (Input.GetKey(KeyCode.S)) {
-            p_Velocity += new Vector3(0, 0, -0.5f);
+    }
+
+    private void GetMouseInput() {
+        if (Input.mouseScrollDelta.y != 0) {
+            newZoom += Input.mouseScrollDelta.y * zoomAmount;
         }
-        if (Input.GetKey(KeyCode.A)) {
-            p_Velocity += new Vector3(-0.5f, 0, 0);
+        if (Input.GetMouseButtonDown(0)) {
+            Plane plane = new Plane(Vector3.up, Vector3.zero);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            float entry;
+            if (plane.Raycast(ray, out entry) && !IsMouseOverUI()) {
+                dragStartPosition = ray.GetPoint(entry);
+            }
         }
-        if (Input.GetKey(KeyCode.D)) {
-            p_Velocity += new Vector3(0.5f, 0, 0);
+        if (Input.GetMouseButton(0)) {
+            Plane plane = new Plane(Vector3.up, Vector3.zero);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            float entry;
+            if (plane.Raycast(ray, out entry)) {
+                dragCurrentPosition = ray.GetPoint(entry);
+
+                if (IsMouseOverUI()) {
+                    dragStartPosition = dragCurrentPosition;
+                } else {
+                    newPosition = cameraRig.position + dragStartPosition - dragCurrentPosition; 
+                }
+            } 
         }
-        if (Input.GetKey(KeyCode.Space)) {
-            p_Velocity += new Vector3(0, 0.5f, 0);
+        if (Input.GetMouseButtonDown(1)) {
+            rotateStartPosition = Input.mousePosition;
         }
-        if (Input.GetKey(KeyCode.LeftShift)) {
-            p_Velocity += new Vector3(0, -0.5f, 0);
+        if (Input.GetMouseButton(1)) {
+            rotateCurrentPosition = Input.mousePosition;
+
+            if (IsMouseOverUI()) {
+                rotateStartPosition = rotateCurrentPosition;
+            } else {
+                Vector3 difference = rotateStartPosition - rotateCurrentPosition;
+                rotateStartPosition = rotateCurrentPosition; 
+                newRotation *= Quaternion.Euler(Vector3.up * (-difference.x / 5));
+            }
         }
-        return p_Velocity;
+    }
+
+    private void GetMovementInput() {
+        if (Input.GetKey(KeyCode.LeftControl)) {
+            movementSpeed = fastSpeed;
+        } else {
+            movementSpeed = normalSpeed;
+        }
+
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) {
+            newPosition += (cameraRig.forward * movementSpeed);
+        }
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) {
+            newPosition += (cameraRig.forward * -movementSpeed);
+        }
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) {
+            newPosition += (cameraRig.right * -movementSpeed);
+        }
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) {
+            newPosition += (cameraRig.right * movementSpeed);
+        }
+
+        if (Input.GetKey(KeyCode.Q)) {
+            newRotation *= Quaternion.Euler(Vector3.up * -rotationAmount.y);
+        }
+        if (Input.GetKey(KeyCode.E)) {
+            newRotation *= Quaternion.Euler(Vector3.up * rotationAmount.y);
+        }
+
+        if (Input.GetKey(KeyCode.R)) {
+            newXRotation -= rotationAmount.x;
+        }
+        if (Input.GetKey(KeyCode.F)) {
+            newXRotation += rotationAmount.x;
+        }
+
+        if (Input.GetKey(KeyCode.Z)) {
+            newZoom += zoomAmount;
+        }
+        if (Input.GetKey(KeyCode.X)) {
+            newZoom -= zoomAmount;
+        }
+
+        newPosition.x = Mathf.Clamp(newPosition.x, minPosition.x, maxPosition.x);
+        newPosition.y = Mathf.Clamp(newPosition.y, minPosition.y, maxPosition.y);
+        newPosition.z = Mathf.Clamp(newPosition.z, minPosition.z, maxPosition.z);
+
+        newZoom.y = Mathf.Clamp(newZoom.y, zoomLimits.x, zoomLimits.y);
+        newZoom.z = startingZoom.z - newZoom.y + startingZoom.y;
+
+        newXRotation = Mathf.Clamp(newXRotation, xRotationLimits.x, xRotationLimits.y);
+
+        cameraRig.position = Vector3.Lerp(cameraRig.position, newPosition, Time.deltaTime * movementTime);
+        cameraRig.rotation = Quaternion.Lerp(cameraRig.rotation, newRotation, Time.deltaTime * movementTime);
+        virtualCamera.transform.localPosition = Vector3.Lerp(virtualCamera.transform.localPosition, newZoom, Time.deltaTime * movementTime);
+        virtualCamera.localRotation = Quaternion.Euler(Vector3.Lerp(virtualCamera.localRotation.eulerAngles, new Vector3(newXRotation, 0, 0), Time.deltaTime * movementTime));
     }
 
     private Vector3 GetYRotation() {
@@ -137,9 +249,9 @@ public class CameraController : MonoBehaviour {
     }
 
     public void Focus(Vector3 pos) {
-        yRotationTransform.DOMove(pos + positionOffset, 0.5f);
-        yRotationTransform.DORotate(new Vector3(0, rotationOffset.y, 0), 0.5f);
-        xRotationTransform.DORotate(new Vector3(rotationOffset.x, 0, 0), 0.5f);
+        // Zoom to a set distance
+        // Center the object in frame without changing rotation
+        // newZoom.y = -5;
     }
 
     private bool IsMouseOverUI() {
