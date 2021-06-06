@@ -205,10 +205,10 @@ public class CameraController : MonoBehaviour {
         }
 
         if (Input.GetKey(KeyCode.Z)) {
-            newZoom += zoomAmount;
+            newZoom += zoomAmount / 10;
         }
         if (Input.GetKey(KeyCode.X)) {
-            newZoom -= zoomAmount;
+            newZoom -= zoomAmount / 10;
         }
 
         newPosition.x = Mathf.Clamp(newPosition.x, minPosition.x, maxPosition.x);

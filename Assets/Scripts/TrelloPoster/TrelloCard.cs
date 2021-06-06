@@ -42,7 +42,9 @@ namespace Trello {
         }*/
 
         private string GetSettings() {
-            return "Screen Resolution: " + Screen.currentResolution + " \nFull Screen: " + Screen.fullScreen + "\nQuality Level: " + QualitySettings.GetQualityLevel();
+            return "Screen Resolution: " + Screen.width + " x " + Screen.height + " @ " + Screen.currentResolution.refreshRate + "Hz" + 
+            "\nFull Screen: " + Screen.fullScreen + 
+            "\nQuality Level: " + QualitySettings.GetQualityLevel();
         }
 
         private string GetSystemInfo() {

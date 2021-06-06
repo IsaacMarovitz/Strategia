@@ -21,6 +21,7 @@ public class CityListUI : MonoBehaviour {
             instantiatedObject.transform.SetParent(content.transform);
             instantiatedObject.transform.localScale = Vector3.one;
             instantiatedObject.transform.localPosition = Vector3.zero;
+            instantiatedObject.transform.localRotation = Quaternion.identity;
             instantiatedObject.transform.name = $"City List UI Object {i+1}";
             cityListUIObjects.Add(instantiatedObject.GetComponent<CityListUIObject>());
         }
