@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Fighter : Unit {
+public class Fighter : Unit, IFuel {
 
-    public int fuel;
+    public int fuel {get; set; }
     public int maxFuel;
     public int fuelPerMove;
     public bool isOnCarrier = false;

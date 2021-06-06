@@ -1,11 +1,12 @@
 using UnityEngine;
 
-public class Parachute : Unit {
+public class Parachute : Unit, ICustomButton, IFuel {
 
     public GameObject unitPrefab;
-    public int fuel;
+    public int fuel { get; set; }
     public int maxFuel;
     public int fuelPerMove;
+    public string CustomButtonName { get { return "Deploy"; } }
 
     public override void Start() {
         base.Start();
@@ -75,5 +76,9 @@ public class Parachute : Unit {
         } else {
             Debug.Log($"<b>{this.gameObject.name}:</b> Invalid deploy location!");
         }
+    }
+
+    public void CustomButton() {
+        DeployArmy();
     }
 }

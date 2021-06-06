@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Bomber : Unit {
+public class Bomber : Unit, ICustomButton, IFuel {
 
     public int blastRadius = 2;
-    public int fuel;
+    public int fuel { get; set; }
     public int maxFuel;
     public int fuelPerMove;
+    public string CustomButtonName { get { return "Detonate"; } }
 
     public override void Start() {
         base.Start();
@@ -71,5 +72,9 @@ public class Bomber : Unit {
         Debug.Log($"<b>{this.gameObject.name}:</b> Detonated!");
         Die();
         GameObject.Destroy(this.gameObject);
+    }
+
+    public void CustomButton() {
+        Detonate();
     }
 }
