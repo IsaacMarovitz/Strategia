@@ -86,7 +86,6 @@ public class GameManager : MonoBehaviour {
             nextPlayerDelegate?.Invoke();
             Player nextPlayer = playerList[currentPlayerIndex - 1];
             if (nextPlayer.HasDied() || nextPlayer.hasDied) {
-                Debug.Log($"<b>GameManager:</b> Player {currentPlayerIndex} has died!");
                 NextPlayer();
             } else {
                 nextPlayer.StartTurn();

@@ -19,12 +19,14 @@ public class City : MonoBehaviour {
     public int turnsLeft;
     public int currentIndex;
     private readonly int[] unitTTCs = { 4, 8, 8, 12, 2, 6, 6, 10, 12 };
+    private Color defaultColor;
 
     public void Awake() {
         canvas = GetComponentInChildren<Canvas>();
         cityNameText = GetComponentInChildren<TMP_Text>();
         canvas.worldCamera = Camera.main;
         canvas.enabled = false;
+        defaultColor = this.transform.GetChild(0).GetComponent<MeshRenderer>().materials[0].color;
     }
 
     public void Update() {
@@ -96,8 +98,11 @@ public class City : MonoBehaviour {
         }
         unitsInCity.Clear();
         isOwned = false;
-        player.playerCities.Remove(this);
-        player = null;
+        if (player != null) {
+            player.playerCities.Remove(this);
+            player = null;
+        }
+        this.transform.GetChild(0).GetComponent<MeshRenderer>().materials[0].color = defaultColor;
         GameManager.Instance.newDayDelegate -= TakeTurn;
     }
 }

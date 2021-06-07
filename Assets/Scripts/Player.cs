@@ -175,6 +175,7 @@ public class Player : MonoBehaviour {
 
     public bool HasDied() {
         if (playerUnits.Count <= 0 && playerCities.Count <= 0) {
+            Debug.Log($"<b>GameManager:</b> Player {GameManager.Instance.currentPlayerIndex} has died!");
             hasDied = true;
             return true;
         }
