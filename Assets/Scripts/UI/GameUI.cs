@@ -86,6 +86,7 @@ public class GameUI : MonoBehaviour {
 
                 movesLeft.text = $"Moves Left: {UIData.Instance.currentUnit.moves}";
 
+                // If the unit inherits the ICustomButton interface, activate CustomButton and set CustomButtonText to CustomButtonName
                 ICustomButton buttonInterface = UIData.Instance.currentUnit as ICustomButton;
                 if (buttonInterface != null) {
                     customButtonText.text = buttonInterface.CustomButtonName;
@@ -94,6 +95,7 @@ public class GameUI : MonoBehaviour {
                     customButtonParent.SetActive(false);
                 }
 
+                // If the unit inherits the IFuel interface, set FuelLeft tect to the current fuel level
                 IFuel fuelInterface = UIData.Instance.currentUnit as IFuel;
                 if (fuelInterface != null) {
                     fuelLeft.text = $"Fuel: {fuelInterface.fuel}";
@@ -101,18 +103,21 @@ public class GameUI : MonoBehaviour {
                     fuelLeft.text = "";
                 }
 
+                // If a different unit has been selected, disable the UnitUI Line Renderer, and set MoveButton to interactable 
                 if (!moveButton.interactable && UIData.Instance.currentUnit != oldUnit) {
                     oldUnit = UIData.Instance.currentUnit;
                     moveButton.interactable = true;
                     unitUI.showLine = false;
                 }
 
+                // If the right mouse button is pressed while the line is showing, disable the UnitUI Line Renderer, and set Move Button to interactable
                 if (Input.GetMouseButtonDown(1) && unitUI.showLine) {
                     unitUI.showLine = false;
                     moveButton.interactable = true;
                     unitIsMoving = false;
                 }
 
+                // If the left mouse button is pressed while the line is showing, disable the UnitUI Line Renderer, set Move Button to interactable, and move the selected Unit
                 if (Input.GetMouseButtonDown(0) && unitUI.showLine) {
                     unitUI.showLine = false;
                     moveButton.interactable = true;
@@ -229,6 +234,7 @@ public class GameUI : MonoBehaviour {
 
     public void CustomButton() {
         if (UIData.Instance.currentUnit == null)  { return; }
+        
         ICustomButton currentUnitInterface = UIData.Instance.currentUnit as ICustomButton;
         if (currentUnitInterface != null) {
             currentUnitInterface.CustomButton();
