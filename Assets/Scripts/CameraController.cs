@@ -29,6 +29,11 @@ public class CameraController : MonoBehaviour {
     public LayerMask ignoredLayers;
     public UnitUI unitUI;
 
+    [HideInInspector]
+    public bool didDrag = false;
+    [HideInInspector]
+    public bool didClickUI = false;
+
     private bool isPaused;
     private Unit oldUnit;
     private City oldCity;
@@ -79,31 +84,40 @@ public class CameraController : MonoBehaviour {
                     }
                 }
             }
-            if (Input.GetMouseButtonDown(0) && !unitUI.showLine) {
-                ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out hit)) {
-                    if (!IsMouseOverUI()) {
-                        if (hit.transform.tag == "Unit") {
-                            Unit hitUnit = hit.transform.parent.gameObject.GetComponent<Unit>();
-                            if (GameManager.Instance.GetCurrentPlayer().playerUnits.Contains(hitUnit)) {
-                                UIData.Instance.currentUnit = hitUnit;
-                                Focus(GridUtilities.TileToWorldPos(hitUnit.pos), true);
-                                Debug.Log("<b>Camera Controller:</b> Found Unit");
+
+            if (Input.GetMouseButtonDown(0) && IsMouseOverUI()) {
+                didClickUI = true;
+            }
+
+            if (Input.GetMouseButtonUp(0) && !unitUI.showLine && !didDrag) {
+                if (!didClickUI) {
+                    ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+                    if (Physics.Raycast(ray, out hit)) {
+                        if (!IsMouseOverUI()) {
+                            if (hit.transform.tag == "Unit") {
+                                Unit hitUnit = hit.transform.parent.gameObject.GetComponent<Unit>();
+                                if (GameManager.Instance.GetCurrentPlayer().playerUnits.Contains(hitUnit)) {
+                                    UIData.Instance.currentUnit = hitUnit;
+                                    Focus(GridUtilities.TileToWorldPos(hitUnit.pos), true);
+                                    Debug.Log("<b>Camera Controller:</b> Found Unit");
+                                }
+                            } else {
+                                UIData.Instance.currentUnit = null;
                             }
-                        } else {
-                            UIData.Instance.currentUnit = null;
-                        }
-                        if (hit.transform.tag == "City") {
-                            City hitCity = hit.transform.gameObject.GetComponent<City>();
-                            if (GameManager.Instance.GetCurrentPlayer().playerCities.Contains(hitCity)) {
-                                UIData.Instance.currentCity = hitCity;
-                                Focus(GridUtilities.TileToWorldPos(hitCity.pos), true);
-                                Debug.Log("<b>Camera Controller:</b> Found City");
+                            if (hit.transform.tag == "City") {
+                                City hitCity = hit.transform.gameObject.GetComponent<City>();
+                                if (GameManager.Instance.GetCurrentPlayer().playerCities.Contains(hitCity)) {
+                                    UIData.Instance.currentCity = hitCity;
+                                    Focus(GridUtilities.TileToWorldPos(hitCity.pos), true);
+                                    Debug.Log("<b>Camera Controller:</b> Found City");
+                                }
+                            } else {
+                                UIData.Instance.currentCity = null;
                             }
-                        } else {
-                            UIData.Instance.currentCity = null;
                         }
                     }
+                } else {
+                    didClickUI = false;
                 }
             }
         }
@@ -119,7 +133,7 @@ public class CameraController : MonoBehaviour {
                 oldUnit = null;
                 Focus(GridUtilities.TileToWorldPos(oldCity.pos), true);
             }
-        } 
+        }
     }
 
     public void LateUpdate() {
@@ -142,6 +156,7 @@ public class CameraController : MonoBehaviour {
                 worldDragStartPosition = ray.GetPoint(entry);
             }
             screenDragStartPosition = Input.mousePosition;
+            didDrag = false;
         }
         if (Input.GetMouseButton(0)) {
             Plane plane = new Plane(Vector3.up, Vector3.zero);
@@ -157,10 +172,11 @@ public class CameraController : MonoBehaviour {
                     screenDragStartPosition = screenDragCurrentPosition;
                 } else {
                     if ((screenDragStartPosition - screenDragCurrentPosition).magnitude > dragDeltaThreshold) {
-                        newPosition = cameraRig.position + worldDragStartPosition - worldDragCurrentPosition; 
+                        didDrag = true;
+                        newPosition = cameraRig.position + worldDragStartPosition - worldDragCurrentPosition;
                     }
                 }
-            } 
+            }
         }
         if (Input.GetMouseButtonDown(1)) {
             rotateStartPosition = Input.mousePosition;
@@ -172,7 +188,7 @@ public class CameraController : MonoBehaviour {
                 rotateStartPosition = rotateCurrentPosition;
             } else {
                 Vector3 difference = rotateStartPosition - rotateCurrentPosition;
-                rotateStartPosition = rotateCurrentPosition; 
+                rotateStartPosition = rotateCurrentPosition;
                 newRotation *= Quaternion.Euler(Vector3.up * (-difference.x / 5));
             }
         }
@@ -272,7 +288,7 @@ public class CameraController : MonoBehaviour {
         }
     }
 
-    private bool IsMouseOverUI() {
+    public bool IsMouseOverUI() {
         PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
         pointerEventData.position = Input.mousePosition;
 

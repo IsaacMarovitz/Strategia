@@ -4,7 +4,7 @@ using TMPro;
 using System.Collections;
 
 public class GameUI : MonoBehaviour {
-    
+
     [Header("Text")]
     public TMP_Text movesLeft;
     public TMP_Text fuelLeft;
@@ -120,10 +120,16 @@ public class GameUI : MonoBehaviour {
 
                 // If the left mouse button is pressed while the line is showing, disable the UnitUI Line Renderer, set Move Button to interactable, and move the selected Unit
                 if (Input.GetMouseButtonDown(0) && unitUI.showLine) {
-                    unitUI.Hide();
-                    moveButton.interactable = true;
-                    unitIsMoving = false;
-                    UIData.Instance.Move();
+                    if (cameraController.IsMouseOverUI()) {
+                        unitUI.Hide();
+                        moveButton.interactable = true;
+                        unitIsMoving = false;
+                    } else {
+                        unitUI.Hide();
+                        moveButton.interactable = true;
+                        unitIsMoving = false;
+                        UIData.Instance.Move();
+                    }
                 }
             } else {
                 customButtonParent.SetActive(false);
@@ -132,18 +138,18 @@ public class GameUI : MonoBehaviour {
                 movesLeft.text = "";
                 fuelLeft.text = "";
                 SetButtons(false);
-                
+
                 oldUnit = null;
                 GameManager.Instance.grid.path = null;
             }
 
             if (!GameManager.Instance.dayCompleted) {
-                if (UIData.Instance.currentUnit != null) 
+                if (UIData.Instance.currentUnit != null)
                     UpdateUI();
             } else {
                 SetButtons(false);
             }
-        }      
+        }
     }
 
     public void UpdateUI() {
@@ -207,7 +213,7 @@ public class GameUI : MonoBehaviour {
     #region  Button Functions
 
     public void MoveButton() {
-        if (UIData.Instance.currentUnit == null)  { return; }
+        if (UIData.Instance.currentUnit == null) { return; }
 
         oldUnit = UIData.Instance.currentUnit;
         unitUI.Show();
@@ -216,26 +222,26 @@ public class GameUI : MonoBehaviour {
     }
 
     public void SleepButton() {
-        if (UIData.Instance.currentUnit == null)  { return; }
+        if (UIData.Instance.currentUnit == null) { return; }
 
         UIData.Instance.currentUnit.ToggleSleep();
     }
 
     public void WakeButton() {
-        if (UIData.Instance.currentUnit == null)  { return; }
+        if (UIData.Instance.currentUnit == null) { return; }
 
         UIData.Instance.currentUnit.ToggleSleep();
     }
 
     public void DoneButton() {
-        if (UIData.Instance.currentUnit == null)  { return; }
+        if (UIData.Instance.currentUnit == null) { return; }
 
         UIData.Instance.currentUnit.EndTurn();
     }
 
     public void CustomButton() {
-        if (UIData.Instance.currentUnit == null)  { return; }
-        
+        if (UIData.Instance.currentUnit == null) { return; }
+
         ICustomButton currentUnitInterface = UIData.Instance.currentUnit as ICustomButton;
         if (currentUnitInterface != null) {
             currentUnitInterface.CustomButton();
@@ -247,7 +253,7 @@ public class GameUI : MonoBehaviour {
     }
 
     public void NextUnitButton() {
-        if (UIData.Instance.currentUnit == null)  { 
+        if (UIData.Instance.currentUnit == null) {
             Unit currentUnit = GameManager.Instance.GetCurrentPlayer().GetCurrentUnit();
             if (currentUnit != null) {
                 UIData.Instance.currentUnit = currentUnit;

@@ -1519,7 +1519,7 @@ Canvas:
   m_GameObject: {fileID: 74971539}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 1406244067}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -1527,7 +1527,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_SortingLayerID: 0
   m_SortingOrder: 2
   m_TargetDisplay: 0
@@ -8435,6 +8435,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 311
   unitUI: {fileID: 794698292}
+  didDrag: 0
 --- !u!1 &626656591
 GameObject:
   m_ObjectHideFlags: 0
@@ -16282,7 +16283,7 @@ Canvas:
   m_GameObject: {fileID: 1206070304}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 1406244067}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -16290,7 +16291,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_SortingLayerID: 0
   m_SortingOrder: 2
   m_TargetDisplay: 0
@@ -16848,7 +16849,7 @@ Canvas:
   m_GameObject: {fileID: 1246985448}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 1406244067}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -16856,7 +16857,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_SortingLayerID: 0
   m_SortingOrder: 2
   m_TargetDisplay: 0
@@ -19862,7 +19863,7 @@ Canvas:
   m_GameObject: {fileID: 1468920969}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 1406244067}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -19870,7 +19871,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_SortingLayerID: 0
   m_SortingOrder: 5
   m_TargetDisplay: 0
@@ -21856,7 +21857,7 @@ Canvas:
   m_GameObject: {fileID: 1642801526}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 1406244067}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -21864,7 +21865,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_SortingLayerID: 0
   m_SortingOrder: 1
   m_TargetDisplay: 0
@@ -22400,7 +22401,7 @@ Canvas:
   m_GameObject: {fileID: 1673113463}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 1406244067}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -22408,7 +22409,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_SortingLayerID: 0
   m_SortingOrder: 5
   m_TargetDisplay: 0
@@ -25044,7 +25045,7 @@ Canvas:
   m_GameObject: {fileID: 1871427381}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 1406244067}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -25052,7 +25053,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_SortingLayerID: 0
   m_SortingOrder: 5
   m_TargetDisplay: 0
@@ -30438,7 +30439,7 @@ Canvas:
   m_GameObject: {fileID: 1474818283867254703}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 1406244067}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -30446,7 +30447,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_SortingLayerID: 0
   m_SortingOrder: 2
   m_TargetDisplay: 0
@@ -30927,7 +30928,7 @@ Canvas:
   m_GameObject: {fileID: 3290877364992466826}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 1406244067}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -30935,7 +30936,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_SortingLayerID: 0
   m_SortingOrder: 2
   m_TargetDisplay: 0
