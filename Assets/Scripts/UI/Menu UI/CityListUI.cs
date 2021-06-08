@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class CityListUI : MonoBehaviour {
 
+    public CameraController cameraController;
     public GameObject content;
     public GameObject cityPrefab;
     public GameObject cityListMenu;
@@ -37,14 +38,23 @@ public class CityListUI : MonoBehaviour {
             List<City> cities = currentPlayer.playerCities;
             
             for (int i = 0; i < cityListUIObjects.Count; i++) {
+                cityListUIObjects[i].button.onClick.RemoveAllListeners();
                 if (i < cities.Count) {
                     cityListUIObjects[i].gameObject.SetActive(true);
                     cityListUIObjects[i].cityNameText.text = cities[i].cityName;
+                    int tempNum = i;
+                    cityListUIObjects[i].button.onClick.AddListener(() => {FocusCity(tempNum);});
                 } else {
                     cityListUIObjects[i].gameObject.SetActive(false);
                 }
             }
         }
+    }
+
+    public void FocusCity(int i) {
+        Vector2Int pos = GameManager.Instance.GetCurrentPlayer().playerCities[i].pos;
+        Vector3 worldPos = new Vector3(pos.x * GameManager.Instance.grid.tileWidth, 0, pos.y * GameManager.Instance.grid.tileHeight);
+        cameraController.Focus(worldPos, true);
     }
 
     public void ShowMenu() {
