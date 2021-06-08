@@ -243,7 +243,7 @@ public class Unit : MonoBehaviour {
     }
 
     public void SetPos(Vector2Int _pos) {
-        transform.position = new Vector3(_pos.x * GameManager.Instance.grid.tileWidth, yOffset, _pos.y * GameManager.Instance.grid.tileHeight);
+        transform.position = GridUtilities.TileToWorldPos(_pos, yOffset);
     }
 
     public virtual void Die() {

@@ -149,6 +149,15 @@ public static class GridUtilities {
         }
     }
 
+    // Calculate the world position of a given grid tile given the tile pos
+    public static Vector3 TileToWorldPos(Vector2Int pos) {
+        return new Vector3(pos.x * GameManager.Instance.grid.tileWidth, 0, pos.y * GameManager.Instance.grid.tileHeight);
+    }
+
+    public static Vector3 TileToWorldPos(Vector2Int pos, float y) {
+        return new Vector3(pos.x * GameManager.Instance.grid.tileWidth, y, pos.y * GameManager.Instance.grid.tileHeight);
+    }
+
     static void RetracePath(Tile startTile, Tile endTile) {
         List<Tile> path = new List<Tile>();
         Tile currentTile = endTile;

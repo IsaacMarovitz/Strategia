@@ -87,7 +87,7 @@ public class CameraController : MonoBehaviour {
                             Unit hitUnit = hit.transform.parent.gameObject.GetComponent<Unit>();
                             if (GameManager.Instance.GetCurrentPlayer().playerUnits.Contains(hitUnit)) {
                                 UIData.Instance.currentUnit = hitUnit;
-                                Focus(new Vector3(hitUnit.pos.x * GameManager.Instance.grid.tileWidth, 0, hitUnit.pos.y * GameManager.Instance.grid.tileHeight), true);
+                                Focus(GridUtilities.TileToWorldPos(hitUnit.pos), true);
                                 Debug.Log("<b>Camera Controller:</b> Found Unit");
                             }
                         } else {
@@ -97,7 +97,7 @@ public class CameraController : MonoBehaviour {
                             City hitCity = hit.transform.gameObject.GetComponent<City>();
                             if (GameManager.Instance.GetCurrentPlayer().playerCities.Contains(hitCity)) {
                                 UIData.Instance.currentCity = hitCity;
-                                Focus(new Vector3(hitCity.pos.x * GameManager.Instance.grid.tileWidth, 0, hitCity.pos.y * GameManager.Instance.grid.tileHeight), true);
+                                Focus(GridUtilities.TileToWorldPos(hitCity.pos), true);
                                 Debug.Log("<b>Camera Controller:</b> Found City");
                             }
                         } else {
@@ -111,13 +111,13 @@ public class CameraController : MonoBehaviour {
             if (oldUnit != UIData.Instance.currentUnit) {
                 oldUnit = UIData.Instance.currentUnit;
                 oldCity = null;
-                Focus(new Vector3(oldUnit.pos.x * GameManager.Instance.grid.tileWidth, 0, oldUnit.pos.y * GameManager.Instance.grid.tileHeight), true);
+                Focus(GridUtilities.TileToWorldPos(oldUnit.pos), true);
             }
         } else if (UIData.Instance.currentCity != null) {
             if (oldCity != UIData.Instance.currentCity) {
                 oldCity = UIData.Instance.currentCity;
                 oldUnit = null;
-                Focus(new Vector3(oldCity.pos.x * GameManager.Instance.grid.tileWidth, 0, oldCity.pos.y * GameManager.Instance.grid.tileHeight), true);
+                Focus(GridUtilities.TileToWorldPos(oldCity.pos), true);
             }
         } 
     }

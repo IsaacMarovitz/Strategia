@@ -195,7 +195,7 @@ public class Player : MonoBehaviour {
     public void SpawnArmy(Vector2Int pos) {
         if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
             Unit unit = GameObject.Instantiate(playerCities[0].unitPrefabs[0], Vector3.zero, Quaternion.identity).GetComponent<Unit>();
-            unit.gameObject.transform.position = new Vector3(GameManager.Instance.grid.tileWidth * pos.x, unit.yOffset, GameManager.Instance.grid.tileHeight);
+            unit.gameObject.transform.position = GridUtilities.TileToWorldPos(pos, unit.yOffset);
             unit.pos = pos;
             unit.gameObject.transform.parent = this.gameObject.transform;
             unit.player = this;
@@ -209,7 +209,7 @@ public class Player : MonoBehaviour {
             if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.Plains || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.Swamp) {
                 if (GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile == null) {
                     Unit unit = GameObject.Instantiate(playerCities[0].unitPrefabs[0], Vector3.zero, Quaternion.identity).GetComponent<Unit>();
-                    unit.gameObject.transform.position = new Vector3(GameManager.Instance.grid.tileWidth * pos.x, unit.yOffset, GameManager.Instance.grid.tileHeight);
+                    unit.gameObject.transform.position = GridUtilities.TileToWorldPos(pos, unit.yOffset);
                     unit.pos = pos;
                     unit.gameObject.transform.parent = this.gameObject.transform;
                     unit.player = this;

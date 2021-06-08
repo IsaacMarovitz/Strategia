@@ -37,6 +37,7 @@ public class GameUI : MonoBehaviour {
     public float newDayWaitTime;
     public GameObject nextPlayerUI;
     public UnitUI unitUI;
+    public CameraController cameraController;
 
     private Unit oldUnit;
     private bool nextPlayerUIEnabled = false;
@@ -253,6 +254,8 @@ public class GameUI : MonoBehaviour {
                 UIData.Instance.currentCity = null;
             }
         }
+
+        cameraController.Focus(GridUtilities.TileToWorldPos(UIData.Instance.currentUnit.pos), true);
 
         GameManager.Instance.GetCurrentPlayer().NextUnit(UIData.Instance.currentUnit, true);
     }

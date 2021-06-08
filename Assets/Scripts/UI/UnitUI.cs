@@ -41,7 +41,7 @@ public class UnitUI : MonoBehaviour {
     Vector3[] TilesToWorldPositions(List<Tile> tiles) {
         Vector3[] positions = new Vector3[tiles.Count];
         for (int i = 0; i < tiles.Count; i++) {
-            positions[i] = new Vector3(GameManager.Instance.grid.tileWidth * tiles[i].pos.x, 0, GameManager.Instance.grid.tileHeight * tiles[i].pos.y);
+            positions[i] = GridUtilities.TileToWorldPos(tiles[i].pos);
         }
         return positions;
     }

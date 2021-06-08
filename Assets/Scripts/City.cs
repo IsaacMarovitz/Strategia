@@ -47,7 +47,6 @@ public class City : MonoBehaviour {
     public void StartGame(Player player) {
         GetOwned(player);
         CreateUnit();
-        turnsLeft = unitTTCs[currentIndex];
     }
 
     public void GetOwned(Player player) {
@@ -61,6 +60,7 @@ public class City : MonoBehaviour {
         this.player.playerCities.Add(this);
         isOwned = true;
         GameManager.Instance.newDayDelegate += TakeTurn;
+        turnsLeft = unitTTCs[currentIndex];
     }
 
     public void TakeTurn() {
@@ -74,7 +74,7 @@ public class City : MonoBehaviour {
     }
 
     public void CreateUnit() {
-        GameObject instantiatedUnit = GameObject.Instantiate(unitPrefabs[currentIndex], new Vector3(pos.x * GameManager.Instance.grid.tileWidth, 0.75f, pos.y * GameManager.Instance.grid.tileHeight), Quaternion.identity);
+        GameObject instantiatedUnit = GameObject.Instantiate(unitPrefabs[currentIndex],  GridUtilities.TileToWorldPos(pos, 0.75f), Quaternion.identity);
         instantiatedUnit.transform.parent = player.gameObject.transform;
         Unit newUnit = instantiatedUnit.GetComponent<Unit>();
         newUnit.pos = pos;

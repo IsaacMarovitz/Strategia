@@ -21931,6 +21931,7 @@ MonoBehaviour:
   newDayWaitTime: 1
   nextPlayerUI: {fileID: 1556359576}
   unitUI: {fileID: 794698292}
+  cameraController: {fileID: 620992391}
 --- !u!1 &1645569891
 GameObject:
   m_ObjectHideFlags: 0
