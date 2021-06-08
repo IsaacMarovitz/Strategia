@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class UnitUI : MonoBehaviour {
@@ -17,6 +16,8 @@ public class UnitUI : MonoBehaviour {
     void Update() {
         if (UIData.Instance.currentUnit != null && UIData.Instance.mouseOverTile != null && showLine) {
             if (UIData.Instance.currentUnit != oldUnit || UIData.Instance.mouseOverTile != oldMouseOverTile) {
+                oldUnit = UIData.Instance.currentUnit;
+                oldMouseOverTile = UIData.Instance.mouseOverTile;
                 lineRenderer.enabled = true;
                 canvas.enabled = true;
                 GridUtilities.FindPath(GameManager.Instance.grid.grid[UIData.Instance.currentUnit.pos.x, UIData.Instance.currentUnit.pos.y], UIData.Instance.mouseOverTile);
@@ -43,5 +44,17 @@ public class UnitUI : MonoBehaviour {
             positions[i] = new Vector3(GameManager.Instance.grid.tileWidth * tiles[i].pos.x, 0, GameManager.Instance.grid.tileHeight * tiles[i].pos.y);
         }
         return positions;
+    }
+
+    public void Show() {
+        showLine = true;
+    }
+
+    public void Hide() {
+        showLine = false;
+        lineRenderer.enabled = false;
+        canvas.enabled = false;
+        lineRenderer.positionCount = 0;
+        numberOfMoves.text = "0";
     }
 }

@@ -14,6 +14,7 @@ public class CameraController : MonoBehaviour {
     public float normalSpeed = 0.5f;
     public float fastSpeed = 1.5f;
     public float movementTime = 10;
+    public float dragDeltaThreshold;
     public Vector2 rotationAmount = new Vector2(1, 1);
     public Vector3 zoomAmount = new Vector3(0, -5, -5);
 
@@ -38,8 +39,10 @@ public class CameraController : MonoBehaviour {
     private Vector3 newZoom;
     private float newXRotation;
 
-    private Vector3 dragStartPosition;
-    private Vector3 dragCurrentPosition;
+    private Vector3 worldDragStartPosition;
+    private Vector3 worldDragCurrentPosition;
+    private Vector3 screenDragStartPosition;
+    private Vector3 screenDragCurrentPosition;
     private Vector3 rotateStartPosition;
     private Vector3 rotateCurrentPosition;
     private Vector3 startingZoom;
@@ -84,7 +87,7 @@ public class CameraController : MonoBehaviour {
                             Unit hitUnit = hit.transform.parent.gameObject.GetComponent<Unit>();
                             if (GameManager.Instance.GetCurrentPlayer().playerUnits.Contains(hitUnit)) {
                                 UIData.Instance.currentUnit = hitUnit;
-                                Focus(hitUnit.gameObject.transform.position);
+                                Focus(new Vector3(hitUnit.pos.x * GameManager.Instance.grid.tileWidth, 0, hitUnit.pos.y * GameManager.Instance.grid.tileHeight), true);
                                 Debug.Log("<b>Camera Controller:</b> Found Unit");
                             }
                         } else {
@@ -94,7 +97,7 @@ public class CameraController : MonoBehaviour {
                             City hitCity = hit.transform.gameObject.GetComponent<City>();
                             if (GameManager.Instance.GetCurrentPlayer().playerCities.Contains(hitCity)) {
                                 UIData.Instance.currentCity = hitCity;
-                                Focus(hitCity.gameObject.transform.position);
+                                Focus(new Vector3(hitCity.pos.x * GameManager.Instance.grid.tileWidth, 0, hitCity.pos.y * GameManager.Instance.grid.tileHeight), true);
                                 Debug.Log("<b>Camera Controller:</b> Found City");
                             }
                         } else {
@@ -104,19 +107,19 @@ public class CameraController : MonoBehaviour {
                 }
             }
         }
-        if (UIData.Instance.currentCity != null) {
-            if (oldCity != UIData.Instance.currentCity) {
-                oldCity = UIData.Instance.currentCity;
-                oldUnit = null;
-                Focus(oldCity.gameObject.transform.position);
-            }
-        } else if (UIData.Instance.currentUnit != null) {
+        if (UIData.Instance.currentUnit != null) {
             if (oldUnit != UIData.Instance.currentUnit) {
                 oldUnit = UIData.Instance.currentUnit;
                 oldCity = null;
-                Focus(oldUnit.gameObject.transform.position);
+                Focus(new Vector3(oldUnit.pos.x * GameManager.Instance.grid.tileWidth, 0, oldUnit.pos.y * GameManager.Instance.grid.tileHeight), true);
             }
-        }
+        } else if (UIData.Instance.currentCity != null) {
+            if (oldCity != UIData.Instance.currentCity) {
+                oldCity = UIData.Instance.currentCity;
+                oldUnit = null;
+                Focus(new Vector3(oldCity.pos.x * GameManager.Instance.grid.tileWidth, 0, oldCity.pos.y * GameManager.Instance.grid.tileHeight), true);
+            }
+        } 
     }
 
     public void LateUpdate() {
@@ -132,25 +135,30 @@ public class CameraController : MonoBehaviour {
         }
         if (Input.GetMouseButtonDown(0)) {
             Plane plane = new Plane(Vector3.up, Vector3.zero);
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
             float entry;
             if (plane.Raycast(ray, out entry) && !IsMouseOverUI()) {
-                dragStartPosition = ray.GetPoint(entry);
+                worldDragStartPosition = ray.GetPoint(entry);
             }
+            screenDragStartPosition = Input.mousePosition;
         }
         if (Input.GetMouseButton(0)) {
             Plane plane = new Plane(Vector3.up, Vector3.zero);
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
             float entry;
             if (plane.Raycast(ray, out entry)) {
-                dragCurrentPosition = ray.GetPoint(entry);
+                worldDragCurrentPosition = ray.GetPoint(entry);
+                screenDragCurrentPosition = Input.mousePosition;
 
                 if (IsMouseOverUI()) {
-                    dragStartPosition = dragCurrentPosition;
+                    worldDragStartPosition = worldDragCurrentPosition;
+                    screenDragStartPosition = screenDragCurrentPosition;
                 } else {
-                    newPosition = cameraRig.position + dragStartPosition - dragCurrentPosition; 
+                    if ((screenDragStartPosition - screenDragCurrentPosition).magnitude > dragDeltaThreshold) {
+                        newPosition = cameraRig.position + worldDragStartPosition - worldDragCurrentPosition; 
+                    }
                 }
             } 
         }
@@ -248,10 +256,20 @@ public class CameraController : MonoBehaviour {
         return p_Rotation;
     }
 
-    public void Focus(Vector3 pos) {
-        // Zoom to a set distance
-        // Center the object in frame without changing rotation
-        // newZoom.y = -5;
+    public void Focus(Vector3 pos, bool smoothMove) {
+        Plane plane = new Plane(Vector3.up, Vector3.zero);
+        Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+
+        float entry;
+        if (plane.Raycast(ray, out entry)) {
+            Vector3 cameraCenterWorldPos = ray.GetPoint(entry);
+            Vector3 posDifference = cameraRig.position - cameraCenterWorldPos;
+            newPosition = pos + posDifference;
+
+            if (!smoothMove) {
+                cameraRig.position = newPosition;
+            }
+        }
     }
 
     private bool IsMouseOverUI() {

@@ -107,19 +107,19 @@ public class GameUI : MonoBehaviour {
                 if (!moveButton.interactable && UIData.Instance.currentUnit != oldUnit) {
                     oldUnit = UIData.Instance.currentUnit;
                     moveButton.interactable = true;
-                    unitUI.showLine = false;
+                    unitUI.Hide();
                 }
 
                 // If the right mouse button is pressed while the line is showing, disable the UnitUI Line Renderer, and set Move Button to interactable
                 if (Input.GetMouseButtonDown(1) && unitUI.showLine) {
-                    unitUI.showLine = false;
+                    unitUI.Hide();
                     moveButton.interactable = true;
                     unitIsMoving = false;
                 }
 
                 // If the left mouse button is pressed while the line is showing, disable the UnitUI Line Renderer, set Move Button to interactable, and move the selected Unit
                 if (Input.GetMouseButtonDown(0) && unitUI.showLine) {
-                    unitUI.showLine = false;
+                    unitUI.Hide();
                     moveButton.interactable = true;
                     unitIsMoving = false;
                     UIData.Instance.Move();
@@ -148,7 +148,7 @@ public class GameUI : MonoBehaviour {
     public void UpdateUI() {
         if (UIData.Instance.currentUnit.turnStage == TurnStage.Waiting) {
             UIData.Instance.currentUnit.StartTurn();
-            unitUI.showLine = false;
+            unitUI.Hide();
         } else if (UIData.Instance.currentUnit.turnStage == TurnStage.Sleeping) {
             sleepButtonParent.SetActive(false);
             wakeButtonParent.SetActive(true);
@@ -209,7 +209,7 @@ public class GameUI : MonoBehaviour {
         if (UIData.Instance.currentUnit == null)  { return; }
 
         oldUnit = UIData.Instance.currentUnit;
-        unitUI.showLine = true;
+        unitUI.Show();
         moveButton.interactable = false;
         unitIsMoving = true;
     }

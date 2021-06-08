@@ -8423,6 +8423,7 @@ MonoBehaviour:
   normalSpeed: 0.5
   fastSpeed: 1.5
   movementTime: 10
+  dragDeltaThreshold: 0.01
   rotationAmount: {x: 1, y: 1}
   zoomAmount: {x: 0, y: -5, z: 5}
   maxPosition: {x: 220, y: 100, z: 220}
