@@ -8431,11 +8431,12 @@ MonoBehaviour:
   minPosition: {x: -20, y: 0, z: -20}
   zoomLimits: {x: -10, y: 40}
   xRotationLimits: {x: 0, y: 90}
-  ignoredLayers:
+  raycastLayers:
     serializedVersion: 2
-    m_Bits: 311
+    m_Bits: 512
   unitUI: {fileID: 794698292}
-  didDrag: 0
+  didLMBDrag: 0
+  didRMBDrag: 0
   didClickUI: 0
 --- !u!1 &626656591
 GameObject:

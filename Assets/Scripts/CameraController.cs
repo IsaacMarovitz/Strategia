@@ -26,11 +26,12 @@ public class CameraController : MonoBehaviour {
     public Vector2 xRotationLimits = new Vector2(0, 90);
 
     [Space(10)]
-    public LayerMask ignoredLayers;
+    public LayerMask raycastLayers;
     public UnitUI unitUI;
 
     [HideInInspector]
     public bool didLMBDrag = false;
+    [HideInInspector]
     public bool didRMBDrag = false;
     [HideInInspector]
     public bool didClickUI = false;
@@ -79,7 +80,7 @@ public class CameraController : MonoBehaviour {
         if (!isPaused) {
             RaycastHit hit;
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, ignoredLayers)) {
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, raycastLayers)) {
                 if (!IsMouseOverUI()) {
                     TileTag tileTag = hit.transform.gameObject.GetComponent<TileTag>();
                     if (tileTag != null) {

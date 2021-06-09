@@ -116,6 +116,7 @@ public class Unit : MonoBehaviour {
         if (unitToAttack != null) {
             Debug.Log($"<b>{this.gameObject.name}:</b> Attacking {unitToAttack.gameObject.name}");
             unitToAttack.TakeDamage(this);
+            moves--;
         } else {
             Debug.LogWarning($"<b>{this.gameObject.name}:</b> Could not find unit to attack at {unitPos}!");
         }
