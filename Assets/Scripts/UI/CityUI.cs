@@ -28,7 +28,7 @@ public class CityUI : MonoBehaviour {
             panel.SetActive(true);
             transform.position = new Vector3(UIData.Instance.currentCity.transform.position.x, yOffset, UIData.Instance.currentCity.transform.position.z);
             cityName.text = UIData.Instance.currentCity.cityName;
-            turnsLeft.text = "Days left : " + UIData.Instance.currentCity.turnsLeft;
+            turnsLeft.text = "Days Left: " + UIData.Instance.currentCity.turnsLeft;
             if (oldCity != UIData.Instance.currentCity) {
                 hasUpdated = false;
                 if (oldCity != null) {
@@ -85,12 +85,14 @@ public class CityUI : MonoBehaviour {
 
     public void ShowInputField() {
         inputField.gameObject.SetActive(true);
+        inputField.Select();
+        inputField.ActivateInputField();
         inputField.text = UIData.Instance.currentCity.cityName;
         GameManager.Instance.Pause();
     }
 
     public void FinishChangingName() {
-        UIData.Instance.currentCity.cityName = inputField.text;
+        UIData.Instance.currentCity.cityName = inputField.text.Trim();
         inputField.gameObject.SetActive(false);
         GameManager.Instance.Resume();
     }
