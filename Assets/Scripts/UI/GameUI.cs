@@ -42,6 +42,7 @@ public class GameUI : MonoBehaviour {
     private Unit oldUnit;
     private bool nextPlayerUIEnabled = false;
     private bool unitIsMoving = false;
+    private bool moveButtonPressed = false;
 
     public void Start() {
         // Setup onClick events for all main bottom bar buttons
@@ -112,18 +113,20 @@ public class GameUI : MonoBehaviour {
                 }
 
                 // If the right mouse button is pressed while the line is showing, disable the UnitUI Line Renderer, and set Move Button to interactable
-                if (Input.GetMouseButtonDown(1) && unitUI.showLine) {
+                if (Input.GetMouseButtonUp(1) && unitUI.showLine && !cameraController.didRMBDrag) {
                     unitUI.Hide();
                     moveButton.interactable = true;
                     unitIsMoving = false;
                 }
 
                 // If the left mouse button is pressed while the line is showing, disable the UnitUI Line Renderer, set Move Button to interactable, and move the selected Unit
-                if (Input.GetMouseButtonDown(0) && unitUI.showLine) {
-                    if (cameraController.IsMouseOverUI()) {
-                        unitUI.Hide();
-                        moveButton.interactable = true;
-                        unitIsMoving = false;
+                if (Input.GetMouseButtonUp(0) && unitUI.showLine && !cameraController.didLMBDrag) {
+                    if (cameraController.IsMouseOverUI() && moveButtonPressed) {
+                        if (!moveButtonPressed) {
+                            unitUI.Hide();
+                            moveButton.interactable = true;
+                            unitIsMoving = false;
+                        }
                     } else {
                         unitUI.Hide();
                         moveButton.interactable = true;
@@ -219,6 +222,7 @@ public class GameUI : MonoBehaviour {
         unitUI.Show();
         moveButton.interactable = false;
         unitIsMoving = true;
+        moveButtonPressed = true;
     }
 
     public void SleepButton() {

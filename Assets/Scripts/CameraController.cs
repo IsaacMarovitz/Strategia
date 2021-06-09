@@ -30,7 +30,8 @@ public class CameraController : MonoBehaviour {
     public UnitUI unitUI;
 
     [HideInInspector]
-    public bool didDrag = false;
+    public bool didLMBDrag = false;
+    public bool didRMBDrag = false;
     [HideInInspector]
     public bool didClickUI = false;
 
@@ -46,8 +47,10 @@ public class CameraController : MonoBehaviour {
 
     private Vector3 worldDragStartPosition;
     private Vector3 worldDragCurrentPosition;
-    private Vector3 screenDragStartPosition;
-    private Vector3 screenDragCurrentPosition;
+    private Vector3 screenLMBDragStartPosition;
+    private Vector3 screenLMBDragCurrentPosition;
+    private Vector3 screenRMBDragStartPosition;
+    private Vector3 screenRMBDragCurrentPOsition;
     private Vector3 rotateStartPosition;
     private Vector3 rotateCurrentPosition;
     private Vector3 startingZoom;
@@ -89,7 +92,7 @@ public class CameraController : MonoBehaviour {
                 didClickUI = true;
             }
 
-            if (Input.GetMouseButtonUp(0) && !unitUI.showLine && !didDrag) {
+            if (Input.GetMouseButtonUp(0) && !unitUI.showLine && !didLMBDrag) {
                 if (!didClickUI) {
                     ray = mainCamera.ScreenPointToRay(Input.mousePosition);
                     if (Physics.Raycast(ray, out hit)) {
@@ -146,6 +149,7 @@ public class CameraController : MonoBehaviour {
     private void GetMouseInput() {
         if (Input.mouseScrollDelta.y != 0) {
             if (Input.GetMouseButton(1)) {
+                didRMBDrag = true;
                 newXRotation += Input.mouseScrollDelta.y * rotationAmount.x * 10;
             } else {
                 newZoom += Input.mouseScrollDelta.y * zoomAmount;
@@ -159,8 +163,8 @@ public class CameraController : MonoBehaviour {
             if (plane.Raycast(ray, out entry) && !IsMouseOverUI()) {
                 worldDragStartPosition = ray.GetPoint(entry);
             }
-            screenDragStartPosition = Input.mousePosition;
-            didDrag = false;
+            screenLMBDragStartPosition = Input.mousePosition;
+            didLMBDrag = false;
         }
         if (Input.GetMouseButton(0)) {
             Plane plane = new Plane(Vector3.up, Vector3.zero);
@@ -169,14 +173,14 @@ public class CameraController : MonoBehaviour {
             float entry;
             if (plane.Raycast(ray, out entry)) {
                 worldDragCurrentPosition = ray.GetPoint(entry);
-                screenDragCurrentPosition = Input.mousePosition;
+                screenLMBDragCurrentPosition = Input.mousePosition;
 
                 if (IsMouseOverUI()) {
                     worldDragStartPosition = worldDragCurrentPosition;
-                    screenDragStartPosition = screenDragCurrentPosition;
+                    screenLMBDragStartPosition = screenLMBDragCurrentPosition;
                 } else {
-                    if ((screenDragStartPosition - screenDragCurrentPosition).magnitude > dragDeltaThreshold) {
-                        didDrag = true;
+                    if ((screenLMBDragStartPosition - screenLMBDragCurrentPosition).magnitude > dragDeltaThreshold) {
+                        didLMBDrag = true;
                         newPosition = cameraRig.position + worldDragStartPosition - worldDragCurrentPosition;
                     }
                 }
@@ -184,16 +188,23 @@ public class CameraController : MonoBehaviour {
         }
         if (Input.GetMouseButtonDown(1)) {
             rotateStartPosition = Input.mousePosition;
+            screenRMBDragStartPosition = Input.mousePosition;
+            didRMBDrag = false;
         }
         if (Input.GetMouseButton(1)) {
             rotateCurrentPosition = Input.mousePosition;
+            screenRMBDragCurrentPOsition = Input.mousePosition;
 
             if (IsMouseOverUI()) {
                 rotateStartPosition = rotateCurrentPosition;
+                screenRMBDragStartPosition = screenRMBDragCurrentPOsition;
             } else {
-                Vector3 difference = rotateStartPosition - rotateCurrentPosition;
-                rotateStartPosition = rotateCurrentPosition;
-                newRotation *= Quaternion.Euler(Vector3.up * (-difference.x / 5));
+                if ((screenRMBDragStartPosition - screenRMBDragCurrentPOsition).magnitude > dragDeltaThreshold) {
+                    didRMBDrag = true;
+                    Vector3 difference = rotateStartPosition - rotateCurrentPosition;
+                    rotateStartPosition = rotateCurrentPosition;
+                    newRotation *= Quaternion.Euler(Vector3.up * (-difference.x / 5));
+                }
             }
         }
     }
