@@ -145,7 +145,11 @@ public class CameraController : MonoBehaviour {
 
     private void GetMouseInput() {
         if (Input.mouseScrollDelta.y != 0) {
-            newZoom += Input.mouseScrollDelta.y * zoomAmount;
+            if (Input.GetMouseButton(1)) {
+                newXRotation += Input.mouseScrollDelta.y * rotationAmount.x * 10;
+            } else {
+                newZoom += Input.mouseScrollDelta.y * zoomAmount;
+            }
         }
         if (Input.GetMouseButtonDown(0)) {
             Plane plane = new Plane(Vector3.up, Vector3.zero);
