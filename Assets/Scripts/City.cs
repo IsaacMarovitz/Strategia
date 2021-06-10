@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 
@@ -15,6 +16,7 @@ public class City : MonoBehaviour {
     public List<Unit> unitsInCity;
     public Canvas canvas;
     public TMP_Text cityNameText;
+    public Button button;
 
     public int turnsLeft;
     public int currentIndex;
@@ -24,6 +26,8 @@ public class City : MonoBehaviour {
     public void Awake() {
         canvas = GetComponentInChildren<Canvas>();
         cityNameText = GetComponentInChildren<TMP_Text>();
+        button = GetComponentInChildren<Button>();
+        button.onClick.AddListener(SelectCity);
         canvas.worldCamera = Camera.main;
         canvas.enabled = false;
         defaultColor = this.transform.GetChild(0).GetComponent<MeshRenderer>().materials[0].color;
@@ -104,6 +108,14 @@ public class City : MonoBehaviour {
         }
         this.transform.GetChild(0).GetComponent<MeshRenderer>().materials[0].color = defaultColor;
         GameManager.Instance.newDayDelegate -= TakeTurn;
+    }
+
+    public void SelectCity() {
+        if (player != null) {
+            if (player == GameManager.Instance.GetCurrentPlayer()) {
+                UIData.Instance.currentCity = this;
+            }
+        }
     }
 }
 

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - City
   - Unit
+  - Tile
+  - City Mesh
   layers:
   - Default
   - TransparentFX

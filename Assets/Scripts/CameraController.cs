@@ -118,6 +118,16 @@ public class CameraController : MonoBehaviour {
                             } else {
                                 UIData.Instance.currentCity = null;
                             }
+                            if (hit.transform.tag == "City Mesh") {
+                                City hitCity = hit.transform.parent.gameObject.GetComponent<City>();
+                                if (GameManager.Instance.GetCurrentPlayer().playerCities.Contains(hitCity)) {
+                                    UIData.Instance.currentCity = hitCity;
+                                    Focus(GridUtilities.TileToWorldPos(hitCity.pos), true);
+                                    Debug.Log("<b>Camera Controller:</b> Found City");
+                                }
+                            } else {
+                                UIData.Instance.currentCity = null;
+                            }
                         }
                     }
                 } else {
@@ -131,12 +141,18 @@ public class CameraController : MonoBehaviour {
                 oldCity = null;
                 Focus(GridUtilities.TileToWorldPos(oldUnit.pos), true);
             }
-        } else if (UIData.Instance.currentCity != null) {
+        } else {
+            oldUnit = null;
+        } 
+        
+        if (UIData.Instance.currentCity != null) {
             if (oldCity != UIData.Instance.currentCity) {
                 oldCity = UIData.Instance.currentCity;
                 oldUnit = null;
                 Focus(GridUtilities.TileToWorldPos(oldCity.pos), true);
             }
+        } else {
+            oldCity = null;
         }
     }
 
