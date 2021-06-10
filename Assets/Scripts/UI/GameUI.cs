@@ -131,7 +131,7 @@ public class GameUI : MonoBehaviour {
                         unitUI.Hide();
                         moveButton.interactable = true;
                         unitIsMoving = false;
-                        UIData.Instance.Move();
+                        unitUI.Move();
                     }
                 }
             } else {
@@ -143,7 +143,7 @@ public class GameUI : MonoBehaviour {
                 SetButtons(false);
 
                 oldUnit = null;
-                GameManager.Instance.grid.path = null;
+                unitUI.path = null;
             }
 
             if (!GameManager.Instance.dayCompleted) {

@@ -12,6 +12,7 @@ public class Player : MonoBehaviour {
     public GameMode gameMode;
     public Color playerColor;
     public bool hasDied = false;
+    public UnitInfo unitInfo;
 
     private List<Unit> unitQueue;
     private bool revealAllTiles = false;
@@ -194,7 +195,7 @@ public class Player : MonoBehaviour {
 
     public void SpawnArmy(Vector2Int pos) {
         if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
-            Unit unit = GameObject.Instantiate(playerCities[0].unitPrefabs[0], Vector3.zero, Quaternion.identity).GetComponent<Unit>();
+            Unit unit = GameObject.Instantiate(unitInfo.allUnits[0].prefab, Vector3.zero, Quaternion.identity).GetComponent<Unit>();
             unit.gameObject.transform.position = GridUtilities.TileToWorldPos(pos, unit.yOffset);
             unit.pos = pos;
             unit.gameObject.transform.parent = this.gameObject.transform;
@@ -208,7 +209,7 @@ public class Player : MonoBehaviour {
         } else {
             if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.Plains || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.Swamp) {
                 if (GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile == null) {
-                    Unit unit = GameObject.Instantiate(playerCities[0].unitPrefabs[0], Vector3.zero, Quaternion.identity).GetComponent<Unit>();
+                    Unit unit = GameObject.Instantiate(unitInfo.allUnits[0].prefab, Vector3.zero, Quaternion.identity).GetComponent<Unit>();
                     unit.gameObject.transform.position = GridUtilities.TileToWorldPos(pos, unit.yOffset);
                     unit.pos = pos;
                     unit.gameObject.transform.parent = this.gameObject.transform;

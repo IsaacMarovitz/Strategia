@@ -157,8 +157,8 @@ public class Unit : MonoBehaviour {
         }
     }
 
-    public virtual void MoveAlongPath() {
-        path = GameManager.Instance.grid.path;
+    public virtual void MoveAlongPath(List<Tile> newPath) {
+        path = newPath;
         pathWasSetThisTurn = true;
         for (int i = 0; i < path.Count; i++) {
             if (path[i] != GameManager.Instance.grid.grid[pos.x, pos.y]) {

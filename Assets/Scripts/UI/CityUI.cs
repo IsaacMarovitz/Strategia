@@ -20,6 +20,11 @@ public class CityUI : MonoBehaviour {
 
     public void Start() {
         panel.SetActive(false);
+        for (int i = 0; i < toggles.Length; i++) {
+            Toggle toggle = toggles[i];
+            int tempInt = i;
+            toggles[i].onValueChanged.AddListener( delegate {  ChangeUnitType(toggle, tempInt); } );
+        }
     }
 
     public void Update() {
@@ -39,11 +44,15 @@ public class CityUI : MonoBehaviour {
             if (!hasUpdated) {
                 hasUpdated = true;
                 UpdateUnitButtons();
+                foreach (var toggle in toggles) {
+                    toggle.interactable = false;
+                }
                 for (int i = 0; i < toggles.Length; i++) {
+                    toggles[i].interactable = true;
                     if (i == (int)UIData.Instance.currentCity.unitType) {
-                        toggles[i].isOn = true;
+                        toggles[i].SetIsOnWithoutNotify(true);
                     } else {
-                        toggles[i].isOn = false;
+                        toggles[i].SetIsOnWithoutNotify(false);
                     }
                 }
                 if (GameManager.Instance.grid.grid[UIData.Instance.currentCity.pos.x, UIData.Instance.currentCity.pos.y].tileType == TileType.CostalCity) {
@@ -65,9 +74,10 @@ public class CityUI : MonoBehaviour {
         }
     }
 
-    public void ChangeUnitType(int unitType) {
+    public void ChangeUnitType(Toggle toggle, int tempInt) {
+        if (!toggle.isOn) { return; }
         if (UIData.Instance.currentCity != null) {
-            UIData.Instance.currentCity.UpdateUnitType((UnitType)unitType);
+            UIData.Instance.currentCity.UpdateUnitType((UnitType)tempInt);
         }
     }
 

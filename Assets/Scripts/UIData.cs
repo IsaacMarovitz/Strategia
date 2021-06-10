@@ -17,10 +17,4 @@ public class UIData : MonoBehaviour {
         }
         DontDestroyOnLoad(_instance);
     }
-
-    public void Move() {
-        if (currentUnit != null) {
-            currentUnit.MoveAlongPath();
-        }
-    }
 }

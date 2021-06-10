@@ -107,7 +107,7 @@ public static class GridUtilities {
     }
 
     // Find the shortest path between two tiles with A*
-    public static void FindPath(Tile startTile, Tile targetTile) {
+    public static List<Tile> FindPath(Tile startTile, Tile targetTile) {
         Heap<Tile> openSet = new Heap<Tile>(GameManager.Instance.grid.MaxSize);
         HashSet<Tile> closedSet = new HashSet<Tile>();
         openSet.Add(startTile);
@@ -117,8 +117,7 @@ public static class GridUtilities {
             closedSet.Add(currentTile);
 
             if (currentTile == targetTile) {
-                RetracePath(startTile, targetTile);
-                return;
+                return RetracePath(startTile, targetTile);
             }
 
             foreach (Tile neighbour in DiagonalCheck(currentTile.pos)) {
@@ -147,6 +146,8 @@ public static class GridUtilities {
                 }
             }
         }
+
+        return null;
     }
 
     // Calculate the world position of a given grid tile given the tile pos
@@ -158,7 +159,7 @@ public static class GridUtilities {
         return new Vector3(pos.x * GameManager.Instance.grid.tileWidth, y, pos.y * GameManager.Instance.grid.tileHeight);
     }
 
-    static void RetracePath(Tile startTile, Tile endTile) {
+    static List<Tile> RetracePath(Tile startTile, Tile endTile) {
         List<Tile> path = new List<Tile>();
         Tile currentTile = endTile;
 
@@ -168,7 +169,7 @@ public static class GridUtilities {
         }
         path.Add(startTile);
         path.Reverse();
-        GameManager.Instance.grid.path = path;
+        return path;
     }
 
     static int GetDistance(Tile tileA, Tile tileB) {

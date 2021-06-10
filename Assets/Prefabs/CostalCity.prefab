@@ -347,17 +347,8 @@ MonoBehaviour:
   isOwned: 0
   showCityNameUI: 1
   player: {fileID: 0}
+  unitInfo: {fileID: 11400000, guid: 13ec7d7fcf5249440aae20f69b2ef3b0, type: 2}
   unitType: 0
-  unitPrefabs:
-  - {fileID: 264212343977508145, guid: 781b5237506c27549b6a7aba2e685906, type: 3}
-  - {fileID: 7257010168124755570, guid: 5ccfc67a66e426b429ce809a3954390a, type: 3}
-  - {fileID: 1815058899303171229, guid: ac06ee358305edb4480047998c8e7cb3, type: 3}
-  - {fileID: 6381822023183244392, guid: 18da3bfe641fffc4abd3c2a668db1791, type: 3}
-  - {fileID: 592272890362409890, guid: 7dc6be7dc3d2acb43b957ae3a01585dd, type: 3}
-  - {fileID: 3819617266327427756, guid: 78a7aa8ae32caa549b74d9a07ca13960, type: 3}
-  - {fileID: 8004909557220208074, guid: 0abfc8e33f80a6d4db51b45639b93b6e, type: 3}
-  - {fileID: 7985943728139605469, guid: e54c63589a0eed545abe78f01f4aaa84, type: 3}
-  - {fileID: 3813747823647146454, guid: 4ff541e75a339e1429c2079c92f24f0d, type: 3}
   pos: {x: 0, y: 0}
   cityName: London
   unitsInCity: []

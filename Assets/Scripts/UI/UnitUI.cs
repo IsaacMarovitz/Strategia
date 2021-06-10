@@ -8,6 +8,7 @@ public class UnitUI : MonoBehaviour {
     public TMP_Text numberOfMoves;
     public Canvas canvas;
     public bool showLine = false;
+    public List<Tile> path;
 
     private List<Tile> oldPositions;
     private Unit oldUnit;
@@ -20,21 +21,28 @@ public class UnitUI : MonoBehaviour {
                 oldMouseOverTile = UIData.Instance.mouseOverTile;
                 lineRenderer.enabled = true;
                 canvas.enabled = true;
-                GridUtilities.FindPath(GameManager.Instance.grid.grid[UIData.Instance.currentUnit.pos.x, UIData.Instance.currentUnit.pos.y], UIData.Instance.mouseOverTile);
+                canvas.transform.position = GridUtilities.TileToWorldPos(UIData.Instance.currentUnit.pos, 2);
+                path = GridUtilities.FindPath(GameManager.Instance.grid.grid[UIData.Instance.currentUnit.pos.x, UIData.Instance.currentUnit.pos.y], UIData.Instance.mouseOverTile);
             }
         } else {
             lineRenderer.enabled = false;
             canvas.enabled = false;
         }
-        if (GameManager.Instance.grid.path != null && oldPositions != GameManager.Instance.grid.path) {
-            if (GameManager.Instance.grid.path.Count > 0) {
-                oldPositions = GameManager.Instance.grid.path;
-                lineRenderer.positionCount = GameManager.Instance.grid.path.Count;
-                lineRenderer.SetPositions(TilesToWorldPositions(GameManager.Instance.grid.path));
-                numberOfMoves.text = (GameManager.Instance.grid.path.Count - 1).ToString();
-                int midIndex = Mathf.RoundToInt((GameManager.Instance.grid.path.Count - 1) / 2);
-                canvas.transform.position = new Vector3(GameManager.Instance.grid.path[midIndex].gameObject.transform.position.x, 2, GameManager.Instance.grid.path[midIndex].gameObject.transform.position.z);
+        if (path != null && oldPositions != path) {
+            if (path.Count > 0) {
+                oldPositions = path;
+                lineRenderer.positionCount = path.Count;
+                lineRenderer.SetPositions(TilesToWorldPositions(path));
+                numberOfMoves.text = (path.Count - 1).ToString();
+                int midIndex = Mathf.RoundToInt((path.Count - 1) / 2);
+                canvas.transform.position = new Vector3(path[midIndex].gameObject.transform.position.x, 2, path[midIndex].gameObject.transform.position.z);
             }
+        }
+    }
+
+    public void Move() {
+        if (path != null && UIData.Instance.currentUnit != null) {
+            UIData.Instance.currentUnit.MoveAlongPath(path);
         }
     }
 

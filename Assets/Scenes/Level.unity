@@ -854,19 +854,7 @@ MonoBehaviour:
   m_Group: {fileID: 1331115293}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 252652837}
-        m_TargetAssemblyTypeName: CityUI, Assembly-CSharp
-        m_MethodName: ChangeUnitType
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 0
 --- !u!1 &58960932
 GameObject:
@@ -3837,19 +3825,7 @@ MonoBehaviour:
   m_Group: {fileID: 1331115293}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 252652837}
-        m_TargetAssemblyTypeName: CityUI, Assembly-CSharp
-        m_MethodName: ChangeUnitType
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 0
 --- !u!1 &215920845
 GameObject:
@@ -5712,19 +5688,7 @@ MonoBehaviour:
   m_Group: {fileID: 1331115293}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 252652837}
-        m_TargetAssemblyTypeName: CityUI, Assembly-CSharp
-        m_MethodName: ChangeUnitType
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 8
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 0
 --- !u!1 &434845492
 GameObject:
@@ -6349,19 +6313,7 @@ MonoBehaviour:
   m_Group: {fileID: 1331115293}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 252652837}
-        m_TargetAssemblyTypeName: CityUI, Assembly-CSharp
-        m_MethodName: ChangeUnitType
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 5
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 0
 --- !u!1 &468245992
 GameObject:
@@ -11962,19 +11914,7 @@ MonoBehaviour:
   m_Group: {fileID: 1331115293}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 252652837}
-        m_TargetAssemblyTypeName: CityUI, Assembly-CSharp
-        m_MethodName: ChangeUnitType
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 1
 --- !u!1 &811321729
 GameObject:
@@ -13139,19 +13079,7 @@ MonoBehaviour:
   m_Group: {fileID: 1331115293}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 252652837}
-        m_TargetAssemblyTypeName: CityUI, Assembly-CSharp
-        m_MethodName: ChangeUnitType
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 6
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 0
 --- !u!1 &908281357
 GameObject:
@@ -24318,19 +24246,7 @@ MonoBehaviour:
   m_Group: {fileID: 1331115293}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 252652837}
-        m_TargetAssemblyTypeName: CityUI, Assembly-CSharp
-        m_MethodName: ChangeUnitType
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 0
 --- !u!1 &1822901055
 GameObject:
@@ -24902,19 +24818,7 @@ MonoBehaviour:
   m_Group: {fileID: 1331115293}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 252652837}
-        m_TargetAssemblyTypeName: CityUI, Assembly-CSharp
-        m_MethodName: ChangeUnitType
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 4
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 0
 --- !u!1 &1844143562
 GameObject:
@@ -29511,19 +29415,7 @@ MonoBehaviour:
   m_Group: {fileID: 1331115293}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 252652837}
-        m_TargetAssemblyTypeName: CityUI, Assembly-CSharp
-        m_MethodName: ChangeUnitType
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 7
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 0
 --- !u!1 &2107092302
 GameObject:

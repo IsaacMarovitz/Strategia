@@ -23,35 +23,10 @@ namespace Strategia {
         // Sea, Plains, Swamp, Mountains, Trees, City, Costal City
         public GameObject[] prefabs = new GameObject[7];
         [Space(10)]
-        //public bool onlyShowPathGizmos;
-        public List<Tile> path;
         public Texture2D voronoiTexture;
         public Tile foundTile;
 
         private List<List<Tile>> islandList = new List<List<Tile>>();
-
-        /*void OnDrawGizmos() {
-            if (onlyShowPathGizmos) {
-                if (path != null) {
-                    foreach (var tile in path) {
-                        Gizmos.color = Color.black;
-                        Gizmos.DrawCube(Vector3.up + tile.gameObject.transform.position, new Vector3(tileWidth - 0.1f, 1, tileHeight - 0.1f));
-                    }
-                }
-            } else {
-                if (grid != null) {
-                    foreach (var tile in grid) {
-                        Gizmos.color = (tile.walkable) ? Color.white : Color.red;
-                        if (path != null) {
-                            if (path.Contains(tile)) {
-                                Gizmos.color = Color.black;
-                            }
-                        }
-                        Gizmos.DrawCube(Vector3.up + tile.gameObject.transform.position, new Vector3(tileWidth - 0.1f, 1, tileHeight - 0.1f));
-                    }
-                }
-            }
-        }*/
 
         public int MaxSize {
             get {
