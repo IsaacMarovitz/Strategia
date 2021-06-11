@@ -35,7 +35,7 @@ public class City : MonoBehaviour {
     }
 
     public void Update() {
-        if (isOwned && showCityNameUI) {
+        if (showCityNameUI) {
             canvas.enabled = true;
             cityNameText.text = cityName;
         } else {

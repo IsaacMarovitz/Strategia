@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour {
     public Action resumeGame;
     public MeshRenderer fogOfWarTexture;
     public int currentPlayerIndex = 0;
+    public CameraController cameraController;
 
     private float hueOffset;
 
@@ -116,6 +117,7 @@ public class GameManager : MonoBehaviour {
         Player player = instantiatedPlayer.GetComponent<Player>();
         player.gameMode = gameMode;
         player.playerColor = Color.HSVToRGB(playerIndex * hueOffset, 1f, 0.7f);
+        player.cameraController = cameraController;
         playerList.Add(player);
     }
 

@@ -11830,6 +11830,7 @@ MonoBehaviour:
   numberOfMoves: {fileID: 2052646189}
   canvas: {fileID: 794698290}
   showLine: 0
+  path: []
 --- !u!1 &810854059
 GameObject:
   m_ObjectHideFlags: 0
@@ -15780,6 +15781,7 @@ MonoBehaviour:
   playerParent: {fileID: 750299195}
   fogOfWarTexture: {fileID: 71327588}
   currentPlayerIndex: 0
+  cameraController: {fileID: 620992391}
 --- !u!4 &1182266815
 Transform:
   m_ObjectHideFlags: 0
@@ -15828,7 +15830,6 @@ MonoBehaviour:
   - {fileID: 8551195268125430702, guid: 8dc120c5818ad224189ce3c4fe52f0c0, type: 3}
   - {fileID: 1188385406521069216, guid: 2d51072978679284381ab477c64e5ada, type: 3}
   - {fileID: 5815842155762721886, guid: 8e04f3ebf7afb2940baeb68df356d4b9, type: 3}
-  path: []
   voronoiTexture: {fileID: 0}
   foundTile:
     pos: {x: 0, y: 0}

@@ -13,6 +13,7 @@ public class Player : MonoBehaviour {
     public Color playerColor;
     public bool hasDied = false;
     public UnitInfo unitInfo;
+    public CameraController cameraController;
 
     private List<Unit> unitQueue;
     private bool revealAllTiles = false;
@@ -126,6 +127,7 @@ public class Player : MonoBehaviour {
             UpdateFogOfWar();
         }
         if (unitQueue.Count > 0) {
+            cameraController.NextPlayer(unitQueue[0].pos);
             UIData.Instance.currentUnit = unitQueue[0];
             unitQueue[0].StartTurn();
         } else {

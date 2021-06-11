@@ -56,6 +56,8 @@ public class CameraController : MonoBehaviour {
     private Vector3 rotateCurrentPosition;
     private Vector3 startingZoom;
 
+    private List<CameraSettings> cameraSettings = new List<CameraSettings>();
+
     void Start() {
         GameManager.Instance.pauseGame += Pause;
         GameManager.Instance.resumeGame += Resume;
@@ -66,6 +68,10 @@ public class CameraController : MonoBehaviour {
         startingZoom = virtualCamera.transform.localPosition;
         newZoom = startingZoom;
         newXRotation = virtualCamera.transform.localRotation.eulerAngles.x;
+
+        foreach (var player in GameManager.Instance.playerList) {
+            cameraSettings.Add(new CameraSettings(newPosition, newRotation, newZoom, newXRotation));
+        }
     }
 
     void Pause() {
@@ -134,25 +140,6 @@ public class CameraController : MonoBehaviour {
                     didClickUI = false;
                 }
             }
-        }
-        if (UIData.Instance.currentUnit != null) {
-            if (oldUnit != UIData.Instance.currentUnit) {
-                oldUnit = UIData.Instance.currentUnit;
-                oldCity = null;
-                Focus(GridUtilities.TileToWorldPos(oldUnit.pos), true);
-            }
-        } else {
-            oldUnit = null;
-        } 
-        
-        if (UIData.Instance.currentCity != null) {
-            if (oldCity != UIData.Instance.currentCity) {
-                oldCity = UIData.Instance.currentCity;
-                oldUnit = null;
-                Focus(GridUtilities.TileToWorldPos(oldCity.pos), true);
-            }
-        } else {
-            oldCity = null;
         }
     }
 
@@ -304,7 +291,29 @@ public class CameraController : MonoBehaviour {
         return p_Rotation;
     }
 
+    public void NextPlayer(Vector2Int nextPlayerUnitPos) {
+        Debug.Log("<b>FIX CAMERA CONTROLLER FUNCTION</b>");
+        /*if (GameManager.Instance.currentPlayerIndex != 0) {
+            cameraSettings[GameManager.Instance.currentPlayerIndex - 1] = new CameraSettings(newPosition, newRotation, newZoom, newXRotation);
+        }
+
+        CameraSettings currentPlayerSettings = cameraSettings[GameManager.Instance.currentPlayerIndex];
+
+        newPosition = currentPlayerSettings.cameraRigPosition;
+        newRotation = currentPlayerSettings.cameraRigRotation;
+        newZoom = currentPlayerSettings.zoom;
+        newXRotation = currentPlayerSettings.xRotation;
+
+        cameraRig.position = currentPlayerSettings.cameraRigPosition;
+        cameraRig.rotation = currentPlayerSettings.cameraRigRotation;
+        virtualCamera.transform.localPosition = currentPlayerSettings.zoom;
+        virtualCamera.transform.localRotation = Quaternion.Euler(new Vector3(currentPlayerSettings.xRotation, 0, 0));
+
+        Focus(GridUtilities.TileToWorldPos(nextPlayerUnitPos), false);*/
+    }
+
     public void Focus(Vector3 pos, bool smoothMove) {
+        Debug.Log("Focus");
         Plane plane = new Plane(Vector3.up, Vector3.zero);
         Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 
@@ -333,5 +342,19 @@ public class CameraController : MonoBehaviour {
             }
         }
         return raycastResultList.Count > 0;
+    }
+
+    public struct CameraSettings {
+        public Vector3 cameraRigPosition;
+        public Quaternion cameraRigRotation;
+        public Vector3 zoom;
+        public float xRotation;
+
+        public CameraSettings(Vector3 cameraRigPosition, Quaternion cameraRigRotation, Vector3 zoom, float xRotation) {
+            this.cameraRigPosition = cameraRigPosition;
+            this.cameraRigRotation = cameraRigRotation;
+            this.zoom = zoom;
+            this.xRotation = xRotation;
+        }
     }
 }

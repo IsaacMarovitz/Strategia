@@ -52,9 +52,7 @@ public class CityListUI : MonoBehaviour {
     }
 
     public void FocusCity(int i) {
-        Vector2Int pos = GameManager.Instance.GetCurrentPlayer().playerCities[i].pos;
-        Vector3 worldPos = new Vector3(pos.x * GameManager.Instance.grid.tileWidth, 0, pos.y * GameManager.Instance.grid.tileHeight);
-        cameraController.Focus(worldPos, true);
+        cameraController.Focus(GridUtilities.TileToWorldPos(GameManager.Instance.GetCurrentPlayer().playerCities[i].pos), true);
     }
 
     public void ShowMenu() {

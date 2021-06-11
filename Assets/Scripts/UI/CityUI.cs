@@ -44,11 +44,7 @@ public class CityUI : MonoBehaviour {
             if (!hasUpdated) {
                 hasUpdated = true;
                 UpdateUnitButtons();
-                foreach (var toggle in toggles) {
-                    toggle.interactable = false;
-                }
                 for (int i = 0; i < toggles.Length; i++) {
-                    toggles[i].interactable = true;
                     if (i == (int)UIData.Instance.currentCity.unitType) {
                         toggles[i].SetIsOnWithoutNotify(true);
                     } else {
