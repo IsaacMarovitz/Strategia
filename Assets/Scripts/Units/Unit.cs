@@ -67,7 +67,7 @@ public class Unit : MonoBehaviour {
             return;
         } else if (path != null) {
             if (path.Count > 0) {
-                turnStage = TurnStage.Complete;
+                turnStage = TurnStage.PathSet;
                 EndTurn();
                 return;
             } else {
@@ -148,9 +148,13 @@ public class Unit : MonoBehaviour {
         if (path != null) {
             for (int i = 0; i < path.Count; i++) {
                 if (path[i] != GameManager.Instance.grid.grid[pos.x, pos.y]) {
-                    if (moves > 0) {
-                        PerformMove(path[i]);
-                        i--;
+                    if (path[i].unitOnTile != null) {
+                        path = null;
+                    } else {
+                        if (moves > 0) {
+                            PerformMove(path[i]);
+                            i--;
+                        }
                     }
                 }
             }
@@ -256,6 +260,6 @@ public class Unit : MonoBehaviour {
     }
 }
 
-public enum TurnStage { Waiting, Started, Complete, Sleeping }
+public enum TurnStage { Waiting, Started, Complete, Sleeping, PathSet }
 public enum TileMoveStatus { Move, Transport, Attack, Blocked }
 public enum UnitType { Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, Battleship }

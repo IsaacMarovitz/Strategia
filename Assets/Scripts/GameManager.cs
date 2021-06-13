@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour {
     public void NextPlayer() {
         if (currentPlayerIndex < playerList.Count) {
             //Debug.Log("<b>GameManager:</b> Starting Player " + (currentPlayerIndex+1) + "'s turn");
+            cameraController.NextPlayer();
             currentPlayerIndex++;
             nextPlayerDelegate?.Invoke();
             Player nextPlayer = playerList[currentPlayerIndex - 1];

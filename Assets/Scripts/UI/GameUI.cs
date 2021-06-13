@@ -15,6 +15,7 @@ public class GameUI : MonoBehaviour {
 
     [Header("Buttons")]
     public Button moveButton;
+    public Button cancelMoveButton;
     public Button sleepButton;
     public Button wakeButton;
     public Button doneButton;
@@ -24,6 +25,8 @@ public class GameUI : MonoBehaviour {
     public Button nextPlayerButton;
 
     [Header("Button Parents")]
+    public GameObject moveButtonParent;
+    public GameObject cancelMoveButtonParent;
     public GameObject sleepButtonParent;
     public GameObject wakeButtonParent;
     public GameObject customButtonParent;
@@ -40,13 +43,13 @@ public class GameUI : MonoBehaviour {
     public CameraController cameraController;
 
     private Unit oldUnit;
-    private bool nextPlayerUIEnabled = false;
     private bool unitIsMoving = false;
     private bool moveButtonPressed = false;
 
     public void Start() {
         // Setup onClick events for all main bottom bar buttons
         moveButton.onClick.AddListener(MoveButton);
+        cancelMoveButton.onClick.AddListener(CancelMoveButton);
         sleepButton.onClick.AddListener(SleepButton);
         wakeButton.onClick.AddListener(WakeButton);
         doneButton.onClick.AddListener(DoneButton);
@@ -68,6 +71,8 @@ public class GameUI : MonoBehaviour {
         unitImage.color = GameManager.Instance.GetCurrentPlayer().playerColor;
 
         if (GameManager.Instance.GetCurrentPlayer().turnCompleted) {
+            moveButtonParent.SetActive(true);
+            cancelMoveButtonParent.SetActive(false);
             sleepButtonParent.SetActive(true);
             wakeButtonParent.SetActive(false);
             customButtonParent.SetActive(false);
@@ -79,6 +84,8 @@ public class GameUI : MonoBehaviour {
             fuelLeft.text = "";
             oldUnit = null;
         } else {
+            moveButtonParent.SetActive(true);
+            cancelMoveButtonParent.SetActive(false);
             endTurnButtonParent.SetActive(false);
             nextUnitButtonParent.SetActive(true);
 
@@ -168,12 +175,22 @@ public class GameUI : MonoBehaviour {
             wakeButton.interactable = true;
         } else if (UIData.Instance.currentUnit.turnStage == TurnStage.Complete) {
             SetButtons(false);
+        } else if (UIData.Instance.currentUnit.turnStage == TurnStage.PathSet) {
+            Debug.Log("Whooop");
+            cancelMoveButtonParent.SetActive(true);
+            moveButtonParent.SetActive(false);
+            cancelMoveButton.interactable = true;
+            moveButton.interactable = false;
         } else {
+            moveButtonParent.SetActive(true);
+            cancelMoveButtonParent.SetActive(false);
+            sleepButtonParent.SetActive(true);
+            wakeButtonParent.SetActive(false);
+            moveButton.interactable = true;
+            cancelMoveButton.interactable = false;
             sleepButton.interactable = true;
             wakeButton.interactable = true;
             doneButton.interactable = true;
-            sleepButtonParent.SetActive(true);
-            wakeButtonParent.SetActive(false);
             if (unitIsMoving) {
                 moveButton.interactable = false;
             } else {
@@ -184,6 +201,7 @@ public class GameUI : MonoBehaviour {
 
     public void SetButtons(bool isActive) {
         moveButton.interactable = isActive;
+        cancelMoveButton.interactable = isActive;
         sleepButton.interactable = isActive;
         wakeButton.interactable = isActive;
         doneButton.interactable = isActive;
@@ -203,12 +221,9 @@ public class GameUI : MonoBehaviour {
     }
 
     public void NextPlayer() {
-        if (nextPlayerUIEnabled) {
-            nextPlayerUI.SetActive(true);
-            GameManager.Instance.Pause();
-            nextPlayerText.text = $"Player {GameManager.Instance.currentPlayerIndex}'s Turn";
-        }
-        nextPlayerUIEnabled = true;
+        nextPlayerUI.SetActive(true);
+        GameManager.Instance.Pause();
+        nextPlayerText.text = $"Player {GameManager.Instance.currentPlayerIndex}'s Turn";
     }
 
     #endregion
@@ -223,6 +238,10 @@ public class GameUI : MonoBehaviour {
         moveButton.interactable = false;
         unitIsMoving = true;
         moveButtonPressed = true;
+    }
+
+    public void CancelMoveButton() {
+
     }
 
     public void SleepButton() {

@@ -127,7 +127,7 @@ public class Player : MonoBehaviour {
             UpdateFogOfWar();
         }
         if (unitQueue.Count > 0) {
-            cameraController.NextPlayer(unitQueue[0].pos);
+            cameraController.Focus(GridUtilities.TileToWorldPos(unitQueue[0].pos), false);
             UIData.Instance.currentUnit = unitQueue[0];
             unitQueue[0].StartTurn();
         } else {

@@ -70,7 +70,7 @@ namespace Strategia {
             CalculateIslands();
             CalculateCities();
             SpawnTiles();
-            AssignNames();
+            //AssignNames();
             foreach (var tile in grid) {
                 tile.cityOfInfluence = Voronoi.GetCityOfInfluence(tile.pos, cityTiles);
             }

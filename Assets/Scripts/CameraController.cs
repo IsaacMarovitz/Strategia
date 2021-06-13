@@ -56,7 +56,7 @@ public class CameraController : MonoBehaviour {
     private Vector3 rotateCurrentPosition;
     private Vector3 startingZoom;
 
-    private List<CameraSettings> cameraSettings = new List<CameraSettings>();
+    public List<CameraSettings> cameraSettings = new List<CameraSettings>();
 
     void Start() {
         GameManager.Instance.pauseGame += Pause;
@@ -69,7 +69,7 @@ public class CameraController : MonoBehaviour {
         newZoom = startingZoom;
         newXRotation = virtualCamera.transform.localRotation.eulerAngles.x;
 
-        foreach (var player in GameManager.Instance.playerList) {
+        for (int i = 0; i < GameManager.Instance.gameInfo.numberOfPlayers; i++) {
             cameraSettings.Add(new CameraSettings(newPosition, newRotation, newZoom, newXRotation));
         }
     }
@@ -140,7 +140,7 @@ public class CameraController : MonoBehaviour {
                     didClickUI = false;
                 }
             }
-        }
+        } 
     }
 
     public void LateUpdate() {
@@ -291,29 +291,26 @@ public class CameraController : MonoBehaviour {
         return p_Rotation;
     }
 
-    public void NextPlayer(Vector2Int nextPlayerUnitPos) {
-        Debug.Log("<b>FIX CAMERA CONTROLLER FUNCTION</b>");
-        /*if (GameManager.Instance.currentPlayerIndex != 0) {
+    public void NextPlayer() {
+        if (GameManager.Instance.currentPlayerIndex == 0) {
+            cameraSettings[cameraSettings.Count - 1] = new CameraSettings(newPosition, newRotation, newZoom, newXRotation);
+        } else {
             cameraSettings[GameManager.Instance.currentPlayerIndex - 1] = new CameraSettings(newPosition, newRotation, newZoom, newXRotation);
         }
 
         CameraSettings currentPlayerSettings = cameraSettings[GameManager.Instance.currentPlayerIndex];
 
-        newPosition = currentPlayerSettings.cameraRigPosition;
         newRotation = currentPlayerSettings.cameraRigRotation;
         newZoom = currentPlayerSettings.zoom;
         newXRotation = currentPlayerSettings.xRotation;
 
-        cameraRig.position = currentPlayerSettings.cameraRigPosition;
         cameraRig.rotation = currentPlayerSettings.cameraRigRotation;
         virtualCamera.transform.localPosition = currentPlayerSettings.zoom;
         virtualCamera.transform.localRotation = Quaternion.Euler(new Vector3(currentPlayerSettings.xRotation, 0, 0));
-
-        Focus(GridUtilities.TileToWorldPos(nextPlayerUnitPos), false);*/
     }
 
     public void Focus(Vector3 pos, bool smoothMove) {
-        Debug.Log("Focus");
+        Debug.Log($"<b>Camera Controller</b>: Focusing at {pos}");
         Plane plane = new Plane(Vector3.up, Vector3.zero);
         Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 
@@ -344,6 +341,7 @@ public class CameraController : MonoBehaviour {
         return raycastResultList.Count > 0;
     }
 
+    [System.Serializable]
     public struct CameraSettings {
         public Vector3 cameraRigPosition;
         public Quaternion cameraRigRotation;
