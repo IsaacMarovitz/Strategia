@@ -127,8 +127,10 @@ public class Player : MonoBehaviour {
             UpdateFogOfWar();
         }
         if (unitQueue.Count > 0) {
-            cameraController.Focus(GridUtilities.TileToWorldPos(unitQueue[0].pos), false);
             UIData.Instance.currentUnit = unitQueue[0];
+            cameraController.Focus(GridUtilities.TileToWorldPos(unitQueue[0].pos), false);
+            // Prevents Camera Controller from sometimes defocusing unit because of Next Player UI Button press
+            cameraController.didClickUI = true;
             unitQueue[0].StartTurn();
         } else {
             TurnComplete();
