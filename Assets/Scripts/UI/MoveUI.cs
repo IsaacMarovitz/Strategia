@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class UnitUI : MonoBehaviour {
+public class MoveUI : MonoBehaviour {
 
     public LineRenderer lineRenderer;
     public TMP_Text numberOfMoves;

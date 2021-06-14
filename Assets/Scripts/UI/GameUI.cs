@@ -39,7 +39,8 @@ public class GameUI : MonoBehaviour {
     public GameObject newDayUI;
     public float newDayWaitTime;
     public GameObject nextPlayerUI;
-    public UnitUI unitUI;
+    public MoveUI moveUI;
+    public CancelMoveUI cancelMoveUI;
     public CameraController cameraController;
 
     private Unit oldUnit;
@@ -112,33 +113,33 @@ public class GameUI : MonoBehaviour {
                     fuelLeft.text = "";
                 }
 
-                // If a different unit has been selected, disable the UnitUI Line Renderer, and set MoveButton to interactable 
+                // If a different unit has been selected, disable the MoveUI Line Renderer, and set MoveButton to interactable 
                 if (!moveButton.interactable && UIData.Instance.currentUnit != oldUnit) {
                     oldUnit = UIData.Instance.currentUnit;
                     moveButton.interactable = true;
-                    unitUI.Hide();
+                    moveUI.Hide();
                 }
 
-                // If the right mouse button is pressed while the line is showing, disable the UnitUI Line Renderer, and set Move Button to interactable
-                if (Input.GetMouseButtonUp(1) && unitUI.showLine && !cameraController.didRMBDrag) {
-                    unitUI.Hide();
+                // If the right mouse button is pressed while the line is showing, disable the MoveUI Line Renderer, and set Move Button to interactable
+                if (Input.GetMouseButtonUp(1) && moveUI.showLine && !cameraController.didRMBDrag) {
+                    moveUI.Hide();
                     moveButton.interactable = true;
                     unitIsMoving = false;
                 }
 
-                // If the left mouse button is pressed while the line is showing, disable the UnitUI Line Renderer, set Move Button to interactable, and move the selected Unit
-                if (Input.GetMouseButtonUp(0) && unitUI.showLine && !cameraController.didLMBDrag) {
+                // If the left mouse button is pressed while the line is showing, disable the MoveUI Line Renderer, set Move Button to interactable, and move the selected Unit
+                if (Input.GetMouseButtonUp(0) && moveUI.showLine && !cameraController.didLMBDrag) {
                     if (cameraController.IsMouseOverUI() && moveButtonPressed) {
                         if (!moveButtonPressed) {
-                            unitUI.Hide();
+                            moveUI.Hide();
                             moveButton.interactable = true;
                             unitIsMoving = false;
                         }
                     } else {
-                        unitUI.Hide();
+                        moveUI.Hide();
                         moveButton.interactable = true;
                         unitIsMoving = false;
-                        unitUI.Move();
+                        moveUI.Move();
                     }
                 }
             } else {
@@ -150,7 +151,7 @@ public class GameUI : MonoBehaviour {
                 SetButtons(false);
 
                 oldUnit = null;
-                unitUI.path = null;
+                moveUI.path = null;
             }
 
             if (!GameManager.Instance.dayCompleted) {
@@ -165,7 +166,7 @@ public class GameUI : MonoBehaviour {
     public void UpdateUI() {
         if (UIData.Instance.currentUnit.turnStage == TurnStage.Waiting) {
             UIData.Instance.currentUnit.StartTurn();
-            unitUI.Hide();
+            moveUI.Hide();
         } else if (UIData.Instance.currentUnit.turnStage == TurnStage.Sleeping) {
             sleepButtonParent.SetActive(false);
             wakeButtonParent.SetActive(true);
@@ -234,7 +235,7 @@ public class GameUI : MonoBehaviour {
         if (UIData.Instance.currentUnit == null) { return; }
 
         oldUnit = UIData.Instance.currentUnit;
-        unitUI.Show();
+        moveUI.Show();
         moveButton.interactable = false;
         unitIsMoving = true;
         moveButtonPressed = true;

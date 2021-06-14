@@ -27,7 +27,7 @@ public class CameraController : MonoBehaviour {
 
     [Space(10)]
     public LayerMask raycastLayers;
-    public UnitUI unitUI;
+    public MoveUI moveUI;
 
     [HideInInspector]
     public bool didLMBDrag = false;
@@ -99,7 +99,7 @@ public class CameraController : MonoBehaviour {
                 didClickUI = true;
             }
 
-            if (Input.GetMouseButtonUp(0) && !unitUI.showLine && !didLMBDrag) {
+            if (Input.GetMouseButtonUp(0) && !moveUI.showLine && !didLMBDrag) {
                 if (!didClickUI) {
                     ray = mainCamera.ScreenPointToRay(Input.mousePosition);
                     if (Physics.Raycast(ray, out hit)) {

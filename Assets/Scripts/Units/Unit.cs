@@ -22,7 +22,9 @@ public class Unit : MonoBehaviour {
     public Player player;
     public List<TileType> blockedTileTypes;
 
-    protected List<Tile> path;
+    [HideInInspector]
+    public List<Tile> path { get; private set; }
+
     protected bool pathWasSetThisTurn;
 
     public void Awake() {
