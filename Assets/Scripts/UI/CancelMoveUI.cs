@@ -7,31 +7,33 @@ public class CancelMoveUI : MonoBehaviour {
     public LineRenderer lineRenderer;
     public TMP_Text numberOfMoves;
     public Canvas canvas;
-    public bool showLine = false;
     public List<Tile> path;
 
     private List<Tile> oldPositions;
-    private Unit oldUnit;
 
     void Update() {
-        if (UIData.Instance.currentUnit != null && showLine) {
-            if (UIData.Instance.currentUnit != oldUnit && UIData.Instance.currentUnit.turnStage == TurnStage.PathSet && UIData.Instance.currentUnit.path != null) {
-                oldUnit = UIData.Instance.currentUnit;
+        if (UIData.Instance.currentUnit != null) {
+            if (UIData.Instance.currentUnit.turnStage == TurnStage.PathSet && UIData.Instance.currentUnit.path != null) {
                 lineRenderer.enabled = true;
                 canvas.enabled = true;
                 canvas.transform.position = GridUtilities.TileToWorldPos(UIData.Instance.currentUnit.pos, 2);
                 path = UIData.Instance.currentUnit.path;
+                path.Insert(0, GameManager.Instance.grid.grid[UIData.Instance.currentUnit.pos.x, UIData.Instance.currentUnit.pos.y]);
+                Debug.Log("Show!!");
             }
         } else {
             lineRenderer.enabled = false;
             canvas.enabled = false;
+            lineRenderer.positionCount = 0;
+            numberOfMoves.text = "0";
+            Debug.Log("Hide");
         }
         if (path != null && oldPositions != path) {
             if (path.Count > 0) {
                 oldPositions = path;
                 lineRenderer.positionCount = path.Count;
                 lineRenderer.SetPositions(TilesToWorldPositions(path));
-                numberOfMoves.text = (path.Count - 1).ToString();
+                numberOfMoves.text = (path.Count - 2).ToString();
                 int midIndex = Mathf.RoundToInt((path.Count - 1) / 2);
                 canvas.transform.position = new Vector3(path[midIndex].gameObject.transform.position.x, 2, path[midIndex].gameObject.transform.position.z);
             }
@@ -44,17 +46,5 @@ public class CancelMoveUI : MonoBehaviour {
             positions[i] = GridUtilities.TileToWorldPos(tiles[i].pos);
         }
         return positions;
-    }
-
-    public void Show() {
-        showLine = true;
-    }
-
-    public void Hide() {
-        showLine = false;
-        lineRenderer.enabled = false;
-        canvas.enabled = false;
-        lineRenderer.positionCount = 0;
-        numberOfMoves.text = "0";
     }
 }

@@ -172,7 +172,6 @@ public class Unit : MonoBehaviour {
                     PerformMove(path[i]);
                     i--;
                 } else {
-                    turnStage = TurnStage.Complete;
                     pathWasSetThisTurn = false;
                     EndTurn();
                 }
@@ -233,7 +232,11 @@ public class Unit : MonoBehaviour {
             GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = this;
         }
         if (moves <= 0) {
-            turnStage = TurnStage.Complete;
+            if (path.Count > 0) {
+                turnStage = TurnStage.PathSet;
+            } else {
+                turnStage = TurnStage.Complete;
+            }
             EndTurn();
         }
         player.UpdateFogOfWar();
@@ -251,6 +254,10 @@ public class Unit : MonoBehaviour {
 
     public void SetPos(Vector2Int _pos) {
         transform.position = GridUtilities.TileToWorldPos(_pos, yOffset);
+    }
+
+    public void UnsetPath() {
+        path.Clear();
     }
 
     public virtual void Die() {

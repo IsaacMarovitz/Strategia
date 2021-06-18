@@ -72,18 +72,39 @@ public class GameUI : MonoBehaviour {
         unitImage.color = GameManager.Instance.GetCurrentPlayer().playerColor;
 
         if (GameManager.Instance.GetCurrentPlayer().turnCompleted) {
-            moveButtonParent.SetActive(true);
-            cancelMoveButtonParent.SetActive(false);
             sleepButtonParent.SetActive(true);
             wakeButtonParent.SetActive(false);
             customButtonParent.SetActive(false);
             endTurnButtonParent.SetActive(true);
             nextUnitButtonParent.SetActive(false);
-            SetButtons(false);
 
+            moveButton.interactable = false;
+            sleepButton.interactable = false;
+            wakeButton.interactable = false;
+            doneButton.interactable = false;
+            
             movesLeft.text = "";
             fuelLeft.text = "";
             oldUnit = null;
+
+            if (UIData.Instance.currentUnit != null) {
+                if (UIData.Instance.currentUnit.turnStage == TurnStage.PathSet) {
+                    cancelMoveButtonParent.SetActive(true);
+                    moveButtonParent.SetActive(false);
+
+                    cancelMoveButton.interactable = true;
+                } else {
+                    moveButtonParent.SetActive(true);
+                    cancelMoveButtonParent.SetActive(false);
+
+                    cancelMoveButton.interactable = false;
+                }
+            } else {
+                moveButtonParent.SetActive(true);
+                cancelMoveButtonParent.SetActive(false);
+
+                cancelMoveButton.interactable = false;
+            }
         } else {
             moveButtonParent.SetActive(true);
             cancelMoveButtonParent.SetActive(false);
@@ -177,7 +198,6 @@ public class GameUI : MonoBehaviour {
         } else if (UIData.Instance.currentUnit.turnStage == TurnStage.Complete) {
             SetButtons(false);
         } else if (UIData.Instance.currentUnit.turnStage == TurnStage.PathSet) {
-            Debug.Log("Whooop");
             cancelMoveButtonParent.SetActive(true);
             moveButtonParent.SetActive(false);
             cancelMoveButton.interactable = true;
@@ -242,7 +262,17 @@ public class GameUI : MonoBehaviour {
     }
 
     public void CancelMoveButton() {
+        if (UIData.Instance.currentUnit == null) { return; }
 
+        // DOESNT WORK WITH ONE UNIT >>>>:((
+        if (GameManager.Instance.GetCurrentPlayer().turnCompleted) {
+            UIData.Instance.currentUnit.UnsetPath();
+            UIData.Instance.currentUnit.turnStage = TurnStage.Complete;
+        } else {
+            UIData.Instance.currentUnit.UnsetPath();
+            GameManager.Instance.GetCurrentPlayer().AddToUnitQueue(UIData.Instance.currentUnit);
+            UIData.Instance.currentUnit.StartTurn();
+        }
     }
 
     public void SleepButton() {
