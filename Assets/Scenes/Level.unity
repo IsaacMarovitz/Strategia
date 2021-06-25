@@ -15351,7 +15351,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 150}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1097796217
 MonoBehaviour:
@@ -22778,8 +22778,8 @@ MonoBehaviour:
   cancelMoveButton: {fileID: 1601927468}
   sleepButton: {fileID: 1886830872}
   wakeButton: {fileID: 503410334}
-  doneButton: {fileID: 2100231158}
   customButton: {fileID: 811321731}
+  doneButton: {fileID: 2100231158}
   endTurnButton: {fileID: 1507880573}
   nextUnitButton: {fileID: 1986661864}
   nextPlayerButton: {fileID: 98375445}

@@ -80,6 +80,7 @@ VFXRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -162,6 +163,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -256,7 +258,6 @@ MonoBehaviour:
   moves: 0
   maxMoves: 10
   damageAmount: 0
-  moveDirs: 0000000000000000000000000000000000000000000000000000000000000000
   turnStage: 0
   damagePercentages:
   - 0
@@ -273,10 +274,9 @@ MonoBehaviour:
   isInCity: 0
   mainMesh: {fileID: 0}
   sleepEffect: {fileID: 0}
-  unitIcon: {fileID: 0}
+  unitIcon: {fileID: 21300000, guid: 3c417043a8568264091a8f9ce6055200, type: 3}
   player: {fileID: 0}
   blockedTileTypes: 03000000
   blastRadius: 5
-  fuel: 0
   maxFuel: 30
   fuelPerMove: 1
