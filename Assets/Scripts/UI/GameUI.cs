@@ -18,8 +18,8 @@ public class GameUI : MonoBehaviour {
     public Button cancelMoveButton;
     public Button sleepButton;
     public Button wakeButton;
-    public Button doneButton;
     public Button customButton;
+    public Button doneButton;
     public Button endTurnButton;
     public Button nextUnitButton;
     public Button nextPlayerButton;
@@ -53,8 +53,8 @@ public class GameUI : MonoBehaviour {
         cancelMoveButton.onClick.AddListener(CancelMoveButton);
         sleepButton.onClick.AddListener(SleepButton);
         wakeButton.onClick.AddListener(WakeButton);
-        doneButton.onClick.AddListener(DoneButton);
         customButton.onClick.AddListener(CustomButton);
+        doneButton.onClick.AddListener(DoneButton);
         endTurnButton.onClick.AddListener(EndTurnButton);
         nextUnitButton.onClick.AddListener(NextUnitButton);
         nextPlayerButton.onClick.AddListener(NextPlayerButton);

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Fighter : Unit, IFuel {
 
-    public int fuel {get; set; }
+    public int fuel { get; set; }
     public int maxFuel;
     public int fuelPerMove;
     public bool isOnCarrier = false;
@@ -64,6 +64,8 @@ public class Fighter : Unit, IFuel {
     }
 
     public override void PerformMove(Tile tileToMoveTo) {
+        base.PerformMove(tileToMoveTo);
+
         if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
             fuel = maxFuel;
         } else {

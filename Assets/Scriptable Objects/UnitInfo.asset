@@ -25,7 +25,7 @@ MonoBehaviour:
     prefab: {fileID: 1815058899303171229, guid: ac06ee358305edb4480047998c8e7cb3, type: 3}
   - name: Bomber
     turnsToCreate: 12
-    prefab: {fileID: 1815058899303171229, guid: ac06ee358305edb4480047998c8e7cb3, type: 3}
+    prefab: {fileID: 6381822023183244392, guid: 18da3bfe641fffc4abd3c2a668db1791, type: 3}
   navalUnits:
   - name: Transport
     turnsToCreate: 2
