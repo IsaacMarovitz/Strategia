@@ -1,5 +1,5 @@
 public static class CityNames {
-    public static readonly Country UK = new Country("London", new string[] {
+    public static readonly Country UK = new Country("UK", "London", new string[] {
         "Birmingham",
         "Leeds",
         "Glasgow",
@@ -21,7 +21,7 @@ public static class CityNames {
         "Salford",
         "Portsmouth"
     });
-    public static readonly Country Ireland = new Country("Dublin", new string[] {
+    public static readonly Country Ireland = new Country("Ireland", "Dublin", new string[] {
         "Cork",
         "Limerick",
         "Galway",
@@ -43,7 +43,7 @@ public static class CityNames {
         "Mullingar",
         "Celbridge"
     });
-    public static readonly Country France = new Country("Paris", new string[] {
+    public static readonly Country France = new Country("France", "Paris", new string[] {
         "Marseille",
         "Lyon",
         "Toulouse",
@@ -65,7 +65,7 @@ public static class CityNames {
         "Saint-Denis",
         "Villeurbanne"
     });
-    public static readonly Country Germany = new Country("Berlin", new string[] {
+    public static readonly Country Germany = new Country("Germany", "Berlin", new string[] {
         "Hamburg",
         "Munich",
         "Cologne",
@@ -87,7 +87,7 @@ public static class CityNames {
         "Bonn",
         "Münster"
     });
-    public static readonly Country Spain = new Country("Madrid", new string[] {
+    public static readonly Country Spain = new Country("Spain", "Madrid", new string[] {
         "Barcelona",
         "Valencia",
         "Serville",
@@ -109,7 +109,7 @@ public static class CityNames {
         "Granada",
         "Terrassa"
     });
-    public static readonly Country Italy = new Country("Rome", new string[] {
+    public static readonly Country Italy = new Country("Italy", "Rome", new string[] {
         "Milan",
         "Naples",
         "Turin",
@@ -131,7 +131,7 @@ public static class CityNames {
         "Modena",
         "Reggio Calabria"
     });
-    public static readonly Country Poland = new Country("Warsaw", new string[] {
+    public static readonly Country Poland = new Country("Poland", "Warsaw", new string[] {
         "Kraków",
         "Łódź",
         "Wrocław",
@@ -153,7 +153,7 @@ public static class CityNames {
         "Olsztyn",
         "Zabrze"
     });
-    public static readonly Country Russia = new Country("Moscow", new string[] {
+    public static readonly Country Russia = new Country("Russia", "Moscow", new string[] {
         "Saint Petersburg",
         "Novosibirsk",
         "Yekaterinburg",
@@ -175,7 +175,7 @@ public static class CityNames {
         "Izhevsk",
         "Barnaul"
     });
-    public static readonly Country TheNetherlands = new Country("Amsterdam", new string[] {
+    public static readonly Country TheNetherlands = new Country("The Netherlands", "Amsterdam", new string[] {
         "Utrecht",
         "The Hague",
         "Rotterdam",
@@ -197,7 +197,7 @@ public static class CityNames {
         "Tilburg",
         "Apeldoorn"
     });
-    public static readonly Country Turkey = new Country("Istanbul", new string[] {
+    public static readonly Country Turkey = new Country("Turkey", "Istanbul", new string[] {
         "Ankara",
         "İzmir",
         "Bursa",
@@ -219,7 +219,7 @@ public static class CityNames {
         "Van",
         "Batman"
     });
-    public static readonly Country Hungary = new Country("Budapest", new string[] {
+    public static readonly Country Hungary = new Country("Hungary", "Budapest", new string[] {
         "Debrecen",
         "Szeged",
         "Miskolc",
@@ -241,7 +241,7 @@ public static class CityNames {
         "Nagykanizsa",
         "Dunakeszi"
     });
-    public static readonly Country Iran = new Country("Tehran", new string[] {
+    public static readonly Country Iran = new Country("Iran", "Tehran", new string[] {
         "Mashhad",
         "Isfahan",
         "Karaj",
@@ -263,7 +263,7 @@ public static class CityNames {
         "Zanjan",
         "Sanandaj"
     });
-    public static readonly Country Sweden = new Country("Stockholm", new string[] {
+    public static readonly Country Sweden = new Country("Sweden", "Stockholm", new string[] {
         "Göteborg",
         "Malmö",
         "Uppsala",
@@ -285,15 +285,20 @@ public static class CityNames {
         "Sundsvall",
         "Östersund"
     });
+    public static readonly Country Overflow = new Country("Overflow", "Overflow", new string[] {
+        "Overflow"
+    });
 
     public static readonly Country[] countries = {UK, Ireland, France, Germany, Spain, Italy, Poland, Russia, TheNetherlands, Turkey, Hungary, Iran, Sweden};
 }
 
 public struct Country {
+    public string countryName;
     public string capitalCity;
     public string[] names;
 
-    public Country(string capitalCity, string[] names) {
+    public Country(string countryName, string capitalCity, string[] names) {
+        this.countryName = countryName;
         this.capitalCity = capitalCity;
         this.names = names;
     }

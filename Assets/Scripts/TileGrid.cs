@@ -26,9 +26,6 @@ namespace Strategia {
         public Texture2D voronoiTexture;
         public Tile foundTile;
 
-        private List<List<Tile>> islandList = new List<List<Tile>>();
-        private Dictionary<int, int> islandCountryDictionary = new Dictionary<int, int>();
-
         public int MaxSize {
             get {
                 return width * height;
@@ -70,7 +67,6 @@ namespace Strategia {
             CalculateIslands();
             CalculateCities();
             SpawnTiles();
-            //AssignNames();
             foreach (var tile in grid) {
                 tile.cityOfInfluence = Voronoi.GetCityOfInfluence(tile.pos, cityTiles);
             }
@@ -83,7 +79,6 @@ namespace Strategia {
             foreach (var tile in grid) {
                 if (tile.islandIndex == 0 && tile.tileType != TileType.Sea) {
                     List<Tile> islandTiles = GridUtilities.FloodFill(tile);
-                    islandList.Add(islandTiles);
                     if (islandTiles.Count < minimumIslandArea) {
                         foreach (var islandTile in islandTiles) {
                             islandTile.tileType = TileType.Sea;
@@ -191,62 +186,6 @@ namespace Strategia {
                         tileTag.pos = new Vector2Int(x, y);
                         grid[x, y].gameObject = instantiatedTile;
                     }
-                }
-            }
-        }
-
-        public void AssignNames() {
-            // Create a random list of indexes that corresponds to each country in CityNames
-            List<int> countryIndexes = new List<int>();
-            for (int i = 0; i < CityNames.countries.Length; i++) {
-                countryIndexes.Add(i);
-            }
-            countryIndexes = FisherYates(countryIndexes);
-
-            // Create a list of a list of strings. Each of list of strings contains all the 
-            // non-capital names of the corresponding country in the same order as the countryIndexes
-            // list. Lastly randomise the list of names add it back to the list of lists
-            List<List<string>> cityNames = new List<List<string>>();
-            foreach (var index in countryIndexes) {
-                List<string> names = new List<string>();
-                foreach (var name in CityNames.countries[index].names) {
-                    names.Add(name);
-                }
-                names = FisherYates(names);
-                cityNames.Add(names);
-            }
-
-            // For every island add a random country index
-            int numberOfIslandsWithCities = 0;
-            for (int i = 0; i < islandCount; i++) {
-                bool hasCity = false;
-                foreach (var city in cityTiles) {
-                    if (grid[city.pos.x, city.pos.y].islandIndex == i) {
-                        hasCity = true;
-                    }
-                }
-
-                if (!hasCity) { continue; }
-
-                if (numberOfIslandsWithCities > countryIndexes.Count) {
-                    Debug.Log("<b>Tile Grid:</b> Too many islands! Defaulting to last country");
-                    islandCountryDictionary.Add(i, countryIndexes[countryIndexes.Count-1]);
-                    numberOfIslandsWithCities++;
-                } else {
-                    islandCountryDictionary.Add(i, countryIndexes[i]);
-                    numberOfIslandsWithCities++;
-                }
-            }
-
-            // For every city find the country that corresponds to its islandIndex
-            // then assign the city a random name from that countries cityNames list
-            foreach (var city in cityTiles) {
-                int countryIndex = islandCountryDictionary[grid[city.pos.x, city.pos.y].islandIndex];
-                if (cityNames[countryIndex].Count > 0) {
-                    city.cityName = cityNames[countryIndex][0];
-                    cityNames[countryIndex].RemoveAt(0);
-                } else {
-                    Debug.Log("<b>Tile Grid:</b> Too many cities! Defaulting to 'London'");
                 }
             }
         }

@@ -14,9 +14,12 @@ public class Player : MonoBehaviour {
     public bool hasDied = false;
     public UnitInfo unitInfo;
     public CameraController cameraController;
+    public Country country;
 
     private List<Unit> unitQueue;
     private bool revealAllTiles = false;
+
+    public List<string> cityNames;
     public Texture2D minimapTexture;
     public Texture2D fogOfWarTexture;
     public float[,] fogOfWarMatrix;
@@ -189,6 +192,23 @@ public class Player : MonoBehaviour {
 
     public void AddToUnitQueue(Unit unit) {
         unitQueue.Add(unit);
+    }
+
+    public string AssignName() {
+        if (cityNames.Count > 0) {
+            string returnName = cityNames[0];
+            cityNames.RemoveAt(0);
+            return returnName;
+        } else {
+            for (int i = 0; i < country.names.Length; i++) {
+                country.names[i] = "New " + country.names[i];
+                cityNames.Add(country.names[i]);
+            }
+            cityNames = GameManager.Instance.grid.FisherYates(cityNames);
+            string returnName = cityNames[0];
+            cityNames.RemoveAt(0);
+            return returnName;
+        }
     }
 
 #if UNITY_EDITOR

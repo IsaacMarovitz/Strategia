@@ -86,6 +86,9 @@ public class CityUI : MonoBehaviour {
             newButton.transform.SetParent(horizontalLayoutGroup.transform, false);
             UnitButtonUI unitButton = newButton.GetComponent<UnitButtonUI>();
             unitButton.unit = unit;
+            if (unit.unitIcon != null) {
+                unitButton.image.sprite = unit.unitIcon;
+            }
         }
     }
 

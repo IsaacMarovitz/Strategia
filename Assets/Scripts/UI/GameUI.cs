@@ -88,6 +88,10 @@ public class GameUI : MonoBehaviour {
             oldUnit = null;
 
             if (UIData.Instance.currentUnit != null) {
+                if (UIData.Instance.currentUnit.unitIcon != null) {
+                    unitImage.sprite = UIData.Instance.currentUnit.unitIcon;
+                }
+
                 if (UIData.Instance.currentUnit.turnStage == TurnStage.PathSet) {
                     cancelMoveButtonParent.SetActive(true);
                     moveButtonParent.SetActive(false);
@@ -114,7 +118,10 @@ public class GameUI : MonoBehaviour {
             if (UIData.Instance.currentUnit != null) {
                 healthSlider.maxValue = UIData.Instance.currentUnit.maxHealth;
                 healthSlider.value = UIData.Instance.currentUnit.health;
-
+                if (UIData.Instance.currentUnit.unitIcon != null) {
+                    unitImage.sprite = UIData.Instance.currentUnit.unitIcon;
+                }
+                
                 movesLeft.text = $"Moves Left: {UIData.Instance.currentUnit.moves}";
 
                 // If the unit inherits the ICustomButton interface, activate CustomButton and set CustomButtonText to CustomButtonName

@@ -35,7 +35,7 @@ public class City : MonoBehaviour {
     }
 
     public void Update() {
-        if (showCityNameUI) {
+        if (isOwned && showCityNameUI) {
             canvas.enabled = true;
             cityNameText.text = cityName;
         } else {
@@ -51,6 +51,7 @@ public class City : MonoBehaviour {
 
     public void StartGame(Player player) {
         GetOwned(player);
+        cityName = player.country.capitalCity;
         CreateUnit();
     }
 
@@ -66,6 +67,7 @@ public class City : MonoBehaviour {
         isOwned = true;
         GameManager.Instance.newDayDelegate += TakeTurn;
         turnsLeft = unitData[currentIndex].turnsToCreate;
+        cityName = player.AssignName();
     }
 
     public void TakeTurn() {

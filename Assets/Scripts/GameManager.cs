@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour {
     public CameraController cameraController;
 
     private float hueOffset;
+    private List<Country> countries = new List<Country>();
 
     private void Awake() {
         if (_instance != null && _instance != this) {
@@ -42,6 +43,11 @@ public class GameManager : MonoBehaviour {
         gameMode = gameInfo.gameMode;
         numberOfPlayers = gameInfo.numberOfPlayers;
         hueOffset = 1f / numberOfPlayers;
+
+        for (int i = 0; i < CityNames.countries.Length; i++) {
+            countries.Add(CityNames.countries[i]);
+        }
+        countries = grid.FisherYates(countries);
 
         // Create players in the appropriate game mode
         for (int i = 0; i < numberOfPlayers; i++) {
@@ -119,6 +125,19 @@ public class GameManager : MonoBehaviour {
         player.gameMode = gameMode;
         player.playerColor = Color.HSVToRGB(playerIndex * hueOffset, 1f, 0.7f);
         player.cameraController = cameraController;
+
+        if (playerIndex-1 < countries.Count) {
+            player.country = countries[playerIndex-1];
+        } else {
+            player.country = CityNames.Overflow;
+        }
+
+        for (int i = 0; i < player.country.names.Length; i++) {
+            player.cityNames.Add(player.country.names[i]);
+        }
+        player.cityNames = grid.FisherYates(player.cityNames);
+            
+
         playerList.Add(player);
     }
 

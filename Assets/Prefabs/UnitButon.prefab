@@ -61,6 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 8986836473174575345}
+  image: {fileID: 8986836473174575351}
   unit: {fileID: 0}
 --- !u!114 &8986836473174575351
 MonoBehaviour:
