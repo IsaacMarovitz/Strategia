@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Collections;
 
 public class GameUI : MonoBehaviour {
 
@@ -9,9 +8,7 @@ public class GameUI : MonoBehaviour {
     public TMP_Text movesLeft;
     public TMP_Text fuelLeft;
     public TMP_Text dayCounter;
-    public TMP_Text newDayUIText;
     public TMP_Text customButtonText;
-    public TMP_Text nextPlayerText;
 
     [Header("Buttons")]
     public Button moveButton;
@@ -22,7 +19,6 @@ public class GameUI : MonoBehaviour {
     public Button doneButton;
     public Button endTurnButton;
     public Button nextUnitButton;
-    public Button nextPlayerButton;
 
     [Header("Button Parents")]
     public GameObject moveButtonParent;
@@ -36,9 +32,6 @@ public class GameUI : MonoBehaviour {
     [Header("Misc")]
     public Image unitImage;
     public Slider healthSlider;
-    public GameObject newDayUI;
-    public float newDayWaitTime;
-    public GameObject nextPlayerUI;
     public MoveUI moveUI;
     public CancelMoveUI cancelMoveUI;
     public CameraController cameraController;
@@ -57,18 +50,12 @@ public class GameUI : MonoBehaviour {
         doneButton.onClick.AddListener(DoneButton);
         endTurnButton.onClick.AddListener(EndTurnButton);
         nextUnitButton.onClick.AddListener(NextUnitButton);
-        nextPlayerButton.onClick.AddListener(NextPlayerButton);
-
-        // Subscribe UI functions to their appropriate GameManger delegates
-        GameManager.Instance.newDayDelegate += NewDay;
-        GameManager.Instance.nextPlayerDelegate += NextPlayer;
 
         oldUnit = UIData.Instance.currentUnit;
     }
 
     public void Update() {
         dayCounter.text = $"Day {GameManager.Instance.day}";
-        newDayUIText.text = $"Day {GameManager.Instance.day + 1}";
         unitImage.color = GameManager.Instance.GetCurrentPlayer().playerColor;
 
         if (GameManager.Instance.GetCurrentPlayer().turnCompleted) {
@@ -235,27 +222,6 @@ public class GameUI : MonoBehaviour {
         doneButton.interactable = isActive;
     }
 
-    #region Delegate Functions
-
-    public void NewDay() {
-        newDayUI.SetActive(true);
-        StartCoroutine(NewDayWait(newDayWaitTime));
-    }
-
-    IEnumerator NewDayWait(float waitTime) {
-        yield return new WaitForSeconds(waitTime);
-        newDayUI.SetActive(false);
-        GameManager.Instance.NewDay();
-    }
-
-    public void NextPlayer() {
-        nextPlayerUI.SetActive(true);
-        GameManager.Instance.Pause();
-        nextPlayerText.text = $"Player {GameManager.Instance.currentPlayerIndex}'s Turn";
-    }
-
-    #endregion
-
     #region  Button Functions
 
     public void MoveButton() {
@@ -325,11 +291,6 @@ public class GameUI : MonoBehaviour {
         cameraController.Focus(GridUtilities.TileToWorldPos(UIData.Instance.currentUnit.pos), true);
 
         GameManager.Instance.GetCurrentPlayer().NextUnit(UIData.Instance.currentUnit, true);
-    }
-
-    public void NextPlayerButton() {
-        nextPlayerUI.SetActive(false);
-        GameManager.Instance.Resume();
     }
 
     #endregion

@@ -271,4 +271,4 @@ public class Unit : MonoBehaviour {
 
 public enum TurnStage { Waiting, Started, Complete, Sleeping, PathSet }
 public enum TileMoveStatus { Move, Transport, Attack, Blocked }
-public enum UnitType { Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, Battleship }
+public enum UnitType { Tank, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, Battleship }

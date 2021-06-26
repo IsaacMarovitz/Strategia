@@ -19,4 +19,5 @@ public struct UnitData {
     public string name;
     public int turnsToCreate;
     public GameObject prefab;
+    public Sprite unitIcon;
 }

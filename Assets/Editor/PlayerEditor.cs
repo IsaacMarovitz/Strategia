@@ -15,7 +15,7 @@ public class PlayerEditor : Editor {
             player.RevealAllTiles();
         }
         unitPos = EditorGUILayout.Vector2IntField("Unit Pos", unitPos);
-        if (GUILayout.Button("Spawn Army")) {
+        if (GUILayout.Button("Spawn Tank")) {
             player.SpawnArmy(unitPos);
         }
     }

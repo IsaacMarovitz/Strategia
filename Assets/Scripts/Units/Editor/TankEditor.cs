@@ -1,15 +1,15 @@
 using UnityEditor;
 
 namespace Strategia.Editor {
-    [CustomEditor(typeof(Army))]
-    public class ArmyEditor : UnitEditor {
+    [CustomEditor(typeof(Tank))]
+    public class TankEditor : UnitEditor {
 
         public bool showReducedMovement = false;
 
         public override void OnInspectorGUI() {
             base.OnInspectorGUI();
             serializedObject.Update();
-            Army army = (Army)target;
+            Tank army = (Tank)target;
 
             SerializedProperty reducedMoveDistance_prop = serializedObject.FindProperty("reducedMoveDistance");
             SerializedProperty isMoveDistanceReduced_prop = serializedObject.FindProperty("isMoveDistanceReduced");

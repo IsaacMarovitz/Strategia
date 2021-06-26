@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class City : MonoBehaviour {
 
-    // Unit order Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, Battleship
+    // Unit order Tank, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, Battleship
     public bool isOwned = false;
     public bool showCityNameUI = true;
     public Player player;

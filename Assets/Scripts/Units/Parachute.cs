@@ -11,7 +11,7 @@ public class Parachute : Unit, ICustomButton, IFuel {
     public override void Start() {
         base.Start();
         unitType = UnitType.Parachute;
-        // Set damage percentages in order of Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
+        // Set damage percentages in order of Tank, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
         damagePercentages = new float[9] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f };
     }
 
@@ -58,7 +58,7 @@ public class Parachute : Unit, ICustomButton, IFuel {
 
     public void DeployArmy() {
         if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType != TileType.Sea || GameManager.Instance.grid.grid[pos.x, pos.y].tileType != TileType.Mountains || GameManager.Instance.grid.grid[pos.x, pos.y].tileType != TileType.Trees) {
-            Army army = GameObject.Instantiate(unitPrefab, Vector3.zero, Quaternion.identity).GetComponent<Army>();
+            Tank army = GameObject.Instantiate(unitPrefab, Vector3.zero, Quaternion.identity).GetComponent<Tank>();
             army.SetPos(pos);
             army.gameObject.transform.parent = this.gameObject.transform.parent;
             army.player = player;

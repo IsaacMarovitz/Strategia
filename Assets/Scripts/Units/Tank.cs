@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Army : Unit {
+public class Tank : Unit {
 
     public bool isMoveDistanceReduced;
     public bool isOnTransport = false;
@@ -8,8 +8,8 @@ public class Army : Unit {
 
     public override void Start() {
         base.Start();
-        unitType = UnitType.Army;
-        // Set damage percentages in order of Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
+        unitType = UnitType.Tank;
+        // Set damage percentages in order of Tank, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
         damagePercentages = new float[9] { 0.34f, 0f, 0.25f, 0f, 0.2f, 0.1f, 0.3f, 0.1f, 0f };
     }
 

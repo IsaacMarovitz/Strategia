@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 public class Transport : Unit {
 
-    public List<Army> armiesOnTransport;
+    public List<Tank> armiesOnTransport;
     public bool isTransportFull;
 
     public override void Start() {
         base.Start();
         unitType = UnitType.Transport;
-        // Set damage percentages in order of Army, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
+        // Set damage percentages in order of Tank, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
         damagePercentages = new float[9] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f };
     }
 
