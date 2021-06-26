@@ -8742,7 +8742,7 @@ MonoBehaviour:
   maxPosition: {x: 220, y: 100, z: 220}
   minPosition: {x: -20, y: 0, z: -20}
   zoomLimits: {x: -10, y: 40}
-  xRotationLimits: {x: 0, y: 90}
+  xRotationLimits: {x: 0, y: 89.9}
   raycastLayers:
     serializedVersion: 2
     m_Bits: 512
