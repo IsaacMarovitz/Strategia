@@ -86,6 +86,7 @@ public class City : MonoBehaviour {
         Unit newUnit = instantiatedUnit.GetComponent<Unit>();
         newUnit.pos = pos;
         newUnit.oldCity = this;
+        newUnit.isInCity = true;
         player.AddUnit(newUnit);
         AddUnit(newUnit);
     }

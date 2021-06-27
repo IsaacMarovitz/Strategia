@@ -59,18 +59,25 @@ public class Parachute : Unit, ICustomButton, IFuel {
     public void DeployArmy() {
         if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType != TileType.Sea || GameManager.Instance.grid.grid[pos.x, pos.y].tileType != TileType.Mountains || GameManager.Instance.grid.grid[pos.x, pos.y].tileType != TileType.Trees) {
             Tank army = GameObject.Instantiate(unitPrefab, Vector3.zero, Quaternion.identity).GetComponent<Tank>();
-            army.SetPos(pos);
+            army.pos = pos;
             army.gameObject.transform.parent = this.gameObject.transform.parent;
+            army.gameObject.transform.rotation = this.gameObject.transform.rotation;
             army.player = player;
             Die();
             GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = army;
-            player.playerUnits.Add(army);
+            player.AddUnit(army);
+            int i = player.unitQueue.FindIndex(a => a == this);
+            if (i >= 0) {
+                player.unitQueue[i] = army;
+            }
             if (isInCity) {
-                oldCity.AddUnit(army);
                 army.isInCity = true;
                 army.mainMesh.SetActive(false);
                 army.oldCity = oldCity;
+                oldCity.RemoveUnit(this);
+                oldCity.AddUnit(army);
             }
+            UIData.Instance.currentUnit = army;
             Debug.Log($"<b>{this.gameObject.name}:</b> Deployed army!");
             GameObject.Destroy(this.gameObject);
         } else {

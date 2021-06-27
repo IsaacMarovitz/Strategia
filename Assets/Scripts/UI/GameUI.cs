@@ -243,7 +243,7 @@ public class GameUI : MonoBehaviour {
             UIData.Instance.currentUnit.turnStage = TurnStage.Complete;
         } else {
             UIData.Instance.currentUnit.UnsetPath();
-            GameManager.Instance.GetCurrentPlayer().AddToUnitQueue(UIData.Instance.currentUnit);
+            GameManager.Instance.GetCurrentPlayer().unitQueue.Add(UIData.Instance.currentUnit);
             UIData.Instance.currentUnit.StartTurn();
         }
     }

@@ -15,8 +15,8 @@ public class Player : MonoBehaviour {
     public UnitInfo unitInfo;
     public CameraController cameraController;
     public Country country;
+    public List<Unit> unitQueue;
 
-    private List<Unit> unitQueue;
     private bool revealAllTiles = false;
 
     public List<string> cityNames;
@@ -188,10 +188,6 @@ public class Player : MonoBehaviour {
             return true;
         }
         return false;
-    }
-
-    public void AddToUnitQueue(Unit unit) {
-        unitQueue.Add(unit);
     }
 
     public string AssignName() {

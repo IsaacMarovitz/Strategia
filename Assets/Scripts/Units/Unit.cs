@@ -94,7 +94,7 @@ public class Unit : MonoBehaviour {
         } else {
             turnStage = TurnStage.Started;
             sleepEffect.Stop();
-            player.AddToUnitQueue(this);
+            player.unitQueue.Add(this);
             StartTurn();
         }
     }
