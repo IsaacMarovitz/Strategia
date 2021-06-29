@@ -252,7 +252,7 @@ MonoBehaviour:
   unitInfo: {fileID: 11400000, guid: 13ec7d7fcf5249440aae20f69b2ef3b0, type: 2}
   unitType: 0
   pos: {x: 0, y: 0}
-  cityName: London
+  cityName: 
   unitsInCity: []
   canvas: {fileID: 4545289704766899709}
   cityNameText: {fileID: 2212230180112321381}

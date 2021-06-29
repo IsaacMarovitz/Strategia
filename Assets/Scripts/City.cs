@@ -12,7 +12,7 @@ public class City : MonoBehaviour {
     public UnitInfo unitInfo;
     public UnitType unitType;
     public Vector2Int pos;
-    public string cityName = "London";
+    public string cityName = "";
     public List<Unit> unitsInCity;
     public Canvas canvas;
     public TMP_Text cityNameText;
@@ -56,18 +56,21 @@ public class City : MonoBehaviour {
     }
 
     public void GetOwned(Player player) {
-        this.transform.GetChild(0).GetComponent<MeshRenderer>().materials[0].color = player.playerColor;
         if (isOwned) {
             if (this.player != null) {
+                if (this.player == player) { return; }
                 this.player.playerCities.Remove(this);
             }
         }
+        this.transform.GetChild(0).GetComponent<MeshRenderer>().materials[0].color = player.playerColor;
         this.player = player;
         this.player.playerCities.Add(this);
         isOwned = true;
         GameManager.Instance.newDayDelegate += TakeTurn;
         turnsLeft = unitData[currentIndex].turnsToCreate;
-        cityName = player.AssignName();
+        
+        if (cityName == "") 
+            cityName = player.AssignName();
     }
 
     public void TakeTurn() {

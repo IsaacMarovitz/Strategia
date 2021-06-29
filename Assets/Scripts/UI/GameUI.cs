@@ -280,17 +280,17 @@ public class GameUI : MonoBehaviour {
     }
 
     public void NextUnitButton() {
-        if (UIData.Instance.currentUnit == null) {
-            Unit currentUnit = GameManager.Instance.GetCurrentPlayer().GetCurrentUnit();
-            if (currentUnit != null) {
+        Unit currentUnit = GameManager.Instance.GetCurrentPlayer().GetCurrentUnit();
+        UIData.Instance.currentCity = null;
+
+        if (currentUnit != null) {
+            if (UIData.Instance.currentUnit == null) {
                 UIData.Instance.currentUnit = currentUnit;
-                UIData.Instance.currentCity = null;
+            } else {
+                GameManager.Instance.GetCurrentPlayer().NextUnit(currentUnit, true);
             }
+            cameraController.Focus(GridUtilities.TileToWorldPos(UIData.Instance.currentUnit.pos), true);
         }
-
-        cameraController.Focus(GridUtilities.TileToWorldPos(UIData.Instance.currentUnit.pos), true);
-
-        GameManager.Instance.GetCurrentPlayer().NextUnit(UIData.Instance.currentUnit, true);
     }
 
     #endregion
