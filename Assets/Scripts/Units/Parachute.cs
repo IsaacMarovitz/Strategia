@@ -4,8 +4,8 @@ public class Parachute : Unit, ICustomButton, IFuel {
 
     public GameObject unitPrefab;
     public int fuel { get; set; }
-    public int maxFuel;
-    public int fuelPerMove;
+    public int maxFuel { get; set; }
+    public int fuelPerMove { get; set; }
     public string CustomButtonName { get { return "Deploy"; } }
 
     public override void Start() {

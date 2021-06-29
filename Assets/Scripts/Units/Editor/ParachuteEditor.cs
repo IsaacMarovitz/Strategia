@@ -12,19 +12,16 @@ namespace Strategia.Editor {
             serializedObject.Update();
             Parachute parachute = (Parachute)target;
 
-            SerializedProperty fuel_prop = serializedObject.FindProperty("fuel");
-            SerializedProperty fuelPerMove_prop = serializedObject.FindProperty("fuelPerMove");
-            SerializedProperty maxFuel_prop = serializedObject.FindProperty("maxFuel");
             SerializedProperty unitPrefab_prop = serializedObject.FindProperty("unitPrefab");
 
-            EditorGUILayout.Space(10);
+            /*EditorGUILayout.Space(10);
             showFuel = EditorGUILayout.BeginFoldoutHeaderGroup(showFuel, "Fuel");
             if (showFuel) {
-                fuel_prop.intValue = EditorGUILayout.IntSlider("Fuel", fuel_prop.intValue, 0, maxFuel_prop.intValue);
-                fuelPerMove_prop.intValue = EditorGUILayout.IntSlider("Fuel Per Move", fuelPerMove_prop.intValue, 0, maxFuel_prop.intValue);
-                EditorGUILayout.PropertyField(maxFuel_prop);
+                parachute.fuel = EditorGUILayout.IntSlider("Fuel", parachute.fuel, 0, parachute.maxFuel);
+                parachute.fuelPerMove = EditorGUILayout.IntSlider("Fuel Per Move", parachute.fuel, 0, parachute.maxFuel);
+                EditorGUILayout.IntField(parachute.maxFuel);
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
+            EditorGUILayout.EndFoldoutHeaderGroup();*/
 
             EditorGUILayout.Space(10);
             EditorGUILayout.PropertyField(unitPrefab_prop);

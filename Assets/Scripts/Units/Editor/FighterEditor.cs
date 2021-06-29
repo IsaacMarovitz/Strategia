@@ -11,19 +11,16 @@ namespace Strategia.Editor {
             serializedObject.Update();
             Fighter fighter = (Fighter)target;
 
-            SerializedProperty fuel_prop = serializedObject.FindProperty("fuel");
-            SerializedProperty fuelPerMove_prop = serializedObject.FindProperty("fuelPerMove");
-            SerializedProperty maxFuel_prop = serializedObject.FindProperty("maxFuel");
             SerializedProperty isOnCarrier_prop = serializedObject.FindProperty("isOnCarrier");
 
-            EditorGUILayout.Space(10);
+            /*EditorGUILayout.Space(10);
             showFuel = EditorGUILayout.BeginFoldoutHeaderGroup(showFuel, "Fuel");
             if (showFuel) {
-                fuel_prop.intValue = EditorGUILayout.IntSlider("Fuel", fuel_prop.intValue, 0, maxFuel_prop.intValue);
-                fuelPerMove_prop.intValue = EditorGUILayout.IntSlider("Fuel Per Move", fuelPerMove_prop.intValue, 0, maxFuel_prop.intValue);
-                EditorGUILayout.PropertyField(maxFuel_prop);
+                fighter.fuel = EditorGUILayout.IntSlider("Fuel", fighter.fuel, 0, fighter.maxFuel);
+                fighter.fuelPerMove = EditorGUILayout.IntSlider("Fuel Per Move", fighter.fuel, 0, fighter.maxFuel);
+                EditorGUILayout.IntField("Max Fuel", fighter.maxFuel);
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
+            EditorGUILayout.EndFoldoutHeaderGroup();*/
 
             EditorGUILayout.Space(10);
             EditorGUILayout.PropertyField(isOnCarrier_prop);

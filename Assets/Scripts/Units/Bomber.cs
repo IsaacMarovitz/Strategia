@@ -5,8 +5,8 @@ public class Bomber : Unit, ICustomButton, IFuel {
 
     public int blastRadius = 2;
     public int fuel { get; set; }
-    public int maxFuel;
-    public int fuelPerMove;
+    public int maxFuel { get; set; }
+    public int fuelPerMove { get; set; }
     public string CustomButtonName { get { return "Detonate"; } }
 
     public override void Start() {

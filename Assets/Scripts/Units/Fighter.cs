@@ -3,8 +3,8 @@ using UnityEngine;
 public class Fighter : Unit, IFuel {
 
     public int fuel { get; set; }
-    public int maxFuel;
-    public int fuelPerMove;
+    public int maxFuel { get; set; }
+    public int fuelPerMove { get; set; }
     public bool isOnCarrier = false;
 
     public override void Start() {
