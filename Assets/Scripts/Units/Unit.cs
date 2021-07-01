@@ -152,6 +152,7 @@ public class Unit : MonoBehaviour {
                 if (path[i] != GameManager.Instance.grid.grid[pos.x, pos.y]) {
                     if (path[i].unitOnTile != null) {
                         path = null;
+                        return;
                     } else {
                         if (moves > 0) {
                             PerformMove(path[i]);

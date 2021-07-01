@@ -237,14 +237,14 @@ public class GameUI : MonoBehaviour {
     public void CancelMoveButton() {
         if (UIData.Instance.currentUnit == null) { return; }
 
-        // DOESNT WORK WITH ONE UNIT >>>>:((
-        if (GameManager.Instance.GetCurrentPlayer().turnCompleted) {
-            UIData.Instance.currentUnit.UnsetPath();
-            UIData.Instance.currentUnit.turnStage = TurnStage.Complete;
-        } else {
-            UIData.Instance.currentUnit.UnsetPath();
+        UIData.Instance.currentUnit.UnsetPath();
+
+        if (UIData.Instance.currentUnit.moves > 0) {
+            GameManager.Instance.GetCurrentPlayer().turnCompleted = false;
             GameManager.Instance.GetCurrentPlayer().unitQueue.Add(UIData.Instance.currentUnit);
-            UIData.Instance.currentUnit.StartTurn();
+            UIData.Instance.currentUnit.turnStage = TurnStage.Started;
+        } else {
+            UIData.Instance.currentUnit.turnStage = TurnStage.Complete;
         }
     }
 
