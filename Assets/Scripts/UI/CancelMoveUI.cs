@@ -17,16 +17,19 @@ public class CancelMoveUI : MonoBehaviour {
                 lineRenderer.enabled = true;
                 canvas.enabled = true;
                 canvas.transform.position = GridUtilities.TileToWorldPos(UIData.Instance.currentUnit.pos, 2);
-                path = UIData.Instance.currentUnit.path;
+                path = new List<Tile>(UIData.Instance.currentUnit.path);
                 path.Insert(0, GameManager.Instance.grid.grid[UIData.Instance.currentUnit.pos.x, UIData.Instance.currentUnit.pos.y]);
-                //Debug.Log("Show!!");
+            } else {
+                lineRenderer.enabled = false;
+                canvas.enabled = false;
+                lineRenderer.positionCount = 0;
+                numberOfMoves.text = "0";
             }
         } else {
             lineRenderer.enabled = false;
             canvas.enabled = false;
             lineRenderer.positionCount = 0;
             numberOfMoves.text = "0";
-            //Debug.Log("Hide");
         }
         if (path != null && oldPositions != path) {
             if (path.Count > 0) {
