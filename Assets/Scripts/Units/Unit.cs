@@ -118,7 +118,6 @@ public class Unit : MonoBehaviour {
         if (unitToAttack != null) {
             Debug.Log($"<b>{this.gameObject.name}:</b> Attacking {unitToAttack.gameObject.name}");
             unitToAttack.TakeDamage(this);
-            moves--;
         } else {
             Debug.LogWarning($"<b>{this.gameObject.name}:</b> Could not find unit to attack at {unitPos}!");
         }
@@ -191,11 +190,32 @@ public class Unit : MonoBehaviour {
             this.gameObject.transform.eulerAngles = new Vector3(0, this.gameObject.transform.eulerAngles.y, 0);
             pos = tileToMoveTo.pos;
             path.Remove(tileToMoveTo);
+
+            TransportMove(tileToMoveTo, tileMoveStatus);
+
+            if (oldCity != null) {
+                oldCity.RemoveUnit(this);
+                oldCity = null;
+                isInCity = false;
+                mainMesh.SetActive(true);
+            }
+
+            if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+                City city = GameManager.Instance.grid.grid[pos.x, pos.y].gameObject.GetComponent<City>();
+                city.GetOwned(player);
+                city.AddUnit(this);
+                oldCity = city;
+                isInCity = true;
+                mainMesh.SetActive(false);
+            } else {
+                isInCity = false;
+                mainMesh.SetActive(true);
+                GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = this;
+            }
         } else if (tileMoveStatus == TileMoveStatus.Attack) {
             if (pathWasSetThisTurn) {
                 Attack(tileToMoveTo.pos);
                 path.Clear();
-                return;
             } else {
                 this.gameObject.transform.LookAt(tileToMoveTo.gameObject.transform.position, Vector3.up);
                 this.gameObject.transform.eulerAngles = new Vector3(0, this.gameObject.transform.eulerAngles.y, 0);
@@ -211,27 +231,6 @@ public class Unit : MonoBehaviour {
 
         moves--;
 
-        TransportMove(tileToMoveTo, tileMoveStatus);
-
-        if (oldCity != null) {
-            oldCity.RemoveUnit(this);
-            oldCity = null;
-            isInCity = false;
-            mainMesh.SetActive(true);
-        }
-
-        if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
-            City city = GameManager.Instance.grid.grid[pos.x, pos.y].gameObject.GetComponent<City>();
-            city.GetOwned(player);
-            city.AddUnit(this);
-            oldCity = city;
-            isInCity = true;
-            mainMesh.SetActive(false);
-        } else {
-            isInCity = false;
-            mainMesh.SetActive(true);
-            GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = this;
-        }
         if (moves <= 0) {
             if (path.Count > 0) {
                 turnStage = TurnStage.PathSet;
@@ -263,6 +262,7 @@ public class Unit : MonoBehaviour {
 
     public virtual void Die() {
         player.playerUnits.Remove(this);
+        player.unitQueue.Remove(this);
         GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = null;
         if (isInCity) {
             oldCity.RemoveUnit(this);
