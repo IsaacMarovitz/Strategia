@@ -4471,7 +4471,7 @@ MonoBehaviour:
   m_margin: {x: 5, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &243452008
@@ -9506,7 +9506,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 0
-    m_SensorSize: {x: 2.1417112, y: 1}
+    m_SensorSize: {x: 1.9835651, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -12561,7 +12561,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &825122518
@@ -13667,7 +13667,7 @@ GameObject:
   - component: {fileID: 969789287}
   - component: {fileID: 969789286}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Done Button Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18539,7 +18539,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1340233097
@@ -24716,7 +24716,7 @@ MonoBehaviour:
   m_text: "\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: -7287675587384805727, guid: ffed3c6e37d659249ba3e843d9cdf090, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -24779,7 +24779,7 @@ MonoBehaviour:
   m_margin: {x: 5, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1772110682
@@ -31617,7 +31617,7 @@ MonoBehaviour:
   reportButton: {fileID: 293283037}
   failureUI: {fileID: 930935945}
   sucessPanel: {fileID: 1888057610}
-  trelloPoster: {fileID: 11400000, guid: 522d1418e5f564c4695885f4692662ce, type: 2}
+  trelloPoster: {fileID: 11400000, guid: c602d3e3b18b8c64dbf8d7dbc1b725db, type: 2}
   reportPanel: {fileID: 1474818282586197749}
   cardName: {fileID: 668283678}
   cardDesc: {fileID: 739269975}
@@ -32187,7 +32187,7 @@ MonoBehaviour:
   failureUI: {fileID: 930935945}
   sucessPanel: {fileID: 1888057610}
   errorText: {fileID: 642953001}
-  trelloPoster: {fileID: 11400000, guid: 522d1418e5f564c4695885f4692662ce, type: 2}
+  trelloPoster: {fileID: 11400000, guid: c602d3e3b18b8c64dbf8d7dbc1b725db, type: 2}
 --- !u!224 &3290877365184290715
 RectTransform:
   m_ObjectHideFlags: 0

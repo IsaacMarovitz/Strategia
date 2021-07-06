@@ -19,29 +19,24 @@ public class Carrier : Unit {
     public override TileMoveStatus CheckDir(Tile tile) {
         TileMoveStatus returnMoveStatus = base.CheckDir(tile);
 
-        if (turnStage == TurnStage.Started) {
-            if (tile.unitOnTile != null) {
-                if (tile.tileType == TileType.CostalCity) {
-                    City city = tile.gameObject.GetComponent<City>();
-                    if (!player.playerCities.Contains(city)) {
-                        returnMoveStatus = TileMoveStatus.Attack;
-                    }
+        if (tile.tileType == TileType.City || tile.tileType == TileType.CostalCity) {
+            City city = tile.gameObject.GetComponent<City>();
+            if (!player.playerCities.Contains(city)) {
+                if (city.unitsInCity.Count > 0) {
+                    returnMoveStatus = TileMoveStatus.Attack;
                 } else {
-                    if (player.playerUnits.Contains(tile.unitOnTile)) {
-                        returnMoveStatus = TileMoveStatus.Blocked;
-                    } else {
-                        returnMoveStatus = TileMoveStatus.Attack;
-                    }
-                }
-            } else {
-                if (tile.tileType == TileType.CostalCity) {
-                    City city = tile.gameObject.GetComponent<City>();
-                    if (!player.playerCities.Contains(city)) {
-                        returnMoveStatus = TileMoveStatus.Blocked;
-                    }
+                    returnMoveStatus = TileMoveStatus.Blocked;
                 }
             }
         }
+
+        if (tile.unitOnTile != null) {
+            if (player.playerUnits.Contains(tile.unitOnTile)) {
+                returnMoveStatus = TileMoveStatus.Blocked;
+            } else {
+                returnMoveStatus = TileMoveStatus.Attack;
+            }
+        } 
 
         return returnMoveStatus;
     }
