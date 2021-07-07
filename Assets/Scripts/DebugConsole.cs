@@ -19,8 +19,9 @@ public class DebugConsole : MonoBehaviour {
     public Trie commandTrie;
 
     public void Awake() {
-        CLEAR_FOG = new DebugCommand("clear_fog", "Clears the fog of war for the current player.", "clear_fog", true, () => {
+        CLEAR_FOG = new DebugCommand("clear_fog", "Clears the fog of war for the current player.", "clear_fog", false, () => {
             GameManager.Instance.GetCurrentPlayer().RevealAllTiles();
+            PrintString($"Fog of War for Player {GameManager.Instance.currentPlayerIndex} cleared.");
         });
         CLEAR = new DebugCommand("clear", "Clears the console.", "clear", false, () => {
             ClearConsole();
@@ -48,7 +49,7 @@ public class DebugConsole : MonoBehaviour {
     }
 
     public void Start() {
-        consoleInput.onEndEdit.AddListener(HandleInput);
+        consoleInput.onSubmit.AddListener(HandleInput);
         consoleInput.onSelect.AddListener(Pause);
         consoleInput.onDeselect.AddListener(Resume);
         consoleText.text = "";
@@ -95,6 +96,9 @@ public class DebugConsole : MonoBehaviour {
     public void Open() {
         windowPanel.SetActive(true);
         showConsole = true;
+        consoleInput.Select();
+        consoleInput.ActivateInputField();
+        Pause("");
     }
 
     public void Close() {
@@ -104,6 +108,8 @@ public class DebugConsole : MonoBehaviour {
     }
 
     public void HandleInput(string input) {
+        if (input == "") { return; }
+
         string[] properties = input.Split(' ');
 
         bool commandExecuted = false;
@@ -134,6 +140,9 @@ public class DebugConsole : MonoBehaviour {
             Debug.Log($"<b>Debug Console:</b> Failed to execute command '{consoleInput.text}'");
         }
         consoleInput.text = "";
+        consoleInput.Select();
+        consoleInput.ActivateInputField();
+        Pause("");
     }
 }
 
