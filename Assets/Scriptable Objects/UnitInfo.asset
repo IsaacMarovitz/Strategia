@@ -17,37 +17,46 @@ MonoBehaviour:
     turnsToCreate: 4
     prefab: {fileID: 264212343977508145, guid: 781b5237506c27549b6a7aba2e685906, type: 3}
     unitIcon: {fileID: 21300000, guid: 7c10a3de55f9d3e4a8a9a6a00930c2f1, type: 3}
+    blockedTileTypes: 000000000300000004000000
   airUnits:
   - name: Parachute
     turnsToCreate: 8
     prefab: {fileID: 7257010168124755570, guid: 5ccfc67a66e426b429ce809a3954390a, type: 3}
     unitIcon: {fileID: 21300000, guid: 9a49dc5a7d756244aa92fe68940c560c, type: 3}
+    blockedTileTypes: 03000000
   - name: Fighter
     turnsToCreate: 8
     prefab: {fileID: 1815058899303171229, guid: ac06ee358305edb4480047998c8e7cb3, type: 3}
     unitIcon: {fileID: 21300000, guid: ee6f4dd6dc9230f49b35eda7820b9271, type: 3}
+    blockedTileTypes: 03000000
   - name: Bomber
     turnsToCreate: 12
     prefab: {fileID: 6381822023183244392, guid: 18da3bfe641fffc4abd3c2a668db1791, type: 3}
     unitIcon: {fileID: 21300000, guid: 3c417043a8568264091a8f9ce6055200, type: 3}
+    blockedTileTypes: 03000000
   navalUnits:
   - name: Transport
     turnsToCreate: 2
     prefab: {fileID: 592272890362409890, guid: 7dc6be7dc3d2acb43b957ae3a01585dd, type: 3}
     unitIcon: {fileID: 21300000, guid: 38524e6e80ed7b34a8f951547d0086cb, type: 3}
+    blockedTileTypes: 0100000002000000030000000400000005000000
   - name: Destroyer
     turnsToCreate: 6
     prefab: {fileID: 3819617266327427756, guid: 78a7aa8ae32caa549b74d9a07ca13960, type: 3}
     unitIcon: {fileID: 21300000, guid: 950974b46bad5c84092ff9b01ab6f65b, type: 3}
+    blockedTileTypes: 0100000002000000030000000400000005000000
   - name: Submarine
     turnsToCreate: 6
     prefab: {fileID: 8004909557220208074, guid: 0abfc8e33f80a6d4db51b45639b93b6e, type: 3}
     unitIcon: {fileID: 21300000, guid: 6e82c83107875b24ea9306e7f701b885, type: 3}
+    blockedTileTypes: 0100000002000000030000000400000005000000
   - name: Carrier
     turnsToCreate: 10
     prefab: {fileID: 7985943728139605469, guid: e54c63589a0eed545abe78f01f4aaa84, type: 3}
     unitIcon: {fileID: 21300000, guid: a17bb869b775bd04bb4c0ce148d13c91, type: 3}
+    blockedTileTypes: 0100000002000000030000000400000005000000
   - name: Battleship
     turnsToCreate: 12
     prefab: {fileID: 3813747823647146454, guid: 4ff541e75a339e1429c2079c92f24f0d, type: 3}
     unitIcon: {fileID: 21300000, guid: d6ca8225f77178142b23c70f228a0b44, type: 3}
+    blockedTileTypes: 0100000002000000030000000400000005000000

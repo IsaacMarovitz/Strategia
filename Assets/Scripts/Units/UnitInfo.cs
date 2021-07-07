@@ -20,4 +20,5 @@ public struct UnitData {
     public int turnsToCreate;
     public GameObject prefab;
     public Sprite unitIcon;
+    public List<TileType> blockedTileTypes;
 }

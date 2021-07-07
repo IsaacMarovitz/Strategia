@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
     public GameMode gameMode = GameMode.LocalMultiplayer;
     public TileGrid grid;
     public GameInfo gameInfo;
+    public UnitInfo unitInfo;
     public int numberOfPlayers;
     public GameObject playerPrefab;
     public Transform playerParent;

@@ -16,7 +16,7 @@ public class PlayerEditor : Editor {
         }
         unitPos = EditorGUILayout.Vector2IntField("Unit Pos", unitPos);
         if (GUILayout.Button("Spawn Tank")) {
-            player.SpawnArmy(unitPos);
+            player.SpawnUnit(unitPos, UnitType.Tank);
         }
     }
 }

@@ -17129,12 +17129,14 @@ MonoBehaviour:
   gameMode: 1
   grid: {fileID: 1182266816}
   gameInfo: {fileID: 11400000, guid: b6db58fec6369ca40a144df85b3c4b0c, type: 2}
+  unitInfo: {fileID: 11400000, guid: 13ec7d7fcf5249440aae20f69b2ef3b0, type: 2}
   numberOfPlayers: 0
   playerPrefab: {fileID: 8781609987773422404, guid: c3759eb0fc7d4b548bb224c081a4e7d0, type: 3}
   playerParent: {fileID: 750299195}
   fogOfWarTexture: {fileID: 71327588}
   currentPlayerIndex: 0
   cameraController: {fileID: 620992391}
+  fastProd: 0
 --- !u!4 &1182266815
 Transform:
   m_ObjectHideFlags: 0
