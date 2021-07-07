@@ -67,8 +67,8 @@ public class DebugConsole : MonoBehaviour {
 
     public void Start() {
         consoleInput.onSubmit.AddListener(HandleInput);
-        consoleInput.onSelect.AddListener(Pause);
-        consoleInput.onDeselect.AddListener(Resume);
+        consoleInput.onSelect.AddListener((string x) => Pause());
+        consoleInput.onDeselect.AddListener((string x) => Resume());
         consoleInput.onValueChanged.AddListener(UpdateAutocomplete);
         consoleText.text = "";
     }
@@ -149,11 +149,11 @@ public class DebugConsole : MonoBehaviour {
         consoleText.text += $"\n<color=green>{value}</color>";
     }
 
-    public void Pause(string value) {
+    public void Pause() {
         GameManager.Instance.Pause();
     }
 
-    public void Resume(string value) {
+    public void Resume() {
         GameManager.Instance.Resume();
     }
 
@@ -162,11 +162,11 @@ public class DebugConsole : MonoBehaviour {
         showConsole = true;
         consoleInput.Select();
         consoleInput.ActivateInputField();
-        Pause("");
+        Pause();
     }
 
     public void Close() {
-        Resume("");
+        Resume();
         windowPanel.SetActive(false);
         showConsole = false;
     }
@@ -233,7 +233,7 @@ public class DebugConsole : MonoBehaviour {
         consoleInput.text = "";
         consoleInput.Select();
         consoleInput.ActivateInputField();
-        Pause("");
+        Pause();
     }
 }
 
