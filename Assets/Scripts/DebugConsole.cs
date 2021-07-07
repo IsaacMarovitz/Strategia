@@ -9,6 +9,8 @@ public class DebugConsole : MonoBehaviour {
     public GameObject windowPanel;
     public TMP_Text consoleText;
     public TMP_InputField consoleInput;
+    public GameObject autocompleteMenu;
+    public GameObject autocompleteCommandPrefab;
 
     public static DebugCommand CLEAR_FOG;
     public static DebugCommand CLEAR;
@@ -17,6 +19,9 @@ public class DebugConsole : MonoBehaviour {
 
     public List<object> commandList;
     public Trie commandTrie;
+
+    private List<string> results;
+    private bool isAutocompleteShowing = false;
 
     public void Awake() {
         CLEAR_FOG = new DebugCommand("clear_fog", "Clears the fog of war for the current player.", "clear_fog", false, () => {
@@ -52,6 +57,7 @@ public class DebugConsole : MonoBehaviour {
         consoleInput.onSubmit.AddListener(HandleInput);
         consoleInput.onSelect.AddListener(Pause);
         consoleInput.onDeselect.AddListener(Resume);
+        consoleInput.onValueChanged.AddListener(UpdateAutocomplete);
         consoleText.text = "";
     }
 
@@ -65,11 +71,49 @@ public class DebugConsole : MonoBehaviour {
                 Open();
             }
             consoleInput.text = "";
+        } 
+        if (Input.GetKeyDown(KeyCode.Tab)) {
+            if (isAutocompleteShowing) {
+                if (results.Count > 0) {
+                    consoleInput.text = results[0];
+                    consoleInput.MoveToEndOfLine(false, false);
+                }
+            }
         }
-
-        List<string> results = commandTrie.FindKeysByPrefix(consoleInput.text);
     }
 
+    public void UpdateAutocomplete(string value) {
+        if (value == "") {
+            foreach (Transform child in autocompleteMenu.transform) {
+                GameObject.Destroy(child.gameObject);
+            }
+            autocompleteMenu.SetActive(false);
+            isAutocompleteShowing = false;
+            return;
+        }
+
+        results = commandTrie.FindKeysByPrefix(value);
+        if (results.Count > 0) {
+            isAutocompleteShowing = true;
+            autocompleteMenu.SetActive(true);
+            foreach (Transform child in autocompleteMenu.transform) {
+                GameObject.Destroy(child.gameObject);
+            }
+            for (int i = 0; i < results.Count; i++) {
+                GameObject instantiatedAutoCompleteCommand = GameObject.Instantiate(autocompleteCommandPrefab, Vector3.zero, Quaternion.identity);
+                instantiatedAutoCompleteCommand.transform.SetParent(autocompleteMenu.transform);
+                instantiatedAutoCompleteCommand.transform.localScale = Vector3.one;
+                instantiatedAutoCompleteCommand.GetComponentInChildren<TMP_Text>().text = results[i];
+            }
+        } else {
+            foreach (Transform child in autocompleteMenu.transform) {
+                GameObject.Destroy(child.gameObject);
+            }
+            autocompleteMenu.SetActive(false);
+            isAutocompleteShowing = false;
+        }
+    }
+ 
     public void ClearConsole(){
         consoleText.text = "";
     }
@@ -217,6 +261,7 @@ public class Trie {
         List<string> results = new List<string>();
         TrieNode node = GetNode(prefix);
         results = Collect(node, prefix);
+        results.Remove(prefix);
         return results;
     }
 }
