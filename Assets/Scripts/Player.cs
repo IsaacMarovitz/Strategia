@@ -37,31 +37,23 @@ public class Player : MonoBehaviour {
                 }
             }
         }
-        if (!revealAllTiles) {
-            for (int x = 0; x < GameManager.Instance.grid.width; x++) {
-                for (int y = 0; y < GameManager.Instance.grid.height; y++) {
-                    if (fogOfWarMatrix[x, y] == 1f) {
-                        fogOfWarMatrix[x, y] = 0.5f;
-                    }
+        for (int x = 0; x < GameManager.Instance.grid.width; x++) {
+            for (int y = 0; y < GameManager.Instance.grid.height; y++) {
+                if (fogOfWarMatrix[x, y] == 1f) {
+                    fogOfWarMatrix[x, y] = 0.5f;
                 }
             }
-            foreach (var unit in playerUnits) {
-                List<Tile> revealedTiles = GridUtilities.RadialSearch(unit.pos, 5);
-                foreach (var tile in revealedTiles) {
-                    fogOfWarMatrix[tile.pos.x, tile.pos.y] = 1f;
-                }
+        }
+        foreach (var unit in playerUnits) {
+            List<Tile> revealedTiles = GridUtilities.RadialSearch(unit.pos, 5);
+            foreach (var tile in revealedTiles) {
+                fogOfWarMatrix[tile.pos.x, tile.pos.y] = 1f;
             }
-            foreach (var city in playerCities) {
-                List<Tile> revealedTiles = GridUtilities.RadialSearch(city.pos, 5);
-                foreach (var tile in revealedTiles) {
-                    fogOfWarMatrix[tile.pos.x, tile.pos.y] = 1f;
-                }
-            }
-        } else {
-            for (int x = 0; x < GameManager.Instance.grid.width; x++) {
-                for (int y = 0; y < GameManager.Instance.grid.height; y++) {
-                    fogOfWarMatrix[x, y] = 1f;
-                }
+        }
+        foreach (var city in playerCities) {
+            List<Tile> revealedTiles = GridUtilities.RadialSearch(city.pos, 5);
+            foreach (var tile in revealedTiles) {
+                fogOfWarMatrix[tile.pos.x, tile.pos.y] = 1f;
             }
         }
 
@@ -71,25 +63,34 @@ public class Player : MonoBehaviour {
     public void GenerateTexture() {
         for (int x = 0; x < GameManager.Instance.grid.width; x++) {
             for (int y = 0; y < GameManager.Instance.grid.height; y++) {
-                if (fogOfWarMatrix[x, y] == 1) {
+                if (!revealAllTiles) {
+                    if (fogOfWarMatrix[x, y] == 1) {
+                        fogOfWarTexture.SetPixel(x, y, new Color(1, 1, 1, 0));
+                        if (GameManager.Instance.grid.grid[x, y].cityOfInfluence.player != null) {
+                            minimapTexture.SetPixel(x, y, GameManager.Instance.grid.grid[x, y].cityOfInfluence.player.playerColor);
+                        } else {
+                            minimapTexture.SetPixel(x, y, Color.grey);
+                        }
+                    } else if (fogOfWarMatrix[x, y] == 0) {
+                        fogOfWarTexture.SetPixel(x, y, Color.black);
+                        minimapTexture.SetPixel(x, y, Color.black);
+                    } else if (fogOfWarMatrix[x, y] == 0.5f) {
+                        fogOfWarTexture.SetPixel(x, y, new Color(1, 1, 1, 0.5f));
+                        if (GameManager.Instance.grid.grid[x, y].cityOfInfluence.player != null) {
+                            minimapTexture.SetPixel(x, y, GameManager.Instance.grid.grid[x, y].cityOfInfluence.player.playerColor);
+                        } else {
+                            minimapTexture.SetPixel(x, y, Color.grey);
+                        }
+                    } else {
+                        fogOfWarTexture.SetPixel(x, y, Color.red);
+                    }
+                } else {
                     fogOfWarTexture.SetPixel(x, y, new Color(1, 1, 1, 0));
                     if (GameManager.Instance.grid.grid[x, y].cityOfInfluence.player != null) {
                         minimapTexture.SetPixel(x, y, GameManager.Instance.grid.grid[x, y].cityOfInfluence.player.playerColor);
                     } else {
                         minimapTexture.SetPixel(x, y, Color.grey);
                     }
-                } else if (fogOfWarMatrix[x, y] == 0) {
-                    fogOfWarTexture.SetPixel(x, y, Color.black);
-                    minimapTexture.SetPixel(x, y, Color.black);
-                } else if (fogOfWarMatrix[x, y] == 0.5f) {
-                    fogOfWarTexture.SetPixel(x, y, new Color(1, 1, 1, 0.5f));
-                    if (GameManager.Instance.grid.grid[x, y].cityOfInfluence.player != null) {
-                        minimapTexture.SetPixel(x, y, GameManager.Instance.grid.grid[x, y].cityOfInfluence.player.playerColor);
-                    } else {
-                        minimapTexture.SetPixel(x, y, Color.grey);
-                    }
-                } else {
-                    fogOfWarTexture.SetPixel(x, y, Color.red);
                 }
             }
         }
@@ -207,8 +208,8 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public void RevealAllTiles() {
-        revealAllTiles = true;
+    public void RevealAllTiles(bool value) {
+        revealAllTiles = value;
         UpdateFogOfWar();
     }
 

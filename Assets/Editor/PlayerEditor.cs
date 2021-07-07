@@ -12,7 +12,7 @@ public class PlayerEditor : Editor {
         Player player = (Player)target;
 
         if (GUILayout.Button("Reveal All Tiles")) {
-            player.RevealAllTiles();
+            player.RevealAllTiles(true);
         }
         unitPos = EditorGUILayout.Vector2IntField("Unit Pos", unitPos);
         if (GUILayout.Button("Spawn Tank")) {

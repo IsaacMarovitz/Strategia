@@ -41,6 +41,9 @@ public class City : MonoBehaviour {
         } else {
             canvas.enabled = false;
         }
+        if (GameManager.Instance.fastProd && turnsLeft > 1) {
+            turnsLeft = 1;
+        }
     }
 
     public void UpdateUnitType(UnitType unitType) {

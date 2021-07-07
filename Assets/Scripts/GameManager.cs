@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour {
     public int currentPlayerIndex = 0;
     public CameraController cameraController;
 
+    [HideInInspector]
+    public bool fastProd = false;
+
     private float hueOffset;
     private List<Country> countries = new List<Country>();
 
