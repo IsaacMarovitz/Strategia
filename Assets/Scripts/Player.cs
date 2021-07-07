@@ -207,7 +207,6 @@ public class Player : MonoBehaviour {
         }
     }
 
-#if UNITY_EDITOR
     public void RevealAllTiles() {
         revealAllTiles = true;
         UpdateFogOfWar();
@@ -240,5 +239,4 @@ public class Player : MonoBehaviour {
             }
         }
     }
-#endif
 }
