@@ -8,6 +8,26 @@ public static class ConsoleCommands {
         return DebugConsole.DebugCommandCode.Success;
     }
 
+    [DebugCommand("say", "Say the input text in the console.", "say <string>")]
+    public static DebugConsole.DebugCommandCode Say(string[] args, DebugConsole debugConsole) {
+        string finalString = "";
+        foreach (var text in args) {
+            finalString += $"{text} ";
+        }
+        debugConsole.PrintString(finalString);
+        return DebugConsole.DebugCommandCode.Success;
+    }
+
+    /*[DebugCommand("player_info", "Prints a palyer's info.", "player_info (optional) <int>")]
+    public static DebugConsole.DebugCommandCode PlayerInfo(string[] args, DebugConsole debugConsole) {
+        if (args.Length > 0) {
+            
+            return DebugConsole.DebugCommandCode.Success;
+        } else {
+            return DebugConsole.DebugCommandCode.Success;
+        }
+    }*/
+
     [DebugCommand("enable_fog", "Enables or disables Fog of War for current player.", "enable_fog <bool>")]
     public static DebugConsole.DebugCommandCode ClearFog(string[] args, DebugConsole debugConsole) {
         if (args.Length > 0) {
