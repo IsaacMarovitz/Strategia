@@ -51,7 +51,7 @@ public static class ConsoleCommands {
     public static DebugConsole.DebugCommandCode FastProd(string[] args, DebugConsole debugConsole) {
         if (args.Length > 0) {
             if (ConsoleCommands.ParseBool(args[0], out bool boolValue)) {
-                GameManager.Instance.GetCurrentPlayer().RevealAllTiles(boolValue);
+                GameManager.Instance.fastProd = boolValue;
                 if (boolValue) {
                     debugConsole.PrintSuccess("Set all unit TTCs to 1.");
                 } else {
@@ -64,7 +64,6 @@ public static class ConsoleCommands {
         } else {
             return DebugConsole.DebugCommandCode.MissingParameters;
         }
-
     }
 
     [DebugCommand("help", "Shows list of available commands.", "help")]

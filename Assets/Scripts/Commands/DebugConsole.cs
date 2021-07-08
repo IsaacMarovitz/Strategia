@@ -24,7 +24,7 @@ public class DebugConsole : MonoBehaviour {
 
     public enum DebugCommandCode {CommandNotFound, MissingParameters, ParameterOutOfRange, ParameterFailedParse, Success};
 
-    public void Awake() {        
+    public void Awake() {
         methods = Assembly.GetExecutingAssembly().GetTypes()
             .SelectMany(t => t.GetMethods())
             .Where(m => m.GetCustomAttributes(typeof(DebugCommandAttribute), false).Length > 0)
