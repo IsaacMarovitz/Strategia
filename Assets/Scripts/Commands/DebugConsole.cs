@@ -19,8 +19,10 @@ public class DebugConsole : MonoBehaviour {
 
     private List<DebugCommandAttribute> results;
     private bool isAutocompleteShowing = false;
-    public List<string> commandHistory = new List<string>();
-    public int currentCommandHistoryIndex = -1;
+    private List<string> commandHistory = new List<string>();
+    private int currentCommandHistoryIndex = -1;
+
+    public enum DebugCommandCode {CommandNotFound, MissingParameters, ParameterOutOfRange, ParameterFailedParse, Success};
 
     public void Awake() {        
         methods = Assembly.GetExecutingAssembly().GetTypes()
@@ -174,18 +176,29 @@ public class DebugConsole : MonoBehaviour {
         PrintString(input);
         commandHistory.Insert(0, input);
 
-        bool commandExecuted = false;
+        DebugCommandCode commandCode = DebugCommandCode.CommandNotFound;
         for (int i = 0; i < commandList.Length; i++) {
             if (properties[0] == commandList[i].commandId) {
                 object[] parameters = new object[] {properties.Skip(1).ToArray(), this};
-                commandExecuted = (bool)methods[i].Invoke(null, parameters);
+                commandCode = (DebugCommandCode)methods[i].Invoke(null, parameters);
             }
         }
 
-        if (!commandExecuted) {
-            PrintError($"Command '{consoleInput.text}' failed to execute or was not found!");
-            Debug.Log($"<b>Debug Console:</b> Failed to execute command '{consoleInput.text}'");
+        switch (commandCode) {
+            case DebugCommandCode.CommandNotFound:
+                PrintError($"Command '{consoleInput.text}' was not found!");
+                Debug.Log($"<b>Debug Console:</b> Failed to execute command: '{consoleInput.text}' Command not found");
+                break;
+            case DebugCommandCode.MissingParameters:
+                PrintError($"Missing arguments!");
+                Debug.Log($"<b>Debug Console:</b> Failed to execute command: '{consoleInput.text}' Command missing arguments");
+                break;
+            case DebugCommandCode.ParameterFailedParse:
+                PrintError($"Invalid arguments! Refer to 'help' command for proper usage.");
+                Debug.Log($"<b>Debug Console:</b> Failed to execute command: '{consoleInput.text}' Invalid arguments");
+                break;
         }
+
         consoleInput.text = "";
         consoleInput.Select();
         consoleInput.ActivateInputField();

@@ -3,13 +3,13 @@ using System;
 
 public static class ConsoleCommands {
     [DebugCommand("clear", "Clears the console.", "clear")]
-    public static bool Clear(string[] args, DebugConsole debugConsole) {
+    public static DebugConsole.DebugCommandCode Clear(string[] args, DebugConsole debugConsole) {
         debugConsole.ClearConsole();
-        return true;
+        return DebugConsole.DebugCommandCode.Success;
     }
 
     [DebugCommand("enable_fog", "Enables or disables Fog of War for current player.", "enable_fog <bool>")]
-    public static bool ClearFog(string[] args, DebugConsole debugConsole) {
+    public static DebugConsole.DebugCommandCode ClearFog(string[] args, DebugConsole debugConsole) {
         if (args.Length > 0) {
             if (ConsoleCommands.ParseBool(args[0], out bool boolValue)) {
                 GameManager.Instance.GetCurrentPlayer().RevealAllTiles(!boolValue);
@@ -18,17 +18,17 @@ public static class ConsoleCommands {
                 } else {
                     debugConsole.PrintSuccess($"Fog of War for Player {GameManager.Instance.currentPlayerIndex} enabled.");
                 }
-                return true;
+                return DebugConsole.DebugCommandCode.Success;
             } else {
-                return false;
+                return DebugConsole.DebugCommandCode.ParameterFailedParse;
             }
         } else {
-            return false;
+            return DebugConsole.DebugCommandCode.MissingParameters;
         }
     }
 
     [DebugCommand("fast_prod", "Changes all units TTCs to 1 day.", "fast_prod <bool>")]
-    public static bool FastProd(string[] args, DebugConsole debugConsole) {
+    public static DebugConsole.DebugCommandCode FastProd(string[] args, DebugConsole debugConsole) {
         if (args.Length > 0) {
             if (ConsoleCommands.ParseBool(args[0], out bool boolValue)) {
                 GameManager.Instance.GetCurrentPlayer().RevealAllTiles(boolValue);
@@ -37,80 +37,79 @@ public static class ConsoleCommands {
                 } else {
                     debugConsole.PrintSuccess("Reset all unit TTCs.");
                 }
-                return true;
+                return DebugConsole.DebugCommandCode.Success;
             } else {
-                return false;
+                return DebugConsole.DebugCommandCode.ParameterFailedParse;
             }
         } else {
-            return false;
+            return DebugConsole.DebugCommandCode.MissingParameters;
         }
 
     }
 
     [DebugCommand("help", "Shows list of available commands.", "help")]
-    public static bool Help(string[] args, DebugConsole debugConsole) {
+    public static DebugConsole.DebugCommandCode Help(string[] args, DebugConsole debugConsole) {
         debugConsole.PrintHelp();
-        return true;
+        return DebugConsole.DebugCommandCode.Success;
     }
 
     [DebugCommand("spawn_unit", "Spawns a unit at the given coordinate.", "spawn_unit x: <int> y: <int> <UnitType>")]
-    public static bool SpawnUnit(string[] args, DebugConsole debugConsole) {
+    public static DebugConsole.DebugCommandCode SpawnUnit(string[] args, DebugConsole debugConsole) {
         if (args.Length > 2) {
             if (int.TryParse(args[0], out int x)) {
                 if (x > GameManager.Instance.grid.width || x < 0) {
                     debugConsole.PrintError($"x-coordinate '{x}' out of bounds!");
-                    return false;
+                    return DebugConsole.DebugCommandCode.ParameterOutOfRange;
                 }
             } else {
                 debugConsole.PrintError($"Failed to parse x-coordinate '{args[0]}'!");
-                return false;
+                return DebugConsole.DebugCommandCode.ParameterOutOfRange;
             }
             if (int.TryParse(args[1], out int y)) {
                 if (y > GameManager.Instance.grid.height || y < 0) {
                     debugConsole.PrintError($"y-coordinate '{y}' out of bounds!");
-                    return false;
+                    return DebugConsole.DebugCommandCode.ParameterOutOfRange;
                 }
             } else {
                 debugConsole.PrintError($"Failed to parse y-coordinate '{args[1]}'!");
-                return false;
+                return DebugConsole.DebugCommandCode.ParameterOutOfRange;
             }
             if (!Enum.TryParse<UnitType>(args[2], out UnitType unitType)) {
                 debugConsole.PrintError($"Failed to parse UnitType '{args[2]}'!");
-                return false;
+                return DebugConsole.DebugCommandCode.ParameterOutOfRange;
             }
             if (GameManager.Instance.unitInfo.allUnits[(int)unitType].blockedTileTypes.Contains(GameManager.Instance.grid.grid[x, y].tileType)) {
                 debugConsole.PrintError($"Unit of type '{unitType}' cannot be spawned on tiles of type '{GameManager.Instance.grid.grid[x, y].tileType}'!");
-                return false;
+                return DebugConsole.DebugCommandCode.ParameterOutOfRange;
             }
             if (GameManager.Instance.grid.grid[x, y].unitOnTile != null) {
                 debugConsole.PrintError($"Tile at ({x}, {y}) already occupied!");
-                return false;
+                return DebugConsole.DebugCommandCode.ParameterOutOfRange;
             }
             if (GameManager.Instance.grid.grid[x, y].tileType == TileType.City || GameManager.Instance.grid.grid[x, y].tileType == TileType.CostalCity) {
                 if (!GameManager.Instance.GetCurrentPlayer().playerCities.Contains(GameManager.Instance.grid.grid[x, y].gameObject.GetComponent<City>())) {
                     debugConsole.PrintError($"Player does not own city at ({x}, {y})!");
-                    return false;
+                    return DebugConsole.DebugCommandCode.ParameterOutOfRange;
                 }
             }
             GameManager.Instance.GetCurrentPlayer().SpawnUnit(new Vector2Int(x, y), unitType);
-            return true;
+            return DebugConsole.DebugCommandCode.Success;
         } else {
-            debugConsole.PrintError($"Missing arguments!");
-            return false;
+            return DebugConsole.DebugCommandCode.MissingParameters;
         }
     }
 
     [DebugCommand("test_with_num", "Test with debug console with num.", "test_with_num <num>")]
-    public static bool TestWithNum(string[] args, DebugConsole debugConsole) {
+    public static DebugConsole.DebugCommandCode TestWithNum(string[] args, DebugConsole debugConsole) {
         if (args.Length > 0) {
             if (int.TryParse(args[0], out int intValue)) {
                 debugConsole.PrintSuccess($"Test Num: {intValue}");
-                return true;
+                return DebugConsole.DebugCommandCode.Success;
             } else {
-                return false;
+                return DebugConsole.DebugCommandCode.ParameterFailedParse;
             }
         } else {
-            return false;
+            return DebugConsole.DebugCommandCode.MissingParameters;
         }
     }
 
