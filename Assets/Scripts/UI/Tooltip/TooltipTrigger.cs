@@ -7,19 +7,12 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public string content;
     public string header;
     public float showDelay = 0.5f;
-    public bool isEnabled;
 
     bool show = false;
 
-    public void Awake() {
-        isEnabled = true;
-    }
-
     public void OnPointerEnter(PointerEventData eventData) {
-        if (isEnabled) {
-            show = true;
-            StartCoroutine(DelayedShow());
-        }
+        show = true;
+        StartCoroutine(DelayedShow());
     }
 
     public void OnPointerExit(PointerEventData eventData) {
@@ -28,10 +21,8 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     }
 
     public void OnMouseEnter() {
-        if (isEnabled) {
-            show = true;
-            StartCoroutine(DelayedShow());
-        }
+        show = true;
+        StartCoroutine(DelayedShow());
     }
 
     public void OnMouseExit() {
