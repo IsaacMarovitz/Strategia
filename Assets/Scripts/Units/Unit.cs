@@ -17,7 +17,7 @@ public class Unit : MonoBehaviour {
     public City oldCity;
     public bool isInCity;
     public GameObject mainMesh;
-    public VisualEffect sleepEffect;
+    public GameObject sleepEffectPrefab;
     public Sprite unitIcon;
     public Player player;
     public List<TileType> blockedTileTypes;
@@ -27,14 +27,14 @@ public class Unit : MonoBehaviour {
 
     protected bool pathWasSetThisTurn;
 
+    private GameObject instantiatedSleepEffect;
+
     public void Awake() {
         // Replace this later with something a lot more modular
         mainMesh = this.gameObject.transform.GetChild(0).gameObject;
-        sleepEffect = this.gameObject.transform.GetComponentInChildren<VisualEffect>();
     }
 
     public virtual void Start() {
-        sleepEffect.enabled = false;
         moves = maxMoves;
         health = maxHealth;
         if (!(GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity)) {
@@ -88,12 +88,14 @@ public class Unit : MonoBehaviour {
     public void ToggleSleep() {
         if (turnStage != TurnStage.Sleeping) {
             turnStage = TurnStage.Sleeping;
-            sleepEffect.enabled = true;
-            sleepEffect.Play();
+            instantiatedSleepEffect = GameObject.Instantiate(sleepEffectPrefab, this.transform.position, Quaternion.identity);
+            instantiatedSleepEffect.transform.parent = this.transform;
             EndTurn();
         } else {
             turnStage = TurnStage.Started;
-            sleepEffect.Stop();
+            if (instantiatedSleepEffect != null) {
+                GameObject.Destroy(instantiatedSleepEffect);
+            }
             player.unitQueue.Add(this);
             StartTurn();
         }
