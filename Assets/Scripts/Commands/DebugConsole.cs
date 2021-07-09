@@ -3,6 +3,7 @@ using TMPro;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System;
 
 public class DebugConsole : MonoBehaviour {
 
@@ -13,8 +14,8 @@ public class DebugConsole : MonoBehaviour {
     public GameObject autocompleteMenu;
     public GameObject autocompleteCommandPrefab;
 
-    public DebugCommandAttribute[] commandList;
-    public MethodInfo[] methods;
+    public List<DebugCommandAttribute> commandList = new List<DebugCommandAttribute>();
+    public List<MethodInfo> methods = new List<MethodInfo>();
     public Trie commandTrie;
 
     private List<DebugCommandAttribute> results;
@@ -22,18 +23,22 @@ public class DebugConsole : MonoBehaviour {
     private List<string> commandHistory = new List<string>();
     private int currentCommandHistoryIndex = -1;
 
-    public enum DebugCommandCode {CommandNotFound, MissingParameters, ParameterOutOfRange, ParameterFailedParse, Success};
+    public enum DebugCommandCode { CommandNotFound, MissingParameters, ParameterOutOfRange, ParameterFailedParse, Success };
 
     public void Awake() {
-        methods = Assembly.GetExecutingAssembly().GetTypes()
+        MethodInfo[] methodInfos = AppDomain.CurrentDomain.GetAssemblies()
+            .SelectMany(a => a.GetTypes())
             .SelectMany(t => t.GetMethods())
-            .Where(m => m.GetCustomAttributes(typeof(DebugCommandAttribute), false).Length > 0)
             .ToArray();
 
-        commandList = new DebugCommandAttribute[methods.Length];
-        
-        for (int i = 0; i < methods.Length; i++) {
-            commandList[i] = (DebugCommandAttribute)System.Attribute.GetCustomAttribute(methods[i], typeof(DebugCommandAttribute));
+        foreach (MethodInfo method in methodInfos) {
+            if (method.CustomAttributes.ToArray().Length > 0) {
+                DebugCommandAttribute attribute = method.GetCustomAttribute<DebugCommandAttribute>();
+                if (attribute != null) {
+                    methods.Add(method);
+                    commandList.Add(attribute);
+                }
+            }
         }
 
         commandTrie = new Trie(commandList);
@@ -129,7 +134,7 @@ public class DebugConsole : MonoBehaviour {
     }
 
     public void PrintHelp() {
-        for (int i = 0; i < commandList.Length; i++) {
+        for (int i = 0; i < commandList.Count; i++) {
             PrintString($"<color=green>{commandList[i].commandFormat}</color> - {commandList[i].commandDescription}");
         }
     }
@@ -177,9 +182,9 @@ public class DebugConsole : MonoBehaviour {
         commandHistory.Insert(0, input);
 
         DebugCommandCode commandCode = DebugCommandCode.CommandNotFound;
-        for (int i = 0; i < commandList.Length; i++) {
+        for (int i = 0; i < commandList.Count; i++) {
             if (properties[0] == commandList[i].commandId) {
-                object[] parameters = new object[] {properties.Skip(1).ToArray(), this};
+                object[] parameters = new object[] { properties.Skip(1).ToArray(), this };
                 commandCode = (DebugCommandCode)methods[i].Invoke(null, parameters);
             }
         }
@@ -219,7 +224,7 @@ public class Trie {
 
     static TrieNode root;
 
-    public Trie(DebugCommandAttribute[] commands) {
+    public Trie(List<DebugCommandAttribute> commands) {
         root = new TrieNode();
         foreach (var command in commands) {
             Insert(command);
