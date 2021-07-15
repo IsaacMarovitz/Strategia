@@ -7,11 +7,16 @@ public class DragWindow : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     [SerializeField] private Canvas canvas = null;
     [SerializeField] private RectTransform canvasRectTransform = null;
     [SerializeField] private RectTransform dragRectTransform = null;
+    [SerializeField] private RectTransform panelRectTransform = null;
     [SerializeField] private Image backgroundImage = null;
     private Color backgroundColor;
 
     private void Awake() {
         backgroundColor = backgroundImage.color;
+    }
+
+    private void Start() {
+        dragRectTransform.sizeDelta = new Vector2(panelRectTransform.rect.width / 2, panelRectTransform.rect.height / 2);
     }
 
     public void OnBeginDrag(PointerEventData eventData) {
