@@ -7,6 +7,8 @@ public class UILineRenderer : MaskableGraphic {
     public Vector2Int gridSize;
     public UIGridRenderer grid;
     public List<Vector2> points = new List<Vector2>();
+    public bool capStart = false;
+    public bool capEnd = true;
 
     float width;
     float height;
@@ -51,7 +53,17 @@ public class UILineRenderer : MaskableGraphic {
         }
 
         for (int i = 0; i < points.Count; i++) {
-            CornerCap(points[i], vh);
+            if (i == 0) {
+                if (capStart) {
+                    CornerCap(points[i], vh);
+                }
+            } else if (i == points.Count - 1) {
+                if (capEnd) {
+                    CornerCap(points[i], vh);
+                }
+            } else {
+                CornerCap(points[i], vh);
+            }
         }
     }
 

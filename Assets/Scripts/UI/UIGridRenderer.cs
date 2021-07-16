@@ -8,6 +8,7 @@ public class UIGridRenderer : Graphic {
     public float columnThickness = 10f;
     public float rowThickness = 10f;
     public float edgeThickness = 10f;
+    public bool maskEdge = true;
 
     public Color edgeColor;
 
@@ -215,7 +216,16 @@ public class UIGridRenderer : Graphic {
 
     private void Update() {
         if (rectMask2D != null) {
-            rectMask2D.padding = new Vector4(edgeThickness * 2, edgeThickness * 2, edgeThickness * 2, edgeThickness * 2);
+            if (maskEdge) {
+                Vector4 padding = new Vector4(edgeThickness * 2, edgeThickness * 2, edgeThickness * 2, edgeThickness * 2);
+                if (rectMask2D.padding != padding) {
+                    rectMask2D.padding = padding;
+                }
+            } else {
+                if (rectMask2D.padding != Vector4.zero) {
+                    rectMask2D.padding = Vector4.zero;
+                }
+            }
         } else {
             rectMask2D = GetComponent<RectMask2D>();
         }
