@@ -140,7 +140,7 @@ public class CameraController : MonoBehaviour {
                     didClickUI = false;
                 }
             }
-        } 
+        }
     }
 
     public void LateUpdate() {
@@ -152,11 +152,13 @@ public class CameraController : MonoBehaviour {
 
     private void GetMouseInput() {
         if (Input.mouseScrollDelta.y != 0) {
-            if (Input.GetMouseButton(1)) {
-                didRMBDrag = true;
-                newXRotation += Input.mouseScrollDelta.y * rotationAmount.x * 10;
-            } else {
-                newZoom += Input.mouseScrollDelta.y * zoomAmount;
+            if (!IsMouseOverUI()) {
+                if (Input.GetMouseButton(1)) {
+                    didRMBDrag = true;
+                    newXRotation += Input.mouseScrollDelta.y * rotationAmount.x * 10;
+                } else {
+                    newZoom += Input.mouseScrollDelta.y * zoomAmount;
+                }
             }
         }
         if (Input.GetMouseButtonDown(0)) {
