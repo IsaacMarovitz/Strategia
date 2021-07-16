@@ -12,6 +12,7 @@ public class UIGridRenderer : Graphic {
     public bool maskEdge = true;
     public Color edgeColor;
     public TMP_Text textPrefab;
+    //public Sprite sprite;
 
     float width;
     float height;
@@ -45,66 +46,43 @@ public class UIGridRenderer : Graphic {
         DrawEdge(count, vh);
     }
 
+    /*protected override void UpdateMaterial() {
+        base.UpdateMaterial();
+        if (sprite == null) {
+           canvasRenderer.SetTexture(null);
+        } else {
+           canvasRenderer.SetTexture(sprite.texture);
+        }
+    }*/
+
     private void DrawColumn(int x, int index, VertexHelper vh) {
         Vector2 vector = Vector2.up;
+        vector *= columnThickness;
+        float xOffset = cellWidth * x;
+        Vector2 thicknessOffset = new Vector2(edgeThickness * 2, edgeThickness * 2);
 
-        UIVertex vertex = new UIVertex();
-        vertex.color = color;
+        Vector2 lowerLeft = new Vector2(-vector.y + xOffset, vector.x);
+        lowerLeft += thicknessOffset;
 
-        vertex.position = new Vector3(-vector.y, vector.x) * columnThickness;
-        vertex.position += new Vector3(cellWidth * x, 0);
-        vertex.position += new Vector3(edgeThickness * 2, edgeThickness * 2);
-        vh.AddVert(vertex);
+        Vector2 upperRight = new Vector2(vector.y + xOffset, -vector.x + height);
+        upperRight += thicknessOffset;
 
-        vertex.position = new Vector3(vector.y, -vector.x) * columnThickness;
-        vertex.position += new Vector3(cellWidth * x, 0);
-        vertex.position += new Vector3(edgeThickness * 2, edgeThickness * 2);
-        vh.AddVert(vertex);
-
-        vertex.position = new Vector3(-vector.y, vector.x) * columnThickness;
-        vertex.position += new Vector3(cellWidth * x, height);
-        vertex.position += new Vector3(edgeThickness * 2, edgeThickness * 2);
-        vh.AddVert(vertex);
-
-        vertex.position = new Vector3(vector.y, -vector.x) * columnThickness;
-        vertex.position += new Vector3(cellWidth * x, height);
-        vertex.position += new Vector3(edgeThickness * 2, edgeThickness * 2);
-        vh.AddVert(vertex);
-
-        int offset = index * 4;
-        vh.AddTriangle(offset + 2, offset + 1, offset + 0);
-        vh.AddTriangle(offset + 1, offset + 2, offset + 3);
+        AddQuad(lowerLeft, upperRight, color, Vector2.zero, Vector2.one, 0, vh);
     }
 
     private void DrawRow(int y, int index, VertexHelper vh) {
         Vector2 vector = Vector2.right;
+        vector *= rowThickness;
+        float yOffset = cellHeight * y;
+        Vector2 thicknessOffset = new Vector2(edgeThickness * 2, edgeThickness * 2);
 
-        UIVertex vertex = new UIVertex();
-        vertex.color = color;
+        Vector2 lowerLeft = new Vector2(vector.y, -vector.x + yOffset);
+        lowerLeft += thicknessOffset;
 
-        vertex.position = new Vector3(-vector.y, vector.x) * rowThickness;
-        vertex.position += new Vector3(0, cellHeight * y);
-        vertex.position += new Vector3(edgeThickness * 2, edgeThickness * 2);
-        vh.AddVert(vertex);
+        Vector2 upperRight = new Vector2(-vector.y + width, vector.x + yOffset);
+        upperRight += thicknessOffset;
 
-        vertex.position = new Vector3(vector.y, -vector.x) * rowThickness;
-        vertex.position += new Vector3(0, cellHeight * y);
-        vertex.position += new Vector3(edgeThickness * 2, edgeThickness * 2);
-        vh.AddVert(vertex);
-
-        vertex.position = new Vector3(-vector.y, vector.x) * rowThickness;
-        vertex.position += new Vector3(width, cellHeight * y);
-        vertex.position += new Vector3(edgeThickness * 2, edgeThickness * 2);
-        vh.AddVert(vertex);
-
-        vertex.position = new Vector3(vector.y, -vector.x) * rowThickness;
-        vertex.position += new Vector3(width, cellHeight * y);
-        vertex.position += new Vector3(edgeThickness * 2, edgeThickness * 2);
-        vh.AddVert(vertex);
-
-        int offset = index * 4;
-        vh.AddTriangle(offset + 2, offset + 1, offset + 0);
-        vh.AddTriangle(offset + 1, offset + 2, offset + 3);
+        AddQuad(lowerLeft, upperRight, color, Vector2.zero, Vector2.one, 90, vh);
     }
 
     private void DrawEdge(int index, VertexHelper vh) {
@@ -229,6 +207,20 @@ public class UIGridRenderer : Graphic {
         offset = index * 4;
         vh.AddTriangle(offset + 0, offset + 1, offset + 2);
         vh.AddTriangle(offset + 0, offset + 2, offset + 3);
+    }
+
+    void AddQuad(Vector2 lowerLeft, Vector2 upperRight, Color color, Vector2 lowerLeftUV, Vector2 upperRightUV, float rotation, VertexHelper vh) {
+        UIVertex vertex = new UIVertex();
+        vertex.color = edgeColor;
+        int index = vh.currentVertCount;
+
+        vh.AddVert(lowerLeft, color, lowerLeftUV);
+        vh.AddVert(new Vector2(lowerLeft.x, upperRight.y), color, Quaternion.Euler(0, 0, -rotation) * new Vector2(lowerLeftUV.x, upperRightUV.y));
+        vh.AddVert(upperRight, color, upperRightUV);
+        vh.AddVert(new Vector2(upperRight.x, lowerLeft.y), color, Quaternion.Euler(0, 0, rotation) * new Vector2(upperRightUV.x, lowerLeftUV.y));
+
+        vh.AddTriangle(index + 0, index + 1, index + 2);
+        vh.AddTriangle(index + 0, index + 2, index + 3);
     }
 
     private void Update() {
