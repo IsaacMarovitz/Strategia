@@ -5360,12 +5360,13 @@ MonoBehaviour:
   m_Color: {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  gridSize: {x: 9, y: 6}
+  gridSize: {x: 9, y: 5}
   columnThickness: 1
   rowThickness: 1
   edgeThickness: 5
   maskEdge: 1
   edgeColor: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
+  textPrefab: {fileID: 0}
 --- !u!222 &277762326
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10692,7 +10693,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 0
-    m_SensorSize: {x: 2.0304182, y: 1}
+    m_SensorSize: {x: 1.0217113, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -17751,7 +17752,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  gridSize: {x: 9, y: 6}
+  gridSize: {x: 9, y: 5}
   grid: {fileID: 277762325}
   points:
   - {x: 0, y: 0}
