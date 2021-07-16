@@ -5361,8 +5361,8 @@ MonoBehaviour:
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   gridSize: {x: 9, y: 5}
-  columnThickness: 10
-  rowThickness: 10
+  columnThickness: 1
+  rowThickness: 1
   edgeThickness: 5
   maskEdge: 1
   edgeColor: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}

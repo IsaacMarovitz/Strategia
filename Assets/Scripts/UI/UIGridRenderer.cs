@@ -12,7 +12,7 @@ public class UIGridRenderer : Graphic {
     public bool maskEdge = true;
     public Color edgeColor;
     public TMP_Text textPrefab;
-    //public Sprite sprite;
+    public Sprite sprite;
 
     float width;
     float height;
@@ -46,14 +46,14 @@ public class UIGridRenderer : Graphic {
         DrawEdge(count, vh);
     }
 
-    /*protected override void UpdateMaterial() {
+    protected override void UpdateMaterial() {
         base.UpdateMaterial();
         if (sprite == null) {
-           canvasRenderer.SetTexture(null);
+           canvasRenderer.SetTexture(s_WhiteTexture);
         } else {
            canvasRenderer.SetTexture(sprite.texture);
         }
-    }*/
+    }
 
     private void DrawColumn(int x, int index, VertexHelper vh) {
         Vector2 vector = Vector2.up;
@@ -86,127 +86,32 @@ public class UIGridRenderer : Graphic {
     }
 
     private void DrawEdge(int index, VertexHelper vh) {
-        Vector2 vector = Vector2.up;
+        Vector2 vector;
+        Vector2 lowerLeft;
+        Vector2 upperRight;
 
-        UIVertex vertex = new UIVertex();
-        vertex.color = edgeColor;
+        vector = Vector2.up;
+        vector *= edgeThickness;
 
-        vertex.position = new Vector3(-vector.y, vector.x) * edgeThickness;
-        vertex.position += new Vector3(edgeThickness, 0);
-        vertex.uv0 = Vector2.zero;
-        vh.AddVert(vertex);
+        lowerLeft = new Vector2(-vector.y + edgeThickness, vector.x);
+        upperRight = new Vector2(vector.y + edgeThickness, -vector.x + rectTransform.rect.height);
+        AddQuad(lowerLeft, upperRight, edgeColor, Vector2.zero, Vector2.one, 0, vh);
 
-        vertex.position = new Vector3(-vector.y, vector.x) * edgeThickness;
-        vertex.position += new Vector3(0, rectTransform.rect.height);
-        vertex.position += new Vector3(edgeThickness, 0);
-        vertex.uv0 = Vector2.up;
-        vh.AddVert(vertex);
+        lowerLeft = new Vector2(-vector.y - edgeThickness + rectTransform.rect.width, vector.x);
+        upperRight = new Vector2(vector.y - edgeThickness + rectTransform.rect.width, -vector.x + rectTransform.rect.height);
+        AddQuad(lowerLeft, upperRight, edgeColor, Vector2.zero, Vector2.one, 0, vh);
 
-        vertex.position = new Vector3(vector.y, -vector.x) * edgeThickness;
-        vertex.position += new Vector3(0, rectTransform.rect.height);
-        vertex.position += new Vector3(edgeThickness, 0);
-        vertex.uv0 = Vector2.one;
-        vh.AddVert(vertex);
 
-        vertex.position = new Vector3(vector.y, -vector.x) * edgeThickness;
-        vertex.position += new Vector3(edgeThickness, 0);
-        vertex.uv0 = Vector2.right;
-        vh.AddVert(vertex);
-
-        int offset = index * 4;
-        vh.AddTriangle(offset + 0, offset + 1, offset + 2);
-        vh.AddTriangle(offset + 0, offset + 2, offset + 3);
-
-        index++;
-
-        vertex.position = new Vector3(-vector.y, vector.x) * edgeThickness;
-        vertex.position += new Vector3(rectTransform.rect.width, 0);
-        vertex.position += new Vector3(-edgeThickness, 0);
-        vertex.uv0 = Vector2.zero;
-        vh.AddVert(vertex);
-
-        vertex.position = new Vector3(-vector.y, vector.x) * edgeThickness;
-        vertex.position += new Vector3(rectTransform.rect.width, rectTransform.rect.height);
-        vertex.position += new Vector3(-edgeThickness, 0);
-        vertex.uv0 = Vector2.up;
-        vh.AddVert(vertex);
-
-        vertex.position = new Vector3(vector.y, -vector.x) * edgeThickness;
-        vertex.position += new Vector3(rectTransform.rect.width, rectTransform.rect.height);
-        vertex.position += new Vector3(-edgeThickness, 0);
-        vertex.uv0 = Vector2.one;
-        vh.AddVert(vertex);
-
-        vertex.position = new Vector3(vector.y, -vector.x) * edgeThickness;
-        vertex.position += new Vector3(rectTransform.rect.width, 0);
-        vertex.position += new Vector3(-edgeThickness, 0);
-        vertex.uv0 = Vector2.right;
-        vh.AddVert(vertex);
-
-        offset = index * 4;
-        vh.AddTriangle(offset + 0, offset + 1, offset + 2);
-        vh.AddTriangle(offset + 0, offset + 2, offset + 3);
-
-        index++;
         vector = Vector2.right;
+        vector *= edgeThickness;
 
-        vertex.position = new Vector3(-vector.y, vector.x) * edgeThickness;
-        vertex.position += new Vector3(0, rectTransform.rect.height);
-        vertex.position += new Vector3(0, -edgeThickness);
-        vertex.uv0 = Vector2.zero;
-        vh.AddVert(vertex);
+        lowerLeft = new Vector2(-vector.y, vector.x - edgeThickness + rectTransform.rect.height);
+        upperRight = new Vector2(vector.y + rectTransform.rect.width, -vector.x - edgeThickness + rectTransform.rect.height);
+        AddQuad(lowerLeft, upperRight, edgeColor, Vector2.zero, Vector2.one, 90, vh);
 
-        vertex.position = new Vector3(-vector.y, vector.x) * edgeThickness;
-        vertex.position += new Vector3(rectTransform.rect.width, rectTransform.rect.height);
-        vertex.position += new Vector3(0, -edgeThickness);
-        vertex.uv0 = Vector2.up;
-        vh.AddVert(vertex);
-
-        vertex.position = new Vector3(vector.y, -vector.x) * edgeThickness;
-        vertex.position += new Vector3(rectTransform.rect.width, rectTransform.rect.height);
-        vertex.position += new Vector3(0, -edgeThickness);
-        vertex.uv0 = Vector2.one;
-        vh.AddVert(vertex);
-
-        vertex.position = new Vector3(vector.y, -vector.x) * edgeThickness;
-        vertex.position += new Vector3(0, rectTransform.rect.height);
-        vertex.position += new Vector3(0, -edgeThickness);
-        vertex.uv0 = Vector2.right;
-        vh.AddVert(vertex);
-
-        offset = index * 4;
-        vh.AddTriangle(offset + 0, offset + 1, offset + 2);
-        vh.AddTriangle(offset + 0, offset + 2, offset + 3);
-
-        index++;
-
-        vertex.position = new Vector3(-vector.y, vector.x) * edgeThickness;
-        vertex.position += new Vector3(0, 0);
-        vertex.position += new Vector3(0, edgeThickness);
-        vertex.uv0 = Vector2.zero;
-        vh.AddVert(vertex);
-
-        vertex.position = new Vector3(-vector.y, vector.x) * edgeThickness;
-        vertex.position += new Vector3(rectTransform.rect.width, 0);
-        vertex.position += new Vector3(0, edgeThickness);
-        vertex.uv0 = Vector2.up;
-        vh.AddVert(vertex);
-
-        vertex.position = new Vector3(vector.y, -vector.x) * edgeThickness;
-        vertex.position += new Vector3(rectTransform.rect.width, 0);
-        vertex.position += new Vector3(0, edgeThickness);
-        vertex.uv0 = Vector2.one;
-        vh.AddVert(vertex);
-
-        vertex.position = new Vector3(vector.y, -vector.x) * edgeThickness;
-        vertex.position += new Vector3(0, 0);
-        vertex.position += new Vector3(0, edgeThickness);
-        vertex.uv0 = Vector2.right;
-        vh.AddVert(vertex);
-
-        offset = index * 4;
-        vh.AddTriangle(offset + 0, offset + 1, offset + 2);
-        vh.AddTriangle(offset + 0, offset + 2, offset + 3);
+        lowerLeft = new Vector2(-vector.y, vector.x + edgeThickness);
+        upperRight = new Vector2(vector.y + rectTransform.rect.width, -vector.x + edgeThickness);
+        AddQuad(lowerLeft, upperRight, edgeColor, Vector2.zero, Vector2.one, 90, vh);
     }
 
     void AddQuad(Vector2 lowerLeft, Vector2 upperRight, Color color, Vector2 lowerLeftUV, Vector2 upperRightUV, float rotation, VertexHelper vh) {
