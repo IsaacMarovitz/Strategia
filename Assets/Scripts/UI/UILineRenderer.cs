@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class UILineRenderer : Graphic {
+public class UILineRenderer : MaskableGraphic {
 
     public Vector2Int gridSize;
     public UIGridRenderer grid;
@@ -18,11 +18,18 @@ public class UILineRenderer : Graphic {
     public Color capColor;
     public int numCornerVerts = 0;
 
+    private float edgeThickness;
+
     protected override void OnPopulateMesh(VertexHelper vh) {
         vh.Clear();
 
-        width = rectTransform.rect.width;
-        height = rectTransform.rect.height;
+        if (grid == null) { return; }
+
+        gridSize = grid.gridSize;
+        edgeThickness = grid.edgeThickness;
+
+        width = rectTransform.rect.width - (edgeThickness * 4);
+        height = rectTransform.rect.height - (edgeThickness * 4);
 
         unitWidth = width / (float)gridSize.x;
         unitHeight = height / (float)gridSize.y;
@@ -49,30 +56,31 @@ public class UILineRenderer : Graphic {
     }
 
     void DrawVerticesForPoints(Vector2 a, Vector2 b, VertexHelper vh) {
-        UIVertex[] vertices = new UIVertex[4];
         Vector2 vector = b - a;
         vector.Normalize();
 
-        vertices[0].color = color;
-        vertices[0].position = new Vector3(-vector.y, vector.x) * thickness;
-        vertices[0].position += new Vector3(unitWidth * a.x, unitHeight * a.y);
+        UIVertex vertex = new UIVertex();
+        vertex.color = color;
 
-        vertices[1].color = color;
-        vertices[1].position = new Vector3(vector.y, -vector.x) * thickness;
-        vertices[1].position += new Vector3(unitWidth * a.x, unitHeight * a.y);
+        vertex.position = new Vector3(-vector.y, vector.x) * thickness;
+        vertex.position += new Vector3(unitWidth * a.x, unitHeight * a.y);
+        vertex.position += new Vector3(edgeThickness * 2, edgeThickness * 2);
+        vh.AddVert(vertex);
 
-        vertices[2].color = color;
-        vertices[2].position = new Vector3(-vector.y, vector.x) * thickness;
-        vertices[2].position += new Vector3(unitWidth * b.x, unitHeight * b.y);
+        vertex.position = new Vector3(vector.y, -vector.x) * thickness;
+        vertex.position += new Vector3(unitWidth * a.x, unitHeight * a.y);
+        vertex.position += new Vector3(edgeThickness * 2, edgeThickness * 2);
+        vh.AddVert(vertex);
 
-        vertices[3].color = color;
-        vertices[3].position = new Vector3(vector.y, -vector.x) * thickness;
-        vertices[3].position += new Vector3(unitWidth * b.x, unitHeight * b.y);
+        vertex.position = new Vector3(-vector.y, vector.x) * thickness;
+        vertex.position += new Vector3(unitWidth * b.x, unitHeight * b.y);
+        vertex.position += new Vector3(edgeThickness * 2, edgeThickness * 2);
+        vh.AddVert(vertex);
 
-        vh.AddVert(vertices[0]);
-        vh.AddVert(vertices[1]);
-        vh.AddVert(vertices[2]);
-        vh.AddVert(vertices[3]);
+        vertex.position = new Vector3(vector.y, -vector.x) * thickness;
+        vertex.position += new Vector3(unitWidth * b.x, unitHeight * b.y);
+        vertex.position += new Vector3(edgeThickness * 2, edgeThickness * 2);
+        vh.AddVert(vertex);
     }
 
     void CornerCap(Vector2 point, VertexHelper vh) {
@@ -82,11 +90,13 @@ public class UILineRenderer : Graphic {
         UIVertex vertex = new UIVertex();
         vertex.color = capColor;
         vertex.position = new Vector3(unitWidth * point.x, unitHeight * point.y);
+        vertex.position += new Vector3(edgeThickness * 2, edgeThickness * 2);
         vh.AddVert(vertex);
 
         for (int i = 0; i < numCornerVerts; i++) {
             vertex.position = AngleToPos(angleStep * i);
             vertex.position += new Vector3(unitWidth * point.x, unitHeight * point.y);
+            vertex.position += new Vector3(edgeThickness * 2, edgeThickness * 2);
             vh.AddVert(vertex);
         }
 
@@ -110,6 +120,12 @@ public class UILineRenderer : Graphic {
         if (grid != null) {
             if (gridSize != grid.gridSize) {
                 gridSize = grid.gridSize;
+                SetAllDirty();
+            }
+
+            if (edgeThickness != grid.edgeThickness) {
+                edgeThickness = grid.edgeThickness;
+                SetAllDirty();
             }
         }
     }
