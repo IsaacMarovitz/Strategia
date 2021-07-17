@@ -66,7 +66,7 @@ public class Tank : Unit {
 
     public override void PerformMove(Tile tileToMoveTo) {
         base.PerformMove(tileToMoveTo);
-        if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.Swamp) {
+        if (gameManager.grid.grid[pos.x, pos.y].tileType == TileType.Swamp) {
             isMoveDistanceReduced = true;
             moves -= reducedMoveDistance;
         } else {
@@ -78,9 +78,9 @@ public class Tank : Unit {
         if (isOnTransport) {
             isOnTransport = false;
             mainMesh.SetActive(true);
-            ((Transport)GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile).armiesOnTransport.Remove(this);
+            ((Transport)gameManager.grid.grid[pos.x, pos.y].unitOnTile).armiesOnTransport.Remove(this);
         } else {
-            GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = null;
+            gameManager.grid.grid[pos.x, pos.y].unitOnTile = null;
         }
     }
 
@@ -89,7 +89,7 @@ public class Tank : Unit {
         if (tileMoveStatus == TileMoveStatus.Transport) {
             pos = tileToMoveTo.pos;
             isOnTransport = true;
-            ((Transport)GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile).armiesOnTransport.Add(this);
+            ((Transport)gameManager.grid.grid[pos.x, pos.y].unitOnTile).armiesOnTransport.Add(this);
         }
     }
 }

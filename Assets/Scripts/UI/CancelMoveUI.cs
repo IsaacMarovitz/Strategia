@@ -43,19 +43,11 @@ public class CancelMoveUI : MonoBehaviour {
             if (path.Count > 0) {
                 oldPositions = path;
                 lineRenderer.positionCount = path.Count;
-                lineRenderer.SetPositions(TilesToWorldPositions(path));
+                lineRenderer.SetPositions(GridUtilities.TilesToWorldPos(path));
                 numberOfMoves.text = (path.Count - 2).ToString();
                 int midIndex = Mathf.RoundToInt((path.Count - 1) / 2);
                 canvas.transform.position = new Vector3(path[midIndex].gameObject.transform.position.x, 2, path[midIndex].gameObject.transform.position.z);
             }
         }
-    }
-
-    Vector3[] TilesToWorldPositions(List<Tile> tiles) {
-        Vector3[] positions = new Vector3[tiles.Count];
-        for (int i = 0; i < tiles.Count; i++) {
-            positions[i] = GridUtilities.TileToWorldPos(tiles[i].pos);
-        }
-        return positions;
     }
 }

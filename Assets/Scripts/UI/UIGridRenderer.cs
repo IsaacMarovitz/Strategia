@@ -49,9 +49,11 @@ public class UIGridRenderer : Graphic {
     protected override void UpdateMaterial() {
         base.UpdateMaterial();
         if (sprite == null) {
-           canvasRenderer.SetTexture(s_WhiteTexture);
+            canvasRenderer.SetTexture(s_WhiteTexture);
         } else {
-           canvasRenderer.SetTexture(sprite.texture);
+            Debug.Log(canvasRenderer.GetMaterial().shader.name);
+            //texture.wrapMode = TextureWrapMode.Repeat;
+            canvasRenderer.SetTexture(sprite.texture);
         }
     }
 

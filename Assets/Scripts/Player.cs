@@ -98,7 +98,6 @@ public class Player : MonoBehaviour {
         minimapTexture.Apply();
         if (turnStarted && !turnCompleted) {
             GameManager.Instance.fogOfWarTexture.material.mainTexture = fogOfWarTexture;
-            GameManager.Instance.UpdateFogOfWarObjects(fogOfWarMatrix);
         }
     }
 
@@ -139,6 +138,7 @@ public class Player : MonoBehaviour {
         } else {
             TurnComplete();
         }
+        GameManager.Instance.OnPlayerTurnStart(this);
     }
 
     public void NextUnit(Unit unit, bool movingLater) {

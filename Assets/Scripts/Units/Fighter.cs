@@ -61,7 +61,7 @@ public class Fighter : Unit, IFuel {
     public override void PerformMove(Tile tileToMoveTo) {
         base.PerformMove(tileToMoveTo);
 
-        if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+        if (gameManager.grid.grid[pos.x, pos.y].tileType == TileType.City || gameManager.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
             fuel = maxFuel;
         } else {
             fuel -= fuelPerMove;
@@ -79,9 +79,9 @@ public class Fighter : Unit, IFuel {
         if (isOnCarrier) {
             isOnCarrier = false;
             mainMesh.SetActive(true);
-            ((Carrier)GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile).fightersOnCarrier.Remove(this);
+            ((Carrier)gameManager.grid.grid[pos.x, pos.y].unitOnTile).fightersOnCarrier.Remove(this);
         } else {
-            GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = null;
+            gameManager.grid.grid[pos.x, pos.y].unitOnTile = null;
         }
     }
 
@@ -90,7 +90,7 @@ public class Fighter : Unit, IFuel {
         if (tileMoveStatus == TileMoveStatus.Transport) {
             pos += tileToMoveTo.pos;
             isOnCarrier = true;
-            ((Carrier)GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile).fightersOnCarrier.Add(this);
+            ((Carrier)gameManager.grid.grid[pos.x, pos.y].unitOnTile).fightersOnCarrier.Add(this);
             fuel = maxFuel;
         }
     }

@@ -29,11 +29,15 @@ namespace Strategia.Editor {
 
             SerializedProperty pos_prop = serializedObject.FindProperty("pos");
 
+            SerializedProperty lineRenderer_prop = serializedObject.FindProperty("lineRenderer");
+
             EditorGUILayout.PropertyField(turnStage_prop);
             EditorGUILayout.PropertyField(sleepEffectPrefab_prop);
             EditorGUILayout.PropertyField(mainMesh_prop);
             EditorGUILayout.PropertyField(unitIcon_prop);
             EditorGUILayout.PropertyField(blockedTileTypes_prop);
+
+            EditorGUILayout.PropertyField(lineRenderer_prop);
 
             EditorGUILayout.Space(10);
             showMovement = EditorGUILayout.BeginFoldoutHeaderGroup(showMovement, "Movement");

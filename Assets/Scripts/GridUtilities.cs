@@ -163,6 +163,14 @@ public static class GridUtilities {
         return new Vector3(pos.x * GameManager.Instance.grid.tileWidth, y, pos.y * GameManager.Instance.grid.tileHeight);
     }
 
+    public static Vector3[] TilesToWorldPos(List<Tile> tiles) {
+        Vector3[] positions = new Vector3[tiles.Count];
+        for (int i = 0; i < tiles.Count; i++) {
+            positions[i] = GridUtilities.TileToWorldPos(tiles[i].pos);
+        }
+        return positions;
+    }
+
     static List<Tile> RetracePath(Tile startTile, Tile endTile) {
         List<Tile> path = new List<Tile>();
         Tile currentTile = endTile;

@@ -272,6 +272,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pos: {x: 0, y: 0}
+  gameObjects:
+  - {fileID: 7067662329382781766}
+  - {fileID: 6543857413735686047}
+  isEnabled: 1
 --- !u!65 &5140163076747068316
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -42,7 +42,7 @@ public class Bomber : Unit, ICustomButton, IFuel {
     public override void PerformMove(Tile tileToMoveTo) {
         base.PerformMove(tileToMoveTo);
 
-        if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+        if (gameManager.grid.grid[pos.x, pos.y].tileType == TileType.City || gameManager.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
             fuel = maxFuel;
         } else {
             fuel -= fuelPerMove;
@@ -69,8 +69,8 @@ public class Bomber : Unit, ICustomButton, IFuel {
         }
         Debug.Log($"<b>{this.gameObject.name}:</b> Detonated!");
         Die();
-        if (GameManager.Instance.GetCurrentPlayer().HasDied()) {
-            GameManager.Instance.GetCurrentPlayer().TurnComplete();
+        if (gameManager.GetCurrentPlayer().HasDied()) {
+            gameManager.GetCurrentPlayer().TurnComplete();
         }
         GameObject.Destroy(this.gameObject);
     }

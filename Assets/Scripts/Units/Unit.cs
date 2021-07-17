@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.VFX;
 using System.Collections.Generic;
 
-public class Unit : MonoBehaviour {
+public class Unit : TurnBehaviour {
 
     public Vector2Int pos;
     public float yOffset;
@@ -28,29 +28,55 @@ public class Unit : MonoBehaviour {
     protected bool pathWasSetThisTurn;
 
     private GameObject instantiatedSleepEffect;
+    public LineRenderer lineRenderer;
 
-    public void Awake() {
+    public override void Awake() {
+        base.Awake();
+
         // Replace this later with something a lot more modular
         mainMesh = this.gameObject.transform.GetChild(0).gameObject;
+        lineRenderer = GetComponentInChildren<LineRenderer>();
     }
 
     public virtual void Start() {
         moves = maxMoves;
         health = maxHealth;
-        if (!(GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity)) {
-            GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = this;
+        if (!(gameManager.grid.grid[pos.x, pos.y].tileType == TileType.City || gameManager.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity)) {
+            gameManager.grid.grid[pos.x, pos.y].unitOnTile = this;
         }
+        path = new List<Tile>();
     }
 
     public virtual void Update() {
         SetPos(pos);
-        if (GameManager.Instance.GetCurrentPlayer().fogOfWarMatrix[pos.x, pos.y] != 1f) {
+        if (UIData.Instance.currentUnit != this && path.Count > 0 && lineRenderer != null) {
+            lineRenderer.enabled = true;
+            lineRenderer.positionCount = path.Count;
+            List<Tile> tempPath = new List<Tile>(path);
+            tempPath.Insert(0, gameManager.grid.grid[pos.x, pos.y]);
+            lineRenderer.SetPositions(GridUtilities.TilesToWorldPos(tempPath));
+        } else {
+            lineRenderer.enabled = false;
+        }
+    }
+
+    public override void OnPlayerTurnStart(Player player) {
+        if (player != this.player) {
+            lineRenderer.gameObject.SetActive(false);
+        }
+    }
+
+    public override void OnFogOfWarUpdate(Player player) {
+        if (player.fogOfWarMatrix[pos.x, pos.y] != 1f) {
             mainMesh.SetActive(false);
+            lineRenderer.gameObject.SetActive(false);
         } else if (!isInCity) {
             mainMesh.SetActive(true);
+            lineRenderer.gameObject.SetActive(true);
         }
-        if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+        if (gameManager.grid.grid[pos.x, pos.y].tileType == TileType.City || gameManager.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
             mainMesh.SetActive(false);
+            lineRenderer.gameObject.SetActive(false);
         }
     }
 
@@ -107,15 +133,15 @@ public class Unit : MonoBehaviour {
 
     public void Attack(Vector2Int unitPos) {
         Unit unitToAttack = null;
-        if (GameManager.Instance.grid.grid[unitPos.x, unitPos.y].tileType == TileType.City || GameManager.Instance.grid.grid[unitPos.x, unitPos.y].tileType == TileType.CostalCity) {
-            City tileCity = GameManager.Instance.grid.grid[unitPos.x, unitPos.y].gameObject.GetComponent<City>();
+        if (gameManager.grid.grid[unitPos.x, unitPos.y].tileType == TileType.City || gameManager.grid.grid[unitPos.x, unitPos.y].tileType == TileType.CostalCity) {
+            City tileCity = gameManager.grid.grid[unitPos.x, unitPos.y].gameObject.GetComponent<City>();
             if (tileCity != null) {
                 if (tileCity.unitsInCity.Count > 0) {
                     unitToAttack = tileCity.unitsInCity[0];
                 }
             }
         } else {
-            unitToAttack = GameManager.Instance.grid.grid[unitPos.x, unitPos.y].unitOnTile;
+            unitToAttack = gameManager.grid.grid[unitPos.x, unitPos.y].unitOnTile;
         }
         if (unitToAttack != null) {
             Debug.Log($"<b>{this.gameObject.name}:</b> Attacking {unitToAttack.gameObject.name}");
@@ -150,7 +176,7 @@ public class Unit : MonoBehaviour {
     public void MoveAlongSetPath() {
         if (path != null) {
             for (int i = 0; i < path.Count; i++) {
-                if (path[i] != GameManager.Instance.grid.grid[pos.x, pos.y]) {
+                if (path[i] != gameManager.grid.grid[pos.x, pos.y]) {
                     if (path[i].unitOnTile != null) {
                         path = null;
                         return;
@@ -169,7 +195,7 @@ public class Unit : MonoBehaviour {
         path = newPath;
         pathWasSetThisTurn = true;
         for (int i = 0; i < path.Count; i++) {
-            if (path[i] != GameManager.Instance.grid.grid[pos.x, pos.y]) {
+            if (path[i] != gameManager.grid.grid[pos.x, pos.y]) {
                 if (moves > 0) {
                     PerformMove(path[i]);
                     i--;
@@ -202,8 +228,8 @@ public class Unit : MonoBehaviour {
                 mainMesh.SetActive(true);
             }
 
-            if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
-                City city = GameManager.Instance.grid.grid[pos.x, pos.y].gameObject.GetComponent<City>();
+            if (gameManager.grid.grid[pos.x, pos.y].tileType == TileType.City || gameManager.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+                City city = gameManager.grid.grid[pos.x, pos.y].gameObject.GetComponent<City>();
                 city.GetOwned(player);
                 city.AddUnit(this);
                 oldCity = city;
@@ -212,7 +238,7 @@ public class Unit : MonoBehaviour {
             } else {
                 isInCity = false;
                 mainMesh.SetActive(true);
-                GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = this;
+                gameManager.grid.grid[pos.x, pos.y].unitOnTile = this;
             }
         } else if (tileMoveStatus == TileMoveStatus.Attack) {
             if (pathWasSetThisTurn) {
@@ -222,12 +248,12 @@ public class Unit : MonoBehaviour {
                 this.gameObject.transform.LookAt(tileToMoveTo.gameObject.transform.position, Vector3.up);
                 this.gameObject.transform.eulerAngles = new Vector3(0, this.gameObject.transform.eulerAngles.y, 0);
                 path.Clear();
-                GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = this;
+                gameManager.grid.grid[pos.x, pos.y].unitOnTile = this;
                 return;
             }
         } else if (tileMoveStatus == TileMoveStatus.Blocked) {
             path.Clear();
-            GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = this;
+            gameManager.grid.grid[pos.x, pos.y].unitOnTile = this;
             return;
         }
 
@@ -242,10 +268,11 @@ public class Unit : MonoBehaviour {
             EndTurn();
         }
         player.UpdateFogOfWar();
+        gameManager.OnUnitMove(this);
     }
 
-    public virtual void TransportCheck() { 
-        GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = null;
+    public virtual void TransportCheck() {
+        gameManager.grid.grid[pos.x, pos.y].unitOnTile = null;
     }
 
     public virtual void TransportMove(Tile tileToMoveTo, TileMoveStatus tileMoveStatus) { }
@@ -265,7 +292,7 @@ public class Unit : MonoBehaviour {
     public virtual void Die() {
         player.playerUnits.Remove(this);
         player.unitQueue.Remove(this);
-        GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = null;
+        gameManager.grid.grid[pos.x, pos.y].unitOnTile = null;
         if (isInCity) {
             oldCity.RemoveUnit(this);
         }

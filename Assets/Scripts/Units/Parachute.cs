@@ -42,7 +42,7 @@ public class Parachute : Unit, ICustomButton, IFuel {
     public override void PerformMove(Tile tileToMoveTo) {
         base.PerformMove(tileToMoveTo);
 
-        if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+        if (gameManager.grid.grid[pos.x, pos.y].tileType == TileType.City || gameManager.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
             fuel = maxFuel;
         } else {
             fuel -= fuelPerMove;
@@ -56,14 +56,14 @@ public class Parachute : Unit, ICustomButton, IFuel {
     }
 
     public void DeployArmy() {
-        if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType != TileType.Sea || GameManager.Instance.grid.grid[pos.x, pos.y].tileType != TileType.Mountains || GameManager.Instance.grid.grid[pos.x, pos.y].tileType != TileType.Trees) {
+        if (gameManager.grid.grid[pos.x, pos.y].tileType != TileType.Sea || gameManager.grid.grid[pos.x, pos.y].tileType != TileType.Mountains || gameManager.grid.grid[pos.x, pos.y].tileType != TileType.Trees) {
             Tank army = GameObject.Instantiate(unitPrefab, Vector3.zero, Quaternion.identity).GetComponent<Tank>();
             army.pos = pos;
             army.gameObject.transform.parent = this.gameObject.transform.parent;
             army.gameObject.transform.rotation = this.gameObject.transform.rotation;
             army.player = player;
             Die();
-            GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = army;
+            gameManager.grid.grid[pos.x, pos.y].unitOnTile = army;
             player.AddUnit(army);
             int i = player.unitQueue.FindIndex(a => a == this);
             if (i >= 0) {
