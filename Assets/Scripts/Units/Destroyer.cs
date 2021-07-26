@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class Destroyer : Unit {
     public override void Start() {
         base.Start();

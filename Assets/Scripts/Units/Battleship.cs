@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class Battleship : Unit {
     public override void Start() {
         base.Start();

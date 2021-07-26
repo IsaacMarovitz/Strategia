@@ -17873,7 +17873,7 @@ MonoBehaviour:
   playerList: []
   dayCompleted: 1
   gameMode: 1
-  grid: {fileID: 1182266816}
+  tileGrid: {fileID: 1182266816}
   gameInfo: {fileID: 11400000, guid: b6db58fec6369ca40a144df85b3c4b0c, type: 2}
   unitInfo: {fileID: 11400000, guid: 13ec7d7fcf5249440aae20f69b2ef3b0, type: 2}
   numberOfPlayers: 0

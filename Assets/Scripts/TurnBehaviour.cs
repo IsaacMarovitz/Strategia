@@ -13,6 +13,7 @@ public class TurnBehaviour : MonoBehaviour {
         gameManager.unitMoveDelegate += OnUnitMove;
         gameManager.unitMoveDelegate += (Unit unit) => OnFogOfWarUpdate(unit.player);
         gameManager.playerTurnStartDelegate += OnFogOfWarUpdate;
+        gameManager.fogOfWarUpdateDelegate += OnFogOfWarUpdate;
     }
 
     // Called when any delegate is invoked;

@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour {
     public Action<Player> playerTurnStartDelegate;
     public Action<Unit> unitTurnStartDelegate;
     public Action<Unit> unitMoveDelegate;
+    public Action<Player> fogOfWarUpdateDelegate;
 
     private void Awake() {
         if (_instance != null && _instance != this) {
@@ -163,6 +164,10 @@ public class GameManager : MonoBehaviour {
 
     public void OnUnitMove(Unit unit) {
         unitMoveDelegate?.Invoke(unit);
+    }
+
+    public void OnFogOfWarUpdate(Player player) {
+        fogOfWarUpdateDelegate?.Invoke(player);
     }
 }
 

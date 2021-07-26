@@ -33,6 +33,7 @@ public static class ConsoleCommands {
         if (args.Length > 0) {
             if (ConsoleCommands.ParseBool(args[0], out bool boolValue)) {
                 GameManager.Instance.GetCurrentPlayer().RevealAllTiles(!boolValue);
+                GameManager.Instance.OnFogOfWarUpdate(GameManager.Instance.GetCurrentPlayer());
                 if (!boolValue) {
                     debugConsole.PrintSuccess($"Fog of War for Player {GameManager.Instance.currentPlayerIndex} disabled.");
                 } else {

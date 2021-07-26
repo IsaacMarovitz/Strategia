@@ -69,13 +69,16 @@ public class Unit : TurnBehaviour {
         if (player.fogOfWarMatrix[pos.x, pos.y] != 1f) {
             mainMesh.SetActive(false);
             lineRenderer.gameObject.SetActive(false);
+            instantiatedSleepEffect?.SetActive(false);
         } else if (!isInCity) {
             mainMesh.SetActive(true);
             lineRenderer.gameObject.SetActive(true);
+            instantiatedSleepEffect?.SetActive(true);
         }
         if (tileGrid.grid[pos.x, pos.y].isCityTile) {
             mainMesh.SetActive(false);
             lineRenderer.gameObject.SetActive(false);
+            instantiatedSleepEffect?.SetActive(false);
         }
     }
 
@@ -113,8 +116,10 @@ public class Unit : TurnBehaviour {
     public void ToggleSleep() {
         if (turnStage != TurnStage.Sleeping) {
             turnStage = TurnStage.Sleeping;
-            instantiatedSleepEffect = GameObject.Instantiate(sleepEffectPrefab, this.transform.position, Quaternion.identity);
-            instantiatedSleepEffect.transform.parent = this.transform;
+            if (!tileGrid.grid[pos.x, pos.y].isCityTile) {
+                instantiatedSleepEffect = GameObject.Instantiate(sleepEffectPrefab, this.transform.position, Quaternion.identity);
+                instantiatedSleepEffect.transform.parent = this.transform;
+            }
             EndTurn();
         } else {
             turnStage = TurnStage.Started;
