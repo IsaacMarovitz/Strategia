@@ -1,8 +1,10 @@
 using UnityEngine;
+using Strategia;
 
 public class TurnBehaviour : MonoBehaviour {
 
     public GameManager gameManager => GameManager.Instance;
+    public TileGrid tileGrid => gameManager.tileGrid;
 
     public virtual void Awake() {
         //gameManager.tick += Tick;

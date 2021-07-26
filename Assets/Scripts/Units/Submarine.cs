@@ -12,7 +12,7 @@ public class Submarine : Unit {
     public override TileMoveStatus CheckDir(Tile tile) {
         TileMoveStatus returnMoveStatus = base.CheckDir(tile);
 
-        if (tile.tileType == TileType.City || tile.tileType == TileType.CostalCity) {
+        if (tile.isCityTile) {
             City city = tile.gameObject.GetComponent<City>();
             if (!player.playerCities.Contains(city)) {
                 if (city.unitsInCity.Count > 0) {

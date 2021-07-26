@@ -25,7 +25,7 @@ public class Bomber : Unit, ICustomButton, IFuel {
     public override TileMoveStatus CheckDir(Tile tile) {
         TileMoveStatus returnMoveStatus = base.CheckDir(tile);
 
-        if (tile.tileType == TileType.City || tile.tileType == TileType.CostalCity) {
+        if (tile.isCityTile) {
             City city = tile.gameObject.GetComponent<City>();
             if (!player.playerCities.Contains(city)) {
                 returnMoveStatus = TileMoveStatus.Blocked;
@@ -42,7 +42,7 @@ public class Bomber : Unit, ICustomButton, IFuel {
     public override void PerformMove(Tile tileToMoveTo) {
         base.PerformMove(tileToMoveTo);
 
-        if (gameManager.grid.grid[pos.x, pos.y].tileType == TileType.City || gameManager.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+        if (tileGrid.grid[pos.x, pos.y].isCityTile) {
             fuel = maxFuel;
         } else {
             fuel -= fuelPerMove;
@@ -58,7 +58,7 @@ public class Bomber : Unit, ICustomButton, IFuel {
     public void Detonate() {
         List<Tile> tilesInRange = GridUtilities.RadialSearch(pos, blastRadius);
         foreach (var tile in tilesInRange) {
-            if (tile.tileType == TileType.City || tile.tileType == TileType.CostalCity) {
+            if (tile.isCityTile) {
                 tile.gameObject.GetComponent<City>().Nuke();
             }
 

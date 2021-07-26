@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour {
     public List<Player> playerList;
     public bool dayCompleted = true;
     public GameMode gameMode = GameMode.LocalMultiplayer;
-    public TileGrid grid;
+    public TileGrid tileGrid;
     public GameInfo gameInfo;
     public UnitInfo unitInfo;
     public int numberOfPlayers;
@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour {
         for (int i = 0; i < CityNames.countries.Length; i++) {
             countries.Add(CityNames.countries[i]);
         }
-        countries = grid.FisherYates(countries);
+        countries = tileGrid.FisherYates(countries);
 
         // Create players in the appropriate game mode
         for (int i = 0; i < numberOfPlayers; i++) {
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour {
         // Asign player starting cities
         foreach (Player player in playerList) {
             Debug.Log("<b>Game Manager:</b> Choosing " + player.gameObject.name + " starting city");
-            City returnedCity = grid.ChoosePlayerCity();
+            City returnedCity = tileGrid.ChoosePlayerCity();
             player.InitaliseStartCity(returnedCity);
             StartCoroutine(Wait());
         }
@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviour {
         for (int i = 0; i < player.country.names.Length; i++) {
             player.cityNames.Add(player.country.names[i]);
         }
-        player.cityNames = grid.FisherYates(player.cityNames);
+        player.cityNames = tileGrid.FisherYates(player.cityNames);
             
 
         playerList.Add(player);

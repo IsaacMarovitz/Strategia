@@ -26,19 +26,19 @@ public class Player : MonoBehaviour {
 
     public void UpdateFogOfWar() {
         if (fogOfWarMatrix == null) {
-            fogOfWarMatrix = new float[GameManager.Instance.grid.width, GameManager.Instance.grid.height];
-            fogOfWarTexture = new Texture2D(GameManager.Instance.grid.width, GameManager.Instance.grid.height);
+            fogOfWarMatrix = new float[GameManager.Instance.tileGrid.width, GameManager.Instance.tileGrid.height];
+            fogOfWarTexture = new Texture2D(GameManager.Instance.tileGrid.width, GameManager.Instance.tileGrid.height);
             fogOfWarTexture.filterMode = FilterMode.Point;
-            minimapTexture = new Texture2D(GameManager.Instance.grid.width, GameManager.Instance.grid.height);
+            minimapTexture = new Texture2D(GameManager.Instance.tileGrid.width, GameManager.Instance.tileGrid.height);
             minimapTexture.filterMode = FilterMode.Point;
-            for (int x = 0; x < GameManager.Instance.grid.width; x++) {
-                for (int y = 0; y < GameManager.Instance.grid.height; y++) {
+            for (int x = 0; x < GameManager.Instance.tileGrid.width; x++) {
+                for (int y = 0; y < GameManager.Instance.tileGrid.height; y++) {
                     fogOfWarMatrix[x, y] = 0;
                 }
             }
         }
-        for (int x = 0; x < GameManager.Instance.grid.width; x++) {
-            for (int y = 0; y < GameManager.Instance.grid.height; y++) {
+        for (int x = 0; x < GameManager.Instance.tileGrid.width; x++) {
+            for (int y = 0; y < GameManager.Instance.tileGrid.height; y++) {
                 if (fogOfWarMatrix[x, y] == 1f) {
                     fogOfWarMatrix[x, y] = 0.5f;
                 }
@@ -61,13 +61,13 @@ public class Player : MonoBehaviour {
     }
 
     public void GenerateTexture() {
-        for (int x = 0; x < GameManager.Instance.grid.width; x++) {
-            for (int y = 0; y < GameManager.Instance.grid.height; y++) {
+        for (int x = 0; x < GameManager.Instance.tileGrid.width; x++) {
+            for (int y = 0; y < GameManager.Instance.tileGrid.height; y++) {
                 if (!revealAllTiles) {
                     if (fogOfWarMatrix[x, y] == 1) {
                         fogOfWarTexture.SetPixel(x, y, new Color(1, 1, 1, 0));
-                        if (GameManager.Instance.grid.grid[x, y].cityOfInfluence.player != null) {
-                            minimapTexture.SetPixel(x, y, GameManager.Instance.grid.grid[x, y].cityOfInfluence.player.playerColor);
+                        if (GameManager.Instance.tileGrid.grid[x, y].cityOfInfluence.player != null) {
+                            minimapTexture.SetPixel(x, y, GameManager.Instance.tileGrid.grid[x, y].cityOfInfluence.player.playerColor);
                         } else {
                             minimapTexture.SetPixel(x, y, Color.grey);
                         }
@@ -76,8 +76,8 @@ public class Player : MonoBehaviour {
                         minimapTexture.SetPixel(x, y, Color.black);
                     } else if (fogOfWarMatrix[x, y] == 0.5f) {
                         fogOfWarTexture.SetPixel(x, y, new Color(1, 1, 1, 0.5f));
-                        if (GameManager.Instance.grid.grid[x, y].cityOfInfluence.player != null) {
-                            minimapTexture.SetPixel(x, y, GameManager.Instance.grid.grid[x, y].cityOfInfluence.player.playerColor);
+                        if (GameManager.Instance.tileGrid.grid[x, y].cityOfInfluence.player != null) {
+                            minimapTexture.SetPixel(x, y, GameManager.Instance.tileGrid.grid[x, y].cityOfInfluence.player.playerColor);
                         } else {
                             minimapTexture.SetPixel(x, y, Color.grey);
                         }
@@ -86,8 +86,8 @@ public class Player : MonoBehaviour {
                     }
                 } else {
                     fogOfWarTexture.SetPixel(x, y, new Color(1, 1, 1, 0));
-                    if (GameManager.Instance.grid.grid[x, y].cityOfInfluence.player != null) {
-                        minimapTexture.SetPixel(x, y, GameManager.Instance.grid.grid[x, y].cityOfInfluence.player.playerColor);
+                    if (GameManager.Instance.tileGrid.grid[x, y].cityOfInfluence.player != null) {
+                        minimapTexture.SetPixel(x, y, GameManager.Instance.tileGrid.grid[x, y].cityOfInfluence.player.playerColor);
                     } else {
                         minimapTexture.SetPixel(x, y, Color.grey);
                     }
@@ -201,7 +201,7 @@ public class Player : MonoBehaviour {
                 country.names[i] = "New " + country.names[i];
                 cityNames.Add(country.names[i]);
             }
-            cityNames = GameManager.Instance.grid.FisherYates(cityNames);
+            cityNames = GameManager.Instance.tileGrid.FisherYates(cityNames);
             string returnName = cityNames[0];
             cityNames.RemoveAt(0);
             return returnName;
@@ -214,7 +214,7 @@ public class Player : MonoBehaviour {
     }
 
     public void SpawnUnit(Vector2Int pos, UnitType unitType) {
-        if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.City || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+        if (GameManager.Instance.tileGrid.grid[pos.x, pos.y].isCityTile) {
             Unit unit = GameObject.Instantiate(unitInfo.allUnits[(int)unitType].prefab, Vector3.zero, Quaternion.identity).GetComponent<Unit>();
             unit.gameObject.transform.position = GridUtilities.TileToWorldPos(pos, unit.yOffset);
             unit.pos = pos;
@@ -222,20 +222,20 @@ public class Player : MonoBehaviour {
             unit.player = this;
             unit.mainMesh.SetActive(false);
             unit.isInCity = true;
-            unit.oldCity = GameManager.Instance.grid.grid[pos.x, pos.y].gameObject.GetComponent<City>();
+            unit.oldCity = GameManager.Instance.tileGrid.grid[pos.x, pos.y].gameObject.GetComponent<City>();
             AddUnit(unit);
-            GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = unit;
-            GameManager.Instance.grid.grid[pos.x, pos.y].gameObject.GetComponent<City>().AddUnit(unit);
+            GameManager.Instance.tileGrid.grid[pos.x, pos.y].unitOnTile = unit;
+            GameManager.Instance.tileGrid.grid[pos.x, pos.y].gameObject.GetComponent<City>().AddUnit(unit);
         } else {
-            if (GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.Plains || GameManager.Instance.grid.grid[pos.x, pos.y].tileType == TileType.Swamp) {
-                if (GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile == null) {
+            if (GameManager.Instance.tileGrid.grid[pos.x, pos.y].tileType == TileType.Plains || GameManager.Instance.tileGrid.grid[pos.x, pos.y].tileType == TileType.Swamp) {
+                if (GameManager.Instance.tileGrid.grid[pos.x, pos.y].unitOnTile == null) {
                     Unit unit = GameObject.Instantiate(unitInfo.allUnits[(int)unitType].prefab, Vector3.zero, Quaternion.identity).GetComponent<Unit>();
                     unit.gameObject.transform.position = GridUtilities.TileToWorldPos(pos, unit.yOffset);
                     unit.pos = pos;
                     unit.gameObject.transform.parent = this.gameObject.transform;
                     unit.player = this;
                     AddUnit(unit);
-                    GameManager.Instance.grid.grid[pos.x, pos.y].unitOnTile = unit;
+                    GameManager.Instance.tileGrid.grid[pos.x, pos.y].unitOnTile = unit;
                 }
             }
         }

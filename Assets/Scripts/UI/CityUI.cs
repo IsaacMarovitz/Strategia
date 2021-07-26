@@ -51,7 +51,7 @@ public class CityUI : MonoBehaviour {
                         toggles[i].SetIsOnWithoutNotify(false);
                     }
                 }
-                if (GameManager.Instance.grid.grid[UIData.Instance.currentCity.pos.x, UIData.Instance.currentCity.pos.y].tileType == TileType.CostalCity) {
+                if (GameManager.Instance.tileGrid.grid[UIData.Instance.currentCity.pos.x, UIData.Instance.currentCity.pos.y].tileType == TileType.CostalCity) {
                     foreach (var toggle in costalCityToggles) {
                         toggle.interactable = true;
                     }

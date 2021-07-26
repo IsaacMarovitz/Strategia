@@ -68,8 +68,8 @@ namespace Strategia.Editor {
                 EditorGUILayout.Space(10);
                 showPosition = EditorGUILayout.BeginFoldoutHeaderGroup(showPosition, "Position");
                 if (showPosition) {
-                    pos_prop.vector2IntValue = new Vector2Int(EditorGUILayout.IntSlider("X Position", pos_prop.vector2IntValue.x, 1, GameManager.Instance.grid.width - 2), pos_prop.vector2IntValue.y);
-                    pos_prop.vector2IntValue = new Vector2Int(pos_prop.vector2IntValue.x, EditorGUILayout.IntSlider("Y Position", pos_prop.vector2IntValue.y, 1, GameManager.Instance.grid.height - 2));
+                    pos_prop.vector2IntValue = new Vector2Int(EditorGUILayout.IntSlider("X Position", pos_prop.vector2IntValue.x, 1, GameManager.Instance.tileGrid.width - 2), pos_prop.vector2IntValue.y);
+                    pos_prop.vector2IntValue = new Vector2Int(pos_prop.vector2IntValue.x, EditorGUILayout.IntSlider("Y Position", pos_prop.vector2IntValue.y, 1, GameManager.Instance.tileGrid.height - 2));
                 }
                 EditorGUILayout.EndFoldoutHeaderGroup();
             }

@@ -22,7 +22,7 @@ public class MoveUI : MonoBehaviour {
                 lineRenderer.enabled = true;
                 canvas.enabled = true;
                 canvas.transform.position = GridUtilities.TileToWorldPos(UIData.Instance.currentUnit.pos, 2);
-                path = GridUtilities.FindPath(GameManager.Instance.grid.grid[UIData.Instance.currentUnit.pos.x, UIData.Instance.currentUnit.pos.y], UIData.Instance.mouseOverTile);
+                path = GridUtilities.FindPath(GameManager.Instance.tileGrid.grid[UIData.Instance.currentUnit.pos.x, UIData.Instance.currentUnit.pos.y], UIData.Instance.mouseOverTile);
             }
         } else {
             lineRenderer.enabled = false;

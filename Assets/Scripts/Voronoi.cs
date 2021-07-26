@@ -4,15 +4,15 @@ using System.Collections.Generic;
 public static class Voronoi {
 
     public static Texture2D GenerateVoronoi(List<City> cities) {
-        Texture2D returnTexture = new Texture2D(GameManager.Instance.grid.width, GameManager.Instance.grid.height);
+        Texture2D returnTexture = new Texture2D(GameManager.Instance.tileGrid.width, GameManager.Instance.tileGrid.height);
         returnTexture.filterMode = FilterMode.Point;
         returnTexture.wrapMode = TextureWrapMode.Repeat;
         List<Color> colors = new List<Color>();
         foreach (var point in cities) {
             colors.Add(new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1f));
         }
-        for (int x = 0; x < GameManager.Instance.grid.width; x++) {
-            for (int y = 0; y < GameManager.Instance.grid.height; y++) {
+        for (int x = 0; x < GameManager.Instance.tileGrid.width; x++) {
+            for (int y = 0; y < GameManager.Instance.tileGrid.height; y++) {
                 returnTexture.SetPixel(x, y, colors[GetClosestPointIndex(new Vector2Int(x, y), cities)]);
             }
         }

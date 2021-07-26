@@ -24,7 +24,7 @@ public class Parachute : Unit, ICustomButton, IFuel {
     public override TileMoveStatus CheckDir(Tile tile) {
         TileMoveStatus returnMoveStatus = base.CheckDir(tile);
 
-        if (tile.tileType == TileType.City || tile.tileType == TileType.CostalCity) {
+        if (tile.isCityTile) {
             City city = tile.gameObject.GetComponent<City>();
             if (!player.playerCities.Contains(city)) {
                 returnMoveStatus = TileMoveStatus.Blocked;
@@ -42,7 +42,7 @@ public class Parachute : Unit, ICustomButton, IFuel {
     public override void PerformMove(Tile tileToMoveTo) {
         base.PerformMove(tileToMoveTo);
 
-        if (gameManager.grid.grid[pos.x, pos.y].tileType == TileType.City || gameManager.grid.grid[pos.x, pos.y].tileType == TileType.CostalCity) {
+        if (tileGrid.grid[pos.x, pos.y].isCityTile) {
             fuel = maxFuel;
         } else {
             fuel -= fuelPerMove;
@@ -56,14 +56,14 @@ public class Parachute : Unit, ICustomButton, IFuel {
     }
 
     public void DeployArmy() {
-        if (gameManager.grid.grid[pos.x, pos.y].tileType != TileType.Sea || gameManager.grid.grid[pos.x, pos.y].tileType != TileType.Mountains || gameManager.grid.grid[pos.x, pos.y].tileType != TileType.Trees) {
+        if (tileGrid.grid[pos.x, pos.y].tileType != TileType.Sea || tileGrid.grid[pos.x, pos.y].tileType != TileType.Mountains || tileGrid.grid[pos.x, pos.y].tileType != TileType.Trees) {
             Tank army = GameObject.Instantiate(unitPrefab, Vector3.zero, Quaternion.identity).GetComponent<Tank>();
             army.pos = pos;
             army.gameObject.transform.parent = this.gameObject.transform.parent;
             army.gameObject.transform.rotation = this.gameObject.transform.rotation;
             army.player = player;
             Die();
-            gameManager.grid.grid[pos.x, pos.y].unitOnTile = army;
+            tileGrid.grid[pos.x, pos.y].unitOnTile = army;
             player.AddUnit(army);
             int i = player.unitQueue.FindIndex(a => a == this);
             if (i >= 0) {

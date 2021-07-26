@@ -4,9 +4,9 @@ using System.Collections.Generic;
 public static class GridUtilities {
     // Check if surrounding tiles (not including diagonals) are sea tiles
     public static bool CostalCheck(Vector2Int pos) {
-        int width = GameManager.Instance.grid.width;
-        int height = GameManager.Instance.grid.height;
-        Tile[,] grid = GameManager.Instance.grid.grid;
+        int width = GameManager.Instance.tileGrid.width;
+        int height = GameManager.Instance.tileGrid.height;
+        Tile[,] grid = GameManager.Instance.tileGrid.grid;
         if ((pos.x > 0) && (grid[pos.x - 1, pos.y].tileType == TileType.Sea)) {
             return true;
         } else if ((pos.y > 0) && (grid[pos.x, pos.y - 1].tileType == TileType.Sea)) {
@@ -22,9 +22,9 @@ public static class GridUtilities {
 
     // Return all surrounding tiles including diagonals
     public static Tile[] DiagonalCheck(Vector2Int pos) {
-        Tile[,] grid = GameManager.Instance.grid.grid;
-        int width = GameManager.Instance.grid.width;
-        int height = GameManager.Instance.grid.height;
+        Tile[,] grid = GameManager.Instance.tileGrid.grid;
+        int width = GameManager.Instance.tileGrid.width;
+        int height = GameManager.Instance.tileGrid.height;
         Tile[] tiles = new Tile[8];
         if (pos.x > 0 && pos.y < height - 1) {
             tiles[0] = grid[pos.x - 1, pos.y + 1];
@@ -55,7 +55,7 @@ public static class GridUtilities {
 
     // Perform a radial search of surrounding tiles (includes starting tile in return list)
     public static List<Tile> RadialSearch(Vector2Int pos, int radius) {
-        Tile[,] grid = GameManager.Instance.grid.grid;
+        Tile[,] grid = GameManager.Instance.tileGrid.grid;
         List<Tile> tilesInRange = new List<Tile>();
         Tile startingPoint = grid[pos.x, pos.y];
         foreach (var tile in grid) {
@@ -68,7 +68,7 @@ public static class GridUtilities {
 
     // Check for a tile 'island' using a flood fill algorithm
     public static List<Tile> FloodFill(Tile startingPoint) {
-        Tile[,] grid = GameManager.Instance.grid.grid;
+        Tile[,] grid = GameManager.Instance.tileGrid.grid;
         if (startingPoint.tileType == TileType.Sea) {
             return null;
         }
@@ -108,7 +108,7 @@ public static class GridUtilities {
 
     // Find the shortest path between two tiles with A*
     public static List<Tile> FindPath(Tile startTile, Tile targetTile) {
-        Heap<Tile> openSet = new Heap<Tile>(GameManager.Instance.grid.MaxSize);
+        Heap<Tile> openSet = new Heap<Tile>(GameManager.Instance.tileGrid.MaxSize);
         HashSet<Tile> closedSet = new HashSet<Tile>();
         openSet.Add(startTile);
 
@@ -156,11 +156,11 @@ public static class GridUtilities {
 
     // Calculate the world position of a given grid tile given the tile pos
     public static Vector3 TileToWorldPos(Vector2Int pos) {
-        return new Vector3(pos.x * GameManager.Instance.grid.tileWidth, 0, pos.y * GameManager.Instance.grid.tileHeight);
+        return new Vector3(pos.x * GameManager.Instance.tileGrid.tileWidth, 0, pos.y * GameManager.Instance.tileGrid.tileHeight);
     }
 
     public static Vector3 TileToWorldPos(Vector2Int pos, float y) {
-        return new Vector3(pos.x * GameManager.Instance.grid.tileWidth, y, pos.y * GameManager.Instance.grid.tileHeight);
+        return new Vector3(pos.x * GameManager.Instance.tileGrid.tileWidth, y, pos.y * GameManager.Instance.tileGrid.tileHeight);
     }
 
     public static Vector3[] TilesToWorldPos(List<Tile> tiles) {

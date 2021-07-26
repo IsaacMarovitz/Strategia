@@ -10,6 +10,14 @@ public class Tile : IHeapItem<Tile> {
     public int islandIndex;
     public Unit unitOnTile;
     public City cityOfInfluence;
+    public bool isCityTile {
+        get {
+            if (tileType == TileType.City || tileType == TileType.CostalCity) {
+                return true;
+            }
+            return false;
+        }
+    }
 
     public bool walkable;
     public int gCost;

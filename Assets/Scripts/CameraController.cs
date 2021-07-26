@@ -90,7 +90,7 @@ public class CameraController : MonoBehaviour {
                 if (!IsMouseOverUI()) {
                     TileTag tileTag = hit.transform.gameObject.GetComponent<TileTag>();
                     if (tileTag != null) {
-                        UIData.Instance.mouseOverTile = GameManager.Instance.grid.grid[tileTag.pos.x, tileTag.pos.y];
+                        UIData.Instance.mouseOverTile = GameManager.Instance.tileGrid.grid[tileTag.pos.x, tileTag.pos.y];
                     }
                 }
             }

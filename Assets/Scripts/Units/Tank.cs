@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class Tank : Unit {
 
     public bool isMoveDistanceReduced;
@@ -32,7 +30,7 @@ public class Tank : Unit {
     public override TileMoveStatus CheckDir(Tile tile) {
         TileMoveStatus returnMoveStatus = base.CheckDir(tile);
         
-        if (tile.tileType == TileType.City || tile.tileType == TileType.CostalCity) {
+        if (tile.isCityTile) {
             City city = tile.gameObject.GetComponent<City>();
             if (!player.playerCities.Contains(city)) {
                 if (city.unitsInCity.Count > 0 && !isOnTransport) {
@@ -66,7 +64,7 @@ public class Tank : Unit {
 
     public override void PerformMove(Tile tileToMoveTo) {
         base.PerformMove(tileToMoveTo);
-        if (gameManager.grid.grid[pos.x, pos.y].tileType == TileType.Swamp) {
+        if (tileGrid.grid[pos.x, pos.y].tileType == TileType.Swamp) {
             isMoveDistanceReduced = true;
             moves -= reducedMoveDistance;
         } else {
@@ -78,9 +76,9 @@ public class Tank : Unit {
         if (isOnTransport) {
             isOnTransport = false;
             mainMesh.SetActive(true);
-            ((Transport)gameManager.grid.grid[pos.x, pos.y].unitOnTile).armiesOnTransport.Remove(this);
+            ((Transport)tileGrid.grid[pos.x, pos.y].unitOnTile).armiesOnTransport.Remove(this);
         } else {
-            gameManager.grid.grid[pos.x, pos.y].unitOnTile = null;
+            tileGrid.grid[pos.x, pos.y].unitOnTile = null;
         }
     }
 
@@ -89,7 +87,7 @@ public class Tank : Unit {
         if (tileMoveStatus == TileMoveStatus.Transport) {
             pos = tileToMoveTo.pos;
             isOnTransport = true;
-            ((Transport)gameManager.grid.grid[pos.x, pos.y].unitOnTile).armiesOnTransport.Add(this);
+            ((Transport)tileGrid.grid[pos.x, pos.y].unitOnTile).armiesOnTransport.Add(this);
         }
     }
 }

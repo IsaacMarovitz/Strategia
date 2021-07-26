@@ -76,7 +76,7 @@ public static class ConsoleCommands {
     public static DebugConsole.DebugCommandCode SpawnUnit(string[] args, DebugConsole debugConsole) {
         if (args.Length > 2) {
             if (int.TryParse(args[0], out int x)) {
-                if (x > GameManager.Instance.grid.width || x < 0) {
+                if (x > GameManager.Instance.tileGrid.width || x < 0) {
                     debugConsole.PrintError($"x-coordinate '{x}' out of bounds!");
                     return DebugConsole.DebugCommandCode.ParameterOutOfRange;
                 }
@@ -85,7 +85,7 @@ public static class ConsoleCommands {
                 return DebugConsole.DebugCommandCode.ParameterOutOfRange;
             }
             if (int.TryParse(args[1], out int y)) {
-                if (y > GameManager.Instance.grid.height || y < 0) {
+                if (y > GameManager.Instance.tileGrid.height || y < 0) {
                     debugConsole.PrintError($"y-coordinate '{y}' out of bounds!");
                     return DebugConsole.DebugCommandCode.ParameterOutOfRange;
                 }
@@ -97,16 +97,16 @@ public static class ConsoleCommands {
                 debugConsole.PrintError($"Failed to parse UnitType '{args[2]}'!");
                 return DebugConsole.DebugCommandCode.ParameterOutOfRange;
             }
-            if (GameManager.Instance.unitInfo.allUnits[(int)unitType].blockedTileTypes.Contains(GameManager.Instance.grid.grid[x, y].tileType)) {
-                debugConsole.PrintError($"Unit of type '{unitType}' cannot be spawned on tiles of type '{GameManager.Instance.grid.grid[x, y].tileType}'!");
+            if (GameManager.Instance.unitInfo.allUnits[(int)unitType].blockedTileTypes.Contains(GameManager.Instance.tileGrid.grid[x, y].tileType)) {
+                debugConsole.PrintError($"Unit of type '{unitType}' cannot be spawned on tiles of type '{GameManager.Instance.tileGrid.grid[x, y].tileType}'!");
                 return DebugConsole.DebugCommandCode.ParameterOutOfRange;
             }
-            if (GameManager.Instance.grid.grid[x, y].unitOnTile != null) {
+            if (GameManager.Instance.tileGrid.grid[x, y].unitOnTile != null) {
                 debugConsole.PrintError($"Tile at ({x}, {y}) already occupied!");
                 return DebugConsole.DebugCommandCode.ParameterOutOfRange;
             }
-            if (GameManager.Instance.grid.grid[x, y].tileType == TileType.City || GameManager.Instance.grid.grid[x, y].tileType == TileType.CostalCity) {
-                if (!GameManager.Instance.GetCurrentPlayer().playerCities.Contains(GameManager.Instance.grid.grid[x, y].gameObject.GetComponent<City>())) {
+            if (GameManager.Instance.tileGrid.grid[x, y].isCityTile) {
+                if (!GameManager.Instance.GetCurrentPlayer().playerCities.Contains(GameManager.Instance.tileGrid.grid[x, y].gameObject.GetComponent<City>())) {
                     debugConsole.PrintError($"Player does not own city at ({x}, {y})!");
                     return DebugConsole.DebugCommandCode.ParameterOutOfRange;
                 }

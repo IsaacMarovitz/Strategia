@@ -22,7 +22,7 @@ public class CityListUI : MonoBehaviour {
         cityUIButton.onClick.AddListener(ShowMenu);
         xButton.onClick.AddListener(CloseMenu);
         GameManager.Instance.nextPlayerDelegate += NextPlayer;
-        int numberOfCities = GameManager.Instance.grid.cityTiles.Count;
+        int numberOfCities = GameManager.Instance.tileGrid.cityTiles.Count;
         for (int i = 0; i < numberOfCities; i++) {
             GameObject instantiatedObject = GameObject.Instantiate(cityPrefab);
             instantiatedObject.transform.SetParent(content.transform);
