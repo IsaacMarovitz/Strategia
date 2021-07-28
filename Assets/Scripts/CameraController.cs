@@ -48,10 +48,10 @@ public class CameraController : MonoBehaviour {
 
     private Vector3 worldDragStartPosition;
     private Vector3 worldDragCurrentPosition;
-    private Vector3 screenLMBDragStartPosition;
-    private Vector3 screenLMBDragCurrentPosition;
-    private Vector3 screenRMBDragStartPosition;
-    private Vector3 screenRMBDragCurrentPOsition;
+    private Vector3 screenDragStartPosition;
+    private Vector3 screenDragCurrentPosition;
+    private Vector3 screenShiftDragStartPosition;
+    private Vector3 screenShiftDragCurrentPosition;
     private Vector3 rotateStartPosition;
     private Vector3 rotateCurrentPosition;
     private Vector3 startingZoom;
@@ -161,7 +161,7 @@ public class CameraController : MonoBehaviour {
                 }
             }
         }
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.LeftShift)) {
             Plane plane = new Plane(Vector3.up, Vector3.zero);
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
@@ -169,43 +169,43 @@ public class CameraController : MonoBehaviour {
             if (plane.Raycast(ray, out entry) && !IsMouseOverUI()) {
                 worldDragStartPosition = ray.GetPoint(entry);
             }
-            screenLMBDragStartPosition = Input.mousePosition;
+            screenDragStartPosition = Input.mousePosition;
             didLMBDrag = false;
         }
-        if (Input.GetMouseButton(0)) {
+        if (Input.GetMouseButton(0) && !Input.GetKey(KeyCode.LeftShift)) {
             Plane plane = new Plane(Vector3.up, Vector3.zero);
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
             float entry;
             if (plane.Raycast(ray, out entry)) {
                 worldDragCurrentPosition = ray.GetPoint(entry);
-                screenLMBDragCurrentPosition = Input.mousePosition;
+                screenDragCurrentPosition = Input.mousePosition;
 
                 if (IsMouseOverUI()) {
                     worldDragStartPosition = worldDragCurrentPosition;
-                    screenLMBDragStartPosition = screenLMBDragCurrentPosition;
+                    screenDragStartPosition = screenDragCurrentPosition;
                 } else {
-                    if ((screenLMBDragStartPosition - screenLMBDragCurrentPosition).magnitude > dragDeltaThreshold) {
+                    if ((screenDragStartPosition - screenDragCurrentPosition).magnitude > dragDeltaThreshold) {
                         didLMBDrag = true;
                         newPosition = cameraRig.position + worldDragStartPosition - worldDragCurrentPosition;
                     }
                 }
             }
         }
-        if (Input.GetMouseButtonDown(1)) {
+        if (Input.GetMouseButtonDown(0) && Input.GetKey(KeyCode.LeftShift)) {
             rotateStartPosition = Input.mousePosition;
-            screenRMBDragStartPosition = Input.mousePosition;
+            screenShiftDragStartPosition = Input.mousePosition;
             didRMBDrag = false;
         }
-        if (Input.GetMouseButton(1)) {
+        if (Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftShift)) {
             rotateCurrentPosition = Input.mousePosition;
-            screenRMBDragCurrentPOsition = Input.mousePosition;
+            screenShiftDragCurrentPosition = Input.mousePosition;
 
             if (IsMouseOverUI()) {
                 rotateStartPosition = rotateCurrentPosition;
-                screenRMBDragStartPosition = screenRMBDragCurrentPOsition;
+                screenShiftDragStartPosition = screenShiftDragCurrentPosition;
             } else {
-                if ((screenRMBDragStartPosition - screenRMBDragCurrentPOsition).magnitude > dragDeltaThreshold) {
+                if ((screenShiftDragStartPosition - screenShiftDragCurrentPosition).magnitude > dragDeltaThreshold) {
                     didRMBDrag = true;
                     Vector3 difference = rotateStartPosition - rotateCurrentPosition;
                     rotateStartPosition = rotateCurrentPosition;
