@@ -8,7 +8,7 @@ public class TileTag : TurnBehaviour {
     public bool isEnabled = true;
 
     public override void OnFogOfWarUpdate(Player player) {
-        if (player.fogOfWarMatrix[pos.x, pos.y] != 0f) {
+        if (player.fogOfWarMatrix[pos.x, pos.y] != FogOfWarState.Hidden) {
             if (!isEnabled) {
                 isEnabled = true;
                 foreach (var gameObject in gameObjects) {

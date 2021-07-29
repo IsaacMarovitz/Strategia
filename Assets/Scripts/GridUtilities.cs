@@ -128,7 +128,7 @@ public static class GridUtilities {
                 TileMoveStatus tileMoveStatus = UIData.Instance.currentUnit.CheckDir(neighbour);
                 neighbour.walkable = true;
                 if (tileMoveStatus == TileMoveStatus.Blocked) {
-                    if (UIData.Instance.currentUnit.player.fogOfWarMatrix[neighbour.pos.x, neighbour.pos.y] == 0) {
+                    if (UIData.Instance.currentUnit.player.fogOfWarMatrix[neighbour.pos.x, neighbour.pos.y] == FogOfWarState.Hidden) {
                         neighbour.walkable = true;
                     } else {
                         neighbour.walkable = false;

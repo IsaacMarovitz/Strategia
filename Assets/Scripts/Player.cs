@@ -22,50 +22,50 @@ public class Player : MonoBehaviour {
     public List<string> cityNames;
     public Texture2D minimapTexture;
     public Texture2D fogOfWarTexture;
-    private float[,] internalFogOfWarMatrix;
-    public float[,] fogOfWarMatrix;
+    private FogOfWarState[,] internalFogOfWarMatrix;
+    public FogOfWarState[,] fogOfWarMatrix;
 
     public void UpdateFogOfWar() {
         if (internalFogOfWarMatrix == null || fogOfWarMatrix == null) {
-            internalFogOfWarMatrix = new float[GameManager.Instance.tileGrid.width, GameManager.Instance.tileGrid.height];
-            fogOfWarMatrix = new float[GameManager.Instance.tileGrid.width, GameManager.Instance.tileGrid.height];
+            internalFogOfWarMatrix = new FogOfWarState[GameManager.Instance.tileGrid.width, GameManager.Instance.tileGrid.height];
+            fogOfWarMatrix = new FogOfWarState[GameManager.Instance.tileGrid.width, GameManager.Instance.tileGrid.height];
             fogOfWarTexture = new Texture2D(GameManager.Instance.tileGrid.width, GameManager.Instance.tileGrid.height);
             fogOfWarTexture.filterMode = FilterMode.Point;
             minimapTexture = new Texture2D(GameManager.Instance.tileGrid.width, GameManager.Instance.tileGrid.height);
             minimapTexture.filterMode = FilterMode.Point;
             for (int x = 0; x < GameManager.Instance.tileGrid.width; x++) {
                 for (int y = 0; y < GameManager.Instance.tileGrid.height; y++) {
-                    internalFogOfWarMatrix[x, y] = 0;
-                    fogOfWarMatrix[x, y] = 0;
+                    internalFogOfWarMatrix[x, y] = FogOfWarState.Hidden;
+                    fogOfWarMatrix[x, y] = FogOfWarState.Hidden;
                 }
             }
         }
         for (int x = 0; x < GameManager.Instance.tileGrid.width; x++) {
             for (int y = 0; y < GameManager.Instance.tileGrid.height; y++) {
-                if (internalFogOfWarMatrix[x, y] == 1f) {
-                    internalFogOfWarMatrix[x, y] = 0.5f;
+                if (internalFogOfWarMatrix[x, y] == FogOfWarState.Visible) {
+                    internalFogOfWarMatrix[x, y] = FogOfWarState.Revealed;
                 }
             }
         }
         foreach (var unit in playerUnits) {
             List<Tile> revealedTiles = GridUtilities.RadialSearch(unit.pos, 5);
             foreach (var tile in revealedTiles) {
-                internalFogOfWarMatrix[tile.pos.x, tile.pos.y] = 1f;
+                internalFogOfWarMatrix[tile.pos.x, tile.pos.y] = FogOfWarState.Visible;
             }
         }
         foreach (var city in playerCities) {
             List<Tile> revealedTiles = GridUtilities.RadialSearch(city.pos, 5);
             foreach (var tile in revealedTiles) {
-                internalFogOfWarMatrix[tile.pos.x, tile.pos.y] = 1f;
+                internalFogOfWarMatrix[tile.pos.x, tile.pos.y] = FogOfWarState.Visible;
             }
         }
 
         if (!revealAllTiles) {
-            fogOfWarMatrix = (float[,])internalFogOfWarMatrix.Clone();
+            fogOfWarMatrix = (FogOfWarState[,])internalFogOfWarMatrix.Clone();
         } else {
             for (int x = 0; x < GameManager.Instance.tileGrid.width; x++) {
                 for (int y = 0; y < GameManager.Instance.tileGrid.height; y++) {
-                    fogOfWarMatrix[x, y] = 1f;
+                    fogOfWarMatrix[x, y] = FogOfWarState.Visible;
                 }
             }
         }
@@ -76,17 +76,17 @@ public class Player : MonoBehaviour {
     public void GenerateTexture() {
         for (int x = 0; x < GameManager.Instance.tileGrid.width; x++) {
             for (int y = 0; y < GameManager.Instance.tileGrid.height; y++) {
-                if (fogOfWarMatrix[x, y] == 1) {
+                if (fogOfWarMatrix[x, y] == FogOfWarState.Visible) {
                     fogOfWarTexture.SetPixel(x, y, new Color(1, 1, 1, 0));
                     if (GameManager.Instance.tileGrid.grid[x, y].cityOfInfluence.player != null) {
                         minimapTexture.SetPixel(x, y, GameManager.Instance.tileGrid.grid[x, y].cityOfInfluence.player.playerColor);
                     } else {
                         minimapTexture.SetPixel(x, y, Color.grey);
                     }
-                } else if (fogOfWarMatrix[x, y] == 0) {
+                } else if (fogOfWarMatrix[x, y] == FogOfWarState.Hidden) {
                     fogOfWarTexture.SetPixel(x, y, Color.black);
                     minimapTexture.SetPixel(x, y, Color.black);
-                } else if (fogOfWarMatrix[x, y] == 0.5f) {
+                } else if (fogOfWarMatrix[x, y] == FogOfWarState.Revealed) {
                     fogOfWarTexture.SetPixel(x, y, new Color(1, 1, 1, 0.5f));
                     if (GameManager.Instance.tileGrid.grid[x, y].cityOfInfluence.player != null) {
                         minimapTexture.SetPixel(x, y, GameManager.Instance.tileGrid.grid[x, y].cityOfInfluence.player.playerColor);
@@ -246,3 +246,5 @@ public class Player : MonoBehaviour {
         }
     }
 }
+
+public enum FogOfWarState { Visible, Revealed, Hidden }

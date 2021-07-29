@@ -66,7 +66,7 @@ public class Unit : TurnBehaviour {
     }
 
     public override void OnFogOfWarUpdate(Player player) {
-        if (player.fogOfWarMatrix[pos.x, pos.y] != 1f) {
+        if (player.fogOfWarMatrix[pos.x, pos.y] != FogOfWarState.Visible) {
             mainMesh.SetActive(false);
             lineRenderer.gameObject.SetActive(false);
             instantiatedSleepEffect?.SetActive(false);

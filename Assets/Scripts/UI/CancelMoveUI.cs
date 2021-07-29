@@ -19,7 +19,7 @@ public class CancelMoveUI : MonoBehaviour {
                 canvas.transform.position = GridUtilities.TileToWorldPos(UIData.Instance.currentUnit.pos, 2);
                 path = new List<Tile>(UIData.Instance.currentUnit.path);
                 for (int i = 0; i < path.Count; i++) {
-                    if (UIData.Instance.currentUnit.player.fogOfWarMatrix[path[i].pos.x, path[i].pos.y] != 0) {
+                    if (UIData.Instance.currentUnit.player.fogOfWarMatrix[path[i].pos.x, path[i].pos.y] != FogOfWarState.Hidden) {
                         if (UIData.Instance.currentUnit.CheckDir(path[i]) == TileMoveStatus.Blocked) {
                             path.RemoveRange(i, path.Count - i);
                             break;
