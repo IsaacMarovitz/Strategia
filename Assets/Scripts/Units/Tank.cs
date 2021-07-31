@@ -14,7 +14,6 @@ public class Tank : Unit {
     public override void Update() {
         base.Update();
         if (isOnTransport) {
-            isInCity = false;
             mainMesh.SetActive(false);
         }
     }
@@ -64,7 +63,7 @@ public class Tank : Unit {
 
     public override void PerformMove(Tile tileToMoveTo) {
         base.PerformMove(tileToMoveTo);
-        if (tileGrid.grid[pos.x, pos.y].tileType == TileType.Swamp) {
+        if (currentTile.tileType == TileType.Swamp) {
             isMoveDistanceReduced = true;
             moves -= reducedMoveDistance;
         } else {
@@ -76,9 +75,9 @@ public class Tank : Unit {
         if (isOnTransport) {
             isOnTransport = false;
             mainMesh.SetActive(true);
-            ((Transport)tileGrid.grid[pos.x, pos.y].unitOnTile).armiesOnTransport.Remove(this);
+            ((Transport)currentTile.unitOnTile).armiesOnTransport.Remove(this);
         } else {
-            tileGrid.grid[pos.x, pos.y].unitOnTile = null;
+            currentTile.unitOnTile = null;
         }
     }
 
@@ -87,7 +86,7 @@ public class Tank : Unit {
         if (tileMoveStatus == TileMoveStatus.Transport) {
             pos = tileToMoveTo.pos;
             isOnTransport = true;
-            ((Transport)tileGrid.grid[pos.x, pos.y].unitOnTile).armiesOnTransport.Add(this);
+            ((Transport)currentTile.unitOnTile).armiesOnTransport.Add(this);
         }
     }
 }

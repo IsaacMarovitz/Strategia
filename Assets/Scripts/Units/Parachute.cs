@@ -42,7 +42,7 @@ public class Parachute : Unit, ICustomButton, IFuel {
     public override void PerformMove(Tile tileToMoveTo) {
         base.PerformMove(tileToMoveTo);
 
-        if (tileGrid.grid[pos.x, pos.y].isCityTile) {
+        if (currentTile.isCityTile) {
             fuel = maxFuel;
         } else {
             fuel -= fuelPerMove;
@@ -55,29 +55,28 @@ public class Parachute : Unit, ICustomButton, IFuel {
         }
     }
 
-    public void DeployArmy() {
-        if (tileGrid.grid[pos.x, pos.y].tileType != TileType.Sea || tileGrid.grid[pos.x, pos.y].tileType != TileType.Mountains || tileGrid.grid[pos.x, pos.y].tileType != TileType.Trees) {
-            Tank army = GameObject.Instantiate(unitPrefab, Vector3.zero, Quaternion.identity).GetComponent<Tank>();
-            army.pos = pos;
-            army.gameObject.transform.parent = this.gameObject.transform.parent;
-            army.gameObject.transform.rotation = this.gameObject.transform.rotation;
-            army.player = player;
+    public void DeployTank() {
+        if (currentTile.tileType != TileType.Sea || currentTile.tileType != TileType.Mountains || currentTile.tileType != TileType.Trees) {
+            Tank tank = GameObject.Instantiate(unitPrefab, Vector3.zero, Quaternion.identity).GetComponent<Tank>();
+            tank.pos = pos;
+            tank.gameObject.transform.parent = this.gameObject.transform.parent;
+            tank.gameObject.transform.rotation = this.gameObject.transform.rotation;
+            tank.player = player;
             Die();
-            tileGrid.grid[pos.x, pos.y].unitOnTile = army;
-            player.AddUnit(army);
+            currentTile.unitOnTile = tank;
+            player.AddUnit(tank);
             int i = player.unitQueue.FindIndex(a => a == this);
             if (i >= 0) {
-                player.unitQueue[i] = army;
+                player.unitQueue[i] = tank;
             }
-            if (isInCity) {
-                army.isInCity = true;
-                army.mainMesh.SetActive(false);
-                army.oldCity = oldCity;
+            if (currentTile.isCityTile) {
+                tank.mainMesh.SetActive(false);
+                tank.oldCity = oldCity;
                 oldCity.RemoveUnit(this);
-                oldCity.AddUnit(army);
+                oldCity.AddUnit(tank);
             }
-            UIData.Instance.currentUnit = army;
-            Debug.Log($"<b>{this.gameObject.name}:</b> Deployed army!");
+            UIData.Instance.currentUnit = tank;
+            Debug.Log($"<b>{this.gameObject.name}:</b> Deployed tank!");
             GameObject.Destroy(this.gameObject);
         } else {
             Debug.Log($"<b>{this.gameObject.name}:</b> Invalid deploy location!");
@@ -85,6 +84,6 @@ public class Parachute : Unit, ICustomButton, IFuel {
     }
 
     public void CustomButton() {
-        DeployArmy();
+        DeployTank();
     }
 }

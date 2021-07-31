@@ -26,7 +26,7 @@ public class CancelMoveUI : MonoBehaviour {
                         }
                     }
                 }
-                path.Insert(0, GameManager.Instance.tileGrid.grid[UIData.Instance.currentUnit.pos.x, UIData.Instance.currentUnit.pos.y]);
+                path.Insert(0, UIData.Instance.currentUnit.currentTile);
             } else {
                 lineRenderer.enabled = false;
                 canvas.enabled = false;

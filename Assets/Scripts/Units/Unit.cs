@@ -4,17 +4,16 @@ using System.Collections.Generic;
 public class Unit : TurnBehaviour {
 
     public Vector2Int pos;
+    public Tile currentTile { get { return tileGrid.grid[pos.x, pos.y]; } }
     public float yOffset;
     public int health;
     public int maxHealth;
     public int moves;
     public int maxMoves;
-    public int damageAmount;
     public TurnStage turnStage = TurnStage.Waiting;
     public float[] damagePercentages = new float[9];
     public UnitType unitType;
     public City oldCity;
-    public bool isInCity;
     public GameObject mainMesh;
     public GameObject sleepEffectPrefab;
     public Sprite unitIcon;
@@ -40,8 +39,8 @@ public class Unit : TurnBehaviour {
     public virtual void Start() {
         moves = maxMoves;
         health = maxHealth;
-        if (!tileGrid.grid[pos.x, pos.y].isCityTile) {
-            tileGrid.grid[pos.x, pos.y].unitOnTile = this;
+        if (!currentTile.isCityTile) {
+            currentTile.unitOnTile = this;
         }
         path = new List<Tile>();
     }
@@ -52,7 +51,7 @@ public class Unit : TurnBehaviour {
             lineRenderer.enabled = true;
             lineRenderer.positionCount = path.Count;
             List<Tile> tempPath = new List<Tile>(path);
-            tempPath.Insert(0, tileGrid.grid[pos.x, pos.y]);
+            tempPath.Insert(0, currentTile);
             lineRenderer.SetPositions(GridUtilities.TilesToWorldPos(tempPath));
         } else {
             lineRenderer.enabled = false;
@@ -70,15 +69,16 @@ public class Unit : TurnBehaviour {
             mainMesh.SetActive(false);
             lineRenderer.gameObject.SetActive(false);
             instantiatedSleepEffect?.SetActive(false);
-        } else if (!isInCity) {
-            mainMesh.SetActive(true);
-            lineRenderer.gameObject.SetActive(true);
-            instantiatedSleepEffect?.SetActive(true);
-        }
-        if (tileGrid.grid[pos.x, pos.y].isCityTile) {
-            mainMesh.SetActive(false);
-            lineRenderer.gameObject.SetActive(false);
-            instantiatedSleepEffect?.SetActive(false);
+        } else {
+            if (currentTile.isCityTile) {
+                mainMesh.SetActive(false);
+                lineRenderer.gameObject.SetActive(false);
+                instantiatedSleepEffect?.SetActive(false);
+            } else {
+                mainMesh.SetActive(true);
+                lineRenderer.gameObject.SetActive(true);
+                instantiatedSleepEffect?.SetActive(true);
+            }
         }
     }
 
@@ -116,7 +116,7 @@ public class Unit : TurnBehaviour {
     public void ToggleSleep() {
         if (turnStage != TurnStage.Sleeping) {
             turnStage = TurnStage.Sleeping;
-            if (!tileGrid.grid[pos.x, pos.y].isCityTile) {
+            if (!currentTile.isCityTile) {
                 instantiatedSleepEffect = GameObject.Instantiate(sleepEffectPrefab, this.transform.position, Quaternion.identity);
                 instantiatedSleepEffect.transform.parent = this.transform;
             }
@@ -180,7 +180,7 @@ public class Unit : TurnBehaviour {
     public void MoveAlongSetPath() {
         if (path != null) {
             for (int i = 0; i < path.Count; i++) {
-                if (path[i] != tileGrid.grid[pos.x, pos.y]) {
+                if (path[i] != currentTile) {
                     if (path[i].unitOnTile != null) {
                         path = null;
                         return;
@@ -199,7 +199,7 @@ public class Unit : TurnBehaviour {
         path = newPath;
         pathWasSetThisTurn = true;
         for (int i = 0; i < path.Count; i++) {
-            if (path[i] != tileGrid.grid[pos.x, pos.y]) {
+            if (path[i] != currentTile) {
                 if (moves > 0) {
                     PerformMove(path[i]);
                     i--;
@@ -228,21 +228,18 @@ public class Unit : TurnBehaviour {
             if (oldCity != null) {
                 oldCity.RemoveUnit(this);
                 oldCity = null;
-                isInCity = false;
                 mainMesh.SetActive(true);
             }
 
-            if (tileGrid.grid[pos.x, pos.y].isCityTile) {
-                City city = tileGrid.grid[pos.x, pos.y].gameObject.GetComponent<City>();
+            if (currentTile.isCityTile) {
+                City city = currentTile.gameObject.GetComponent<City>();
                 city.GetOwned(player);
                 city.AddUnit(this);
                 oldCity = city;
-                isInCity = true;
                 mainMesh.SetActive(false);
             } else {
-                isInCity = false;
                 mainMesh.SetActive(true);
-                tileGrid.grid[pos.x, pos.y].unitOnTile = this;
+                currentTile.unitOnTile = this;
             }
         } else if (tileMoveStatus == TileMoveStatus.Attack) {
             if (pathWasSetThisTurn) {
@@ -252,12 +249,12 @@ public class Unit : TurnBehaviour {
                 this.gameObject.transform.LookAt(tileToMoveTo.gameObject.transform.position, Vector3.up);
                 this.gameObject.transform.eulerAngles = new Vector3(0, this.gameObject.transform.eulerAngles.y, 0);
                 path.Clear();
-                tileGrid.grid[pos.x, pos.y].unitOnTile = this;
+                currentTile.unitOnTile = this;
                 return;
             }
         } else if (tileMoveStatus == TileMoveStatus.Blocked) {
             path.Clear();
-            tileGrid.grid[pos.x, pos.y].unitOnTile = this;
+            currentTile.unitOnTile = this;
             return;
         }
 
@@ -276,7 +273,7 @@ public class Unit : TurnBehaviour {
     }
 
     public virtual void TransportCheck() {
-        tileGrid.grid[pos.x, pos.y].unitOnTile = null;
+        currentTile.unitOnTile = null;
     }
 
     public virtual void TransportMove(Tile tileToMoveTo, TileMoveStatus tileMoveStatus) { }
@@ -296,8 +293,8 @@ public class Unit : TurnBehaviour {
     public virtual void Die() {
         player.playerUnits.Remove(this);
         player.unitQueue.Remove(this);
-        tileGrid.grid[pos.x, pos.y].unitOnTile = null;
-        if (isInCity) {
+        currentTile.unitOnTile = null;
+        if (currentTile.isCityTile) {
             oldCity.RemoveUnit(this);
         }
     }

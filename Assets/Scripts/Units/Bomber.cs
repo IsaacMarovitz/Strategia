@@ -42,7 +42,7 @@ public class Bomber : Unit, ICustomButton, IFuel {
     public override void PerformMove(Tile tileToMoveTo) {
         base.PerformMove(tileToMoveTo);
 
-        if (tileGrid.grid[pos.x, pos.y].isCityTile) {
+        if (currentTile.isCityTile) {
             fuel = maxFuel;
         } else {
             fuel -= fuelPerMove;

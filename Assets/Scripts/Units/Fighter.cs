@@ -17,7 +17,6 @@ public class Fighter : Unit, IFuel {
     public override void Update() {
         base.Update();
         if (isOnCarrier) {
-            isInCity = false;
             mainMesh.SetActive(false);
         }
     }
@@ -61,7 +60,7 @@ public class Fighter : Unit, IFuel {
     public override void PerformMove(Tile tileToMoveTo) {
         base.PerformMove(tileToMoveTo);
 
-        if (tileGrid.grid[pos.x, pos.y].isCityTile) {
+        if (currentTile.isCityTile) {
             fuel = maxFuel;
         } else {
             fuel -= fuelPerMove;
@@ -79,9 +78,9 @@ public class Fighter : Unit, IFuel {
         if (isOnCarrier) {
             isOnCarrier = false;
             mainMesh.SetActive(true);
-            ((Carrier)tileGrid.grid[pos.x, pos.y].unitOnTile).fightersOnCarrier.Remove(this);
+            ((Carrier)currentTile.unitOnTile).fightersOnCarrier.Remove(this);
         } else {
-            tileGrid.grid[pos.x, pos.y].unitOnTile = null;
+            currentTile.unitOnTile = null;
         }
     }
 
@@ -90,7 +89,7 @@ public class Fighter : Unit, IFuel {
         if (tileMoveStatus == TileMoveStatus.Transport) {
             pos += tileToMoveTo.pos;
             isOnCarrier = true;
-            ((Carrier)tileGrid.grid[pos.x, pos.y].unitOnTile).fightersOnCarrier.Add(this);
+            ((Carrier)currentTile.unitOnTile).fightersOnCarrier.Add(this);
             fuel = maxFuel;
         }
     }

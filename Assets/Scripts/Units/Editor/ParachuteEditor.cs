@@ -26,7 +26,7 @@ namespace Strategia.Editor {
             EditorGUILayout.Space(10);
             EditorGUILayout.PropertyField(unitPrefab_prop);
             if (GUILayout.Button("Deploy Tank") && EditorApplication.isPlaying) {
-                parachute.DeployArmy();
+                parachute.DeployTank();
             }
 
             serializedObject.ApplyModifiedProperties();
