@@ -42,7 +42,7 @@ public class TransportUI : MonoBehaviour {
         for (int i = horizontalLayoutGroup.transform.childCount - 1; i >= 0; i--) {
             GameObject.Destroy(horizontalLayoutGroup.transform.GetChild(i).gameObject);
         }
-        foreach (var unit in ((Transport)UIData.Instance.currentUnit).armiesOnTransport) {
+        foreach (var unit in ((Transport)UIData.Instance.currentUnit).tanksOnTransport) {
             GameObject newButton = GameObject.Instantiate(unitButtonPrefab, Vector3.zero, Quaternion.identity);
             newButton.transform.SetParent(horizontalLayoutGroup.transform, false);
             UnitButtonUI unitButton = newButton.GetComponent<UnitButtonUI>();

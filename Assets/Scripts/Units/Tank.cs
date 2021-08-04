@@ -75,7 +75,7 @@ public class Tank : Unit {
         if (isOnTransport) {
             isOnTransport = false;
             mainMesh.SetActive(true);
-            ((Transport)currentTile.unitOnTile).armiesOnTransport.Remove(this);
+            ((Transport)currentTile.unitOnTile).tanksOnTransport.Remove(this);
         } else {
             currentTile.unitOnTile = null;
         }
@@ -86,7 +86,7 @@ public class Tank : Unit {
         if (tileMoveStatus == TileMoveStatus.Transport) {
             pos = tileToMoveTo.pos;
             isOnTransport = true;
-            ((Transport)currentTile.unitOnTile).armiesOnTransport.Add(this);
+            ((Transport)currentTile.unitOnTile).tanksOnTransport.Add(this);
         }
     }
 }

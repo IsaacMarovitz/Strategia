@@ -27,7 +27,6 @@ public class CameraController : MonoBehaviour {
 
     [Space(10)]
     public LayerMask raycastLayers;
-    public MoveUI moveUI;
 
     [HideInInspector]
     public bool didLMBDrag = false;
@@ -99,7 +98,12 @@ public class CameraController : MonoBehaviour {
                 didClickUI = true;
             }
 
-            if (Input.GetMouseButtonUp(0) && !moveUI.showLine && !didLMBDrag) {
+            if (Input.GetMouseButtonUp(0) && !didLMBDrag) {
+                if (UIData.Instance.currentUnit != null) {
+                    if (UIData.Instance.currentUnit.unitMoveUI.isMoving) {
+                        return;
+                    }
+                }
                 if (!didClickUI) {
                     ray = mainCamera.ScreenPointToRay(Input.mousePosition);
                     if (Physics.Raycast(ray, out hit)) {
@@ -195,7 +199,7 @@ public class CameraController : MonoBehaviour {
         if (Input.GetMouseButtonDown(0) && Input.GetKey(KeyCode.LeftShift)) {
             rotateStartPosition = Input.mousePosition;
             screenShiftDragStartPosition = Input.mousePosition;
-            didRMBDrag = false;
+            didLMBDrag = false;
         }
         if (Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftShift)) {
             rotateCurrentPosition = Input.mousePosition;
@@ -206,7 +210,7 @@ public class CameraController : MonoBehaviour {
                 screenShiftDragStartPosition = screenShiftDragCurrentPosition;
             } else {
                 if ((screenShiftDragStartPosition - screenShiftDragCurrentPosition).magnitude > dragDeltaThreshold) {
-                    didRMBDrag = true;
+                    didLMBDrag = true;
                     Vector3 difference = rotateStartPosition - rotateCurrentPosition;
                     rotateStartPosition = rotateCurrentPosition;
                     newRotation *= Quaternion.Euler(Vector3.up * (-difference.x / 5));

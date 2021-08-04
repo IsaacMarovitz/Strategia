@@ -19,6 +19,7 @@ public class Unit : TurnBehaviour {
     public Sprite unitIcon;
     public Player player;
     public List<TileType> blockedTileTypes;
+    public UnitMoveUI unitMoveUI;
 
     [HideInInspector]
     public List<Tile> path { get; private set; }
@@ -26,14 +27,12 @@ public class Unit : TurnBehaviour {
     protected bool pathWasSetThisTurn;
 
     private GameObject instantiatedSleepEffect;
-    public LineRenderer lineRenderer;
 
     public override void Awake() {
         base.Awake();
 
         // Replace this later with something a lot more modular
         mainMesh = this.gameObject.transform.GetChild(0).gameObject;
-        lineRenderer = GetComponentInChildren<LineRenderer>();
     }
 
     public virtual void Start() {
@@ -47,7 +46,7 @@ public class Unit : TurnBehaviour {
 
     public virtual void Update() {
         SetPos(pos);
-        if (UIData.Instance.currentUnit != this && path.Count > 0 && lineRenderer != null) {
+        /*if (UIData.Instance.currentUnit != this && path.Count > 0 && lineRenderer != null) {
             lineRenderer.enabled = true;
             lineRenderer.positionCount = path.Count;
             List<Tile> tempPath = new List<Tile>(path);
@@ -55,28 +54,21 @@ public class Unit : TurnBehaviour {
             lineRenderer.SetPositions(GridUtilities.TilesToWorldPos(tempPath));
         } else {
             lineRenderer.enabled = false;
-        }
-    }
-
-    public override void OnPlayerTurnStart(Player player) {
-        if (player != this.player) {
-            lineRenderer.gameObject.SetActive(false);
-        }
+        }*/
     }
 
     public override void OnFogOfWarUpdate(Player player) {
+        if (mainMesh == null) { return; }
+        
         if (player.fogOfWarMatrix[pos.x, pos.y] != FogOfWarState.Visible) {
             mainMesh.SetActive(false);
-            lineRenderer.gameObject.SetActive(false);
             instantiatedSleepEffect?.SetActive(false);
         } else {
             if (currentTile.isCityTile) {
                 mainMesh.SetActive(false);
-                lineRenderer.gameObject.SetActive(false);
                 instantiatedSleepEffect?.SetActive(false);
             } else {
                 mainMesh.SetActive(true);
-                lineRenderer.gameObject.SetActive(true);
                 instantiatedSleepEffect?.SetActive(true);
             }
         }

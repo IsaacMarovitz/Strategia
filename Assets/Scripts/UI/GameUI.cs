@@ -32,13 +32,19 @@ public class GameUI : MonoBehaviour {
     [Header("Misc")]
     public Image unitImage;
     public Slider healthSlider;
-    public MoveUI moveUI;
-    public CancelMoveUI cancelMoveUI;
     public CameraController cameraController;
 
     private Unit oldUnit;
     private bool unitIsMoving = false;
     private bool moveButtonPressed = false;
+    private Unit currentUnit { 
+        get { 
+            return UIData.Instance.currentUnit; 
+        } 
+        set {
+            UIData.Instance.currentUnit = value;
+        }
+    }
 
     public void Start() {
         // Setup onClick events for all main bottom bar buttons
@@ -51,7 +57,7 @@ public class GameUI : MonoBehaviour {
         endTurnButton.onClick.AddListener(EndTurnButton);
         nextUnitButton.onClick.AddListener(NextUnitButton);
 
-        oldUnit = UIData.Instance.currentUnit;
+        oldUnit = currentUnit;
     }
 
     public void Update() {
@@ -74,12 +80,12 @@ public class GameUI : MonoBehaviour {
             fuelLeft.text = "";
             oldUnit = null;
 
-            if (UIData.Instance.currentUnit != null) {
-                if (UIData.Instance.currentUnit.unitIcon != null) {
-                    unitImage.sprite = UIData.Instance.currentUnit.unitIcon;
+            if (currentUnit != null) {
+                if (currentUnit.unitIcon != null) {
+                    unitImage.sprite = currentUnit.unitIcon;
                 }
 
-                if (UIData.Instance.currentUnit.turnStage == TurnStage.PathSet) {
+                if (currentUnit.turnStage == TurnStage.PathSet) {
                     cancelMoveButtonParent.SetActive(true);
                     moveButtonParent.SetActive(false);
 
@@ -102,17 +108,19 @@ public class GameUI : MonoBehaviour {
             endTurnButtonParent.SetActive(false);
             nextUnitButtonParent.SetActive(true);
 
-            if (UIData.Instance.currentUnit != null) {
-                healthSlider.maxValue = UIData.Instance.currentUnit.maxHealth;
-                healthSlider.value = UIData.Instance.currentUnit.health;
-                if (UIData.Instance.currentUnit.unitIcon != null) {
-                    unitImage.sprite = UIData.Instance.currentUnit.unitIcon;
+            if (currentUnit != null) {
+                UnitMoveUI unitMoveUI = currentUnit.unitMoveUI;
+
+                healthSlider.maxValue = currentUnit.maxHealth;
+                healthSlider.value = currentUnit.health;
+                if (currentUnit.unitIcon != null) {
+                    unitImage.sprite = currentUnit.unitIcon;
                 }
                 
-                movesLeft.text = $"Moves Left: {UIData.Instance.currentUnit.moves}";
+                movesLeft.text = $"Moves Left: {currentUnit.moves}";
 
                 // If the unit inherits the ICustomButton interface, activate CustomButton and set CustomButtonText to CustomButtonName
-                ICustomButton buttonInterface = UIData.Instance.currentUnit as ICustomButton;
+                ICustomButton buttonInterface = currentUnit as ICustomButton;
                 if (buttonInterface != null) {
                     customButtonText.text = buttonInterface.CustomButtonName;
                     customButtonParent.SetActive(true);
@@ -121,40 +129,40 @@ public class GameUI : MonoBehaviour {
                 }
 
                 // If the unit inherits the IFuel interface, set FuelLeft tect to the current fuel level
-                IFuel fuelInterface = UIData.Instance.currentUnit as IFuel;
+                IFuel fuelInterface = currentUnit as IFuel;
                 if (fuelInterface != null) {
                     fuelLeft.text = $"Fuel: {fuelInterface.fuel}";
                 } else {
                     fuelLeft.text = "";
                 }
 
-                // If a different unit has been selected, disable the MoveUI Line Renderer, and set MoveButton to interactable 
-                if (!moveButton.interactable && UIData.Instance.currentUnit != oldUnit) {
-                    oldUnit = UIData.Instance.currentUnit;
+                // If a different unit has been selected, disable the UnitMoveUI Line Renderer, and set MoveButton to interactable 
+                if (!moveButton.interactable && currentUnit != oldUnit) {
+                    oldUnit = currentUnit;
                     moveButton.interactable = true;
-                    moveUI.Hide();
+                    unitMoveUI.MoveButtonDeselected();
                 }
 
-                // If the right mouse button is pressed while the line is showing, disable the MoveUI Line Renderer, and set Move Button to interactable
-                if (Input.GetMouseButtonUp(1) && moveUI.showLine && !cameraController.didRMBDrag) {
-                    moveUI.Hide();
+                // If the right mouse button is pressed while the line is showing, disable the UnitMoveUI Line Renderer, and set Move Button to interactable
+                if (Input.GetMouseButtonUp(1) && unitMoveUI.isMoving && !cameraController.didRMBDrag) {
+                    unitMoveUI.MoveButtonDeselected();
                     moveButton.interactable = true;
                     unitIsMoving = false;
                 }
 
-                // If the left mouse button is pressed while the line is showing, disable the MoveUI Line Renderer, set Move Button to interactable, and move the selected Unit
-                if (Input.GetMouseButtonUp(0) && moveUI.showLine && !cameraController.didLMBDrag) {
+                // If the left mouse button is pressed while the line is showing, disable the UnitMoveUI Line Renderer, set Move Button to interactable, and move the selected Unit
+                if (Input.GetMouseButtonUp(0) && unitMoveUI.isMoving && !cameraController.didLMBDrag) {
                     if (cameraController.IsMouseOverUI() && moveButtonPressed) {
                         if (!moveButtonPressed) {
-                            moveUI.Hide();
+                            unitMoveUI.MoveButtonDeselected();
                             moveButton.interactable = true;
                             unitIsMoving = false;
                         }
                     } else {
-                        moveUI.Hide();
+                        unitMoveUI.MoveButtonDeselected();
                         moveButton.interactable = true;
                         unitIsMoving = false;
-                        moveUI.Move();
+                        unitMoveUI.Move();
                     }
                 }
             } else {
@@ -166,11 +174,10 @@ public class GameUI : MonoBehaviour {
                 SetButtons(false);
 
                 oldUnit = null;
-                moveUI.path = null;
             }
 
             if (!GameManager.Instance.dayCompleted) {
-                if (UIData.Instance.currentUnit != null)
+                if (currentUnit != null)
                     UpdateUI();
             } else {
                 SetButtons(false);
@@ -179,19 +186,18 @@ public class GameUI : MonoBehaviour {
     }
 
     public void UpdateUI() {
-        if (UIData.Instance.currentUnit.turnStage == TurnStage.Waiting) {
-            UIData.Instance.currentUnit.StartTurn();
-            moveUI.Hide();
-        } else if (UIData.Instance.currentUnit.turnStage == TurnStage.Sleeping) {
+        if (currentUnit.turnStage == TurnStage.Waiting) {
+            currentUnit.StartTurn();
+        } else if (currentUnit.turnStage == TurnStage.Sleeping) {
             sleepButtonParent.SetActive(false);
             wakeButtonParent.SetActive(true);
             moveButton.interactable = false;
             sleepButton.interactable = false;
             doneButton.interactable = false;
             wakeButton.interactable = true;
-        } else if (UIData.Instance.currentUnit.turnStage == TurnStage.Complete) {
+        } else if (currentUnit.turnStage == TurnStage.Complete) {
             SetButtons(false);
-        } else if (UIData.Instance.currentUnit.turnStage == TurnStage.PathSet) {
+        } else if (currentUnit.turnStage == TurnStage.PathSet) {
             cancelMoveButtonParent.SetActive(true);
             moveButtonParent.SetActive(false);
             cancelMoveButton.interactable = true;
@@ -225,51 +231,51 @@ public class GameUI : MonoBehaviour {
     #region  Button Functions
 
     public void MoveButton() {
-        if (UIData.Instance.currentUnit == null) { return; }
+        if (currentUnit == null) { return; }
 
-        oldUnit = UIData.Instance.currentUnit;
-        moveUI.Show();
+        oldUnit = currentUnit;
+        currentUnit.unitMoveUI.MoveButtonSelected();
         moveButton.interactable = false;
         unitIsMoving = true;
         moveButtonPressed = true;
     }
 
     public void CancelMoveButton() {
-        if (UIData.Instance.currentUnit == null) { return; }
+        if (currentUnit == null) { return; }
 
-        UIData.Instance.currentUnit.UnsetPath();
+        currentUnit.UnsetPath();
 
-        if (UIData.Instance.currentUnit.moves > 0) {
+        if (currentUnit.moves > 0) {
             GameManager.Instance.GetCurrentPlayer().turnCompleted = false;
-            GameManager.Instance.GetCurrentPlayer().unitQueue.Add(UIData.Instance.currentUnit);
-            UIData.Instance.currentUnit.turnStage = TurnStage.Started;
+            GameManager.Instance.GetCurrentPlayer().unitQueue.Add(currentUnit);
+            currentUnit.turnStage = TurnStage.Started;
         } else {
-            UIData.Instance.currentUnit.turnStage = TurnStage.Complete;
+            currentUnit.turnStage = TurnStage.Complete;
         }
     }
 
     public void SleepButton() {
-        if (UIData.Instance.currentUnit == null) { return; }
+        if (currentUnit == null) { return; }
 
-        UIData.Instance.currentUnit.ToggleSleep();
+        currentUnit.ToggleSleep();
     }
 
     public void WakeButton() {
-        if (UIData.Instance.currentUnit == null) { return; }
+        if (currentUnit == null) { return; }
 
-        UIData.Instance.currentUnit.ToggleSleep();
+        currentUnit.ToggleSleep();
     }
 
     public void DoneButton() {
-        if (UIData.Instance.currentUnit == null) { return; }
+        if (currentUnit == null) { return; }
 
-        UIData.Instance.currentUnit.EndTurn();
+        currentUnit.EndTurn();
     }
 
     public void CustomButton() {
-        if (UIData.Instance.currentUnit == null) { return; }
+        if (currentUnit == null) { return; }
 
-        ICustomButton currentUnitInterface = UIData.Instance.currentUnit as ICustomButton;
+        ICustomButton currentUnitInterface = currentUnit as ICustomButton;
         if (currentUnitInterface != null) {
             currentUnitInterface.CustomButton();
         }
@@ -280,16 +286,16 @@ public class GameUI : MonoBehaviour {
     }
 
     public void NextUnitButton() {
-        Unit currentUnit = GameManager.Instance.GetCurrentPlayer().GetCurrentUnit();
+        Unit newCurrentUnit = GameManager.Instance.GetCurrentPlayer().GetCurrentUnit();
         UIData.Instance.currentCity = null;
 
-        if (currentUnit != null) {
-            if (UIData.Instance.currentUnit == null) {
-                UIData.Instance.currentUnit = currentUnit;
+        if (newCurrentUnit != null) {
+            if (currentUnit == null) {
+                currentUnit = newCurrentUnit;
             } else {
-                GameManager.Instance.GetCurrentPlayer().NextUnit(currentUnit, true);
+                GameManager.Instance.GetCurrentPlayer().NextUnit(newCurrentUnit, true);
             }
-            cameraController.Focus(GridUtilities.TileToWorldPos(UIData.Instance.currentUnit.pos), true);
+            cameraController.Focus(GridUtilities.TileToWorldPos(currentUnit.pos), true);
         }
     }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Transport : Unit {
 
-    public List<Tank> armiesOnTransport;
+    public List<Tank> tanksOnTransport;
     public bool isTransportFull;
 
     public override void Start() {
@@ -15,7 +15,7 @@ public class Transport : Unit {
 
     public override void Update() {
         base.Update();
-        if (armiesOnTransport.Count >= 6) {
+        if (tanksOnTransport.Count >= 6) {
             isTransportFull = true;
         } else {
             isTransportFull = false;
@@ -41,16 +41,16 @@ public class Transport : Unit {
 
     public override void Die() {
         base.Die();
-        foreach (var army in armiesOnTransport) {
-            army.Die();
-            GameObject.Destroy(army.gameObject);
+        foreach (var tank in tanksOnTransport) {
+            tank.Die();
+            GameObject.Destroy(tank.gameObject);
         }
     }
 
     public override void PerformMove(Tile tileToMoveTo) {
         base.PerformMove(tileToMoveTo);
-        foreach (var army in armiesOnTransport) {
-            army.pos = pos;
+        foreach (var tank in tanksOnTransport) {
+            tank.pos = pos;
         }
     }
 }

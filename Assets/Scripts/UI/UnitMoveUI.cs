@@ -1,21 +1,141 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
 
 public class UnitMoveUI : TurnBehaviour {
 
     public Unit unit;
     public LineRenderer lineRenderer;
     public GameObject tileSelector;
+    public MeshRenderer tileSelectorMeshRenderer;
+    public TMP_Text numberOfTurns;
+    public Canvas canvas;
+    public Player currentPlayer;
+    public List<Tile> path = new List<Tile>();
 
-    public void OnSelected() {
+    [Header("Booleans")]
+    public bool isSelected = false;
+    public bool isMoving = false;
 
+    [Header("Tile Selector Materials")]
+    public Material hiddenTRMaterial;
+    public Material moveTRMaterial;
+    public Material blockedTRMaterial;
+    public Material setPathTRMaterial;
+
+    [Header("Line Renderer Material")]
+    public Material hiddenLRMaterial;
+    public Material moveLRMaterial;
+    public Material setPathLRMaterial;
+
+    private Tile oldMouseOverTile;
+
+    void Update() {
+        if (currentPlayer != unit.player) {
+            Hide();
+            return;
+        }
+
+        isSelected = UIData.Instance.currentUnit == unit;
+
+        if (unit.turnStage == TurnStage.PathSet) {
+            tileSelector.SetActive(true);
+            lineRenderer.enabled = true;
+            if (isSelected) {
+                // Show set path with bright material
+                canvas.enabled = true;
+                tileSelectorMeshRenderer.material = moveTRMaterial;
+                lineRenderer.material = moveLRMaterial;
+            } else {
+                // Show set path with more muted colours
+                canvas.enabled = false;
+                tileSelectorMeshRenderer.material = setPathTRMaterial;
+                lineRenderer.material = setPathLRMaterial;
+            }
+        } else {
+            if (isSelected && isMoving) {
+                MoveSelector();
+                return;
+            }
+            Hide();
+        }
     }
 
-    public void OnDeselected() {
+    void MoveSelector() {
+        Tile mouseOverTile = UIData.Instance.mouseOverTile;
+        if (mouseOverTile == null || mouseOverTile == oldMouseOverTile) { return; }
 
+        oldMouseOverTile = mouseOverTile;
+        tileSelector.SetActive(true);
+        tileSelector.transform.position = GridUtilities.TileToWorldPos(mouseOverTile.pos);
+
+        if (unit.blockedTileTypes.Contains(mouseOverTile.tileType) && currentPlayer.fogOfWarMatrix[mouseOverTile.pos.x, mouseOverTile.pos.y] != FogOfWarState.Hidden) {
+            tileSelectorMeshRenderer.material = blockedTRMaterial;
+            lineRenderer.enabled = false;
+            canvas.enabled = false;
+        } else {
+            path = GridUtilities.FindPath(unit.currentTile, mouseOverTile, out bool goesThroughHiddenTiles);
+            if (path == null) {
+                // Path is blocked
+                tileSelectorMeshRenderer.material = blockedTRMaterial;
+                lineRenderer.enabled = false;
+                canvas.enabled = false;
+            } else {
+                if (goesThroughHiddenTiles) {
+                    tileSelectorMeshRenderer.material = hiddenTRMaterial;
+                    lineRenderer.material = hiddenLRMaterial;
+                } else {
+                    tileSelectorMeshRenderer.material = moveTRMaterial;
+                    lineRenderer.material = moveLRMaterial;
+                }
+
+                Show();
+                if (path.Count > 0) {
+                    lineRenderer.positionCount = path.Count;
+                    lineRenderer.SetPositions(TilesToWorldPositions(path));
+                    // Change this later
+                    numberOfTurns.text = (path.Count - 1).ToString();
+                    int midIndex = Mathf.RoundToInt((path.Count - 1) / 2);
+                    Vector3 midIndexPos = path[midIndex].gameObject.transform.position;
+                    canvas.transform.position = new Vector3(midIndexPos.x, 2, midIndexPos.z);
+                }
+            }
+        }
     }
 
     public override void OnFogOfWarUpdate(Player player) {
-
+        currentPlayer = player;
     }
+
+    Vector3[] TilesToWorldPositions(List<Tile> tiles) {
+        Vector3[] positions = new Vector3[tiles.Count];
+        for (int i = 0; i < tiles.Count; i++) {
+            positions[i] = GridUtilities.TileToWorldPos(tiles[i].pos);
+        }
+        return positions;
+    }
+
+    void Show() {
+        // Show everything
+        tileSelector.SetActive(true);
+        lineRenderer.enabled = true;
+        canvas.enabled = true;
+    }
+
+    void Hide() {
+        // Hide everything
+        tileSelector.SetActive(false);
+        lineRenderer.enabled = false;
+        lineRenderer.positionCount = 0;
+        canvas.enabled = false;
+        numberOfTurns.text = "0";
+    }
+
+    public void Move() {
+        unit.MoveAlongPath(path);
+    }
+
+    public void MoveButtonSelected() => isMoving = true;
+
+    public void MoveButtonDeselected() => isMoving = false;
 }

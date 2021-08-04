@@ -9,7 +9,7 @@ namespace Strategia.Editor {
         public override void OnInspectorGUI() {
             base.OnInspectorGUI();
             serializedObject.Update();
-            Tank army = (Tank)target;
+            Tank tank = (Tank)target;
 
             SerializedProperty reducedMoveDistance_prop = serializedObject.FindProperty("reducedMoveDistance");
             SerializedProperty isMoveDistanceReduced_prop = serializedObject.FindProperty("isMoveDistanceReduced");
@@ -18,7 +18,7 @@ namespace Strategia.Editor {
             EditorGUILayout.Space(10);
             showReducedMovement = EditorGUILayout.BeginFoldoutHeaderGroup(showReducedMovement, "Reduced Movement");
             if (showReducedMovement) {
-                reducedMoveDistance_prop.intValue = EditorGUILayout.IntSlider("Reduced Move Distance", reducedMoveDistance_prop.intValue, 0, army.maxMoves);
+                reducedMoveDistance_prop.intValue = EditorGUILayout.IntSlider("Reduced Move Distance", reducedMoveDistance_prop.intValue, 0, tank.maxMoves);
                 EditorGUILayout.PropertyField(isMoveDistanceReduced_prop);
             }
             EditorGUILayout.EndFoldoutHeaderGroup();

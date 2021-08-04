@@ -35,7 +35,7 @@ public class MoveUI : MonoBehaviour {
                 lineRenderer.enabled = true;
                 canvas.enabled = true;
                 canvas.transform.position = GridUtilities.TileToWorldPos(UIData.Instance.currentUnit.pos, 2);
-                path = GridUtilities.FindPath(UIData.Instance.currentUnit.currentTile, UIData.Instance.mouseOverTile);
+                path = GridUtilities.FindPath(UIData.Instance.currentUnit.currentTile, UIData.Instance.mouseOverTile, out _);
             }
         } else {
             tileSelector.SetActive(false);

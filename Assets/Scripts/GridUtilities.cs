@@ -107,10 +107,11 @@ public static class GridUtilities {
     }
 
     // Find the shortest path between two tiles with A*
-    public static List<Tile> FindPath(Tile startTile, Tile targetTile) {
+    public static List<Tile> FindPath(Tile startTile, Tile targetTile, out bool goesThroughHiddenTiles) {
         Heap<Tile> openSet = new Heap<Tile>(GameManager.Instance.tileGrid.MaxSize);
         HashSet<Tile> closedSet = new HashSet<Tile>();
         openSet.Add(startTile);
+        goesThroughHiddenTiles = false;
 
         while (openSet.Count > 0) {
             Tile currentTile = openSet.RemoveFirst();
@@ -124,13 +125,17 @@ public static class GridUtilities {
                 if (neighbour == null) {
                     continue;
                 }
-                
+
                 TileMoveStatus tileMoveStatus = UIData.Instance.currentUnit.CheckDir(neighbour);
                 neighbour.walkable = true;
-                if (tileMoveStatus == TileMoveStatus.Blocked) {
-                    if (UIData.Instance.currentUnit.player.fogOfWarMatrix[neighbour.pos.x, neighbour.pos.y] == FogOfWarState.Hidden) {
-                        neighbour.walkable = true;
-                    } else {
+
+                if (UIData.Instance.currentUnit.player.fogOfWarMatrix[neighbour.pos.x, neighbour.pos.y] == FogOfWarState.Hidden) {
+                    goesThroughHiddenTiles = true;
+                } else {
+                    if (UIData.Instance.currentUnit.player.fogOfWarMatrix[neighbour.pos.x, neighbour.pos.y] == FogOfWarState.Revealed) {
+                        goesThroughHiddenTiles = true;
+                    }
+                    if (tileMoveStatus == TileMoveStatus.Blocked) {
                         neighbour.walkable = false;
                     }
                 }

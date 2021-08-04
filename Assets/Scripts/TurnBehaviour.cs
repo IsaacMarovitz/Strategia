@@ -7,13 +7,23 @@ public class TurnBehaviour : MonoBehaviour {
     public TileGrid tileGrid => gameManager.tileGrid;
 
     public virtual void Awake() {
-        //gameManager.tick += Tick;
+        // gameManager.tick += Tick;
         gameManager.playerTurnStartDelegate += OnPlayerTurnStart;
         gameManager.unitTurnStartDelegate += OnUnitTurnStart;
         gameManager.unitMoveDelegate += OnUnitMove;
         gameManager.unitMoveDelegate += (Unit unit) => OnFogOfWarUpdate(unit.player);
         gameManager.playerTurnStartDelegate += OnFogOfWarUpdate;
         gameManager.fogOfWarUpdateDelegate += OnFogOfWarUpdate;
+    }
+
+    public virtual void OnDestroy() {
+        // gameManager.tick -= Tick;
+        gameManager.playerTurnStartDelegate -= OnPlayerTurnStart;
+        gameManager.unitTurnStartDelegate -= OnUnitTurnStart;
+        gameManager.unitMoveDelegate -= OnUnitMove;
+        gameManager.unitMoveDelegate -= (Unit unit) => OnFogOfWarUpdate(unit.player);
+        gameManager.playerTurnStartDelegate -= OnFogOfWarUpdate;
+        gameManager.fogOfWarUpdateDelegate -= OnFogOfWarUpdate;
     }
 
     // Called when any delegate is invoked;
