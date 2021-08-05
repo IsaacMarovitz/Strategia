@@ -166,6 +166,9 @@ MonoBehaviour:
   player: {fileID: 0}
   blockedTileTypes: 03000000
   unitMoveUI: {fileID: 7708917057314146412}
+  _fuel: 0
+  _maxFuel: 30
+  _fuelPerMove: 1
   blastRadius: 5
 --- !u!1001 &3129712026320591325
 PrefabInstance:

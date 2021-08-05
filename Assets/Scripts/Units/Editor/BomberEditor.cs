@@ -12,14 +12,21 @@ namespace Strategia.Editor {
             serializedObject.Update();
             Bomber bomber = (Bomber)target;
 
-            /*EditorGUILayout.Space(10);
+            SerializedProperty fuel_prop = serializedObject.FindProperty("_fuel");
+            SerializedProperty maxFuel_prop = serializedObject.FindProperty("_maxFuel");
+            SerializedProperty fuelPerMove_prop = serializedObject.FindProperty("_fuelPerMove");
+
+            EditorGUILayout.Space(10);
             showFuel = EditorGUILayout.BeginFoldoutHeaderGroup(showFuel, "Fuel");
             if (showFuel) {
-                bomber.fuel = EditorGUILayout.IntSlider("Fuel", bomber.fuel, 0, bomber.maxFuel);
-                bomber.fuelPerMove = EditorGUILayout.IntSlider("Fuel Per Move", bomber.fuel, 0, bomber.maxFuel);
-                EditorGUILayout.IntField(bomber.maxFuel);
+                fuel_prop.intValue = EditorGUILayout.IntSlider("Fuel", fuel_prop.intValue, 0, maxFuel_prop.intValue);
+                fuelPerMove_prop.intValue = EditorGUILayout.IntSlider("Fuel Per Move", fuelPerMove_prop.intValue, 0, maxFuel_prop.intValue);
+                EditorGUILayout.PropertyField(maxFuel_prop);
+                if (maxFuel_prop.intValue < 0) {
+                    maxFuel_prop.intValue = 0;
+                }
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();*/
+            EditorGUILayout.EndFoldoutHeaderGroup();
 
             EditorGUILayout.Space(10);
             if (GUILayout.Button("Detonate") && EditorApplication.isPlaying) {

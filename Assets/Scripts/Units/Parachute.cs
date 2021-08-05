@@ -2,11 +2,17 @@ using UnityEngine;
 
 public class Parachute : Unit, ICustomButton, IFuel {
 
-    public GameObject unitPrefab;
-    public int fuel { get; set; }
-    public int maxFuel { get; set; }
-    public int fuelPerMove { get; set; }
     public string CustomButtonName { get { return "Deploy"; } }
+
+    public int fuel { get { return _fuel; } set { _fuel = value; } }
+    public int maxFuel { get { return _maxFuel; } set { _maxFuel = value; } }
+    public int fuelPerMove { get { return _fuelPerMove; } set { _fuelPerMove = value; } }
+
+    public int _fuel;
+    public int _maxFuel;
+    public int _fuelPerMove;
+
+    public GameObject unitPrefab;
 
     public override void Start() {
         base.Start();

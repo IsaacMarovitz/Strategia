@@ -2,9 +2,14 @@ using UnityEngine;
 
 public class Fighter : Unit, IFuel {
 
-    public int fuel { get; set; }
-    public int maxFuel { get; set; }
-    public int fuelPerMove { get; set; }
+    public int fuel { get { return _fuel; } set { _fuel = value; } }
+    public int maxFuel { get { return _maxFuel; } set { _maxFuel = value; } }
+    public int fuelPerMove { get { return _fuelPerMove; } set { _fuelPerMove = value; } }
+
+    public int _fuel;
+    public int _maxFuel;
+    public int _fuelPerMove;
+
     public bool isOnCarrier = false;
 
     public override void Start() {
@@ -52,7 +57,7 @@ public class Fighter : Unit, IFuel {
             } else {
                 returnMoveStatus = TileMoveStatus.Attack;
             }
-        } 
+        }
 
         return returnMoveStatus;
     }

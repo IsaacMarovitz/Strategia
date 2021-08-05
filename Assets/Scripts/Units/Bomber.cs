@@ -3,11 +3,17 @@ using System.Collections.Generic;
 
 public class Bomber : Unit, ICustomButton, IFuel {
 
-    public int blastRadius = 2;
-    public int fuel { get; set; }
-    public int maxFuel { get; set; }
-    public int fuelPerMove { get; set; }
     public string CustomButtonName { get { return "Detonate"; } }
+
+    public int fuel { get { return _fuel; } set { _fuel = value; } }
+    public int maxFuel { get { return _maxFuel; } set { _maxFuel = value; } }
+    public int fuelPerMove { get { return _fuelPerMove; } set { _fuelPerMove = value; } }
+
+    public int _fuel;
+    public int _maxFuel;
+    public int _fuelPerMove;
+
+    public int blastRadius = 2;
 
     public override void Start() {
         base.Start();

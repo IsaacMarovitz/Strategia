@@ -333,6 +333,9 @@ MonoBehaviour:
   player: {fileID: 0}
   blockedTileTypes: 03000000
   unitMoveUI: {fileID: 2016209037642703917}
+  _fuel: 0
+  _maxFuel: 30
+  _fuelPerMove: 1
   unitPrefab: {fileID: 264212343977508145, guid: 781b5237506c27549b6a7aba2e685906, type: 3}
 --- !u!1 &8070978077887449355
 GameObject:
