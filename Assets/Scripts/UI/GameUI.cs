@@ -37,10 +37,10 @@ public class GameUI : MonoBehaviour {
     private Unit oldUnit;
     private bool unitIsMoving = false;
     private bool moveButtonPressed = false;
-    private Unit currentUnit { 
-        get { 
-            return UIData.Instance.currentUnit; 
-        } 
+    private Unit currentUnit {
+        get {
+            return UIData.Instance.currentUnit;
+        }
         set {
             UIData.Instance.currentUnit = value;
         }
@@ -75,7 +75,7 @@ public class GameUI : MonoBehaviour {
             sleepButton.interactable = false;
             wakeButton.interactable = false;
             doneButton.interactable = false;
-            
+
             movesLeft.text = "";
             fuelLeft.text = "";
             oldUnit = null;
@@ -116,7 +116,7 @@ public class GameUI : MonoBehaviour {
                 if (currentUnit.unitIcon != null) {
                     unitImage.sprite = currentUnit.unitIcon;
                 }
-                
+
                 movesLeft.text = $"Moves Left: {currentUnit.moves}";
 
                 // If the unit inherits the ICustomButton interface, activate CustomButton and set CustomButtonText to CustomButtonName
@@ -159,10 +159,11 @@ public class GameUI : MonoBehaviour {
                             unitIsMoving = false;
                         }
                     } else {
-                        unitMoveUI.MoveButtonDeselected();
-                        moveButton.interactable = true;
-                        unitIsMoving = false;
-                        unitMoveUI.Move();
+                        if (unitMoveUI.Move()) {
+                            unitMoveUI.MoveButtonDeselected();
+                            moveButton.interactable = true;
+                            unitIsMoving = false;
+                        }
                     }
                 }
             } else {

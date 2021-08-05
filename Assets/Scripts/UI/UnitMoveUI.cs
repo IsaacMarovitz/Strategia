@@ -95,6 +95,7 @@ public class UnitMoveUI : TurnBehaviour {
             tileSelectorMeshRenderer.material = blockedTRMaterial;
             lineRenderer.enabled = false;
             canvas.enabled = false;
+            path = null;
         } else {
             path = GridUtilities.FindPath(unit.currentTile, mouseOverTile, out bool goesThroughHiddenTiles);
             if (path == null) {
@@ -153,8 +154,13 @@ public class UnitMoveUI : TurnBehaviour {
         numberOfTurns.text = "0";
     }
 
-    public void Move() {
-        unit.MoveAlongPath(path);
+    public bool Move() {
+        if (path != null) {
+            unit.MoveAlongPath(path);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void MoveButtonSelected() => isMoving = true;
