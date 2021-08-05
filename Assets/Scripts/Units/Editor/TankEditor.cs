@@ -13,7 +13,7 @@ namespace Strategia.Editor {
 
             SerializedProperty reducedMoveDistance_prop = serializedObject.FindProperty("reducedMoveDistance");
             SerializedProperty isMoveDistanceReduced_prop = serializedObject.FindProperty("isMoveDistanceReduced");
-            SerializedProperty isOnTransport_prop = serializedObject.FindProperty("isOnTransport");
+            SerializedProperty transport_prop = serializedObject.FindProperty("transport");
 
             EditorGUILayout.Space(10);
             showReducedMovement = EditorGUILayout.BeginFoldoutHeaderGroup(showReducedMovement, "Reduced Movement");
@@ -22,7 +22,7 @@ namespace Strategia.Editor {
                 EditorGUILayout.PropertyField(isMoveDistanceReduced_prop);
             }
             EditorGUILayout.EndFoldoutHeaderGroup();
-            EditorGUILayout.PropertyField(isOnTransport_prop);
+            EditorGUILayout.PropertyField(transport_prop);
 
             serializedObject.ApplyModifiedProperties();
         }

@@ -210,7 +210,7 @@ public class Unit : TurnBehaviour {
 
     public virtual void PerformMove(Tile tileToMoveTo) {
         TileMoveStatus tileMoveStatus = CheckDir(tileToMoveTo);
-        if (tileMoveStatus == TileMoveStatus.Move) {
+        if (tileMoveStatus == TileMoveStatus.Move || tileMoveStatus == TileMoveStatus.Transport) {
             TransportCheck();
             this.gameObject.transform.LookAt(tileToMoveTo.gameObject.transform.position, Vector3.up);
             this.gameObject.transform.eulerAngles = new Vector3(0, this.gameObject.transform.eulerAngles.y, 0);

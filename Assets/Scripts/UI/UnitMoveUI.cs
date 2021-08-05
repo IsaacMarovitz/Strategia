@@ -91,7 +91,7 @@ public class UnitMoveUI : TurnBehaviour {
         tileSelector.SetActive(true);
         tileSelector.transform.position = GridUtilities.TileToWorldPos(mouseOverTile.pos);
 
-        if (unit.blockedTileTypes.Contains(mouseOverTile.tileType) && currentPlayer.fogOfWarMatrix[mouseOverTile.pos.x, mouseOverTile.pos.y] != FogOfWarState.Hidden) {
+        if (unit.CheckDir(mouseOverTile) == TileMoveStatus.Blocked && currentPlayer.fogOfWarMatrix[mouseOverTile.pos.x, mouseOverTile.pos.y] != FogOfWarState.Hidden) {
             tileSelectorMeshRenderer.material = blockedTRMaterial;
             lineRenderer.enabled = false;
             canvas.enabled = false;

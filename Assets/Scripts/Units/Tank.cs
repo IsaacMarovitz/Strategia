@@ -1,8 +1,11 @@
+using UnityEngine;
+
 public class Tank : Unit {
 
     public bool isMoveDistanceReduced;
-    public bool isOnTransport = false;
     public int reducedMoveDistance;
+
+    public Transport transport;
 
     public override void Start() {
         base.Start();
@@ -13,7 +16,7 @@ public class Tank : Unit {
 
     public override void Update() {
         base.Update();
-        if (isOnTransport) {
+        if (transport != null) {
             mainMesh.SetActive(false);
         }
     }
@@ -28,11 +31,11 @@ public class Tank : Unit {
 
     public override TileMoveStatus CheckDir(Tile tile) {
         TileMoveStatus returnMoveStatus = base.CheckDir(tile);
-        
+
         if (tile.isCityTile) {
             City city = tile.gameObject.GetComponent<City>();
             if (!player.playerCities.Contains(city)) {
-                if (city.unitsInCity.Count > 0 && !isOnTransport) {
+                if (city.unitsInCity.Count > 0 && transport == null) {
                     returnMoveStatus = TileMoveStatus.Attack;
                 }
             }
@@ -50,7 +53,7 @@ public class Tank : Unit {
                     returnMoveStatus = TileMoveStatus.Blocked;
                 }
             } else {
-                if (!isOnTransport) {
+                if (transport == null) {
                     returnMoveStatus = TileMoveStatus.Attack;
                 } else {
                     returnMoveStatus = TileMoveStatus.Blocked;
@@ -72,10 +75,10 @@ public class Tank : Unit {
     }
 
     public override void TransportCheck() {
-        if (isOnTransport) {
-            isOnTransport = false;
+        if (transport != null) {
+            transport.tanksOnTransport.Remove(this);
+            transport = null;
             mainMesh.SetActive(true);
-            ((Transport)currentTile.unitOnTile).tanksOnTransport.Remove(this);
         } else {
             currentTile.unitOnTile = null;
         }
@@ -84,9 +87,14 @@ public class Tank : Unit {
     public override void TransportMove(Tile tileToMoveTo, TileMoveStatus tileMoveStatus) {
         base.TransportMove(tileToMoveTo, tileMoveStatus);
         if (tileMoveStatus == TileMoveStatus.Transport) {
-            pos = tileToMoveTo.pos;
-            isOnTransport = true;
-            ((Transport)currentTile.unitOnTile).tanksOnTransport.Add(this);
+            try {
+                transport = (Transport)currentTile.unitOnTile;
+                pos = tileToMoveTo.pos;
+                transport.tanksOnTransport.Add(this);
+            } 
+            catch {
+                Debug.LogError($"<b>{this.gameObject.name}:</b> Failed to get transport at ({tileToMoveTo.pos.x}, {tileToMoveTo.pos.y})!");
+            }
         }
     }
 }
