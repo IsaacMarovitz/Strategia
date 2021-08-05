@@ -13,22 +13,20 @@ public class UnitMoveUI : TurnBehaviour {
     public Player currentPlayer;
     public List<Tile> path = new List<Tile>();
 
-    [Header("Booleans")]
     public bool isSelected = false;
     public bool isMoving = false;
 
-    [Header("Tile Selector Materials")]
     public Material hiddenTRMaterial;
     public Material moveTRMaterial;
     public Material blockedTRMaterial;
     public Material setPathTRMaterial;
 
-    [Header("Line Renderer Material")]
     public Material hiddenLRMaterial;
     public Material moveLRMaterial;
     public Material setPathLRMaterial;
 
     private Tile oldMouseOverTile;
+    private bool isPathHiden = false;
 
     void Update() {
         if (currentPlayer != unit.player) {
@@ -39,13 +37,37 @@ public class UnitMoveUI : TurnBehaviour {
         isSelected = UIData.Instance.currentUnit == unit;
 
         if (unit.turnStage == TurnStage.PathSet) {
+            path = new List<Tile>(unit.path);
+            path.Insert(0, unit.currentTile);
+            
+            foreach (var tile in path) {
+                if (currentPlayer.fogOfWarMatrix[tile.pos.x, tile.pos.y] != FogOfWarState.Visible) {
+                    isPathHiden = true;
+                }
+            }
+
             tileSelector.SetActive(true);
+            tileSelector.transform.position = GridUtilities.TileToWorldPos(path[path.Count - 1].pos);
+
             lineRenderer.enabled = true;
+            lineRenderer.positionCount = path.Count;
+            lineRenderer.SetPositions(TilesToWorldPositions(path));
+
+            numberOfTurns.text = (path.Count - 1).ToString();
+            int midIndex = Mathf.RoundToInt((path.Count - 1) / 2);
+            Vector3 midIndexPos = path[midIndex].gameObject.transform.position;
+            canvas.transform.position = new Vector3(midIndexPos.x, 2, midIndexPos.z);
+
             if (isSelected) {
                 // Show set path with bright material
                 canvas.enabled = true;
-                tileSelectorMeshRenderer.material = moveTRMaterial;
-                lineRenderer.material = moveLRMaterial;
+                if (isPathHiden) {
+                    tileSelectorMeshRenderer.material = hiddenTRMaterial;
+                    lineRenderer.material = hiddenLRMaterial;
+                } else {
+                    tileSelectorMeshRenderer.material = moveTRMaterial;
+                    lineRenderer.material = moveLRMaterial;
+                }
             } else {
                 // Show set path with more muted colours
                 canvas.enabled = false;

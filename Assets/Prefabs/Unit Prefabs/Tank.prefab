@@ -282,12 +282,12 @@ MonoBehaviour:
   isSelected: 0
   isMoving: 0
   hiddenTRMaterial: {fileID: 2100000, guid: 8082634efdfa8b749851e0cba0dd13c5, type: 2}
-  moveTRMaterial: {fileID: 2100000, guid: 89359992d222f456397dcd55b4648df6, type: 2}
+  moveTRMaterial: {fileID: 2100000, guid: 9e281ea6c92ba314dadbaf4c3e2a8be5, type: 2}
   blockedTRMaterial: {fileID: 2100000, guid: 72cb93d1dc59b0941ae08e721614a9fd, type: 2}
-  setPathTRMaterial: {fileID: 2100000, guid: 89359992d222f456397dcd55b4648df6, type: 2}
-  hiddenLRMaterial: {fileID: 2100000, guid: 2e492ef39ac99ba44a7495724a3ebd86, type: 2}
+  setPathTRMaterial: {fileID: 2100000, guid: 2c79470ffd761fb41af8cde307e630f5, type: 2}
+  hiddenLRMaterial: {fileID: 2100000, guid: d5fb672cbf0c4a44eaa861af906e3b18, type: 2}
   moveLRMaterial: {fileID: 2100000, guid: 2e492ef39ac99ba44a7495724a3ebd86, type: 2}
-  setPathLRMaterial: {fileID: 2100000, guid: 2c79470ffd761fb41af8cde307e630f5, type: 2}
+  setPathLRMaterial: {fileID: 2100000, guid: c3bf5af8a8bb23447a1d8b851cb6bd0a, type: 2}
 --- !u!1 &1188009559102806030
 GameObject:
   m_ObjectHideFlags: 0

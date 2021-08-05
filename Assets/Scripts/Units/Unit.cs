@@ -46,20 +46,11 @@ public class Unit : TurnBehaviour {
 
     public virtual void Update() {
         SetPos(pos);
-        /*if (UIData.Instance.currentUnit != this && path.Count > 0 && lineRenderer != null) {
-            lineRenderer.enabled = true;
-            lineRenderer.positionCount = path.Count;
-            List<Tile> tempPath = new List<Tile>(path);
-            tempPath.Insert(0, currentTile);
-            lineRenderer.SetPositions(GridUtilities.TilesToWorldPos(tempPath));
-        } else {
-            lineRenderer.enabled = false;
-        }*/
     }
 
     public override void OnFogOfWarUpdate(Player player) {
         if (mainMesh == null) { return; }
-        
+
         if (player.fogOfWarMatrix[pos.x, pos.y] != FogOfWarState.Visible) {
             mainMesh.SetActive(false);
             instantiatedSleepEffect?.SetActive(false);
@@ -70,6 +61,17 @@ public class Unit : TurnBehaviour {
             } else {
                 mainMesh.SetActive(true);
                 instantiatedSleepEffect?.SetActive(true);
+            }
+        }
+
+        if (path != null) {
+            for (int i = 0; i < path.Count; i++) {
+                if (player.fogOfWarMatrix[path[i].pos.x, path[i].pos.y] != FogOfWarState.Hidden) {
+                    if (CheckDir(path[i]) == TileMoveStatus.Blocked) {
+                        path.RemoveRange(i, path.Count - i);
+                        break;
+                    }
+                }
             }
         }
     }
