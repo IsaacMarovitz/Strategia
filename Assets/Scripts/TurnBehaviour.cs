@@ -5,9 +5,9 @@ public class TurnBehaviour : MonoBehaviour {
 
     public GameManager gameManager => GameManager.Instance;
     public TileGrid tileGrid => gameManager.tileGrid;
+    public Tile[,] grid => tileGrid.grid;
 
     public virtual void Awake() {
-        // gameManager.tick += Tick;
         gameManager.playerTurnStartDelegate += OnPlayerTurnStart;
         gameManager.unitTurnStartDelegate += OnUnitTurnStart;
         gameManager.unitMoveDelegate += OnUnitMove;
@@ -17,7 +17,6 @@ public class TurnBehaviour : MonoBehaviour {
     }
 
     public virtual void OnDestroy() {
-        // gameManager.tick -= Tick;
         gameManager.playerTurnStartDelegate -= OnPlayerTurnStart;
         gameManager.unitTurnStartDelegate -= OnUnitTurnStart;
         gameManager.unitMoveDelegate -= OnUnitMove;
@@ -25,9 +24,6 @@ public class TurnBehaviour : MonoBehaviour {
         gameManager.playerTurnStartDelegate -= OnFogOfWarUpdate;
         gameManager.fogOfWarUpdateDelegate -= OnFogOfWarUpdate;
     }
-
-    // Called when any delegate is invoked;
-    // public virtual void Tick() {}
 
     // Called after a player has finished starting its turn
     public virtual void OnPlayerTurnStart(Player player) {}

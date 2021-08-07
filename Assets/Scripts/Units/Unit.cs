@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class Unit : TurnBehaviour {
 
     public Vector2Int pos;
-    public Tile currentTile { get { return tileGrid.grid[pos.x, pos.y]; } }
+    public Tile currentTile { get { return grid[pos.x, pos.y]; } }
     public float yOffset;
     public int health;
     public int maxHealth;
@@ -49,17 +49,15 @@ public class Unit : TurnBehaviour {
     }
 
     public override void OnFogOfWarUpdate(Player player) {
-        if (mainMesh == null) { return; }
-
         if (player.fogOfWarMatrix[pos.x, pos.y] != FogOfWarState.Visible) {
-            mainMesh.SetActive(false);
+            mainMesh?.SetActive(false);
             instantiatedSleepEffect?.SetActive(false);
         } else {
             if (currentTile.isCityTile) {
-                mainMesh.SetActive(false);
+                mainMesh?.SetActive(false);
                 instantiatedSleepEffect?.SetActive(false);
             } else {
-                mainMesh.SetActive(true);
+                mainMesh?.SetActive(true);
                 instantiatedSleepEffect?.SetActive(true);
             }
         }
@@ -131,15 +129,15 @@ public class Unit : TurnBehaviour {
 
     public void Attack(Vector2Int unitPos) {
         Unit unitToAttack = null;
-        if (tileGrid.grid[unitPos.x, unitPos.y].isCityTile) {
-            City tileCity = tileGrid.grid[unitPos.x, unitPos.y].gameObject.GetComponent<City>();
+        if (grid[unitPos.x, unitPos.y].isCityTile) {
+            City tileCity = grid[unitPos.x, unitPos.y].gameObject.GetComponent<City>();
             if (tileCity != null) {
                 if (tileCity.unitsInCity.Count > 0) {
                     unitToAttack = tileCity.unitsInCity[0];
                 }
             }
         } else {
-            unitToAttack = tileGrid.grid[unitPos.x, unitPos.y].unitOnTile;
+            unitToAttack = grid[unitPos.x, unitPos.y].unitOnTile;
         }
         if (unitToAttack != null) {
             Debug.Log($"<b>{this.gameObject.name}:</b> Attacking {unitToAttack.gameObject.name}");
