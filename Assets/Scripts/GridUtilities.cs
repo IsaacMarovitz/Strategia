@@ -138,6 +138,9 @@ public static class GridUtilities {
                     if (tileMoveStatus == TileMoveStatus.Blocked) {
                         neighbour.walkable = false;
                     }
+                    if (neighbour != targetTile && tileMoveStatus == TileMoveStatus.Attack) {
+                        neighbour.walkable = false;
+                    }
                 }
 
                 if (!neighbour.walkable || closedSet.Contains(neighbour)) {

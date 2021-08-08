@@ -4,8 +4,8 @@ using Strategia;
 public class TurnBehaviour : MonoBehaviour {
 
     public GameManager gameManager => GameManager.Instance;
-    public TileGrid tileGrid => gameManager.tileGrid;
-    public Tile[,] grid => tileGrid.grid;
+    public TileGrid tileGrid => GameManager.Instance.tileGrid;
+    public Tile[,] grid => GameManager.Instance.tileGrid.grid;
 
     public virtual void Awake() {
         gameManager.playerTurnStartDelegate += OnPlayerTurnStart;

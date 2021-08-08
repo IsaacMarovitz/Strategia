@@ -49,15 +49,17 @@ public class Unit : TurnBehaviour {
     }
 
     public override void OnFogOfWarUpdate(Player player) {
+        if (mainMesh == null) { return; }
+
         if (player.fogOfWarMatrix[pos.x, pos.y] != FogOfWarState.Visible) {
-            mainMesh?.SetActive(false);
+            mainMesh.SetActive(false);
             instantiatedSleepEffect?.SetActive(false);
         } else {
             if (currentTile.isCityTile) {
-                mainMesh?.SetActive(false);
+                mainMesh.SetActive(false);
                 instantiatedSleepEffect?.SetActive(false);
             } else {
-                mainMesh?.SetActive(true);
+                mainMesh.SetActive(true);
                 instantiatedSleepEffect?.SetActive(true);
             }
         }
