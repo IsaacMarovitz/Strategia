@@ -134,7 +134,7 @@ public class Player : TurnBehaviour {
             UpdateFogOfWar();
         }
         if (unitQueue.Count > 0) {
-            UIData.Instance.currentUnit = unitQueue[0];
+            UIData.SetUnit(unitQueue[0]);
             cameraController.Focus(GridUtilities.TileToWorldPos(unitQueue[0].pos), false);
             // Prevents Camera Controller from sometimes defocusing unit because of Next Player UI Button press
             cameraController.didClickUI = true;
@@ -154,7 +154,7 @@ public class Player : TurnBehaviour {
         }
         if (unitQueue.Count > 0) {
             Debug.Log($"<b>{this.gameObject.name}:</b> Starting next unit turn");
-            UIData.Instance.currentUnit = unitQueue[0];
+            UIData.SetUnit(unitQueue[0]);
             unitQueue[0].StartTurn();
         } else {
             // TurnComplete();
@@ -164,14 +164,14 @@ public class Player : TurnBehaviour {
 
     public void EndTurnButton() {
         turnCompleted = true;
-        //UIData.Instance.currentUnit = null;
-        //UIData.Instance.currentCity = null;
+        //UIData.SetUnit(null);
+        //UIData.SetCity(null);
     }
 
     public void TurnComplete() {
         turnCompleted = true;
-        UIData.Instance.currentUnit = null;
-        UIData.Instance.currentCity = null;
+        UIData.SetUnit(null);
+        UIData.SetCity(null);
         Debug.Log($"<b>{this.gameObject.name}:</b> Turn is ending");
         foreach (var unit in playerUnits) {
             unit.MoveAlongSetPath();

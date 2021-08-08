@@ -81,7 +81,7 @@ public class Parachute : Unit, ICustomButton, IFuel {
                 oldCity.RemoveUnit(this);
                 oldCity.AddUnit(tank);
             }
-            UIData.Instance.currentUnit = tank;
+            UIData.SetUnit(tank);
             Debug.Log($"<b>{this.gameObject.name}:</b> Deployed tank!");
             GameObject.Destroy(this.gameObject);
         } else {

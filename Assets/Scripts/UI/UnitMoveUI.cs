@@ -34,7 +34,7 @@ public class UnitMoveUI : TurnBehaviour {
             return;
         }
 
-        isSelected = UIData.Instance.currentUnit == unit;
+        isSelected = UIData.currentUnit == unit;
 
         if (unit.turnStage == TurnStage.PathSet) {
             path = new List<Tile>(unit.path);
@@ -84,7 +84,7 @@ public class UnitMoveUI : TurnBehaviour {
     }
 
     void MoveSelector() {
-        Tile mouseOverTile = UIData.Instance.mouseOverTile;
+        Tile mouseOverTile = UIData.mouseOverTile;
         if (mouseOverTile == null || mouseOverTile == oldMouseOverTile) { return; }
 
         oldMouseOverTile = mouseOverTile;

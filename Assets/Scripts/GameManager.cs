@@ -33,11 +33,6 @@ public class GameManager : MonoBehaviour {
     private float hueOffset;
     private List<Country> countries = new List<Country>();
 
-    public Action<Player> playerTurnStartDelegate;
-    public Action<Unit> unitTurnStartDelegate;
-    public Action<Unit> unitMoveDelegate;
-    public Action<Player> fogOfWarUpdateDelegate;
-
     private void Awake() {
         if (_instance != null && _instance != this) {
             Destroy(this.gameObject);
@@ -155,19 +150,19 @@ public class GameManager : MonoBehaviour {
     }
 
     public void OnPlayerTurnStart(Player player) {
-        playerTurnStartDelegate?.Invoke(player);
+        DelegateManager.playerTurnStartDelegate?.Invoke(player);
     }
 
     public void OnUnitTurnStart(Unit unit) {
-        unitTurnStartDelegate?.Invoke(unit);
+        DelegateManager.unitTurnStartDelegate?.Invoke(unit);
     }
 
     public void OnUnitMove(Unit unit) {
-        unitMoveDelegate?.Invoke(unit);
+        DelegateManager.unitMoveDelegate?.Invoke(unit);
     }
 
     public void OnFogOfWarUpdate(Player player) {
-        fogOfWarUpdateDelegate?.Invoke(player);
+        DelegateManager.fogOfWarUpdateDelegate?.Invoke(player);
     }
 }
 

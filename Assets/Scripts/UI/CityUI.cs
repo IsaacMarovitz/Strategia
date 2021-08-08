@@ -28,30 +28,30 @@ public class CityUI : MonoBehaviour {
     }
 
     public void Update() {
-        if (UIData.Instance.currentCity != null) {
-            UIData.Instance.currentCity.showCityNameUI = false;
+        if (UIData.currentCity != null) {
+            UIData.currentCity.showCityNameUI = false;
             panel.SetActive(true);
-            transform.position = new Vector3(UIData.Instance.currentCity.transform.position.x, yOffset, UIData.Instance.currentCity.transform.position.z);
-            cityName.text = UIData.Instance.currentCity.cityName;
-            turnsLeft.text = "Days Left: " + UIData.Instance.currentCity.turnsLeft;
-            if (oldCity != UIData.Instance.currentCity) {
+            transform.position = new Vector3(UIData.currentCity.transform.position.x, yOffset, UIData.currentCity.transform.position.z);
+            cityName.text = UIData.currentCity.cityName;
+            turnsLeft.text = "Days Left: " + UIData.currentCity.turnsLeft;
+            if (oldCity != UIData.currentCity) {
                 hasUpdated = false;
                 if (oldCity != null) {
                     oldCity.showCityNameUI = true;
                 }
-                oldCity = UIData.Instance.currentCity;
+                oldCity = UIData.currentCity;
             }
             if (!hasUpdated) {
                 hasUpdated = true;
                 UpdateUnitButtons();
                 for (int i = 0; i < toggles.Length; i++) {
-                    if (i == (int)UIData.Instance.currentCity.unitType) {
+                    if (i == (int)UIData.currentCity.unitType) {
                         toggles[i].SetIsOnWithoutNotify(true);
                     } else {
                         toggles[i].SetIsOnWithoutNotify(false);
                     }
                 }
-                if (GameManager.Instance.tileGrid.grid[UIData.Instance.currentCity.pos.x, UIData.Instance.currentCity.pos.y].tileType == TileType.CostalCity) {
+                if (GameManager.Instance.tileGrid.grid[UIData.currentCity.pos.x, UIData.currentCity.pos.y].tileType == TileType.CostalCity) {
                     foreach (var toggle in costalCityToggles) {
                         toggle.interactable = true;
                     }
@@ -72,8 +72,8 @@ public class CityUI : MonoBehaviour {
 
     public void ChangeUnitType(Toggle toggle, int tempInt) {
         if (!toggle.isOn) { return; }
-        if (UIData.Instance.currentCity != null) {
-            UIData.Instance.currentCity.UpdateUnitType((UnitType)tempInt);
+        if (UIData.currentCity != null) {
+            UIData.currentCity.UpdateUnitType((UnitType)tempInt);
         }
     }
 
@@ -81,7 +81,7 @@ public class CityUI : MonoBehaviour {
         for (int i = horizontalLayoutGroup.transform.childCount - 1; i >= 0; i--) {
             GameObject.Destroy(horizontalLayoutGroup.transform.GetChild(i).gameObject);
         }
-        foreach (var unit in UIData.Instance.currentCity.unitsInCity) {
+        foreach (var unit in UIData.currentCity.unitsInCity) {
             GameObject newButton = GameObject.Instantiate(unitButtonPrefab, Vector3.zero, Quaternion.identity);
             newButton.transform.SetParent(horizontalLayoutGroup.transform, false);
             UnitButtonUI unitButton = newButton.GetComponent<UnitButtonUI>();
@@ -96,12 +96,12 @@ public class CityUI : MonoBehaviour {
         inputField.gameObject.SetActive(true);
         inputField.Select();
         inputField.ActivateInputField();
-        inputField.text = UIData.Instance.currentCity.cityName;
+        inputField.text = UIData.currentCity.cityName;
         GameManager.Instance.Pause();
     }
 
     public void FinishChangingName() {
-        UIData.Instance.currentCity.cityName = inputField.text.Trim();
+        UIData.currentCity.cityName = inputField.text.Trim();
         inputField.gameObject.SetActive(false);
         GameManager.Instance.Resume();
     }

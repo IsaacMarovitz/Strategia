@@ -10,7 +10,7 @@ public class Fighter : Unit, IFuel {
     public int _maxFuel;
     public int _fuelPerMove;
 
-    public bool isOnCarrier = false;
+    public Carrier carrier;
 
     public override void Start() {
         base.Start();
@@ -21,7 +21,7 @@ public class Fighter : Unit, IFuel {
 
     public override void Update() {
         base.Update();
-        if (isOnCarrier) {
+        if (carrier != null) {
             mainMesh.SetActive(false);
         }
     }
@@ -79,11 +79,10 @@ public class Fighter : Unit, IFuel {
     }
 
     public override void TransportCheck() {
-        base.TransportCheck();
-        if (isOnCarrier) {
-            isOnCarrier = false;
+        if (carrier != null) {
+            carrier.fightersOnCarrier.Remove(this);
+            carrier = null;
             mainMesh.SetActive(true);
-            ((Carrier)currentTile.unitOnTile).fightersOnCarrier.Remove(this);
         } else {
             currentTile.unitOnTile = null;
         }
@@ -92,10 +91,15 @@ public class Fighter : Unit, IFuel {
     public override void TransportMove(Tile tileToMoveTo, TileMoveStatus tileMoveStatus) {
         base.TransportMove(tileToMoveTo, tileMoveStatus);
         if (tileMoveStatus == TileMoveStatus.Transport) {
-            pos += tileToMoveTo.pos;
-            isOnCarrier = true;
-            ((Carrier)currentTile.unitOnTile).fightersOnCarrier.Add(this);
-            fuel = maxFuel;
+            try {
+                carrier = (Carrier)currentTile.unitOnTile;
+                carrier.fightersOnCarrier.Add(this);
+                UIData.SetUnit(carrier);
+                EndTurn();
+            }
+            catch {
+                Debug.LogError($"<b>{this.gameObject.name}:</b> Failed to get carrier at ({tileToMoveTo.pos.x}, {tileToMoveTo.pos.y})!");
+            }
         }
     }
 }

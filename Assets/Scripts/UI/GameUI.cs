@@ -39,10 +39,10 @@ public class GameUI : MonoBehaviour {
     private bool moveButtonPressed = false;
     private Unit currentUnit {
         get {
-            return UIData.Instance.currentUnit;
+            return UIData.currentUnit;
         }
         set {
-            UIData.Instance.currentUnit = value;
+            UIData.SetUnit(value);
         }
     }
 
@@ -288,7 +288,7 @@ public class GameUI : MonoBehaviour {
 
     public void NextUnitButton() {
         Unit newCurrentUnit = GameManager.Instance.GetCurrentPlayer().GetCurrentUnit();
-        UIData.Instance.currentCity = null;
+        UIData.SetCity(null);
 
         if (newCurrentUnit != null) {
             if (currentUnit == null) {

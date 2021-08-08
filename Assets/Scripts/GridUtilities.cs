@@ -126,13 +126,13 @@ public static class GridUtilities {
                     continue;
                 }
 
-                TileMoveStatus tileMoveStatus = UIData.Instance.currentUnit.CheckDir(neighbour);
+                TileMoveStatus tileMoveStatus = UIData.currentUnit.CheckDir(neighbour);
                 neighbour.walkable = true;
 
-                if (UIData.Instance.currentUnit.player.fogOfWarMatrix[neighbour.pos.x, neighbour.pos.y] == FogOfWarState.Hidden) {
+                if (UIData.currentUnit.player.fogOfWarMatrix[neighbour.pos.x, neighbour.pos.y] == FogOfWarState.Hidden) {
                     goesThroughHiddenTiles = true;
                 } else {
-                    if (UIData.Instance.currentUnit.player.fogOfWarMatrix[neighbour.pos.x, neighbour.pos.y] == FogOfWarState.Revealed) {
+                    if (UIData.currentUnit.player.fogOfWarMatrix[neighbour.pos.x, neighbour.pos.y] == FogOfWarState.Revealed) {
                         goesThroughHiddenTiles = true;
                     }
                     if (tileMoveStatus == TileMoveStatus.Blocked) {

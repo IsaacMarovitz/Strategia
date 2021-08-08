@@ -8,21 +8,39 @@ public class TurnBehaviour : MonoBehaviour {
     public Tile[,] grid => GameManager.Instance.tileGrid.grid;
 
     public virtual void Awake() {
-        gameManager.playerTurnStartDelegate += OnPlayerTurnStart;
-        gameManager.unitTurnStartDelegate += OnUnitTurnStart;
-        gameManager.unitMoveDelegate += OnUnitMove;
-        gameManager.unitMoveDelegate += (Unit unit) => OnFogOfWarUpdate(unit.player);
-        gameManager.playerTurnStartDelegate += OnFogOfWarUpdate;
-        gameManager.fogOfWarUpdateDelegate += OnFogOfWarUpdate;
+        DelegateManager.playerTurnStartDelegate += OnPlayerTurnStart;
+        DelegateManager.unitTurnStartDelegate += OnUnitTurnStart;
+        DelegateManager.unitMoveDelegate += OnUnitMove;
+        DelegateManager.unitMoveDelegate += (Unit unit) => OnFogOfWarUpdate(unit.player);
+        DelegateManager.playerTurnStartDelegate += OnFogOfWarUpdate;
+        DelegateManager.fogOfWarUpdateDelegate += OnFogOfWarUpdate;
+
+        DelegateManager.unitSelectedDelegate += OnUnitSelected;
+        DelegateManager.unitDeselectedDelegate += OnUnitDeselected;
+
+        DelegateManager.citySelectedDelegate += OnCitySelected;
+        DelegateManager.cityDeselectedDelegate += OnCityDeselected;
+
+        DelegateManager.mouseOverTileSelectedDelegate += OnMouseOverTileSelected;
+        DelegateManager.mouseOverTileDeselectedDelegate += OnMouseOverTileDeselected;
     }
 
     public virtual void OnDestroy() {
-        gameManager.playerTurnStartDelegate -= OnPlayerTurnStart;
-        gameManager.unitTurnStartDelegate -= OnUnitTurnStart;
-        gameManager.unitMoveDelegate -= OnUnitMove;
-        gameManager.unitMoveDelegate -= (Unit unit) => OnFogOfWarUpdate(unit.player);
-        gameManager.playerTurnStartDelegate -= OnFogOfWarUpdate;
-        gameManager.fogOfWarUpdateDelegate -= OnFogOfWarUpdate;
+        DelegateManager.playerTurnStartDelegate -= OnPlayerTurnStart;
+        DelegateManager.unitTurnStartDelegate -= OnUnitTurnStart;
+        DelegateManager.unitMoveDelegate -= OnUnitMove;
+        DelegateManager.unitMoveDelegate -= (Unit unit) => OnFogOfWarUpdate(unit.player);
+        DelegateManager.playerTurnStartDelegate -= OnFogOfWarUpdate;
+        DelegateManager.fogOfWarUpdateDelegate -= OnFogOfWarUpdate;
+
+        DelegateManager.unitSelectedDelegate -= OnUnitSelected;
+        DelegateManager.unitDeselectedDelegate -= OnUnitDeselected;
+
+        DelegateManager.citySelectedDelegate -= OnCitySelected;
+        DelegateManager.cityDeselectedDelegate -= OnCityDeselected;
+
+        DelegateManager.mouseOverTileSelectedDelegate -= OnMouseOverTileSelected;
+        DelegateManager.mouseOverTileDeselectedDelegate -= OnMouseOverTileDeselected;
     }
 
     // Called after a player has finished starting its turn
@@ -36,4 +54,22 @@ public class TurnBehaviour : MonoBehaviour {
 
     // Called when unit moves and when player turn starts
     public virtual void OnFogOfWarUpdate(Player player) {}
+
+    // Called when a unit is selected
+    public virtual void OnUnitSelected(Unit unit) {}
+
+    // Called when a unit is deselected
+    public virtual void OnUnitDeselected() {}
+
+    // Called when a city is selected
+    public virtual void OnCitySelected(City city) {}
+
+    // Called when a city is deselected
+    public virtual void OnCityDeselected() {}
+
+    // Called when a mouse over tile is selected
+    public virtual void OnMouseOverTileSelected(Tile tile) {}
+
+    // Called when a mouse over tile is deselected
+    public virtual void OnMouseOverTileDeselected() {}
 }

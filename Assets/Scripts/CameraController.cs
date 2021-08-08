@@ -89,7 +89,7 @@ public class CameraController : MonoBehaviour {
                 if (!IsMouseOverUI()) {
                     TileTag tileTag = hit.transform.gameObject.GetComponent<TileTag>();
                     if (tileTag != null) {
-                        UIData.Instance.mouseOverTile = GameManager.Instance.tileGrid.grid[tileTag.pos.x, tileTag.pos.y];
+                        UIData.SetMouseOverTile(GameManager.Instance.tileGrid.grid[tileTag.pos.x, tileTag.pos.y]);
                     }
                 }
             }
@@ -99,8 +99,8 @@ public class CameraController : MonoBehaviour {
             }
 
             if (Input.GetMouseButtonUp(0) && !didLMBDrag) {
-                if (UIData.Instance.currentUnit != null) {
-                    if (UIData.Instance.currentUnit.unitMoveUI.isMoving) {
+                if (UIData.currentUnit != null) {
+                    if (UIData.currentUnit.unitMoveUI.isMoving) {
                         return;
                     }
                 }
@@ -111,32 +111,32 @@ public class CameraController : MonoBehaviour {
                             if (hit.transform.tag == "Unit") {
                                 Unit hitUnit = hit.transform.parent.gameObject.GetComponent<Unit>();
                                 if (GameManager.Instance.GetCurrentPlayer().playerUnits.Contains(hitUnit)) {
-                                    UIData.Instance.currentUnit = hitUnit;
+                                    UIData.SetUnit(hitUnit);
                                     Focus(GridUtilities.TileToWorldPos(hitUnit.pos), true);
                                     Debug.Log("<b>Camera Controller:</b> Found Unit");
                                 }
                             } else {
-                                UIData.Instance.currentUnit = null;
+                                UIData.SetUnit(null);
                             }
                             if (hit.transform.tag == "City") {
                                 City hitCity = hit.transform.gameObject.GetComponent<City>();
                                 if (GameManager.Instance.GetCurrentPlayer().playerCities.Contains(hitCity)) {
-                                    UIData.Instance.currentCity = hitCity;
+                                    UIData.SetCity(hitCity);
                                     Focus(GridUtilities.TileToWorldPos(hitCity.pos), true);
                                     Debug.Log("<b>Camera Controller:</b> Found City");
                                 }
                             } else {
-                                UIData.Instance.currentCity = null;
+                                UIData.SetCity(null);
                             }
                             if (hit.transform.tag == "City Mesh") {
                                 City hitCity = hit.transform.parent.gameObject.GetComponent<City>();
                                 if (GameManager.Instance.GetCurrentPlayer().playerCities.Contains(hitCity)) {
-                                    UIData.Instance.currentCity = hitCity;
+                                    UIData.SetCity(hitCity);
                                     Focus(GridUtilities.TileToWorldPos(hitCity.pos), true);
                                     Debug.Log("<b>Camera Controller:</b> Found City");
                                 }
                             } else {
-                                UIData.Instance.currentCity = null;
+                                UIData.SetCity(null);
                             }
                         }
                     }

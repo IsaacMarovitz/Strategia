@@ -122,7 +122,7 @@ public class City : MonoBehaviour {
     public void SelectCity() {
         if (player != null) {
             if (player == GameManager.Instance.GetCurrentPlayer()) {
-                UIData.Instance.currentCity = this;
+                UIData.SetCity(this);
             }
         }
     }
