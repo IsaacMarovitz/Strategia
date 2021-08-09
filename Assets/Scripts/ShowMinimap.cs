@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShowMinimap : MonoBehaviour {
+public class ShowMinimap : TurnBehaviour {
 
     public RawImage image;
 
-    void Update() {
-        image.texture = GameManager.Instance.GetCurrentPlayer().minimapTexture;
+    public override void OnPlayerTurnStart(Player player) {
+        image.texture = player.minimapTexture;
     }
 }

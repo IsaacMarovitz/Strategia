@@ -18,12 +18,9 @@ public class OverlayUI : MonoBehaviour {
         GameManager.Instance.nextPlayerDelegate += NextPlayer;
     }
 
-    void Update() {
-        newDayUIText.text = $"Day {GameManager.Instance.day + 1}";
-    }
-
     public void NewDay() {
         newDayUI.SetActive(true);
+        newDayUIText.text = $"Day {GameManager.Instance.day + 1}";
         StartCoroutine(NewDayWait(newDayWaitTime));
     }
 
