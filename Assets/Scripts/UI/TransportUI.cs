@@ -4,6 +4,7 @@ using System.Linq;
 
 public class TransportUI : TurnBehaviour {
 
+    public UnitInfo unitInfo;
     public GameObject panel;
     public HorizontalLayoutGroup horizontalLayoutGroup;
     public GameObject unitButtonPrefab;
@@ -31,12 +32,18 @@ public class TransportUI : TurnBehaviour {
     }
 
     public void UpdateUI(Unit unit) {
-        if (unit.unitType == UnitType.Transport) {
-            Transport transport = (Transport)unit;
-            if (GridUtilities.DiagonalCheck(unit.currentTile.pos).Any(tile => tile.tileType != TileType.Sea) && !unit.currentTile.isCityTile && transport.tanksOnTransport.Count > 0) {
-                panel.SetActive(true);
-                transform.position = GridUtilities.TileToWorldPos(unit.pos, yOffset);
-                UpdateUnitButtons();
+        ITransport transportInterface = unit as ITransport;
+
+        if (transportInterface != null) {
+            UnitData unitData = unitInfo.allUnits.FirstOrDefault(u => u.unitType == transportInterface.unitOnTransportType);
+            if (!unitData.Equals(default(UnitData))) {
+                if (GridUtilities.DiagonalCheck(unit.currentTile.pos).Any(tile => !unitData.blockedTileTypes.Contains(tile.tileType)) && !unit.currentTile.isCityTile && transportInterface.unitsOnTransport.Count > 0) {
+                    panel.SetActive(true);
+                    transform.position = GridUtilities.TileToWorldPos(unit.pos, yOffset);
+                    UpdateUnitButtons(transportInterface);
+                } else {
+                    panel.SetActive(false);
+                }
             } else {
                 panel.SetActive(false);
             }
@@ -45,15 +52,16 @@ public class TransportUI : TurnBehaviour {
         }
     }
 
-    void UpdateUnitButtons() {
+    void UpdateUnitButtons(ITransport transportInterface) {
         for (int i = horizontalLayoutGroup.transform.childCount - 1; i >= 0; i--) {
             GameObject.Destroy(horizontalLayoutGroup.transform.GetChild(i).gameObject);
         }
-        foreach (var unit in ((Transport)UIData.currentUnit).tanksOnTransport) {
+        foreach (var unit in transportInterface.unitsOnTransport) {
             GameObject newButton = GameObject.Instantiate(unitButtonPrefab, Vector3.zero, Quaternion.identity);
             newButton.transform.SetParent(horizontalLayoutGroup.transform, false);
             UnitButtonUI unitButton = newButton.GetComponent<UnitButtonUI>();
             unitButton.unit = unit;
+            unitButton.image.sprite = unit.unitIcon;
         }
     }
 }

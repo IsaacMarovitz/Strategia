@@ -1,9 +1,25 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Carrier : Unit {
+public class Carrier : Unit, ITransport {
 
-    public List<Fighter> fightersOnCarrier;
+    public UnitType unitOnTransportType { get { return _unitOnTransportType; } }
+    public List<Unit> unitsOnTransport { get { return _unitsOnTransport; } set { _unitsOnTransport = value; } }
+    public int maxNumberOfUnits { get { return _maxNumberOfUnits; } }
+    public bool isTransportFull { get { return _isTransportFull; } }
+
+    public const UnitType _unitOnTransportType = UnitType.Fighter;
+    public List<Unit> _unitsOnTransport;
+    public const int _maxNumberOfUnits = 6;
+    public bool _isTransportFull {
+        get {
+            if (unitsOnTransport.Count >= maxNumberOfUnits) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 
     public override void Start() {
         base.Start();
@@ -43,7 +59,7 @@ public class Carrier : Unit {
 
     public override void Die() {
         base.Die();
-        foreach (var figher in fightersOnCarrier) {
+        foreach (var figher in unitsOnTransport) {
             figher.Die();
             GameObject.Destroy(figher.gameObject);
         }
@@ -51,7 +67,7 @@ public class Carrier : Unit {
 
     public override void PerformMove(Tile tileToMoveTo) {
         base.PerformMove(tileToMoveTo);
-        foreach (var fighter in fightersOnCarrier) {
+        foreach (var fighter in unitsOnTransport) {
             fighter.pos = pos;
         }
     }

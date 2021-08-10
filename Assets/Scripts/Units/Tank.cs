@@ -76,7 +76,7 @@ public class Tank : Unit {
 
     public override void TransportCheck() {
         if (transport != null) {
-            transport.tanksOnTransport.Remove(this);
+            transport.unitsOnTransport.Remove(this);
             transport = null;
             mainMesh.SetActive(true);
         } else {
@@ -89,7 +89,7 @@ public class Tank : Unit {
         if (tileMoveStatus == TileMoveStatus.Transport) {
             try {
                 transport = (Transport)currentTile.unitOnTile;
-                transport.tanksOnTransport.Add(this);
+                transport.unitsOnTransport.Add(this);
                 UIData.SetUnit(transport);
                 EndTurn();
             } 

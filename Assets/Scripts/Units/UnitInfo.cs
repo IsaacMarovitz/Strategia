@@ -17,6 +17,7 @@ public class UnitInfo : ScriptableObject {
 [System.Serializable]
 public struct UnitData {
     public string name;
+    public UnitType unitType;
     public int turnsToCreate;
     public GameObject prefab;
     public Sprite unitIcon;

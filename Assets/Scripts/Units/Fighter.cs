@@ -50,7 +50,11 @@ public class Fighter : Unit, IFuel {
         if (tile.unitOnTile != null) {
             if (player.playerUnits.Contains(tile.unitOnTile)) {
                 if (tile.unitOnTile.GetType() == typeof(Carrier)) {
-                    returnMoveStatus = TileMoveStatus.Transport;
+                    if (!tile.unitOnTile.GetComponent<Carrier>().isTransportFull) {
+                        returnMoveStatus = TileMoveStatus.Transport;
+                    } else {
+                        returnMoveStatus = TileMoveStatus.Blocked;
+                    }
                 } else {
                     returnMoveStatus = TileMoveStatus.Blocked;
                 }
@@ -65,7 +69,7 @@ public class Fighter : Unit, IFuel {
     public override void PerformMove(Tile tileToMoveTo) {
         base.PerformMove(tileToMoveTo);
 
-        if (currentTile.isCityTile) {
+        if (currentTile.isCityTile || carrier != null) {
             fuel = maxFuel;
         } else {
             fuel -= fuelPerMove;
@@ -80,7 +84,7 @@ public class Fighter : Unit, IFuel {
 
     public override void TransportCheck() {
         if (carrier != null) {
-            carrier.fightersOnCarrier.Remove(this);
+            carrier.unitsOnTransport.Remove(this);
             carrier = null;
             mainMesh.SetActive(true);
         } else {
@@ -93,7 +97,7 @@ public class Fighter : Unit, IFuel {
         if (tileMoveStatus == TileMoveStatus.Transport) {
             try {
                 carrier = (Carrier)currentTile.unitOnTile;
-                carrier.fightersOnCarrier.Add(this);
+                carrier.unitsOnTransport.Add(this);
                 UIData.SetUnit(carrier);
                 EndTurn();
             }

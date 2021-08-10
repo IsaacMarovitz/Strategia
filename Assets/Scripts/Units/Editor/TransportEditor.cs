@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEditor;
 
 namespace Strategia.Editor {
@@ -11,10 +12,11 @@ namespace Strategia.Editor {
             serializedObject.Update();
             Transport transport = (Transport)target;
 
+            SerializedProperty tanks = serializedObject.FindProperty("_unitsOnTransport");
+
             EditorGUILayout.Space(10);
-            tanks = serializedObject.FindProperty("tanksOnTransport");
-            EditorGUILayout.PropertyField(tanks);
-            transport.isTransportFull = EditorGUILayout.Toggle("Is Transport Full", transport.isTransportFull);
+            EditorGUILayout.PropertyField(tanks, new GUIContent("Tanks On Transport"));
+            EditorGUILayout.Toggle("Is Transport Full", transport.isTransportFull);
 
             serializedObject.ApplyModifiedProperties();
         }

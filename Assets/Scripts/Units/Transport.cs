@@ -1,25 +1,31 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Transport : Unit {
+public class Transport : Unit, ITransport {
 
-    public List<Tank> tanksOnTransport;
-    public bool isTransportFull;
+    public UnitType unitOnTransportType { get { return _unitOnTransportType; } }
+    public List<Unit> unitsOnTransport { get { return _unitsOnTransport; } set { _unitsOnTransport = value; } }
+    public int maxNumberOfUnits { get { return _maxNumberOfUnits; } }
+    public bool isTransportFull { get { return _isTransportFull; } }
+
+    public const UnitType _unitOnTransportType = UnitType.Tank;
+    public List<Unit> _unitsOnTransport;
+    public const int _maxNumberOfUnits = 6;
+    public bool _isTransportFull {
+        get {
+            if (unitsOnTransport.Count >= maxNumberOfUnits) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 
     public override void Start() {
         base.Start();
         unitType = UnitType.Transport;
         // Set damage percentages in order of Tank, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
         damagePercentages = new float[9] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f };
-    }
-
-    public override void Update() {
-        base.Update();
-        if (tanksOnTransport.Count >= 6) {
-            isTransportFull = true;
-        } else {
-            isTransportFull = false;
-        }
     }
 
     public override TileMoveStatus CheckDir(Tile tile) {
@@ -41,7 +47,7 @@ public class Transport : Unit {
 
     public override void Die() {
         base.Die();
-        foreach (var tank in tanksOnTransport) {
+        foreach (var tank in unitsOnTransport) {
             tank.Die();
             GameObject.Destroy(tank.gameObject);
         }
@@ -49,7 +55,7 @@ public class Transport : Unit {
 
     public override void PerformMove(Tile tileToMoveTo) {
         base.PerformMove(tileToMoveTo);
-        foreach (var tank in tanksOnTransport) {
+        foreach (var tank in unitsOnTransport) {
             tank.pos = pos;
         }
     }

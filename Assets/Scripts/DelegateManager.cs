@@ -2,6 +2,7 @@ using System;
 
 public static class DelegateManager {
     public static Action<Player> playerTurnStartDelegate;
+    public static Action<Player> playerTurnEndDelegate;
     public static Action<Unit> unitTurnStartDelegate;
     public static Action<Unit> unitMoveDelegate;
     public static Action<Player> fogOfWarUpdateDelegate;

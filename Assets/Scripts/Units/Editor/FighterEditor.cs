@@ -15,7 +15,7 @@ namespace Strategia.Editor {
             SerializedProperty maxFuel_prop = serializedObject.FindProperty("_maxFuel");
             SerializedProperty fuelPerMove_prop = serializedObject.FindProperty("_fuelPerMove");
 
-            SerializedProperty isOnCarrier_prop = serializedObject.FindProperty("isOnCarrier");
+            SerializedProperty carrier_prop = serializedObject.FindProperty("carrier");
 
             EditorGUILayout.Space(10);
             showFuel = EditorGUILayout.BeginFoldoutHeaderGroup(showFuel, "Fuel");
@@ -30,7 +30,7 @@ namespace Strategia.Editor {
             EditorGUILayout.EndFoldoutHeaderGroup();
 
             EditorGUILayout.Space(10);
-            EditorGUILayout.PropertyField(isOnCarrier_prop);
+            EditorGUILayout.PropertyField(carrier_prop);
 
             serializedObject.ApplyModifiedProperties();
         }

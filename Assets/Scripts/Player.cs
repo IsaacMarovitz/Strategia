@@ -100,7 +100,7 @@ public class Player : TurnBehaviour {
         fogOfWarTexture.Apply();
         minimapTexture.Apply();
         if (turnStarted && !turnCompleted) {
-            gameManager.fogOfWarTexture.material.mainTexture = fogOfWarTexture;
+            gameManager.fogOfWarRenderer.material.mainTexture = fogOfWarTexture;
         }
     }
 
@@ -157,15 +157,13 @@ public class Player : TurnBehaviour {
             UIData.SetUnit(unitQueue[0]);
             unitQueue[0].StartTurn();
         } else {
-            // TurnComplete();
             EndTurnButton();
         }
     }
 
     public void EndTurnButton() {
         turnCompleted = true;
-        //UIData.SetUnit(null);
-        //UIData.SetCity(null);
+        gameManager.OnPlayerTurnEnd(this);
     }
 
     public void TurnComplete() {

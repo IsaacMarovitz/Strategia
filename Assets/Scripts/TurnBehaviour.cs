@@ -9,6 +9,7 @@ public class TurnBehaviour : MonoBehaviour {
 
     public virtual void Awake() {
         DelegateManager.playerTurnStartDelegate += OnPlayerTurnStart;
+        DelegateManager.playerTurnEndDelegate += OnPlayerTurnEnd;
         DelegateManager.unitTurnStartDelegate += OnUnitTurnStart;
         DelegateManager.unitMoveDelegate += OnUnitMove;
         DelegateManager.unitMoveDelegate += (Unit unit) => OnFogOfWarUpdate(unit.player);
@@ -27,6 +28,7 @@ public class TurnBehaviour : MonoBehaviour {
 
     public virtual void OnDestroy() {
         DelegateManager.playerTurnStartDelegate -= OnPlayerTurnStart;
+        DelegateManager.playerTurnEndDelegate -= OnPlayerTurnEnd;
         DelegateManager.unitTurnStartDelegate -= OnUnitTurnStart;
         DelegateManager.unitMoveDelegate -= OnUnitMove;
         DelegateManager.unitMoveDelegate -= (Unit unit) => OnFogOfWarUpdate(unit.player);
@@ -45,6 +47,9 @@ public class TurnBehaviour : MonoBehaviour {
 
     // Called after a player has finished starting its turn
     public virtual void OnPlayerTurnStart(Player player) {}
+
+    // Called after a player had finished ending its turn
+    public virtual void OnPlayerTurnEnd(Player player) {}
 
     // Called after a unit has finished starting its turn
     public virtual void OnUnitTurnStart(Unit unit) {}

@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEditor;
 
 namespace Strategia.Editor {
@@ -11,9 +12,11 @@ namespace Strategia.Editor {
             serializedObject.Update();
             Carrier carrier = (Carrier)target;
 
+            SerializedProperty fighters = serializedObject.FindProperty("_unitsOnTransport");
+
             EditorGUILayout.Space(10);
-            fighters = serializedObject.FindProperty("fightersOnCarrier");
-            EditorGUILayout.PropertyField(fighters);
+            EditorGUILayout.PropertyField(fighters, new GUIContent("Fighters On Carrier"));
+            EditorGUILayout.Toggle("Is Carrier Full", carrier.isTransportFull);
 
             serializedObject.ApplyModifiedProperties();
         }

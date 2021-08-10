@@ -165,7 +165,7 @@ public class CameraController : MonoBehaviour {
                 }
             }
         }
-        if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.LeftShift)) {
+        if (Input.GetMouseButtonDown(0)) {
             Plane plane = new Plane(Vector3.up, Vector3.zero);
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
@@ -176,7 +176,7 @@ public class CameraController : MonoBehaviour {
             screenDragStartPosition = Input.mousePosition;
             didLMBDrag = false;
         }
-        if (Input.GetMouseButton(0) && !Input.GetKey(KeyCode.LeftShift)) {
+        if (Input.GetMouseButton(0)) {
             Plane plane = new Plane(Vector3.up, Vector3.zero);
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
@@ -196,12 +196,12 @@ public class CameraController : MonoBehaviour {
                 }
             }
         }
-        if (Input.GetMouseButtonDown(0) && Input.GetKey(KeyCode.LeftShift)) {
+        if (Input.GetMouseButtonDown(1)) {
             rotateStartPosition = Input.mousePosition;
             screenShiftDragStartPosition = Input.mousePosition;
             didLMBDrag = false;
         }
-        if (Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftShift)) {
+        if (Input.GetMouseButton(1)) {
             rotateCurrentPosition = Input.mousePosition;
             screenShiftDragCurrentPosition = Input.mousePosition;
 

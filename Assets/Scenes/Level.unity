@@ -15405,6 +15405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbd4d6ec76cd0b64ab24a0ea8be3b4b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitInfo: {fileID: 11400000, guid: 13ec7d7fcf5249440aae20f69b2ef3b0, type: 2}
   panel: {fileID: 1428913802}
   horizontalLayoutGroup: {fileID: 24997623}
   unitButtonPrefab: {fileID: 8986836473174575349, guid: 2c659e0bfface9c4ea8ee750e7648465, type: 3}
@@ -17242,19 +17243,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50b3955af7293764994ba39105a31efb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  day: 0
-  playerList: []
-  dayCompleted: 1
   gameMode: 1
+  cameraController: {fileID: 620992391}
   tileGrid: {fileID: 1182266816}
   gameInfo: {fileID: 11400000, guid: b6db58fec6369ca40a144df85b3c4b0c, type: 2}
   unitInfo: {fileID: 11400000, guid: 13ec7d7fcf5249440aae20f69b2ef3b0, type: 2}
-  numberOfPlayers: 0
+  fogOfWarRenderer: {fileID: 71327588}
+  numberOfPlayers: 3
   playerPrefab: {fileID: 8781609987773422404, guid: c3759eb0fc7d4b548bb224c081a4e7d0, type: 3}
   playerParent: {fileID: 750299195}
-  fogOfWarTexture: {fileID: 71327588}
+  day: 0
   currentPlayerIndex: 0
-  cameraController: {fileID: 620992391}
+  playerList: []
+  dayCompleted: 1
+  currentCity: {fileID: 0}
+  currentUnit: {fileID: 0}
+  mouseOverTile:
+    pos: {x: 0, y: 0}
+    tileType: 0
+    gameObject: {fileID: 0}
+    islandIndex: 0
+    unitOnTile: {fileID: 0}
+    cityOfInfluence: {fileID: 0}
+    walkable: 0
+    gCost: 0
+    hCost: 0
   fastProd: 0
 --- !u!4 &1182266815
 Transform:

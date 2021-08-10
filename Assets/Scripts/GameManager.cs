@@ -9,23 +9,33 @@ public class GameManager : MonoBehaviour {
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
 
-    public int day = 0;
-    public List<Player> playerList;
-    public bool dayCompleted = true;
     public GameMode gameMode = GameMode.LocalMultiplayer;
+    public CameraController cameraController;
     public TileGrid tileGrid;
     public GameInfo gameInfo;
     public UnitInfo unitInfo;
+    public MeshRenderer fogOfWarRenderer;
+
     public int numberOfPlayers;
     public GameObject playerPrefab;
     public Transform playerParent;
+
+    public int day = 0;
+    public int currentPlayerIndex = 0;
+    public List<Player> playerList;
+    public bool dayCompleted = true;
+
+    [SerializeField]
+    private City currentCity;
+    [SerializeField]
+    private Unit currentUnit;
+    [SerializeField]
+    private Tile mouseOverTile;
+
     public Action newDayDelegate;
     public Action nextPlayerDelegate;
     public Action pauseGame;
     public Action resumeGame;
-    public MeshRenderer fogOfWarTexture;
-    public int currentPlayerIndex = 0;
-    public CameraController cameraController;
 
     [HideInInspector]
     public bool fastProd = false;
@@ -68,6 +78,12 @@ public class GameManager : MonoBehaviour {
 
         // Start Game
         NewDay();
+    }
+
+    public void Update() {
+        currentCity = UIData.currentCity;
+        currentUnit = UIData.currentUnit;
+        mouseOverTile = UIData.mouseOverTile;
     }
 
     public IEnumerator Wait() {
@@ -130,8 +146,8 @@ public class GameManager : MonoBehaviour {
         player.playerColor = Color.HSVToRGB(playerIndex * hueOffset, 1f, 0.7f);
         player.cameraController = cameraController;
 
-        if (playerIndex-1 < countries.Count) {
-            player.country = countries[playerIndex-1];
+        if (playerIndex - 1 < countries.Count) {
+            player.country = countries[playerIndex - 1];
         } else {
             player.country = CityNames.Overflow;
         }
@@ -140,7 +156,7 @@ public class GameManager : MonoBehaviour {
             player.cityNames.Add(player.country.names[i]);
         }
         player.cityNames = tileGrid.FisherYates(player.cityNames);
-            
+
 
         playerList.Add(player);
     }
@@ -151,6 +167,10 @@ public class GameManager : MonoBehaviour {
 
     public void OnPlayerTurnStart(Player player) {
         DelegateManager.playerTurnStartDelegate?.Invoke(player);
+    }
+
+    public void OnPlayerTurnEnd(Player player) {
+        DelegateManager.playerTurnEndDelegate?.Invoke(player);
     }
 
     public void OnUnitTurnStart(Unit unit) {
