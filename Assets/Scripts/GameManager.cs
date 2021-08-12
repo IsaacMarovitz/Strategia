@@ -36,9 +36,7 @@ public class GameManager : MonoBehaviour {
     public Action nextPlayerDelegate;
     public Action pauseGame;
     public Action resumeGame;
-
-    [HideInInspector]
-    public bool fastProd = false;
+    public Action<bool> fastProdDelegate;
 
     private float hueOffset;
     private List<Country> countries = new List<Country>();

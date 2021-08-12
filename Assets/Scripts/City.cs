@@ -1,13 +1,34 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 using System.Collections.Generic;
 
 public class City : MonoBehaviour {
 
     // Unit order Tank, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, Battleship
-    public bool isOwned = false;
-    public bool showCityNameUI = true;
+    private bool _isOwned = false;
+    public bool isOwned { 
+        get { 
+            return _isOwned; 
+        } 
+        set { 
+            _isOwned = value; 
+            UpdateCanvas();
+        } 
+    }
+
+    private bool _showCityNameUI = true;
+    public bool showCityNameUI {
+        get {
+            return _showCityNameUI;
+        }
+        set {
+            _showCityNameUI = value;
+            UpdateCanvas();
+        }
+    }
+
     public Player player;
     public UnitInfo unitInfo;
     public UnitType unitType;
@@ -18,10 +39,13 @@ public class City : MonoBehaviour {
     public TMP_Text cityNameText;
     public Button button;
 
+    public Action fastProdDelegate;
+
     public int turnsLeft;
     public int currentIndex;
     private Color defaultColor;
     private List<UnitData> unitData = new List<UnitData>();
+    private bool fastProd;
 
     public void Awake() {
         canvas = GetComponentInChildren<Canvas>();
@@ -34,22 +58,44 @@ public class City : MonoBehaviour {
         unitData = unitInfo.allUnits;
     }
 
-    public void Update() {
+    public void Start() {
+        GameManager.Instance.fastProdDelegate += FastProd;
+    }
+
+    public void OnDestroy() {
+        GameManager.Instance.fastProdDelegate -= FastProd;
+    }
+
+    public void UpdateCanvas() {
         if (isOwned && showCityNameUI) {
             canvas.enabled = true;
             cityNameText.text = cityName;
         } else {
             canvas.enabled = false;
         }
-        if (GameManager.Instance.fastProd && turnsLeft > 1) {
-            turnsLeft = 1;
-        }
     }
 
     public void UpdateUnitType(UnitType unitType) {
         this.unitType = unitType;
         currentIndex = (int)unitType;
-        turnsLeft = unitData[currentIndex].turnsToCreate;
+
+        if (fastProd) {
+            turnsLeft = 1;
+        } else {
+            turnsLeft = unitData[currentIndex].turnsToCreate;
+        }
+    }
+    
+    public void FastProd(bool value) {
+        fastProd = value;
+
+        if (value) {
+            turnsLeft = 1;
+        } else {
+            turnsLeft = unitData[currentIndex].turnsToCreate;
+        }
+
+        fastProdDelegate?.Invoke();
     }
 
     public void StartGame(Player player) {

@@ -41,15 +41,12 @@ public class TransportUI : TurnBehaviour {
                     panel.SetActive(true);
                     transform.position = GridUtilities.TileToWorldPos(unit.pos, yOffset);
                     UpdateUnitButtons(transportInterface);
-                } else {
-                    panel.SetActive(false);
+                    return;
                 }
-            } else {
-                panel.SetActive(false);
-            }
-        } else {
-            panel.SetActive(false);
+            } 
         }
+
+        panel.SetActive(false);
     }
 
     void UpdateUnitButtons(ITransport transportInterface) {

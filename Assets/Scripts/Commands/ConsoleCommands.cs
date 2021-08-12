@@ -52,7 +52,7 @@ public static class ConsoleCommands {
     public static DebugConsole.DebugCommandCode FastProd(string[] args, DebugConsole debugConsole) {
         if (args.Length > 0) {
             if (ConsoleCommands.ParseBool(args[0], out bool boolValue)) {
-                GameManager.Instance.fastProd = boolValue;
+                GameManager.Instance.fastProdDelegate?.Invoke(boolValue);
                 if (boolValue) {
                     debugConsole.PrintSuccess("Set all unit TTCs to 1.");
                 } else {

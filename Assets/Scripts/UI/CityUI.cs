@@ -27,7 +27,19 @@ public class CityUI : TurnBehaviour {
         }
     }
 
+    public override void OnDestroy() {
+        base.OnDestroy();
+        if (oldCity != null) {
+            oldCity.fastProdDelegate -= UpdateTurnsLeft;
+        }
+    }
+
+    public void UpdateTurnsLeft() {
+        turnsLeft.text = "Days Left: " + oldCity.turnsLeft;
+    }
+
     public override void OnCitySelected(City city) {
+        city.fastProdDelegate += UpdateTurnsLeft;
         city.showCityNameUI = false;
         panel.SetActive(true);
         transform.position = GridUtilities.TileToWorldPos(city.pos, yOffset);
@@ -66,6 +78,7 @@ public class CityUI : TurnBehaviour {
         panel.SetActive(false);
         hasUpdated = false;
         if (oldCity != null) {
+            oldCity.fastProdDelegate -= UpdateTurnsLeft;
             oldCity.showCityNameUI = true;
         }
     }

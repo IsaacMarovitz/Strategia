@@ -20,7 +20,7 @@ public class ErrorUI : MonoBehaviour {
         Application.logMessageReceived += HandelLog;
     }
 
-    void OnDisable() {
+    void OnDestroy() {
         Application.logMessageReceived -= HandelLog;
     }
 
