@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TileGrid = Strategia.TileGrid;
@@ -69,9 +68,7 @@ public class GameManager : MonoBehaviour {
         // Asign player starting cities
         foreach (Player player in playerList) {
             Debug.Log("<b>Game Manager:</b> Choosing " + player.gameObject.name + " starting city");
-            City returnedCity = tileGrid.ChoosePlayerCity();
-            player.InitaliseStartCity(returnedCity);
-            StartCoroutine(Wait());
+            tileGrid.ChoosePlayerCity().StartGame(player);
         }
 
         // Start Game
@@ -82,10 +79,6 @@ public class GameManager : MonoBehaviour {
         currentCity = UIData.currentCity;
         currentUnit = UIData.currentUnit;
         mouseOverTile = UIData.mouseOverTile;
-    }
-
-    public IEnumerator Wait() {
-        yield return new WaitForSeconds(2);
     }
 
     public void NewDay() {

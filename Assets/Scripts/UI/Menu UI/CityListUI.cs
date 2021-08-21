@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CityListUI : MonoBehaviour {
+public class CityListUI : TurnBehaviour {
 
     public CameraController cameraController;
     public GameObject content;
@@ -17,6 +17,7 @@ public class CityListUI : MonoBehaviour {
     public List<CityListUISettings> cityListUISettings = new List<CityListUISettings>();
 
     private float cityListManagerZ;
+    private Player currentPlayer;
 
     void Start() {
         cityUIButton.onClick.AddListener(ShowMenu);
@@ -39,12 +40,17 @@ public class CityListUI : MonoBehaviour {
         cityListManagerZ = cityListManager.transform.position.z;
     }
 
-    void Update() {
-        UpdateCityList();
+    public override void OnPlayerTurnStart(Player player) {
+        currentPlayer = player;
+        player.cityDataChangedDelegate += UpdateCityList;
+    }
+
+    public override void OnPlayerTurnEnd(Player player) {
+        currentPlayer = null;
+        player.cityDataChangedDelegate -= UpdateCityList;
     }
 
     public void UpdateCityList() {
-        Player currentPlayer = GameManager.Instance.GetCurrentPlayer();
         if (currentPlayer != null) {
             List<City> cities = currentPlayer.playerCities;
             

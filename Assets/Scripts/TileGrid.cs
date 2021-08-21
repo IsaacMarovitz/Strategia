@@ -195,7 +195,6 @@ namespace Strategia {
                 if (grid[city.pos.x, city.pos.y].tileType == TileType.CostalCity) {
                     City cityScript = city.gameObject.GetComponent<City>();
                     if (!cityScript.isOwned) {
-                        cityScript.isOwned = true;
                         Debug.Log("<b>Tile Grid:</b> Player starting city chosen");
                         return cityScript;
                     }

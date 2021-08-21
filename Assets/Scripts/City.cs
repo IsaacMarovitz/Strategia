@@ -12,7 +12,7 @@ public class City : MonoBehaviour {
         get { 
             return _isOwned; 
         } 
-        set { 
+        private set { 
             _isOwned = value; 
             UpdateCanvas();
         } 
@@ -29,11 +29,21 @@ public class City : MonoBehaviour {
         }
     }
 
+    private string _cityName = "";
+    public string cityName {
+        get {
+            return _cityName;
+        }
+        set {
+            _cityName = value;
+            UpdateCanvas();
+        }
+    }
+
     public Player player;
     public UnitInfo unitInfo;
     public UnitType unitType;
     public Vector2Int pos;
-    public string cityName = "";
     public List<Unit> unitsInCity;
     public Canvas canvas;
     public TMP_Text cityNameText;
@@ -67,6 +77,8 @@ public class City : MonoBehaviour {
     }
 
     public void UpdateCanvas() {
+        player.cityDataChangedDelegate?.Invoke();
+
         if (isOwned && showCityNameUI) {
             canvas.enabled = true;
             cityNameText.text = cityName;

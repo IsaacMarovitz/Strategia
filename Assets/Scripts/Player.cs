@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 public class Player : TurnBehaviour {
@@ -15,6 +16,7 @@ public class Player : TurnBehaviour {
     public CameraController cameraController;
     public Country country;
     public List<Unit> unitQueue;
+    public Action cityDataChangedDelegate;
 
     private bool revealAllTiles = false;
 
@@ -117,10 +119,6 @@ public class Player : TurnBehaviour {
         turnCompleted = false;
     }
 
-    public void InitaliseStartCity(City city) {
-        city.StartGame(this);
-    }
-
     public void AddUnit(Unit unit) {
         unit.gameObject.name = "Unit " + (playerUnits.Count + 1) + ", " + this.gameObject.name;
         unit.SetColor(playerColor);
@@ -143,6 +141,7 @@ public class Player : TurnBehaviour {
             TurnComplete();
         }
         gameManager.OnPlayerTurnStart(this);
+        cityDataChangedDelegate?.Invoke();
     }
 
     public void NextUnit(Unit unit, bool movingLater) {
