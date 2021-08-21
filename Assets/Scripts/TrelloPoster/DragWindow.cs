@@ -12,18 +12,30 @@ public class DragWindow : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     [SerializeField] private CanvasGroup canvasGroup = null;
     [SerializeField] private float fadeAlpha = 0.4f;
     [SerializeField] private float fadeDuration = 0.1f;
+    
+    private bool _isOpen;
+    public bool isOpen {
+        get {
+            return _isOpen;
+        }
+        private set {
+            _isOpen = value;
+        }
+    }
 
     private void Start() {
         dragRectTransform.sizeDelta = new Vector2(panelRectTransform.rect.width / 2, panelRectTransform.rect.height / 2);
         canvasGroup.alpha = 0f;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
+        isOpen = false;
     }
 
     public void Open(Action onCompleteDelegate) {
         canvasGroup.DOFade(1f, fadeDuration).OnComplete(() => {
             canvasGroup.interactable = true;
             canvasGroup.blocksRaycasts = true;
+            isOpen = true;
             onCompleteDelegate();
         });
     }
@@ -33,6 +45,7 @@ public class DragWindow : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         canvasGroup.blocksRaycasts = false;
 
         canvasGroup.DOFade(0f, fadeDuration).OnComplete(() => {
+            isOpen = false;
             onCompleteDelegate();
         });
     }

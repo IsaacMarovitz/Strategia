@@ -8,7 +8,6 @@ public class CityListUI : TurnBehaviour {
     public GameObject content;
     public GameObject cityPrefab;
     public GameObject cityListManager;
-    public GameObject cityListPanel;
     public DragWindow dragWindow;
     public Button cityUIButton;
     public Button xButton;
@@ -86,9 +85,9 @@ public class CityListUI : TurnBehaviour {
     public void NextPlayer() {
         int currentPlayerIndex = GameManager.Instance.currentPlayerIndex - 1;
         if (currentPlayerIndex == 0) {
-            cityListUISettings[cityListUISettings.Count - 1] = new CityListUISettings(new Vector2(cityListManager.transform.localPosition.x, cityListManager.transform.localPosition.y), cityListPanel.activeInHierarchy);
+            cityListUISettings[cityListUISettings.Count - 1] = new CityListUISettings(new Vector2(cityListManager.transform.localPosition.x, cityListManager.transform.localPosition.y), dragWindow.isOpen);
         } else {
-            cityListUISettings[currentPlayerIndex - 1] = new CityListUISettings(new Vector2(cityListManager.transform.localPosition.x, cityListManager.transform.localPosition.y), cityListPanel.activeInHierarchy);
+            cityListUISettings[currentPlayerIndex - 1] = new CityListUISettings(new Vector2(cityListManager.transform.localPosition.x, cityListManager.transform.localPosition.y), dragWindow.isOpen);
         }
 
         CityListUISettings currentCityListUISettings = cityListUISettings[currentPlayerIndex];

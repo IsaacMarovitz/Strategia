@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using DG.Tweening;
 
 public class OverlayUI : MonoBehaviour {
 
@@ -10,24 +11,31 @@ public class OverlayUI : MonoBehaviour {
     public Button nextPlayerButton;
     public GameObject newDayUI;
     public GameObject nextPlayerUI;
+    public CanvasGroup nextPlayerUICanvasGroup;
     public float newDayWaitTime = 1f;
+    public float transitionTime = 0.1f;
 
     void Start() {
         nextPlayerButton.onClick.AddListener(NextPlayerButton);
         GameManager.Instance.newDayDelegate += NewDay;
         GameManager.Instance.nextPlayerDelegate += NextPlayer;
+        newDayUI.transform.localScale = new Vector3(1, 0, 1);
     }
 
     public void NewDay() {
-        newDayUI.SetActive(true);
         newDayUIText.text = $"Day {GameManager.Instance.day + 1}";
-        StartCoroutine(NewDayWait(newDayWaitTime));
+        newDayUI.SetActive(true);
+        newDayUI.transform.DOScaleY(1f, transitionTime).OnComplete(() => {
+            StartCoroutine(NewDayWait(newDayWaitTime));
+        });
     }
 
     IEnumerator NewDayWait(float waitTime) {
         yield return new WaitForSeconds(waitTime);
-        newDayUI.SetActive(false);
-        GameManager.Instance.NewDay();
+        newDayUI.transform.DOScaleY(0f, transitionTime).OnComplete(() => {
+            newDayUI.SetActive(false);
+            GameManager.Instance.NewDay();
+        });
     }
 
     public void NextPlayer() {
@@ -37,7 +45,12 @@ public class OverlayUI : MonoBehaviour {
     }
 
     public void NextPlayerButton() {
-        nextPlayerUI.SetActive(false);
+        nextPlayerUICanvasGroup.interactable = false;
+        nextPlayerUICanvasGroup.DOFade(0f, transitionTime).OnComplete(() => {
+            nextPlayerUI.SetActive(false);
+            nextPlayerUICanvasGroup.alpha = 1f;
+            nextPlayerUICanvasGroup.interactable = true;
+        });
         GameManager.Instance.Resume();
     }
 }

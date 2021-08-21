@@ -5986,7 +5986,9 @@ MonoBehaviour:
   nextPlayerButton: {fileID: 1923835052}
   newDayUI: {fileID: 1897431598}
   nextPlayerUI: {fileID: 1136060174}
+  nextPlayerUICanvasGroup: {fileID: 1136060178}
   newDayWaitTime: 1
+  transitionTime: 0.1
 --- !u!114 &368705418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6044,7 +6046,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 1
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 15
   m_TargetDisplay: 0
@@ -16588,6 +16590,7 @@ GameObject:
   - component: {fileID: 1136060177}
   - component: {fileID: 1136060176}
   - component: {fileID: 1136060175}
+  - component: {fileID: 1136060178}
   m_Layer: 5
   m_Name: Next Player
   m_TagString: Untagged
@@ -16654,6 +16657,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1136060178
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136060174}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1141154446
 GameObject:
   m_ObjectHideFlags: 0
