@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using DG.Tweening;
+using System;
 
 public class DragWindow : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler {
 
@@ -8,20 +9,36 @@ public class DragWindow : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     [SerializeField] private RectTransform canvasRectTransform = null;
     [SerializeField] private RectTransform dragRectTransform = null;
     [SerializeField] private RectTransform panelRectTransform = null;
-    [SerializeField] private Image backgroundImage = null;
-    private Color backgroundColor;
-
-    private void Awake() {
-        backgroundColor = backgroundImage.color;
-    }
+    [SerializeField] private CanvasGroup canvasGroup = null;
+    [SerializeField] private float fadeAlpha = 0.4f;
+    [SerializeField] private float fadeDuration = 0.1f;
 
     private void Start() {
         dragRectTransform.sizeDelta = new Vector2(panelRectTransform.rect.width / 2, panelRectTransform.rect.height / 2);
+        canvasGroup.alpha = 0f;
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+    }
+
+    public void Open(Action onCompleteDelegate) {
+        canvasGroup.DOFade(1f, fadeDuration).OnComplete(() => {
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
+            onCompleteDelegate();
+        });
+    }
+
+    public void Close(Action onCompleteDelegate) {
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+
+        canvasGroup.DOFade(0f, fadeDuration).OnComplete(() => {
+            onCompleteDelegate();
+        });
     }
 
     public void OnBeginDrag(PointerEventData eventData) {
-        backgroundColor.a = 0.4f;
-        backgroundImage.color = backgroundColor;
+        canvasGroup.DOFade(fadeAlpha, fadeDuration);
     }
 
     public void OnDrag(PointerEventData eventData) {
@@ -29,8 +46,7 @@ public class DragWindow : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     }
 
     public void OnEndDrag(PointerEventData eventData) {
-        backgroundColor.a = 1f;
-        backgroundImage.color = backgroundColor;
+        canvasGroup.DOFade(1f, fadeDuration);
 
         dragRectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
         Vector2 anchoredPosition = dragRectTransform.anchoredPosition;

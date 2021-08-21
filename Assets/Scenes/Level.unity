@@ -1749,7 +1749,8 @@ MonoBehaviour:
   content: {fileID: 830027356}
   cityPrefab: {fileID: 930706511072008362, guid: 1c5a5dc28d4df6c4ca34e06cd15626af, type: 3}
   cityListManager: {fileID: 2107092302}
-  cityListMenu: {fileID: 2035664277}
+  cityListPanel: {fileID: 2035664277}
+  dragWindow: {fileID: 2035664279}
   cityUIButton: {fileID: 689978620}
   xButton: {fileID: 1093646566}
   unitInfo: {fileID: 11400000, guid: 13ec7d7fcf5249440aae20f69b2ef3b0, type: 2}
@@ -3062,7 +3063,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3387,9 +3388,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -17, y: -17}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &191555645
 MonoBehaviour:
@@ -4044,10 +4045,10 @@ RectTransform:
   m_Father: {fileID: 1725840875}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75.535, y: -30.11}
-  m_SizeDelta: {x: 131.07, y: 40.22}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &209870767
 MonoBehaviour:
@@ -5672,7 +5673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   okButton: {fileID: 477849533}
-  sucessPanel: {fileID: 1888057610}
+  successDragWindow: {fileID: 1888057612}
 --- !u!1 &343437246
 GameObject:
   m_ObjectHideFlags: 0
@@ -6745,9 +6746,9 @@ RectTransform:
   m_Father: {fileID: 58960933}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 210, y: -25}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 120, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &439535932
@@ -10445,7 +10446,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.0304182, y: 1}
+    m_SensorSize: {x: 1.9987326, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -10579,9 +10580,9 @@ RectTransform:
   m_Father: {fileID: 1474818282963518187}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 210, y: -36.666664}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &668283678
@@ -11858,9 +11859,9 @@ RectTransform:
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: -17}
+  m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &736341854
 MonoBehaviour:
@@ -11984,9 +11985,9 @@ RectTransform:
   m_Father: {fileID: 1474818282963518187}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 210, y: -155}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &739269975
@@ -12219,8 +12220,9 @@ MonoBehaviour:
   headerText: {fileID: 209870767}
   contentText: {fileID: 1246631058}
   layoutElement: {fileID: 1725840876}
-  image: {fileID: 1725840874}
+  canvasGroup: {fileID: 1725840881}
   characterWrapLimit: 40
+  transitionDuration: 0.1
 --- !u!1 &756066707
 GameObject:
   m_ObjectHideFlags: 0
@@ -14433,7 +14435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   okButton: {fileID: 1376721978}
-  failurePanel: {fileID: 1159310709}
+  failureDragWindow: {fileID: 1159310711}
   failureText: {fileID: 186522411}
 --- !u!1 &940966019
 GameObject:
@@ -16684,9 +16686,9 @@ RectTransform:
   m_Father: {fileID: 1474818282963518187}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 210, y: -278.3333}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 420, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1143135630
@@ -16986,6 +16988,7 @@ GameObject:
   - component: {fileID: 1159310710}
   - component: {fileID: 1159310713}
   - component: {fileID: 1159310712}
+  - component: {fileID: 1159310714}
   - component: {fileID: 1159310711}
   m_Layer: 5
   m_Name: Window Panel
@@ -16993,7 +16996,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1159310710
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17031,7 +17034,9 @@ MonoBehaviour:
   canvasRectTransform: {fileID: 1206070305}
   dragRectTransform: {fileID: 930935944}
   panelRectTransform: {fileID: 1159310710}
-  backgroundImage: {fileID: 1159310712}
+  canvasGroup: {fileID: 1159310714}
+  fadeAlpha: 0.4
+  fadeDuration: 0.1
 --- !u!114 &1159310712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17070,6 +17075,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1159310709}
   m_CullTransparentMesh: 0
+--- !u!225 &1159310714
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159310709}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1172356358
 GameObject:
   m_ObjectHideFlags: 0
@@ -17268,7 +17285,6 @@ MonoBehaviour:
     walkable: 0
     gCost: 0
     hCost: 0
-  fastProd: 0
 --- !u!4 &1182266815
 Transform:
   m_ObjectHideFlags: 0
@@ -17834,7 +17850,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 1
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 2
   m_TargetDisplay: 0
@@ -18437,10 +18453,10 @@ RectTransform:
   m_Father: {fileID: 1725840875}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 300, y: -153.225}
-  m_SizeDelta: {x: 580, y: 206.01}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1246631058
 MonoBehaviour:
@@ -18554,7 +18570,7 @@ GameObject:
   - component: {fileID: 1246985452}
   - component: {fileID: 1246985451}
   m_Layer: 5
-  m_Name: Sucess UI
+  m_Name: Success UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18597,7 +18613,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 1
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 2
   m_TargetDisplay: 0
@@ -20828,9 +20844,9 @@ RectTransform:
   m_Father: {fileID: 296294925}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 210, y: -25}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 60, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1376721978
@@ -24970,9 +24986,9 @@ RectTransform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -17, y: 20}
+  m_SizeDelta: {x: 0, y: 20}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1648433135
 MonoBehaviour:
@@ -25018,7 +25034,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1917514746}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.9999999
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -26012,13 +26028,14 @@ GameObject:
   - component: {fileID: 1725840878}
   - component: {fileID: 1725840877}
   - component: {fileID: 1725840876}
+  - component: {fileID: 1725840881}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1725840875
 RectTransform:
   m_ObjectHideFlags: 0
@@ -26038,7 +26055,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 600, y: 266.22998}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1725840876
 MonoBehaviour:
@@ -26138,6 +26155,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1725840874}
   m_CullTransparentMesh: 1
+--- !u!225 &1725840881
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725840874}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1751334063
 GameObject:
   m_ObjectHideFlags: 0
@@ -28696,7 +28725,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Report Submitted Sucessfully
+  m_text: Report Submitted Successfully
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -29248,6 +29277,7 @@ GameObject:
   - component: {fileID: 1888057611}
   - component: {fileID: 1888057614}
   - component: {fileID: 1888057613}
+  - component: {fileID: 1888057615}
   - component: {fileID: 1888057612}
   m_Layer: 5
   m_Name: Window Panel
@@ -29255,7 +29285,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1888057611
 RectTransform:
   m_ObjectHideFlags: 0
@@ -29275,7 +29305,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 420, y: 140}
+  m_SizeDelta: {x: 430, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1888057612
 MonoBehaviour:
@@ -29293,7 +29323,9 @@ MonoBehaviour:
   canvasRectTransform: {fileID: 1246985449}
   dragRectTransform: {fileID: 322401577}
   panelRectTransform: {fileID: 1888057611}
-  backgroundImage: {fileID: 1888057613}
+  canvasGroup: {fileID: 1888057615}
+  fadeAlpha: 0.4
+  fadeDuration: 0.1
 --- !u!114 &1888057613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29332,6 +29364,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1888057610}
   m_CullTransparentMesh: 0
+--- !u!225 &1888057615
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888057610}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1892583706
 GameObject:
   m_ObjectHideFlags: 0
@@ -29777,7 +29821,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -31509,6 +31553,7 @@ GameObject:
   - component: {fileID: 2035664278}
   - component: {fileID: 2035664281}
   - component: {fileID: 2035664280}
+  - component: {fileID: 2035664282}
   - component: {fileID: 2035664279}
   m_Layer: 5
   m_Name: City List Panel
@@ -31516,7 +31561,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2035664278
 RectTransform:
   m_ObjectHideFlags: 0
@@ -31554,7 +31599,9 @@ MonoBehaviour:
   canvasRectTransform: {fileID: 74971543}
   dragRectTransform: {fileID: 2107092303}
   panelRectTransform: {fileID: 2035664278}
-  backgroundImage: {fileID: 2035664280}
+  canvasGroup: {fileID: 2035664282}
+  fadeAlpha: 0.4
+  fadeDuration: 0.1
 --- !u!114 &2035664280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31593,6 +31640,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2035664277}
   m_CullTransparentMesh: 0
+--- !u!225 &2035664282
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035664277}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2036876576
 GameObject:
   m_ObjectHideFlags: 0
@@ -34001,7 +34060,9 @@ MonoBehaviour:
   canvasRectTransform: {fileID: 756066711}
   dragRectTransform: {fileID: 253176775068668269}
   panelRectTransform: {fileID: 253176773941669921}
-  backgroundImage: {fileID: 253176773941669923}
+  canvasGroup: {fileID: 253176773941669927}
+  fadeAlpha: 0.4
+  fadeDuration: 0.1
 --- !u!224 &253176773941669921
 RectTransform:
   m_ObjectHideFlags: 0
@@ -34072,6 +34133,7 @@ GameObject:
   - component: {fileID: 253176773941669921}
   - component: {fileID: 253176773941669922}
   - component: {fileID: 253176773941669923}
+  - component: {fileID: 253176773941669927}
   - component: {fileID: 253176773941669920}
   m_Layer: 5
   m_Name: Window Panel
@@ -34080,6 +34142,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 0
+--- !u!225 &253176773941669927
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253176773941669926}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &253176774175842419
 GameObject:
   m_ObjectHideFlags: 0
@@ -34091,6 +34165,7 @@ GameObject:
   - component: {fileID: 253176774175842420}
   - component: {fileID: 253176774175842423}
   - component: {fileID: 253176774175842422}
+  - component: {fileID: 253176774175842424}
   - component: {fileID: 253176774175842421}
   m_Layer: 5
   m_Name: Window Panel
@@ -34136,7 +34211,9 @@ MonoBehaviour:
   canvasRectTransform: {fileID: 253176773028905261}
   dragRectTransform: {fileID: 253176773088739640}
   panelRectTransform: {fileID: 253176774175842420}
-  backgroundImage: {fileID: 253176774175842422}
+  canvasGroup: {fileID: 253176774175842424}
+  fadeAlpha: 0.4
+  fadeDuration: 0.1
 --- !u!114 &253176774175842422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34175,6 +34252,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 253176774175842419}
   m_CullTransparentMesh: 0
+--- !u!225 &253176774175842424
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253176774175842419}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &253176774293733944
 GameObject:
   m_ObjectHideFlags: 0
@@ -34838,7 +34927,9 @@ MonoBehaviour:
   canvasRectTransform: {fileID: 1474818283867254699}
   dragRectTransform: {fileID: 1474818283675430846}
   panelRectTransform: {fileID: 1474818282586197746}
-  backgroundImage: {fileID: 1474818282586197744}
+  canvasGroup: {fileID: 1474818282586197750}
+  fadeAlpha: 0.4
+  fadeDuration: 0.1
 --- !u!1 &1474818282586197749
 GameObject:
   m_ObjectHideFlags: 0
@@ -34850,6 +34941,7 @@ GameObject:
   - component: {fileID: 1474818282586197746}
   - component: {fileID: 1474818282586197745}
   - component: {fileID: 1474818282586197744}
+  - component: {fileID: 1474818282586197750}
   - component: {fileID: 1474818282586197747}
   m_Layer: 5
   m_Name: Window Panel
@@ -34857,7 +34949,19 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
+--- !u!225 &1474818282586197750
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474818282586197749}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1474818282917099632
 GameObject:
   m_ObjectHideFlags: 0
@@ -35315,9 +35419,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reportButton: {fileID: 293283037}
   failureUI: {fileID: 930935945}
-  sucessPanel: {fileID: 1888057610}
+  successDragWindow: {fileID: 1888057612}
   trelloPoster: {fileID: 11400000, guid: c602d3e3b18b8c64dbf8d7dbc1b725db, type: 2}
   reportPanel: {fileID: 1474818282586197749}
+  dragWindow: {fileID: 1474818282586197747}
   cardName: {fileID: 668283678}
   cardDesc: {fileID: 739269975}
   includeScreenshot: {fileID: 461739930}
@@ -35358,7 +35463,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 1
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 2
   m_TargetDisplay: 0
@@ -35847,7 +35952,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 1
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 2
   m_TargetDisplay: 0
@@ -35882,9 +35987,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   okButton: {fileID: 3290877365833396691}
   reportButton: {fileID: 439535932}
-  errorPanel: {fileID: 3290877366210543312}
+  errorDragWindow: {fileID: 3290877366210543318}
   failureUI: {fileID: 930935945}
-  sucessPanel: {fileID: 1888057610}
+  successDragWindow: {fileID: 1888057612}
   errorText: {fileID: 642953001}
   trelloPoster: {fileID: 11400000, guid: c602d3e3b18b8c64dbf8d7dbc1b725db, type: 2}
 --- !u!224 &3290877365184290715
@@ -36187,6 +36292,7 @@ GameObject:
   - component: {fileID: 3290877366210543319}
   - component: {fileID: 3290877366210543316}
   - component: {fileID: 3290877366210543317}
+  - component: {fileID: 3290877366210543313}
   - component: {fileID: 3290877366210543318}
   m_Layer: 5
   m_Name: Window Panel
@@ -36194,7 +36300,19 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
+--- !u!225 &3290877366210543313
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3290877366210543312}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!222 &3290877366210543316
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -36249,7 +36367,9 @@ MonoBehaviour:
   canvasRectTransform: {fileID: 3290877364992466830}
   dragRectTransform: {fileID: 3290877365184290715}
   panelRectTransform: {fileID: 3290877366210543319}
-  backgroundImage: {fileID: 3290877366210543317}
+  canvasGroup: {fileID: 3290877366210543313}
+  fadeAlpha: 0.4
+  fadeDuration: 0.1
 --- !u!224 &3290877366210543319
 RectTransform:
   m_ObjectHideFlags: 0

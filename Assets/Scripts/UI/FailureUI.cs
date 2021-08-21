@@ -4,15 +4,15 @@ using TMPro;
 
 public class FailureUI : MonoBehaviour {
     public Button okButton;
-    public GameObject failurePanel;
+    public DragWindow failureDragWindow;
     public TMP_Text failureText;
 
     void Start() => okButton.onClick.AddListener(Ok);
 
     public void DisplayError(string error) {
         failureText.text = error;
-        failurePanel.SetActive(true);
+        failureDragWindow.Open(() => {});
     }
 
-    void Ok() => failurePanel.SetActive(false);
+    void Ok() => failureDragWindow.Close(() => {});
 }

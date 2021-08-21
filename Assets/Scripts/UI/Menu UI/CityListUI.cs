@@ -8,7 +8,8 @@ public class CityListUI : TurnBehaviour {
     public GameObject content;
     public GameObject cityPrefab;
     public GameObject cityListManager;
-    public GameObject cityListMenu;
+    public GameObject cityListPanel;
+    public DragWindow dragWindow;
     public Button cityUIButton;
     public Button xButton;
     public UnitInfo unitInfo;
@@ -75,21 +76,19 @@ public class CityListUI : TurnBehaviour {
     }
 
     public void ShowMenu() {
-        cityUIButton.interactable = false;
-        cityListMenu.SetActive(true);
+        dragWindow.Open(() => cityUIButton.interactable = false);
     }
 
     public void CloseMenu() {
-        cityUIButton.interactable = true;
-        cityListMenu.SetActive(false);
+        dragWindow.Close(() => cityUIButton.interactable = true);
     }
 
     public void NextPlayer() {
         int currentPlayerIndex = GameManager.Instance.currentPlayerIndex - 1;
         if (currentPlayerIndex == 0) {
-            cityListUISettings[cityListUISettings.Count - 1] = new CityListUISettings(new Vector2(cityListManager.transform.localPosition.x, cityListManager.transform.localPosition.y), cityListMenu.activeInHierarchy);
+            cityListUISettings[cityListUISettings.Count - 1] = new CityListUISettings(new Vector2(cityListManager.transform.localPosition.x, cityListManager.transform.localPosition.y), cityListPanel.activeInHierarchy);
         } else {
-            cityListUISettings[currentPlayerIndex - 1] = new CityListUISettings(new Vector2(cityListManager.transform.localPosition.x, cityListManager.transform.localPosition.y), cityListMenu.activeInHierarchy);
+            cityListUISettings[currentPlayerIndex - 1] = new CityListUISettings(new Vector2(cityListManager.transform.localPosition.x, cityListManager.transform.localPosition.y), cityListPanel.activeInHierarchy);
         }
 
         CityListUISettings currentCityListUISettings = cityListUISettings[currentPlayerIndex];

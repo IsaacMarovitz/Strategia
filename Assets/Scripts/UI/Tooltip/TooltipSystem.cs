@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 
 public class TooltipSystem : MonoBehaviour {
 
@@ -11,11 +12,11 @@ public class TooltipSystem : MonoBehaviour {
     }
 
     public static void Show(string content, string header = "") {
-        current.tooltip.image.SetActive(true);
+        current.tooltip.canvasGroup.DOFade(1, current.tooltip.transitionDuration);
         current.tooltip.SetText(content, header);
     }
 
     public static void Hide() {
-        current.tooltip.image.SetActive(false);
+        current.tooltip.canvasGroup.DOFade(0, current.tooltip.transitionDuration);
     }
 }

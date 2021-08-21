@@ -9,17 +9,13 @@ public class TrelloUI : MonoBehaviour {
 	
 	public Button reportButton;
     public FailureUI failureUI;
-    public GameObject sucessPanel;
-    [SerializeField]
-    private TrelloPoster trelloPoster = null;
-    [SerializeField]
-    private GameObject reportPanel = null;
-    [SerializeField]
-    private TMP_InputField cardName = null;
-    [SerializeField]
-    private TMP_InputField cardDesc = null;
-    [SerializeField]
-    private Toggle includeScreenshot = null;
+    public DragWindow successDragWindow;
+    [SerializeField] private TrelloPoster trelloPoster = null;
+    [SerializeField] private GameObject reportPanel = null;
+    [SerializeField] private DragWindow dragWindow = null;
+    [SerializeField] private TMP_InputField cardName = null;
+    [SerializeField] private TMP_InputField cardDesc = null;
+    [SerializeField] private Toggle includeScreenshot = null;
 
     private Texture2D screenshot;
 	private GameManager gameManager;
@@ -60,14 +56,12 @@ public class TrelloUI : MonoBehaviour {
 
 	public void Pause() {
 		gameManager.Pause();
-		reportPanel.SetActive(true);
-		reportButton.interactable = false;		
+        dragWindow.Open(() => reportButton.interactable = false);
 	}
 
 	public void Resume() {
 		gameManager.Resume();
-		reportPanel.SetActive(false);
-		reportButton.interactable = true;
+        dragWindow.Close(() => reportButton.interactable = true);
 	}
 
     public void TakeScreenshot() {
@@ -83,7 +77,7 @@ public class TrelloUI : MonoBehaviour {
         if (!string.IsNullOrEmpty(error)) {
             failureUI.DisplayError(error);
         } else {
-            sucessPanel.SetActive(true);
+            successDragWindow.Open(() => {});
         }
     }
 }

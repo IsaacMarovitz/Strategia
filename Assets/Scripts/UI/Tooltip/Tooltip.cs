@@ -10,8 +10,9 @@ public class Tooltip : MonoBehaviour {
     public TextMeshProUGUI headerText;
     public TextMeshProUGUI contentText;
     public LayoutElement layoutElement;
-    public GameObject image;
+    public CanvasGroup canvasGroup;
     public int characterWrapLimit;
+    public float transitionDuration = 0.1f;
 
     public void SetText(string content, string header = "") {
         if (string.IsNullOrEmpty(header)) {

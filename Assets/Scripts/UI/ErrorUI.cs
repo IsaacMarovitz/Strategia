@@ -7,9 +7,9 @@ public class ErrorUI : MonoBehaviour {
 
     public Button okButton;
     public Button reportButton;
-    public GameObject errorPanel;
+    public DragWindow errorDragWindow;
     public FailureUI failureUI;
-    public GameObject sucessPanel;
+    public DragWindow successDragWindow;
     public TMP_Text errorText;
     public TrelloPoster trelloPoster;
 
@@ -17,19 +17,20 @@ public class ErrorUI : MonoBehaviour {
     private string errorString;
 
     void OnEnable() {
-        Application.logMessageReceived += HandelLog;
+        Application.logMessageReceived += HandleLog;
     }
 
     void OnDestroy() {
-        Application.logMessageReceived -= HandelLog;
+        Application.logMessageReceived -= HandleLog;
     }
 
-    void HandelLog(string logString, string stackTrace, LogType type) {
+    void HandleLog(string logString, string stackTrace, LogType type) {
         if (type != LogType.Log) {
-            errorPanel.SetActive(true);
             errorString = logString + "\n" + stackTrace;
             errorText.text = errorString;
             this.logString = logString;
+
+            errorDragWindow.Open(() => {});
         }
     }
 
@@ -42,7 +43,7 @@ public class ErrorUI : MonoBehaviour {
     }   
 
     void Ok() {
-        errorPanel.SetActive(false);
+        errorDragWindow.Close(() => {});
     }
 
     void Report() {
@@ -58,7 +59,7 @@ public class ErrorUI : MonoBehaviour {
         if (!string.IsNullOrEmpty(error)) {
             failureUI.DisplayError(error);
         } else {
-            sucessPanel.SetActive(true);
+            successDragWindow.Open(() => {});
         }
     } 
 }

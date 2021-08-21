@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 253176773016169977}
   - component: {fileID: 253176773016169978}
   - component: {fileID: 253176773016169979}
+  - component: {fileID: 8176021779484805472}
   - component: {fileID: 253176773016169976}
   m_Layer: 5
   m_Name: Window Panel
@@ -78,6 +79,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &8176021779484805472
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253176773016169982}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &253176773016169976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,7 +107,9 @@ MonoBehaviour:
   canvasRectTransform: {fileID: 253176774188846240}
   dragRectTransform: {fileID: 253176774114331829}
   panelRectTransform: {fileID: 253176773016169977}
-  backgroundImage: {fileID: 253176773016169979}
+  canvasGroup: {fileID: 8176021779484805472}
+  fadeAlpha: 0.4
+  fadeDuration: 0.1
 --- !u!1 &253176773222144891
 GameObject:
   m_ObjectHideFlags: 0
