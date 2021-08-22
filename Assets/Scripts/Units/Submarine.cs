@@ -6,7 +6,7 @@ public class Submarine : Unit {
         damagePercentages = new float[9] { 0f, 0f, 0f, 0f, 1f, 0f, 0.34f, 0.8f, 0.8f };
     }
 
-    public override void OnFogOfWarUpdate(Player player) {
+    public override void OnFogOfWarUpdate(Player currentPlayer) {
         if (path != null) {
             for (int i = 0; i < path.Count; i++) {
                 if (player.fogOfWarMatrix[path[i].pos.x, path[i].pos.y] != FogOfWarState.Hidden) {
@@ -20,7 +20,7 @@ public class Submarine : Unit {
 
         if (mainMesh == null) { return; }
 
-        if (player == this.player) {
+        if (currentPlayer == player) {
             if (currentTile.isCityTile) {
                 mainMesh.SetActive(false);
                 instantiatedSleepEffect?.SetActive(false);
@@ -29,7 +29,7 @@ public class Submarine : Unit {
                 instantiatedSleepEffect?.SetActive(true);
             }
         } else {
-            if (player.fogOfWarMatrix[pos.x, pos.y] != FogOfWarState.Visible) {
+            if (currentPlayer.fogOfWarMatrix[pos.x, pos.y] != FogOfWarState.Visible) {
                 mainMesh.SetActive(false);
                 instantiatedSleepEffect?.SetActive(false);
             } else {
@@ -38,7 +38,7 @@ public class Submarine : Unit {
 
                 foreach (var tile in tiles) {
                     if (tile.unitOnTile != null) {
-                        if (tile.unitOnTile.player == player) {
+                        if (tile.unitOnTile.player == currentPlayer) {
                             isVisible = true;
                         }
                     }

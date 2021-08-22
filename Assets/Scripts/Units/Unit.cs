@@ -47,7 +47,7 @@ public class Unit : TurnBehaviour {
         SetPos(pos);
     }
 
-    public override void OnFogOfWarUpdate(Player player) {
+    public override void OnFogOfWarUpdate(Player currentPlayer) {
         if (path != null) {
             for (int i = 0; i < path.Count; i++) {
                 if (player.fogOfWarMatrix[path[i].pos.x, path[i].pos.y] != FogOfWarState.Hidden) {
@@ -61,7 +61,7 @@ public class Unit : TurnBehaviour {
 
         if (mainMesh == null) { return; }
 
-        if (player.fogOfWarMatrix[pos.x, pos.y] != FogOfWarState.Visible) {
+        if (currentPlayer.fogOfWarMatrix[pos.x, pos.y] != FogOfWarState.Visible) {
             mainMesh.SetActive(false);
             instantiatedSleepEffect?.SetActive(false);
         } else {
