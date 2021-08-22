@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private Tile mouseOverTile;
 
+    public Action dayEndedDelegate;
     public Action newDayDelegate;
     public Action nextPlayerDelegate;
     public Action pauseGame;
@@ -84,6 +85,7 @@ public class GameManager : MonoBehaviour {
     public void NewDay() {
         if (dayCompleted) {
             Debug.Log("<b>GameManager:</b> Starting New Day");
+            newDayDelegate?.Invoke();
             dayCompleted = false;
             day++;
             if (day > 1000) {
@@ -117,7 +119,7 @@ public class GameManager : MonoBehaviour {
     public void DayComplete() {
         Debug.Log("<b>GameManager:</b> Day Complete");
         dayCompleted = true;
-        newDayDelegate?.Invoke();
+        dayEndedDelegate?.Invoke();
     }
 
     public void Pause() {

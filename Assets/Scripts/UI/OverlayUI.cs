@@ -17,7 +17,7 @@ public class OverlayUI : MonoBehaviour {
 
     void Start() {
         nextPlayerButton.onClick.AddListener(NextPlayerButton);
-        GameManager.Instance.newDayDelegate += NewDay;
+        GameManager.Instance.dayEndedDelegate += NewDay;
         GameManager.Instance.nextPlayerDelegate += NextPlayer;
         newDayUI.transform.localScale = new Vector3(1, 0, 1);
     }

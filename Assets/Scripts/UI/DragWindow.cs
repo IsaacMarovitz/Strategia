@@ -3,15 +3,15 @@ using UnityEngine.EventSystems;
 using DG.Tweening;
 using System;
 
-public class DragWindow : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler {
+public class DragWindow : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerDownHandler {
 
-    [SerializeField] private Canvas canvas = null;
-    [SerializeField] private RectTransform canvasRectTransform = null;
-    [SerializeField] private RectTransform dragRectTransform = null;
-    [SerializeField] private RectTransform panelRectTransform = null;
-    [SerializeField] private CanvasGroup canvasGroup = null;
-    [SerializeField] private float fadeAlpha = 0.4f;
-    [SerializeField] private float fadeDuration = 0.1f;
+    public Canvas canvas = null;
+    public RectTransform canvasRectTransform = null;
+    public RectTransform dragRectTransform = null;
+    public RectTransform panelRectTransform = null;
+    public CanvasGroup canvasGroup = null;
+    public float fadeAlpha = 0.4f;
+    public float fadeDuration = 0.1f;
     
     private bool _isOpen;
     public bool isOpen {
@@ -24,6 +24,7 @@ public class DragWindow : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     }
 
     private void Start() {
+        DragWindowManager.Instance.AddWindow(this);
         dragRectTransform.sizeDelta = new Vector2(panelRectTransform.rect.width / 2, panelRectTransform.rect.height / 2);
         canvasGroup.alpha = 0f;
         canvasGroup.interactable = false;
@@ -32,6 +33,7 @@ public class DragWindow : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     }
 
     public void Open(Action onCompleteDelegate) {
+        DragWindowManager.Instance.BringToFront(this);
         canvasGroup.DOFade(1f, fadeDuration).OnComplete(() => {
             canvasGroup.interactable = true;
             canvasGroup.blocksRaycasts = true;
@@ -76,5 +78,9 @@ public class DragWindow : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
             anchoredPosition.y = -(canvasRectTransform.rect.height / 2) + dragRectTransform.rect.height;
         }
         dragRectTransform.anchoredPosition = anchoredPosition;
+    }
+
+    public void OnPointerDown(PointerEventData eventData) {
+        DragWindowManager.Instance.BringToFront(this);
     }
 }

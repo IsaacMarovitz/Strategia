@@ -1630,7 +1630,7 @@ Transform:
   m_LocalScale: {x: 20, y: 20, z: 20}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &74971539
 GameObject:
@@ -1726,7 +1726,7 @@ RectTransform:
   m_Children:
   - {fileID: 2107092303}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1749,7 +1749,6 @@ MonoBehaviour:
   content: {fileID: 830027356}
   cityPrefab: {fileID: 930706511072008362, guid: 1c5a5dc28d4df6c4ca34e06cd15626af, type: 3}
   cityListManager: {fileID: 2107092302}
-  cityListPanel: {fileID: 2035664277}
   dragWindow: {fileID: 2035664279}
   cityUIButton: {fileID: 689978620}
   xButton: {fileID: 1093646566}
@@ -3609,7 +3608,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 50, y: -40, z: 0}
 --- !u!1 &199716598
 GameObject:
@@ -4914,7 +4913,7 @@ RectTransform:
   m_Children:
   - {fileID: 1203854349}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5634,7 +5633,7 @@ GameObject:
   - component: {fileID: 322401577}
   - component: {fileID: 322401578}
   m_Layer: 5
-  m_Name: Window Manager
+  m_Name: Success Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6064,7 +6063,7 @@ RectTransform:
   - {fileID: 1897431601}
   - {fileID: 1136060177}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -10448,7 +10447,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.9987326, y: 1}
+    m_SensorSize: {x: 2.0304182, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -11826,6 +11825,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 722816585}
   m_CullTransparentMesh: 0
+--- !u!1 &726853480
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 726853482}
+  - component: {fileID: 726853481}
+  m_Layer: 0
+  m_Name: Drag Window Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &726853481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726853480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55edcbdb48c16e94888df0f158c392a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dragWindows: []
+  sortOrderRange: {x: 2, y: 10}
+--- !u!4 &726853482
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726853480}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &736341852
 GameObject:
   m_ObjectHideFlags: 0
@@ -11908,7 +11952,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 162231284}
   m_HandleRect: {fileID: 162231283}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -12320,7 +12364,7 @@ RectTransform:
   m_Children:
   - {fileID: 253176775068668269}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -12929,7 +12973,7 @@ Transform:
   m_LocalScale: {x: 50, y: 50, z: 50}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &778729583
 GameObject:
@@ -14157,7 +14201,7 @@ Transform:
   m_Children:
   - {fileID: 344342324}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &884899029
 MonoBehaviour:
@@ -14398,7 +14442,7 @@ GameObject:
   - component: {fileID: 930935944}
   - component: {fileID: 930935945}
   m_Layer: 5
-  m_Name: Window Manager
+  m_Name: Failure Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15488,7 +15532,7 @@ RectTransform:
   m_Children:
   - {fileID: 1428913803}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -17006,7 +17050,7 @@ GameObject:
   - component: {fileID: 1159310714}
   - component: {fileID: 1159310711}
   m_Layer: 5
-  m_Name: Window Panel
+  m_Name: Failure Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19137,7 +19181,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22451668, guid: 0abab5bb77339e4428787a870eb31bd3, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 22451668, guid: 0abab5bb77339e4428787a870eb31bd3, type: 3}
       propertyPath: m_AnchorMax.x
@@ -20063,7 +20107,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1340233094
 GameObject:
@@ -22462,7 +22506,7 @@ Transform:
   - {fileID: 1206070305}
   - {fileID: 1246985449}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1482775900
 GameObject:
@@ -24748,7 +24792,7 @@ RectTransform:
   - {fileID: 93566976}
   - {fileID: 376252558}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -29295,7 +29339,7 @@ GameObject:
   - component: {fileID: 1888057615}
   - component: {fileID: 1888057612}
   m_Layer: 5
-  m_Name: Window Panel
+  m_Name: Success Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30688,7 +30732,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1966836286
 GameObject:
@@ -32205,7 +32249,7 @@ Transform:
   - {fileID: 647621848}
   - {fileID: 1116920251}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2075221726
 GameObject:
@@ -32853,7 +32897,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2110957502
 GameObject:
@@ -32937,7 +32981,7 @@ Transform:
   m_Children:
   - {fileID: 5559617103475795325}
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2114763830
 MonoBehaviour:
@@ -33236,7 +33280,7 @@ RectTransform:
   m_Children:
   - {fileID: 752701705}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -33408,7 +33452,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &253176773028905258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33483,7 +33527,7 @@ RectTransform:
   m_Children:
   - {fileID: 253176773088739640}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -33500,7 +33544,7 @@ GameObject:
   m_Component:
   - component: {fileID: 253176773088739640}
   m_Layer: 5
-  m_Name: Window Manager
+  m_Name: Statistics Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34183,7 +34227,7 @@ GameObject:
   - component: {fileID: 253176774175842424}
   - component: {fileID: 253176774175842421}
   m_Layer: 5
-  m_Name: Window Panel
+  m_Name: Statistics Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34847,7 +34891,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &919132148213432269
 GameObject:
@@ -34959,7 +35003,7 @@ GameObject:
   - component: {fileID: 1474818282586197750}
   - component: {fileID: 1474818282586197747}
   m_Layer: 5
-  m_Name: Window Panel
+  m_Name: Bug Report Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35414,7 +35458,7 @@ GameObject:
   - component: {fileID: 1474818283675430846}
   - component: {fileID: 1474818283675430834}
   m_Layer: 5
-  m_Name: Window Manager
+  m_Name: Bug Report Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35982,7 +36026,7 @@ GameObject:
   - component: {fileID: 3290877365184290715}
   - component: {fileID: 3290877365184290709}
   m_Layer: 5
-  m_Name: Window Manager
+  m_Name: Error Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36310,7 +36354,7 @@ GameObject:
   - component: {fileID: 3290877366210543313}
   - component: {fileID: 3290877366210543318}
   m_Layer: 5
-  m_Name: Window Panel
+  m_Name: Error Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
