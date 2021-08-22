@@ -25,8 +25,7 @@ public class Unit : TurnBehaviour {
     public List<Tile> path { get; private set; }
 
     protected bool pathWasSetThisTurn;
-
-    private GameObject instantiatedSleepEffect;
+    protected GameObject instantiatedSleepEffect;
 
     public override void Awake() {
         base.Awake();
@@ -49,6 +48,17 @@ public class Unit : TurnBehaviour {
     }
 
     public override void OnFogOfWarUpdate(Player player) {
+        if (path != null) {
+            for (int i = 0; i < path.Count; i++) {
+                if (player.fogOfWarMatrix[path[i].pos.x, path[i].pos.y] != FogOfWarState.Hidden) {
+                    if (CheckDir(path[i]) == TileMoveStatus.Blocked) {
+                        path.RemoveRange(i, path.Count - i);
+                        break;
+                    }
+                }
+            }
+        }
+
         if (mainMesh == null) { return; }
 
         if (player.fogOfWarMatrix[pos.x, pos.y] != FogOfWarState.Visible) {
@@ -61,17 +71,6 @@ public class Unit : TurnBehaviour {
             } else {
                 mainMesh.SetActive(true);
                 instantiatedSleepEffect?.SetActive(true);
-            }
-        }
-
-        if (path != null) {
-            for (int i = 0; i < path.Count; i++) {
-                if (player.fogOfWarMatrix[path[i].pos.x, path[i].pos.y] != FogOfWarState.Hidden) {
-                    if (CheckDir(path[i]) == TileMoveStatus.Blocked) {
-                        path.RemoveRange(i, path.Count - i);
-                        break;
-                    }
-                }
             }
         }
     }

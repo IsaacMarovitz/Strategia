@@ -8,7 +8,7 @@ using System;
 public class DebugConsole : MonoBehaviour {
 
     public bool showConsole = false;
-    public GameObject windowPanel;
+    public DragWindow debugWindowPanel;
     public TMP_Text consoleText;
     public TMP_InputField consoleInput;
     public GameObject autocompleteMenu;
@@ -160,17 +160,19 @@ public class DebugConsole : MonoBehaviour {
     }
 
     public void Open() {
-        windowPanel.SetActive(true);
         showConsole = true;
-        consoleInput.Select();
-        consoleInput.ActivateInputField();
-        Pause();
+        debugWindowPanel.Open(() => {
+            consoleInput.Select();
+            consoleInput.ActivateInputField();
+            Pause();
+        });
     }
 
     public void Close() {
-        Resume();
-        windowPanel.SetActive(false);
         showConsole = false;
+        debugWindowPanel.Close(() => {
+            Resume();
+        });
     }
 
     public void HandleInput(string input) {

@@ -1,10 +1,66 @@
-// Invisible unless immediatley adjacent
 public class Submarine : Unit {
     public override void Start() {
         base.Start();
         unitType = UnitType.Submarine;
         // Set damage percentages in order of Tank, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
         damagePercentages = new float[9] { 0f, 0f, 0f, 0f, 1f, 0f, 0.34f, 0.8f, 0.8f };
+    }
+
+    public override void OnFogOfWarUpdate(Player player) {
+        if (path != null) {
+            for (int i = 0; i < path.Count; i++) {
+                if (player.fogOfWarMatrix[path[i].pos.x, path[i].pos.y] != FogOfWarState.Hidden) {
+                    if (CheckDir(path[i]) == TileMoveStatus.Blocked) {
+                        path.RemoveRange(i, path.Count - i);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (mainMesh == null) { return; }
+
+        if (player == this.player) {
+            if (currentTile.isCityTile) {
+                mainMesh.SetActive(false);
+                instantiatedSleepEffect?.SetActive(false);
+            } else {
+                mainMesh.SetActive(true);
+                instantiatedSleepEffect?.SetActive(true);
+            }
+        } else {
+            if (player.fogOfWarMatrix[pos.x, pos.y] != FogOfWarState.Visible) {
+                mainMesh.SetActive(false);
+                instantiatedSleepEffect?.SetActive(false);
+            } else {
+                Tile[] tiles = GridUtilities.DiagonalCheck(pos);
+                bool isVisible = false;
+
+                foreach (var tile in tiles) {
+                    if (tile.unitOnTile != null) {
+                        if (tile.unitOnTile.player == player) {
+                            isVisible = true;
+                        }
+                    }
+                    if (tile.isCityTile) {
+                        City tileCity = tile.gameObject.GetComponent<City>();
+                        if (tileCity != null) {
+                            if (tileCity.unitsInCity.Count > 0) {
+                                isVisible = true;
+                            }
+                        }
+                    }
+                }
+
+                if (isVisible) {
+                    mainMesh.SetActive(true);
+                    instantiatedSleepEffect?.SetActive(true);
+                } else {
+                    mainMesh.SetActive(false);
+                    instantiatedSleepEffect?.SetActive(false);
+                }
+            }
+        }
     }
 
     public override TileMoveStatus CheckDir(Tile tile) {
@@ -31,7 +87,7 @@ public class Submarine : Unit {
             } else {
                 returnMoveStatus = TileMoveStatus.Attack;
             }
-        } 
+        }
 
         return returnMoveStatus;
     }
