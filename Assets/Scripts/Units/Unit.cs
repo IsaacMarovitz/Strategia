@@ -20,6 +20,7 @@ public class Unit : TurnBehaviour {
     public Player player;
     public List<TileType> blockedTileTypes;
     public UnitMoveUI unitMoveUI;
+    public bool infiniteAttack = false;
 
     [HideInInspector]
     public List<Tile> path { get; private set; }
@@ -143,6 +144,9 @@ public class Unit : TurnBehaviour {
         if (unitToAttack != null) {
             Debug.Log($"<b>{this.gameObject.name}:</b> Attacking {unitToAttack.gameObject.name}");
             unitToAttack.TakeDamage(this);
+            if (!infiniteAttack && !GameManager.Instance.infiniteAttack) {
+                moves = 0;
+            }
         } else {
             Debug.LogWarning($"<b>{this.gameObject.name}:</b> Could not find unit to attack at {unitPos}!");
         }

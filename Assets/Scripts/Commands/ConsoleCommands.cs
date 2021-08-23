@@ -48,6 +48,49 @@ public static class ConsoleCommands {
         }
     }
 
+    [DebugCommand("all_int_attack", "Enables or disables infinite attacking for all units.", "all_inf_attack <bool>")]
+    public static DebugConsole.DebugCommandCode AllInfAttack(string[] args, DebugConsole debugConsole) {
+        if (args.Length > 0) {
+            if (ConsoleCommands.ParseBool(args[0], out bool boolValue)) {
+                GameManager.Instance.infiniteAttack = boolValue;
+                if (boolValue) {
+                    debugConsole.PrintSuccess("Enabled infinte attacking for all units.");
+                } else {
+                    debugConsole.PrintSuccess("Disabled infinte attacking for all units.");
+                }
+                return DebugConsole.DebugCommandCode.Success;
+            } else {
+                return DebugConsole.DebugCommandCode.ParameterOutOfRange;
+            }
+        } else {
+            return DebugConsole.DebugCommandCode.MissingParameters;
+        }
+    }
+
+    [DebugCommand("inf_attack", "Enables or disables infinite attacking for the current unit.", "inf_attack <bool>")]
+    public static DebugConsole.DebugCommandCode InfAttack(string[] args, DebugConsole debugConsole) {
+        if (args.Length > 0) {
+            if (ConsoleCommands.ParseBool(args[0], out bool boolValue)) {
+                if (UIData.currentUnit != null) {
+                    UIData.currentUnit.infiniteAttack = boolValue;
+                    if (boolValue) {
+                        debugConsole.PrintSuccess("Enabled infinte attacking for the current unit.");
+                    } else {
+                        debugConsole.PrintSuccess("Disabled infinte attacking for the current unit.");
+                    }
+                    return DebugConsole.DebugCommandCode.Success;
+                } else {
+                    debugConsole.PrintError("No unit currently selected.");
+                    return DebugConsole.DebugCommandCode.ParameterOutOfRange;
+                }
+            } else {
+                return DebugConsole.DebugCommandCode.ParameterFailedParse;
+            }
+        } else {
+            return DebugConsole.DebugCommandCode.MissingParameters;
+        }
+    }
+
     [DebugCommand("fast_prod", "Changes all units TTCs to 1 day.", "fast_prod <bool>")]
     public static DebugConsole.DebugCommandCode FastProd(string[] args, DebugConsole debugConsole) {
         if (args.Length > 0) {
