@@ -69,8 +69,9 @@ public class Bomber : Unit, ICustomButton, IFuel {
             }
 
             if (tile.unitOnTile != null) {
-                tile.unitOnTile.Die();
-                GameObject.Destroy(tile.unitOnTile.gameObject);
+                Unit unitToKill = tile.unitOnTile;
+                unitToKill.Die();
+                GameObject.Destroy(unitToKill.gameObject);
             }
         }
         Debug.Log($"<b>{this.gameObject.name}:</b> Detonated!");

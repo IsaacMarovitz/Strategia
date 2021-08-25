@@ -77,7 +77,7 @@ public class City : MonoBehaviour {
     }
 
     public void UpdateCanvas() {
-        player.cityDataChangedDelegate?.Invoke();
+        player?.cityDataChangedDelegate?.Invoke();
 
         if (isOwned && showCityNameUI) {
             canvas.enabled = true;
@@ -163,9 +163,11 @@ public class City : MonoBehaviour {
     }
 
     public void Nuke() {
-        foreach (var unit in unitsInCity) {
-            unit.Die();
-            GameObject.Destroy(unit.gameObject);
+        for (int i = unitsInCity.Count - 1; i >= 0;) {
+            Unit unitToKill = unitsInCity[i];
+            unitToKill.Die();
+            GameObject.Destroy(unitToKill.gameObject);
+            i--;
         }
         unitsInCity.Clear();
         isOwned = false;
