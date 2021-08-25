@@ -70,7 +70,7 @@ namespace Strategia {
             foreach (var tile in grid) {
                 tile.cityOfInfluence = Voronoi.GetCityOfInfluence(tile.pos, cityTiles);
             }
-            voronoiTexture = Voronoi.GenerateVoronoi(cityTiles);
+            voronoiTexture = Voronoi.GenerateVoronoi(cityTiles, this);
         }
 
         // Assign an island index to every tile and destroy islands that are too small
@@ -78,7 +78,7 @@ namespace Strategia {
             int islandIndex = 1;
             foreach (var tile in grid) {
                 if (tile.islandIndex == 0 && tile.tileType != TileType.Sea) {
-                    List<Tile> islandTiles = GridUtilities.FloodFill(tile);
+                    List<Tile> islandTiles = GridUtilities.FloodFill(tile, grid);
                     if (islandTiles.Count < minimumIslandArea) {
                         foreach (var islandTile in islandTiles) {
                             islandTile.tileType = TileType.Sea;
@@ -99,7 +99,7 @@ namespace Strategia {
             List<Tile> potentialCityTiles = new List<Tile>();
             foreach (var tile in grid) {
                 if (tile.tileType == TileType.Plains) {
-                    if (GridUtilities.CostalCheck(tile.pos)) {
+                    if (GridUtilities.CostalCheck(tile.pos, this)) {
                         potentialCityTiles.Add(new Tile(TileType.CostalCity, null, tile.pos, tile.islandIndex));
                     } else {
                         potentialCityTiles.Add(new Tile(TileType.City, null, tile.pos, tile.islandIndex));

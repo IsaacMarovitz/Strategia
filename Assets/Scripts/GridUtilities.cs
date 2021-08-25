@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Strategia;
 
 public static class GridUtilities {
     // Check if surrounding tiles (not including diagonals) are sea tiles
-    public static bool CostalCheck(Vector2Int pos) {
-        int width = GameManager.Instance.tileGrid.width;
-        int height = GameManager.Instance.tileGrid.height;
-        Tile[,] grid = GameManager.Instance.tileGrid.grid;
+    public static bool CostalCheck(Vector2Int pos, TileGrid tileGrid) {
+        int width = tileGrid.width;
+        int height = tileGrid.height;
+        Tile[,] grid = tileGrid.grid;
         if ((pos.x > 0) && (grid[pos.x - 1, pos.y].tileType == TileType.Sea)) {
             return true;
         } else if ((pos.y > 0) && (grid[pos.x, pos.y - 1].tileType == TileType.Sea)) {
@@ -67,8 +68,7 @@ public static class GridUtilities {
     }
 
     // Check for a tile 'island' using a flood fill algorithm
-    public static List<Tile> FloodFill(Tile startingPoint) {
-        Tile[,] grid = GameManager.Instance.tileGrid.grid;
+    public static List<Tile> FloodFill(Tile startingPoint, Tile[,] grid) {
         if (startingPoint.tileType == TileType.Sea) {
             return null;
         }
