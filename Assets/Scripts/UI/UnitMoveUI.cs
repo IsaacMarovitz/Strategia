@@ -35,11 +35,12 @@ public class UnitMoveUI : TurnBehaviour {
         }
 
         isSelected = UIData.currentUnit == unit;
+        isPathHiden = false;
 
         if (unit.turnStage == TurnStage.PathSet) {
             path = new List<Tile>(unit.path);
             path.Insert(0, unit.currentTile);
-            
+
             foreach (var tile in path) {
                 if (currentPlayer.fogOfWarMatrix[tile.pos.x, tile.pos.y] != FogOfWarState.Visible) {
                     isPathHiden = true;
@@ -97,14 +98,20 @@ public class UnitMoveUI : TurnBehaviour {
             canvas.enabled = false;
             path = null;
         } else {
-            path = GridUtilities.FindPath(unit.currentTile, mouseOverTile, out bool goesThroughHiddenTiles);
+            path = GridUtilities.FindPath(unit.currentTile, mouseOverTile);
+            foreach (var tile in path) {
+                if (currentPlayer.fogOfWarMatrix[tile.pos.x, tile.pos.y] != FogOfWarState.Visible) {
+                    isPathHiden = true;
+                }
+            }
+
             if (path == null) {
                 // Path is blocked
                 tileSelectorMeshRenderer.material = blockedTRMaterial;
                 lineRenderer.enabled = false;
                 canvas.enabled = false;
             } else {
-                if (goesThroughHiddenTiles) {
+                if (isPathHiden) {
                     tileSelectorMeshRenderer.material = hiddenTRMaterial;
                     lineRenderer.material = hiddenLRMaterial;
                 } else {
