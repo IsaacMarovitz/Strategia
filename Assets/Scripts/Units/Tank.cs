@@ -17,7 +17,7 @@ public class Tank : Unit {
     public override void Update() {
         base.Update();
         if (transport != null) {
-            mainMesh.SetActive(false);
+            unitAppearenceManager.Hide();
         }
     }
 
@@ -78,7 +78,7 @@ public class Tank : Unit {
         if (transport != null) {
             transport.unitsOnTransport.Remove(this);
             transport = null;
-            mainMesh.SetActive(true);
+            unitAppearenceManager.Show();
         } else {
             currentTile.unitOnTile = null;
         }

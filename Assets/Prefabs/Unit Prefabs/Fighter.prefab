@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5d5791274cc2398439582e10c31cf398, type: 2}
+  - {fileID: 2100000, guid: fe892881e6b9cae4e914061f57a0d806, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,6 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1815058899303171218}
   - component: {fileID: 1815058899303171219}
+  - component: {fileID: 7647325524655364034}
   m_Layer: 0
   m_Name: Fighter
   m_TagString: Unit
@@ -160,16 +161,32 @@ MonoBehaviour:
   - 0
   unitType: 0
   oldCity: {fileID: 0}
-  mainMesh: {fileID: 0}
   sleepEffectPrefab: {fileID: 298227300186202393, guid: c628331474dd8d544ad4617719d749d1, type: 3}
   unitIcon: {fileID: 21300000, guid: ee6f4dd6dc9230f49b35eda7820b9271, type: 3}
   player: {fileID: 0}
   blockedTileTypes: 03000000
   unitMoveUI: {fileID: 7635899420769053338}
+  unitAppearenceManager: {fileID: 7647325524655364034}
+  infiniteAttack: 0
   _fuel: 0
   _maxFuel: 24
   _fuelPerMove: 1
-  isOnCarrier: 0
+  carrier: {fileID: 0}
+--- !u!114 &7647325524655364034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815058899303171229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c00be00afaa56314d9d2a672b51bade5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshParent: {fileID: 491599092141919446}
+  playerColoredRenderers:
+  - {fileID: 4084864459316933499}
 --- !u!1001 &2913056727509203755
 PrefabInstance:
   m_ObjectHideFlags: 0

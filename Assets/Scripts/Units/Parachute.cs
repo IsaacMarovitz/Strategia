@@ -76,7 +76,7 @@ public class Parachute : Unit, ICustomButton, IFuel {
                 player.unitQueue[i] = tank;
             }
             if (currentTile.isCityTile) {
-                tank.mainMesh.SetActive(false);
+                tank.unitAppearenceManager.Hide();
                 tank.oldCity = oldCity;
                 oldCity.RemoveUnit(this);
                 oldCity.AddUnit(tank);

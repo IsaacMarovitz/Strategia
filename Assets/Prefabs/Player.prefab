@@ -49,7 +49,12 @@ MonoBehaviour:
   turnCompleted: 0
   gameMode: 0
   playerColor: {r: 0, g: 0, b: 0, a: 0}
+  baseMaterial: {fileID: 2100000, guid: 5d5791274cc2398439582e10c31cf398, type: 2}
+  playerMaterial: {fileID: 0}
   hasDied: 0
   unitInfo: {fileID: 11400000, guid: 13ec7d7fcf5249440aae20f69b2ef3b0, type: 2}
+  cameraController: {fileID: 0}
+  unitQueue: []
+  cityNames: []
   minimapTexture: {fileID: 0}
   fogOfWarTexture: {fileID: 0}

@@ -142,7 +142,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5d5791274cc2398439582e10c31cf398, type: 2}
+  - {fileID: 2100000, guid: fe892881e6b9cae4e914061f57a0d806, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -228,7 +228,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5d5791274cc2398439582e10c31cf398, type: 2}
+  - {fileID: 2100000, guid: fe892881e6b9cae4e914061f57a0d806, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -273,6 +273,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7257010168124755571}
   - component: {fileID: 7257010168124755568}
+  - component: {fileID: 3762826475836278493}
   m_Layer: 0
   m_Name: Parachute
   m_TagString: Unit
@@ -327,16 +328,35 @@ MonoBehaviour:
   - 0
   unitType: 0
   oldCity: {fileID: 0}
-  mainMesh: {fileID: 0}
   sleepEffectPrefab: {fileID: 298227300186202393, guid: c628331474dd8d544ad4617719d749d1, type: 3}
   unitIcon: {fileID: 21300000, guid: 9a49dc5a7d756244aa92fe68940c560c, type: 3}
   player: {fileID: 0}
   blockedTileTypes: 03000000
   unitMoveUI: {fileID: 2016209037642703917}
+  unitAppearenceManager: {fileID: 3762826475836278493}
+  infiniteAttack: 0
   _fuel: 0
   _maxFuel: 30
   _fuelPerMove: 1
   unitPrefab: {fileID: 264212343977508145, guid: 781b5237506c27549b6a7aba2e685906, type: 3}
+--- !u!114 &3762826475836278493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7257010168124755570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c00be00afaa56314d9d2a672b51bade5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshParent: {fileID: 4760287508080205764}
+  playerColoredRenderers:
+  - {fileID: 9203636726213000811}
+  - {fileID: 7657739319817135063}
+  - {fileID: 7594102509688027083}
+  - {fileID: 7984486995689928669}
 --- !u!1 &8070978077887449355
 GameObject:
   m_ObjectHideFlags: 0

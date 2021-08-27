@@ -11,6 +11,7 @@ public class Player : TurnBehaviour {
     [HideInInspector]
     public GameMode gameMode;
     public Color playerColor;
+    public Material baseMaterial;    
     public bool hasDied = false;
     public UnitInfo unitInfo;
     public CameraController cameraController;
@@ -25,6 +26,18 @@ public class Player : TurnBehaviour {
     public Texture2D fogOfWarTexture;
     private FogOfWarState[,] internalFogOfWarMatrix;
     public FogOfWarState[,] fogOfWarMatrix;
+
+    private Material _playerMaterial;
+    public Material playerMaterial {
+        get {
+            if (_playerMaterial == null) {
+                _playerMaterial = new Material(baseMaterial);
+                _playerMaterial.color = playerColor;
+            }
+
+            return _playerMaterial;
+        }
+    }
 
     public void UpdateFogOfWar() {
         if (internalFogOfWarMatrix == null || fogOfWarMatrix == null) {
@@ -121,7 +134,7 @@ public class Player : TurnBehaviour {
 
     public void AddUnit(Unit unit) {
         unit.gameObject.name = "Unit " + (playerUnits.Count + 1) + ", " + this.gameObject.name;
-        unit.SetColor(playerColor);
+        unit.SetColor(this);
         playerUnits.Add(unit);
     }
 
@@ -221,7 +234,7 @@ public class Player : TurnBehaviour {
             unit.pos = pos;
             unit.gameObject.transform.parent = this.gameObject.transform;
             unit.player = this;
-            unit.mainMesh.SetActive(false);
+            unit.unitAppearenceManager.Hide();
             unit.oldCity = grid[pos.x, pos.y].gameObject.GetComponent<City>();
             AddUnit(unit);
             grid[pos.x, pos.y].unitOnTile = unit;

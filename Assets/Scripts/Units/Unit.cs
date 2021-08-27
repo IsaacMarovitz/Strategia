@@ -14,12 +14,12 @@ public class Unit : TurnBehaviour {
     public float[] damagePercentages = new float[9];
     public UnitType unitType;
     public City oldCity;
-    public GameObject mainMesh;
     public GameObject sleepEffectPrefab;
     public Sprite unitIcon;
     public Player player;
     public List<TileType> blockedTileTypes;
     public UnitMoveUI unitMoveUI;
+    public UnitAppearenceManager unitAppearenceManager;
     public bool infiniteAttack = false;
 
     [HideInInspector]
@@ -27,13 +27,6 @@ public class Unit : TurnBehaviour {
 
     protected bool pathWasSetThisTurn;
     protected GameObject instantiatedSleepEffect;
-
-    public override void Awake() {
-        base.Awake();
-
-        // Replace this later with something a lot more modular
-        mainMesh = this.gameObject.transform.GetChild(0).gameObject;
-    }
 
     public virtual void Start() {
         moves = maxMoves;
@@ -60,17 +53,15 @@ public class Unit : TurnBehaviour {
             }
         }
 
-        if (mainMesh == null) { return; }
-
         if (currentPlayer.fogOfWarMatrix[pos.x, pos.y] != FogOfWarState.Visible) {
-            mainMesh.SetActive(false);
+            unitAppearenceManager.Hide();
             instantiatedSleepEffect?.SetActive(false);
         } else {
             if (currentTile.isCityTile) {
-                mainMesh.SetActive(false);
+                unitAppearenceManager.Hide();
                 instantiatedSleepEffect?.SetActive(false);
             } else {
-                mainMesh.SetActive(true);
+                unitAppearenceManager.Show();
                 instantiatedSleepEffect?.SetActive(true);
             }
         }
@@ -225,7 +216,7 @@ public class Unit : TurnBehaviour {
             if (oldCity != null) {
                 oldCity.RemoveUnit(this);
                 oldCity = null;
-                mainMesh.SetActive(true);
+                unitAppearenceManager.Show();
             }
 
             if (currentTile.isCityTile) {
@@ -233,9 +224,9 @@ public class Unit : TurnBehaviour {
                 city.GetOwned(player);
                 city.AddUnit(this);
                 oldCity = city;
-                mainMesh.SetActive(false);
+                unitAppearenceManager.Hide();
             } else {
-                mainMesh.SetActive(true);
+                unitAppearenceManager.Show();
                 currentTile.unitOnTile = this;
             }
         } else if (tileMoveStatus == TileMoveStatus.Attack) {
@@ -275,8 +266,8 @@ public class Unit : TurnBehaviour {
 
     public virtual void TransportMove(Tile tileToMoveTo, TileMoveStatus tileMoveStatus) { }
 
-    public void SetColor(Color color) {
-        mainMesh.GetComponent<MeshRenderer>().material.color = color;
+    public void SetColor(Player player) {
+        unitAppearenceManager.UpdateColor(player);
     }
 
     public void SetPos(Vector2Int _pos) {

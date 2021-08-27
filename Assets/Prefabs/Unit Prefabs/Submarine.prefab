@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5d5791274cc2398439582e10c31cf398, type: 2}
+  - {fileID: 2100000, guid: fe892881e6b9cae4e914061f57a0d806, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -189,6 +189,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8004909557220208075}
   - component: {fileID: 8004909557220208072}
+  - component: {fileID: 7888027654635627664}
   m_Layer: 0
   m_Name: Submarine
   m_TagString: Unit
@@ -243,12 +244,29 @@ MonoBehaviour:
   - 0
   unitType: 0
   oldCity: {fileID: 0}
-  mainMesh: {fileID: 0}
   sleepEffectPrefab: {fileID: 298227300186202393, guid: c628331474dd8d544ad4617719d749d1, type: 3}
   unitIcon: {fileID: 21300000, guid: 6e82c83107875b24ea9306e7f701b885, type: 3}
   player: {fileID: 0}
   blockedTileTypes: 0100000002000000030000000400000005000000
   unitMoveUI: {fileID: 6300998625100823660}
+  unitAppearenceManager: {fileID: 7888027654635627664}
+  infiniteAttack: 0
+--- !u!114 &7888027654635627664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8004909557220208074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c00be00afaa56314d9d2a672b51bade5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshParent: {fileID: 1030999419941978192}
+  playerColoredRenderers:
+  - {fileID: 6851256181799008326}
+  - {fileID: 8555579495029687659}
 --- !u!1001 &1649671393361030621
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -148,7 +148,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5d5791274cc2398439582e10c31cf398, type: 2}
+  - {fileID: 2100000, guid: fe892881e6b9cae4e914061f57a0d806, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -193,6 +193,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1944994115408235136}
   - component: {fileID: -176550003427491717}
+  - component: {fileID: 1152613189673254156}
   m_Layer: 0
   m_Name: Tank
   m_TagString: Unit
@@ -247,15 +248,37 @@ MonoBehaviour:
   - 0
   unitType: 0
   oldCity: {fileID: 0}
-  mainMesh: {fileID: 0}
   sleepEffectPrefab: {fileID: 298227300186202393, guid: c628331474dd8d544ad4617719d749d1, type: 3}
   unitIcon: {fileID: 21300000, guid: 7c10a3de55f9d3e4a8a9a6a00930c2f1, type: 3}
   player: {fileID: 0}
   blockedTileTypes: 000000000300000004000000
   unitMoveUI: {fileID: 3117006252720711974}
+  unitAppearenceManager: {fileID: 1152613189673254156}
+  infiniteAttack: 0
   isMoveDistanceReduced: 0
-  isOnTransport: 0
   reducedMoveDistance: 1
+  transport: {fileID: 0}
+--- !u!114 &1152613189673254156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264212343977508145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c00be00afaa56314d9d2a672b51bade5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshParent: {fileID: 231958577816533109}
+  playerColoredRenderers:
+  - {fileID: 6156619696981723630}
+  - {fileID: 8387827206610387363}
+  - {fileID: 1221017799511553284}
+  - {fileID: 4815049666953075648}
+  - {fileID: 7954201693007986357}
+  - {fileID: 6189693211422260132}
+  - {fileID: 1511304166652146688}
 --- !u!1 &1238425569375608352
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,7 +422,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5d5791274cc2398439582e10c31cf398, type: 2}
+  - {fileID: 2100000, guid: fe892881e6b9cae4e914061f57a0d806, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
