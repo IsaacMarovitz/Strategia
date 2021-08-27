@@ -105,14 +105,22 @@ public class Unit : TurnBehaviour {
                 instantiatedSleepEffect = GameObject.Instantiate(sleepEffectPrefab, this.transform.position, Quaternion.identity);
                 instantiatedSleepEffect.transform.parent = this.transform;
             }
-            EndTurn();
+
+            if (!player.turnCompleted) {
+                EndTurn();
+            }
         } else {
-            turnStage = TurnStage.Started;
             if (instantiatedSleepEffect != null) {
                 GameObject.Destroy(instantiatedSleepEffect);
             }
-            player.unitQueue.Add(this);
-            StartTurn();
+            
+            if (!player.turnCompleted) {
+                turnStage = TurnStage.Started;
+                player.unitQueue.Add(this);
+                StartTurn();
+            } else {
+                turnStage = TurnStage.Complete;
+            }
         }
     }
 

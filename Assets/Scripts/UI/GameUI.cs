@@ -66,14 +66,11 @@ public class GameUI : MonoBehaviour {
 
         if (GameManager.Instance.GetCurrentPlayer().turnCompleted) {
             sleepButtonParent.SetActive(true);
-            wakeButtonParent.SetActive(false);
             customButtonParent.SetActive(false);
             endTurnButtonParent.SetActive(true);
             nextUnitButtonParent.SetActive(false);
 
             moveButton.interactable = false;
-            sleepButton.interactable = false;
-            wakeButton.interactable = false;
             doneButton.interactable = false;
 
             movesLeft.text = "";
@@ -88,13 +85,24 @@ public class GameUI : MonoBehaviour {
                 if (currentUnit.turnStage == TurnStage.PathSet) {
                     cancelMoveButtonParent.SetActive(true);
                     moveButtonParent.SetActive(false);
+                    sleepButtonParent.SetActive(true);
+                    wakeButtonParent.SetActive(false);
 
+                    sleepButton.interactable = false;
                     cancelMoveButton.interactable = true;
+                } else if (currentUnit.turnStage == TurnStage.Sleeping) {
+                    wakeButtonParent.SetActive(true);
+                    sleepButtonParent.SetActive(false);
+
+                    wakeButton.interactable = true;
                 } else {
                     moveButtonParent.SetActive(true);
                     cancelMoveButtonParent.SetActive(false);
+                    sleepButtonParent.SetActive(true);
+                    wakeButtonParent.SetActive(false);
 
                     cancelMoveButton.interactable = false;
+                    sleepButton.interactable = true;
                 }
             } else {
                 moveButtonParent.SetActive(true);
