@@ -53,6 +53,8 @@ public static class UIData {
     }
 
     public static void SetMouseOverTile(Tile tile) {
+        if (mouseOverTile == tile) { return; }
+        
         mouseOverTile = tile;
         if (tile != null) {
             DelegateManager.mouseOverTileSelectedDelegate?.Invoke(tile);
