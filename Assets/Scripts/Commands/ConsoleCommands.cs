@@ -91,6 +91,31 @@ public static class ConsoleCommands {
         }
     }
 
+    [DebugCommand("set_num_moves", "Sets the number of moves left for the current unit.", "set_num_moves <int>")]
+    public static DebugConsole.DebugCommandCode SetNumMoves(string[] args, DebugConsole debugConsole) {
+        if (args.Length > 0) {
+            if (int.TryParse(args[0], out int intValue)) {
+                if (UIData.currentUnit != null) {
+                    if (intValue <= 0) {
+                        debugConsole.PrintError("Number of moves must be greater than 0.");
+                        return DebugConsole.DebugCommandCode.ParameterOutOfRange;
+                    } else {
+                        UIData.currentUnit.moves = intValue;
+                        debugConsole.PrintSuccess($"Set current unit moves to {intValue}.");
+                        return DebugConsole.DebugCommandCode.Success;
+                    }
+                } else {
+                    debugConsole.PrintError("No unit currently selected.");
+                    return DebugConsole.DebugCommandCode.ParameterOutOfRange;
+                }
+            } else {
+                return DebugConsole.DebugCommandCode.ParameterFailedParse;
+            }
+        } else {
+            return DebugConsole.DebugCommandCode.MissingParameters;
+        }
+    }
+
     [DebugCommand("fast_prod", "Changes all units TTCs to 1 day.", "fast_prod <bool>")]
     public static DebugConsole.DebugCommandCode FastProd(string[] args, DebugConsole debugConsole) {
         if (args.Length > 0) {
@@ -157,20 +182,6 @@ public static class ConsoleCommands {
             }
             GameManager.Instance.GetCurrentPlayer().SpawnUnit(new Vector2Int(x, y), unitType);
             return DebugConsole.DebugCommandCode.Success;
-        } else {
-            return DebugConsole.DebugCommandCode.MissingParameters;
-        }
-    }
-
-    [DebugCommand("test_with_num", "Test with debug console with num.", "test_with_num <num>")]
-    public static DebugConsole.DebugCommandCode TestWithNum(string[] args, DebugConsole debugConsole) {
-        if (args.Length > 0) {
-            if (int.TryParse(args[0], out int intValue)) {
-                debugConsole.PrintSuccess($"Test Num: {intValue}");
-                return DebugConsole.DebugCommandCode.Success;
-            } else {
-                return DebugConsole.DebugCommandCode.ParameterFailedParse;
-            }
         } else {
             return DebugConsole.DebugCommandCode.MissingParameters;
         }

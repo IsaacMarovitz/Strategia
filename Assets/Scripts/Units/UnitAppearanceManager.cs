@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class UnitAppearenceManager : MonoBehaviour {
+public class UnitAppearanceManager : MonoBehaviour {
 
     public GameObject meshParent;
     public List<Renderer> playerColoredRenderers;
@@ -21,10 +21,14 @@ public class UnitAppearenceManager : MonoBehaviour {
     }
 
     public void Show() {
-        meshParent.SetActive(true);
+        if (meshParent != null) {
+            meshParent.SetActive(true);
+        }
     }
 
     public void Hide() {
-        meshParent.SetActive(false);
+        if (meshParent != null) {
+            meshParent.SetActive(false);
+        }
     }
 }

@@ -22,7 +22,7 @@ public class Fighter : Unit, IFuel {
     public override void Update() {
         base.Update();
         if (carrier != null) {
-            unitAppearenceManager.Hide();
+            unitAppearanceManager.Hide();
         }
     }
 
@@ -86,7 +86,7 @@ public class Fighter : Unit, IFuel {
         if (carrier != null) {
             carrier.unitsOnTransport.Remove(this);
             carrier = null;
-            unitAppearenceManager.Show();
+            unitAppearanceManager.Show();
         } else {
             currentTile.unitOnTile = null;
         }

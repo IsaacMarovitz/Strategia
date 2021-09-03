@@ -166,7 +166,7 @@ MonoBehaviour:
   player: {fileID: 0}
   blockedTileTypes: 03000000
   unitMoveUI: {fileID: 7635899420769053338}
-  unitAppearenceManager: {fileID: 7647325524655364034}
+  unitAppearanceManager: {fileID: 7647325524655364034}
   infiniteAttack: 0
   _fuel: 0
   _maxFuel: 24

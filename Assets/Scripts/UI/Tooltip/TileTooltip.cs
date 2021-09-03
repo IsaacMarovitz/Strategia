@@ -5,20 +5,25 @@ public class TileTooltip : TurnBehaviour {
 
     public float tooltipDelay = 2;
     private Tile mouseOverTile;
+    private IEnumerator delayCoroutine;
 
-    public override void OnMouseOverTileSelected(Tile tile) {
+    /*public override void OnMouseOverTileSelected(Tile tile) {
         TooltipSystem.Hide();
 
         if (GameManager.Instance.GetCurrentPlayer().fogOfWarMatrix[tile.pos.x, tile.pos.y] != FogOfWarState.Hidden) {
             mouseOverTile = tile;
-            StartCoroutine(Delay());
+            if (delayCoroutine != null) {
+                StopCoroutine(delayCoroutine);
+            }
+            delayCoroutine = Delay();
+            StartCoroutine(delayCoroutine);
         }
     }
 
     public override void OnMouseOverTileDeselected() {
         mouseOverTile = null;
         TooltipSystem.Hide();
-    }
+    }*/
 
     string TileTypeToString(TileType tileType) {
         switch (tileType) {

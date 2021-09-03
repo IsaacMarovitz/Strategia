@@ -234,7 +234,7 @@ public class Player : TurnBehaviour {
             unit.pos = pos;
             unit.gameObject.transform.parent = this.gameObject.transform;
             unit.player = this;
-            unit.unitAppearenceManager.Hide();
+            unit.unitAppearanceManager.Hide();
             unit.oldCity = grid[pos.x, pos.y].gameObject.GetComponent<City>();
             AddUnit(unit);
             grid[pos.x, pos.y].unitOnTile = unit;

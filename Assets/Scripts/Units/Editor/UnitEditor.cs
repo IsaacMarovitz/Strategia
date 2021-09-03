@@ -29,14 +29,14 @@ namespace Strategia.Editor {
             SerializedProperty pos_prop = serializedObject.FindProperty("pos");
 
             SerializedProperty unitMoveUI_prop = serializedObject.FindProperty("unitMoveUI");
-            SerializedProperty unitAppearenceManager_prop = serializedObject.FindProperty("unitAppearenceManager");
+            SerializedProperty unitAppearanceManager_prop = serializedObject.FindProperty("unitAppearanceManager");
 
             EditorGUILayout.PropertyField(turnStage_prop);
             EditorGUILayout.PropertyField(sleepEffectPrefab_prop);
             EditorGUILayout.PropertyField(unitIcon_prop);
             EditorGUILayout.PropertyField(blockedTileTypes_prop);
 
-            EditorGUILayout.PropertyField(unitAppearenceManager_prop);
+            EditorGUILayout.PropertyField(unitAppearanceManager_prop);
             EditorGUILayout.PropertyField(unitMoveUI_prop);
 
             EditorGUILayout.Space(10);

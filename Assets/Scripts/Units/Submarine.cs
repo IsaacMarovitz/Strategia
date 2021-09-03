@@ -20,15 +20,15 @@ public class Submarine : Unit {
 
         if (currentPlayer == player) {
             if (currentTile.isCityTile) {
-                unitAppearenceManager.Hide();
+                unitAppearanceManager.Hide();
                 instantiatedSleepEffect?.SetActive(false);
             } else {
-                unitAppearenceManager.Show();
+                unitAppearanceManager.Show();
                 instantiatedSleepEffect?.SetActive(true);
             }
         } else {
             if (currentPlayer.fogOfWarMatrix[pos.x, pos.y] != FogOfWarState.Visible) {
-                unitAppearenceManager.Hide();
+                unitAppearanceManager.Hide();
                 instantiatedSleepEffect?.SetActive(false);
             } else {
                 Tile[] tiles = GridUtilities.DiagonalCheck(pos);
@@ -51,10 +51,10 @@ public class Submarine : Unit {
                 }
 
                 if (isVisible) {
-                    unitAppearenceManager.Show();
+                    unitAppearanceManager.Show();
                     instantiatedSleepEffect?.SetActive(true);
                 } else {
-                    unitAppearenceManager.Hide();
+                    unitAppearanceManager.Hide();
                     instantiatedSleepEffect?.SetActive(false);
                 }
             }

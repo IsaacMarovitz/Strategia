@@ -19,7 +19,7 @@ public class Unit : TurnBehaviour {
     public Player player;
     public List<TileType> blockedTileTypes;
     public UnitMoveUI unitMoveUI;
-    public UnitAppearenceManager unitAppearenceManager;
+    public UnitAppearanceManager unitAppearanceManager;
     public bool infiniteAttack = false;
 
     [HideInInspector]
@@ -54,14 +54,14 @@ public class Unit : TurnBehaviour {
         }
 
         if (currentPlayer.fogOfWarMatrix[pos.x, pos.y] != FogOfWarState.Visible) {
-            unitAppearenceManager.Hide();
+            unitAppearanceManager.Hide();
             instantiatedSleepEffect?.SetActive(false);
         } else {
             if (currentTile.isCityTile) {
-                unitAppearenceManager.Hide();
+                unitAppearanceManager.Hide();
                 instantiatedSleepEffect?.SetActive(false);
             } else {
-                unitAppearenceManager.Show();
+                unitAppearanceManager.Show();
                 instantiatedSleepEffect?.SetActive(true);
             }
         }
@@ -224,7 +224,7 @@ public class Unit : TurnBehaviour {
             if (oldCity != null) {
                 oldCity.RemoveUnit(this);
                 oldCity = null;
-                unitAppearenceManager.Show();
+                unitAppearanceManager.Show();
             }
 
             if (currentTile.isCityTile) {
@@ -232,9 +232,9 @@ public class Unit : TurnBehaviour {
                 city.GetOwned(player);
                 city.AddUnit(this);
                 oldCity = city;
-                unitAppearenceManager.Hide();
+                unitAppearanceManager.Hide();
             } else {
-                unitAppearenceManager.Show();
+                unitAppearanceManager.Show();
                 currentTile.unitOnTile = this;
             }
         } else if (tileMoveStatus == TileMoveStatus.Attack) {
@@ -275,7 +275,7 @@ public class Unit : TurnBehaviour {
     public virtual void TransportMove(Tile tileToMoveTo, TileMoveStatus tileMoveStatus) { }
 
     public void SetColor(Player player) {
-        unitAppearenceManager.UpdateColor(player);
+        unitAppearanceManager.UpdateColor(player);
     }
 
     public void SetPos(Vector2Int _pos) {
