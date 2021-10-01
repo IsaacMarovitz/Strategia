@@ -10459,7 +10459,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.0304182, y: 1}
+    m_SensorSize: {x: 1.9209303, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -11964,7 +11964,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 162231284}
   m_HandleRect: {fileID: 162231283}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -25168,7 +25168,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1917514746}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9999998
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -35554,7 +35554,7 @@ MonoBehaviour:
   reportButton: {fileID: 293283037}
   failureUI: {fileID: 930935945}
   successDragWindow: {fileID: 1888057612}
-  trelloPoster: {fileID: 11400000, guid: c602d3e3b18b8c64dbf8d7dbc1b725db, type: 2}
+  trelloPoster: {fileID: 0}
   reportPanel: {fileID: 1474818282586197749}
   dragWindow: {fileID: 1474818282586197747}
   cardName: {fileID: 668283678}
@@ -36125,7 +36125,7 @@ MonoBehaviour:
   failureUI: {fileID: 930935945}
   successDragWindow: {fileID: 1888057612}
   errorText: {fileID: 642953001}
-  trelloPoster: {fileID: 11400000, guid: c602d3e3b18b8c64dbf8d7dbc1b725db, type: 2}
+  trelloPoster: {fileID: 0}
 --- !u!224 &3290877365184290715
 RectTransform:
   m_ObjectHideFlags: 0
