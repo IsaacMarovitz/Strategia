@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour {
             newDayDelegate?.Invoke();
             dayCompleted = false;
             day++;
-            if (day > 1000) {
+            if (day > 10000) {
                 throw new System.Exception("Day Count Surpassed Limit!");
             }
             foreach (var player in playerList) {

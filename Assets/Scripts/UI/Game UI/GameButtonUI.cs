@@ -31,23 +31,15 @@ public class GameButtonUI : TurnBehaviour {
         button.onClick.AddListener(ButtonEventInvoke);
     }
 
-    public override void OnPlayerTurnWait(Player player) {
-        UpdateUI();
-    }
-
-    public override void OnPlayerTurnStart(Player player) {
-        UpdateUI();
-    }
-
-    public override void OnPlayerTurnComplete(Player player) {
-        UpdateUI();
-    }
-
-    public override void OnPlayerTurnEnd(Player player) {
+    public override void OnPlayerStateChanged(Player player) {
         UpdateUI();
     }
 
     public override void OnUnitAction() {
+        UpdateUI();
+    }
+
+    public override void OnUnitTurnStart(Unit unit) {
         UpdateUI();
     }
 

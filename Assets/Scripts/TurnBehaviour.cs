@@ -8,10 +8,13 @@ public class TurnBehaviour : MonoBehaviour {
     public Tile[,] grid => GameManager.Instance.tileGrid.grid;
 
     public virtual void Awake() {
-        DelegateManager.playerTurnWaitDelegate += OnPlayerTurnWait;
         DelegateManager.playerTurnStartDelegate += OnPlayerTurnStart;
         DelegateManager.playerTurnCompleteDelegate += OnPlayerTurnComplete;
         DelegateManager.playerTurnEndDelegate += OnPlayerTurnEnd;
+
+        DelegateManager.playerTurnStartDelegate += OnPlayerStateChanged;
+        DelegateManager.playerTurnCompleteDelegate += OnPlayerStateChanged;
+        DelegateManager.playerTurnEndDelegate += OnPlayerStateChanged;
 
         DelegateManager.unitMoveDelegate += OnUnitMove;
         DelegateManager.unitMoveDelegate += (Unit unit) => OnFogOfWarUpdate(unit.player);
@@ -30,10 +33,13 @@ public class TurnBehaviour : MonoBehaviour {
     }
 
     public virtual void OnDestroy() {
-        DelegateManager.playerTurnWaitDelegate -= OnPlayerTurnWait;
         DelegateManager.playerTurnStartDelegate -= OnPlayerTurnStart;
         DelegateManager.playerTurnCompleteDelegate -= OnPlayerTurnComplete;
         DelegateManager.playerTurnEndDelegate -= OnPlayerTurnEnd;
+
+        DelegateManager.playerTurnStartDelegate -= OnPlayerStateChanged;
+        DelegateManager.playerTurnCompleteDelegate -= OnPlayerStateChanged;
+        DelegateManager.playerTurnEndDelegate -= OnPlayerStateChanged;
 
         DelegateManager.unitTurnStartDelegate -= OnUnitTurnStart;
         DelegateManager.unitMoveDelegate -= OnUnitMove;
@@ -52,9 +58,6 @@ public class TurnBehaviour : MonoBehaviour {
         DelegateManager.mouseOverTileDeselectedDelegate -= OnMouseOverTileDeselected;
     }
 
-    // Called after a player starts waiting
-    public virtual void OnPlayerTurnWait(Player player) {}
-
     // Called after a player has finished starting its turn
     public virtual void OnPlayerTurnStart(Player player) {}
 
@@ -63,6 +66,9 @@ public class TurnBehaviour : MonoBehaviour {
 
     // Called after a player had finished ending its turn
     public virtual void OnPlayerTurnEnd(Player player) {}
+
+    // Called whenever any change to the player's state occurs
+    public virtual void OnPlayerStateChanged(Player player) {}
 
     // Called after a unit has finished starting its turn
     public virtual void OnUnitTurnStart(Unit unit) {}

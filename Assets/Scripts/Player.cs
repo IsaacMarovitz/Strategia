@@ -174,7 +174,7 @@ public class Player : TurnBehaviour {
     public void EndTurnButton() {
         playerTurnStage = PlayerTurnStage.Complete;
         Debug.Log($"<b>{this.gameObject.name}:</b> Turn complete");
-        DelegateManager.playerTurnEndDelegate?.Invoke(this);
+        DelegateManager.playerTurnCompleteDelegate?.Invoke(this);
     }
 
     public void TurnEnded() {
@@ -185,6 +185,7 @@ public class Player : TurnBehaviour {
         foreach (var unit in playerUnits) {
             unit.MoveAlongSetPath();
         }
+        DelegateManager.playerTurnEndDelegate?.Invoke(this);
         gameManager.NextPlayer();
     }
 

@@ -28,12 +28,9 @@ public class Unit : TurnBehaviour {
     protected bool pathWasSetThisTurn;
     protected GameObject instantiatedSleepEffect;
 
+    private bool hasBeenInitalised = false;
+
     public virtual void Start() {
-        moves = maxMoves;
-        health = maxHealth;
-        if (!currentTile.isCityTile) {
-            currentTile.unitOnTile = this;
-        }
         path = new List<Tile>();
     }
 
@@ -78,6 +75,13 @@ public class Unit : TurnBehaviour {
         if (unitTurnStage != UnitTurnStage.Sleeping) {
             unitTurnStage = UnitTurnStage.Waiting;
         }
+        if (!hasBeenInitalised) {
+            health = maxHealth;
+            if (!currentTile.isCityTile) {
+                currentTile.unitOnTile = this;
+            }
+            hasBeenInitalised = true;
+        }
         moves = maxMoves;
     }
 
@@ -97,6 +101,7 @@ public class Unit : TurnBehaviour {
         } else {
             unitTurnStage = UnitTurnStage.Started;
         }
+        DelegateManager.unitTurnStartDelegate?.Invoke(this);
     }
 
     public void EndTurn() {
