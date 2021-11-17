@@ -132,12 +132,6 @@ public class UIRoundedPanelRenderer : Graphic {
         }
     }
 
-    private void Update() {
-        if (numCornerVerts < 0) {
-            numCornerVerts = 0;
-        }
-    }
-
     Vector3 AngleToPos(float angle) {
         float x = edgeThickness * Mathf.Cos(angle * Mathf.Deg2Rad);
         float y = edgeThickness * Mathf.Sin(angle * Mathf.Deg2Rad);
