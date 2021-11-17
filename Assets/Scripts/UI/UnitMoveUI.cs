@@ -37,7 +37,7 @@ public class UnitMoveUI : TurnBehaviour {
         isSelected = UIData.currentUnit == unit;
         isPathHiden = false;
 
-        if (unit.turnStage == TurnStage.PathSet) {
+        if (unit.unitTurnStage == UnitTurnStage.PathSet) {
             path = new List<Tile>(unit.path);
             path.Insert(0, unit.currentTile);
 

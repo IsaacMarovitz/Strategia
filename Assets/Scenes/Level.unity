@@ -3325,6 +3325,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitIsMoving: 0
   moveButtonPressed: 0
+  mouseOnePressed: 0
+  mouseZeroPressed: 0
 --- !u!1 &186522409
 GameObject:
   m_ObjectHideFlags: 0

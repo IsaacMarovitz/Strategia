@@ -77,7 +77,7 @@ public class Bomber : Unit, ICustomButton, IFuel {
         Debug.Log($"<b>{this.gameObject.name}:</b> Detonated!");
         Die();
         if (gameManager.GetCurrentPlayer().HasDied()) {
-            gameManager.GetCurrentPlayer().TurnComplete();
+            gameManager.GetCurrentPlayer().TurnEnded();
         }
         GameObject.Destroy(this.gameObject);
     }

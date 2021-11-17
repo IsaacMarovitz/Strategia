@@ -1,6 +1,6 @@
 public class EndTurnButtonUI : GameButtonUI {
-    public void Update() {
-        if (GameManager.Instance.GetCurrentPlayer().turnCompleted) {
+    public override void UpdateUI() {
+        if (GameManager.Instance.GetCurrentPlayer().playerTurnStage == PlayerTurnStage.Complete) {
             buttonParent.SetActive(true);
         } else {
             buttonParent.SetActive(false);
@@ -8,6 +8,6 @@ public class EndTurnButtonUI : GameButtonUI {
     }
 
     public override void ButtonEvent() {
-        GameManager.Instance.GetCurrentPlayer().TurnComplete();
+        GameManager.Instance.GetCurrentPlayer().TurnEnded();
     }
 }

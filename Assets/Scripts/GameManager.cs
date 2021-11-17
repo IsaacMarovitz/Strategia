@@ -160,26 +160,6 @@ public class GameManager : MonoBehaviour {
     public Player GetCurrentPlayer() {
         return playerList[currentPlayerIndex - 1];
     }
-
-    public void OnPlayerTurnStart(Player player) {
-        DelegateManager.playerTurnStartDelegate?.Invoke(player);
-    }
-
-    public void OnPlayerTurnEnd(Player player) {
-        DelegateManager.playerTurnEndDelegate?.Invoke(player);
-    }
-
-    public void OnUnitTurnStart(Unit unit) {
-        DelegateManager.unitTurnStartDelegate?.Invoke(unit);
-    }
-
-    public void OnUnitMove(Unit unit) {
-        DelegateManager.unitMoveDelegate?.Invoke(unit);
-    }
-
-    public void OnFogOfWarUpdate(Player player) {
-        DelegateManager.fogOfWarUpdateDelegate?.Invoke(player);
-    }
 }
 
 public enum GameMode { SinglePlayer, LocalMultiplayer, OnlineMultiplayer };

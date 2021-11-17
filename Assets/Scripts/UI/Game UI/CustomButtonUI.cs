@@ -1,19 +1,19 @@
 public class CustomButtonUI : GameButtonUI {
-    public void Update() {
-        if (GameManager.Instance.GetCurrentPlayer().turnCompleted) {
-            buttonParent.SetActive(false);
-        } else {
+    public override void UpdateUI() {
+        if (GameManager.Instance.GetCurrentPlayer().playerTurnStage != PlayerTurnStage.Complete) {
             if (currentUnit != null) {
                 ICustomButton buttonInterface = currentUnit as ICustomButton;
                 if (buttonInterface != null) {
                     buttonText.text = buttonInterface.CustomButtonName;
-                    buttonParent.SetActive(true);
+                    Enable();
                 } else {
-                    buttonParent.SetActive(false);
+                    Disable();
                 }
             } else {
-                buttonParent.SetActive(false);
+                Disable();
             }
+        } else {
+            Disable();
         }
     }
 

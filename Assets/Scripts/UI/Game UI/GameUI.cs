@@ -33,7 +33,7 @@ public class GameUI : MonoBehaviour {
         dayCounter.text = $"Day {GameManager.Instance.day}";
         unitImage.color = GameManager.Instance.GetCurrentPlayer().playerColor;
 
-        if (GameManager.Instance.GetCurrentPlayer().turnCompleted) {
+        if (GameManager.Instance.GetCurrentPlayer().playerTurnStage == PlayerTurnStage.Complete) {
             movesLeft.text = "";
             fuelLeft.text = "";
             oldUnit = null;
@@ -77,7 +77,7 @@ public class GameUI : MonoBehaviour {
     }
 
     public void UpdateUI() {
-        if (currentUnit.turnStage == TurnStage.Waiting) {
+        if (currentUnit.unitTurnStage == UnitTurnStage.Waiting) {
             currentUnit.StartTurn();
         }
     }

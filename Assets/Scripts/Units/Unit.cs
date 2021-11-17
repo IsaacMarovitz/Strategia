@@ -10,7 +10,7 @@ public class Unit : TurnBehaviour {
     public int maxHealth;
     public int moves;
     public int maxMoves;
-    public TurnStage turnStage = TurnStage.Waiting;
+    public UnitTurnStage unitTurnStage = UnitTurnStage.Waiting;
     public float[] damagePercentages = new float[9];
     public UnitType unitType;
     public City oldCity;
@@ -55,41 +55,47 @@ public class Unit : TurnBehaviour {
 
         if (currentPlayer.fogOfWarMatrix[pos.x, pos.y] != FogOfWarState.Visible) {
             unitAppearanceManager.Hide();
-            instantiatedSleepEffect?.SetActive(false);
+            if (instantiatedSleepEffect != null) {
+                instantiatedSleepEffect.SetActive(false);
+            }
         } else {
             if (currentTile.isCityTile) {
                 unitAppearanceManager.Hide();
-                instantiatedSleepEffect?.SetActive(false);
+                if (instantiatedSleepEffect != null) {
+                instantiatedSleepEffect.SetActive(false);
+            }
             } else {
                 unitAppearanceManager.Show();
-                instantiatedSleepEffect?.SetActive(true);
+                if (instantiatedSleepEffect != null) {
+                instantiatedSleepEffect.SetActive(true);
+            }
             }
         }
     }
 
     public virtual void NewDay(Player _player) {
         player = _player;
-        if (turnStage != TurnStage.Sleeping) {
-            turnStage = TurnStage.Waiting;
+        if (unitTurnStage != UnitTurnStage.Sleeping) {
+            unitTurnStage = UnitTurnStage.Waiting;
         }
         moves = maxMoves;
     }
 
     public void StartTurn() {
         Debug.Log($"<b>{this.gameObject.name}:</b> Turn started");
-        if (turnStage == TurnStage.Sleeping) {
+        if (unitTurnStage == UnitTurnStage.Sleeping) {
             EndTurn();
             return;
         } else if (path != null) {
             if (path.Count > 0) {
-                turnStage = TurnStage.PathSet;
+                unitTurnStage = UnitTurnStage.PathSet;
                 EndTurn();
                 return;
             } else {
-                turnStage = TurnStage.Started;
+                unitTurnStage = UnitTurnStage.Started;
             }
         } else {
-            turnStage = TurnStage.Started;
+            unitTurnStage = UnitTurnStage.Started;
         }
     }
 
@@ -99,14 +105,14 @@ public class Unit : TurnBehaviour {
     }
 
     public void ToggleSleep() {
-        if (turnStage != TurnStage.Sleeping) {
-            turnStage = TurnStage.Sleeping;
+        if (unitTurnStage != UnitTurnStage.Sleeping) {
+            unitTurnStage = UnitTurnStage.Sleeping;
             if (!currentTile.isCityTile) {
                 instantiatedSleepEffect = GameObject.Instantiate(sleepEffectPrefab, this.transform.position, Quaternion.identity);
                 instantiatedSleepEffect.transform.parent = this.transform;
             }
 
-            if (!player.turnCompleted) {
+            if (player.playerTurnStage != PlayerTurnStage.Complete) {
                 EndTurn();
             }
         } else {
@@ -114,12 +120,12 @@ public class Unit : TurnBehaviour {
                 GameObject.Destroy(instantiatedSleepEffect);
             }
             
-            if (!player.turnCompleted) {
-                turnStage = TurnStage.Started;
+            if (player.playerTurnStage != PlayerTurnStage.Complete) {
+                unitTurnStage = UnitTurnStage.Started;
                 player.unitQueue.Add(this);
                 StartTurn();
             } else {
-                turnStage = TurnStage.Complete;
+                unitTurnStage = UnitTurnStage.Complete;
             }
         }
     }
@@ -258,14 +264,14 @@ public class Unit : TurnBehaviour {
 
         if (moves <= 0) {
             if (path.Count > 0) {
-                turnStage = TurnStage.PathSet;
+                unitTurnStage = UnitTurnStage.PathSet;
             } else {
-                turnStage = TurnStage.Complete;
+                unitTurnStage = UnitTurnStage.Complete;
             }
             EndTurn();
         }
         player.UpdateFogOfWar();
-        gameManager.OnUnitMove(this);
+        DelegateManager.unitMoveDelegate?.Invoke(this);
     }
 
     public virtual void TransportCheck() {
@@ -296,6 +302,6 @@ public class Unit : TurnBehaviour {
     }
 }
 
-public enum TurnStage { Waiting, Started, Complete, Sleeping, PathSet }
+public enum UnitTurnStage { Waiting, Started, Complete, Sleeping, PathSet }
 public enum TileMoveStatus { Move, Transport, Attack, Blocked }
 public enum UnitType { Tank, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, Battleship }

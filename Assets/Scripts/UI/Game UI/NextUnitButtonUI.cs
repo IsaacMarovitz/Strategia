@@ -1,6 +1,6 @@
 public class NextUnitButtonUI : GameButtonUI {
-    public void Update() {
-        if (GameManager.Instance.GetCurrentPlayer().turnCompleted) {
+    public override void UpdateUI() {
+        if (GameManager.Instance.GetCurrentPlayer().playerTurnStage == PlayerTurnStage.Complete) {
             buttonParent.SetActive(false);
         } else {
             buttonParent.SetActive(true);

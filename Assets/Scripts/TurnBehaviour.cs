@@ -8,11 +8,14 @@ public class TurnBehaviour : MonoBehaviour {
     public Tile[,] grid => GameManager.Instance.tileGrid.grid;
 
     public virtual void Awake() {
+        DelegateManager.playerTurnWaitDelegate += OnPlayerTurnWait;
         DelegateManager.playerTurnStartDelegate += OnPlayerTurnStart;
+        DelegateManager.playerTurnCompleteDelegate += OnPlayerTurnComplete;
         DelegateManager.playerTurnEndDelegate += OnPlayerTurnEnd;
-        DelegateManager.unitTurnStartDelegate += OnUnitTurnStart;
+
         DelegateManager.unitMoveDelegate += OnUnitMove;
         DelegateManager.unitMoveDelegate += (Unit unit) => OnFogOfWarUpdate(unit.player);
+        DelegateManager.unitActionDelegate += OnUnitAction;
         DelegateManager.playerTurnStartDelegate += OnFogOfWarUpdate;
         DelegateManager.fogOfWarUpdateDelegate += OnFogOfWarUpdate;
 
@@ -27,11 +30,15 @@ public class TurnBehaviour : MonoBehaviour {
     }
 
     public virtual void OnDestroy() {
+        DelegateManager.playerTurnWaitDelegate -= OnPlayerTurnWait;
         DelegateManager.playerTurnStartDelegate -= OnPlayerTurnStart;
+        DelegateManager.playerTurnCompleteDelegate -= OnPlayerTurnComplete;
         DelegateManager.playerTurnEndDelegate -= OnPlayerTurnEnd;
+
         DelegateManager.unitTurnStartDelegate -= OnUnitTurnStart;
         DelegateManager.unitMoveDelegate -= OnUnitMove;
         DelegateManager.unitMoveDelegate -= (Unit unit) => OnFogOfWarUpdate(unit.player);
+        DelegateManager.unitActionDelegate -= OnUnitAction;
         DelegateManager.playerTurnStartDelegate -= OnFogOfWarUpdate;
         DelegateManager.fogOfWarUpdateDelegate -= OnFogOfWarUpdate;
 
@@ -45,8 +52,14 @@ public class TurnBehaviour : MonoBehaviour {
         DelegateManager.mouseOverTileDeselectedDelegate -= OnMouseOverTileDeselected;
     }
 
+    // Called after a player starts waiting
+    public virtual void OnPlayerTurnWait(Player player) {}
+
     // Called after a player has finished starting its turn
     public virtual void OnPlayerTurnStart(Player player) {}
+
+    // Called after a player complete's its turn
+    public virtual void OnPlayerTurnComplete(Player player) {}
 
     // Called after a player had finished ending its turn
     public virtual void OnPlayerTurnEnd(Player player) {}
@@ -56,6 +69,9 @@ public class TurnBehaviour : MonoBehaviour {
 
     // Called after a unit has moved to a new tile
     public virtual void OnUnitMove(Unit unit) {}
+
+    // Called after a unit performes any action
+    public virtual void OnUnitAction() {}
 
     // Called when unit moves and when player turn starts
     public virtual void OnFogOfWarUpdate(Player player) {}

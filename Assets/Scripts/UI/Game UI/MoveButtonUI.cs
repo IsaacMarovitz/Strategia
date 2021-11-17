@@ -4,84 +4,72 @@ public class MoveButtonUI : GameButtonUI {
 
     public bool unitIsMoving = false;
     public bool moveButtonPressed = false;
+    public bool mouseOnePressed = false;
+    public bool mouseZeroPressed = false;
 
     public void Update() {
-        if (GameManager.Instance.GetCurrentPlayer().turnCompleted) {
-            button.interactable = false;
+        if (Input.GetMouseButtonUp(1)) {
+            mouseOnePressed = true;
+            UpdateUI();
+            mouseOnePressed = false;
+        }
 
-            if (currentUnit != null) {
-                if (currentUnit.turnStage == TurnStage.PathSet) {
-                    buttonParent.SetActive(false);
-                } else {
-                    buttonParent.SetActive(true);
-                }
-            } else {
-                buttonParent.SetActive(true);
-            }
-        } else {
-            buttonParent.SetActive(true);
-
-            if (currentUnit != null) {
-                UnitMoveUI unitMoveUI = currentUnit.unitMoveUI;
-
-                if (!button.interactable && currentUnit != gameUI.oldUnit) {
-                    gameUI.oldUnit = currentUnit;
-                    button.interactable = true;
-                    unitMoveUI.MoveButtonDeselected();
-                }
-
-                // If the right mouse button is pressed while the line is showing, disable the UnitMoveUI Line Renderer, and set Move Button to interactable
-                if (Input.GetMouseButtonUp(1) && unitMoveUI.isMoving && !gameUI.cameraController.didRMBDrag) {
-                    unitMoveUI.MoveButtonDeselected();
-                    button.interactable = true;
-                    unitIsMoving = false;
-                }
-
-                // If the left mouse button is pressed while the line is showing, disable the UnitMoveUI Line Renderer, set Move Button to interactable, and move the selected Unit
-                if (Input.GetMouseButtonUp(0) && unitMoveUI.isMoving && !gameUI.cameraController.didLMBDrag) {
-                    if (gameUI.cameraController.IsMouseOverUI() && moveButtonPressed) {
-                        if (!moveButtonPressed) {
-                            unitMoveUI.MoveButtonDeselected();
-                            button.interactable = true;
-                            unitIsMoving = false;
-                        }
-                    } else {
-                        if (unitMoveUI.Move()) {
-                            unitMoveUI.MoveButtonDeselected();
-                            button.interactable = true;
-                            unitIsMoving = false;
-                        }
-                    }
-                }
-            } else {
-                button.interactable = false;
-            }
-
-            if (!GameManager.Instance.dayCompleted) {
-                if (currentUnit != null) {
-                    UpdateUI();
-                }
-            } else {
-                button.interactable = false;
-            }
+        if (Input.GetMouseButtonUp(0)) {
+            mouseZeroPressed = true;
+            UpdateUI();
+            mouseZeroPressed = false;
         }
     }
 
-    public void UpdateUI() {
-        if (currentUnit.turnStage == TurnStage.Sleeping) {
-            button.interactable = false;
-        } else if (currentUnit.turnStage == TurnStage.Complete) {
-            button.interactable = false;
-        } else if (currentUnit.turnStage == TurnStage.PathSet) {
-            Disable();
-        } else {
-            buttonParent.SetActive(true);
+    public override void UpdateUI() {
+        if (GameManager.Instance.GetCurrentPlayer().playerTurnStage != PlayerTurnStage.Complete) {
+            if (currentUnit != null) {
+                if (currentUnit.unitTurnStage == UnitTurnStage.Started) {
+                    Enable();
+                    UnitMoveUI unitMoveUI = currentUnit.unitMoveUI;
+                    if (!button.interactable && currentUnit != gameUI.oldUnit) {
+                        gameUI.oldUnit = currentUnit;
+                        button.interactable = true;
+                        unitMoveUI.MoveButtonDeselected();
+                    }
 
-            if (unitIsMoving) {
-                button.interactable = false;
+                    // If the right mouse button is pressed while the line is showing, disable the UnitMoveUI Line Renderer, and set Move Button to interactable
+                    if (mouseOnePressed && unitMoveUI.isMoving && !gameUI.cameraController.didRMBDrag) {
+                        unitMoveUI.MoveButtonDeselected();
+                        button.interactable = true;
+                        unitIsMoving = false;
+                    }
+
+                    // If the left mouse button is pressed while the line is showing, disable the UnitMoveUI Line Renderer, set Move Button to interactable, and move the selected Unit
+                    if (mouseZeroPressed && unitMoveUI.isMoving && !gameUI.cameraController.didLMBDrag) {
+                        if (gameUI.cameraController.IsMouseOverUI() && moveButtonPressed) {
+                            if (!moveButtonPressed) {
+                                unitMoveUI.MoveButtonDeselected();
+                                button.interactable = true;
+                                unitIsMoving = false;
+                            }
+                        } else {
+                            if (unitMoveUI.Move()) {
+                                unitMoveUI.MoveButtonDeselected();
+                                button.interactable = true;
+                                unitIsMoving = false;
+                            }
+                        }
+                    }
+
+                    if (unitIsMoving) {
+                        button.interactable = false;
+                    } else {
+                        button.interactable = true;
+                    }
+                } else {
+                    Disable();
+                }
             } else {
-                button.interactable = true;
+                Disable();
             }
+        } else {
+            Disable();
         }
     }
 

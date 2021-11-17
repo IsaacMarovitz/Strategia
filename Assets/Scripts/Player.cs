@@ -4,15 +4,14 @@ using System.Collections.Generic;
 
 public class Player : TurnBehaviour {
 
+    public PlayerTurnStage playerTurnStage = PlayerTurnStage.Waiting;
+    public bool hasDied = false;
     public List<City> playerCities;
     public List<Unit> playerUnits;
-    public bool turnStarted = false;
-    public bool turnCompleted = false;
     [HideInInspector]
     public GameMode gameMode;
     public Color playerColor;
     public Material baseMaterial;    
-    public bool hasDied = false;
     public UnitInfo unitInfo;
     public CameraController cameraController;
     public Country country;
@@ -114,7 +113,7 @@ public class Player : TurnBehaviour {
         }
         fogOfWarTexture.Apply();
         minimapTexture.Apply();
-        if (turnStarted && !turnCompleted) {
+        if (playerTurnStage == PlayerTurnStage.Started) {
             gameManager.fogOfWarRenderer.material.mainTexture = fogOfWarTexture;
         }
     }
@@ -128,8 +127,7 @@ public class Player : TurnBehaviour {
 
         unitQueue?.Clear();
         unitQueue = new List<Unit>(playerUnits);
-        turnStarted = false;
-        turnCompleted = false;
+        playerTurnStage = PlayerTurnStage.Waiting;
     }
 
     public void AddUnit(Unit unit) {
@@ -139,8 +137,8 @@ public class Player : TurnBehaviour {
     }
 
     public void StartTurn() {
-        Debug.Log($"<b>{this.gameObject.name}:</b> Turn is starting");
-        turnStarted = true;
+        Debug.Log($"<b>{this.gameObject.name}:</b> Turn started");
+        playerTurnStage = PlayerTurnStage.Started;
         if (playerUnits != null) {
             UpdateFogOfWar();
         }
@@ -151,9 +149,9 @@ public class Player : TurnBehaviour {
             cameraController.didClickUI = true;
             unitQueue[0].StartTurn();
         } else {
-            TurnComplete();
+            TurnEnded();
         }
-        gameManager.OnPlayerTurnStart(this);
+        DelegateManager.playerTurnStartDelegate?.Invoke(this);
         cityDataChangedDelegate?.Invoke();
     }
 
@@ -174,15 +172,16 @@ public class Player : TurnBehaviour {
     }
 
     public void EndTurnButton() {
-        turnCompleted = true;
-        gameManager.OnPlayerTurnEnd(this);
+        playerTurnStage = PlayerTurnStage.Complete;
+        Debug.Log($"<b>{this.gameObject.name}:</b> Turn complete");
+        DelegateManager.playerTurnEndDelegate?.Invoke(this);
     }
 
-    public void TurnComplete() {
-        turnCompleted = true;
+    public void TurnEnded() {
+        playerTurnStage = PlayerTurnStage.Ended;
         UIData.SetUnit(null);
         UIData.SetCity(null);
-        Debug.Log($"<b>{this.gameObject.name}:</b> Turn is ending");
+        Debug.Log($"<b>{this.gameObject.name}:</b> Turn ended");
         foreach (var unit in playerUnits) {
             unit.MoveAlongSetPath();
         }
@@ -256,3 +255,4 @@ public class Player : TurnBehaviour {
 }
 
 public enum FogOfWarState { Visible, Revealed, Hidden }
+public enum PlayerTurnStage { Waiting, Started, Complete, Ended }

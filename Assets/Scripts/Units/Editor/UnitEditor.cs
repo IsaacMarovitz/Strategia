@@ -14,7 +14,7 @@ namespace Strategia.Editor {
             serializedObject.Update();
             Unit unit = (Unit)target;
 
-            SerializedProperty turnStage_prop = serializedObject.FindProperty("turnStage");
+            SerializedProperty turnStage_prop = serializedObject.FindProperty("unitTurnStage");
             SerializedProperty sleepEffectPrefab_prop = serializedObject.FindProperty("sleepEffectPrefab");
             SerializedProperty unitIcon_prop = serializedObject.FindProperty("unitIcon");
             SerializedProperty blockedTileTypes_prop = serializedObject.FindProperty("blockedTileTypes");

@@ -1,29 +1,17 @@
 public class DoneButtonUI : GameButtonUI {
-    public void Update() {
-        if (GameManager.Instance.GetCurrentPlayer().turnCompleted) {
-            button.interactable = false;
-        } else {
-            if (currentUnit == null) {
-                button.interactable = false;
-            }
-
-            if (!GameManager.Instance.dayCompleted) {
-                if (currentUnit != null) {
-                    UpdateUI();
+    public override void UpdateUI() {
+        if (GameManager.Instance.GetCurrentPlayer().playerTurnStage != PlayerTurnStage.Complete) {
+            if (currentUnit != null) {
+                if (currentUnit.unitTurnStage == UnitTurnStage.Started) {
+                    Enable();
+                } else {
+                    Disable();
                 }
             } else {
-                button.interactable = false;
+                Disable();
             }
-        }
-    }
-
-    public void UpdateUI() {
-        if (currentUnit.turnStage == TurnStage.Sleeping) {
-            button.interactable = false;
-        } else if (currentUnit.turnStage == TurnStage.Complete) {
-            button.interactable = false;
         } else {
-            button.interactable = true;
+            Disable();
         }
     }
 
