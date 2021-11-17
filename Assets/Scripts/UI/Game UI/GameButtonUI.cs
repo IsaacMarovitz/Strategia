@@ -4,9 +4,9 @@ using TMPro;
 
 public class GameButtonUI : TurnBehaviour {
     protected GameUI gameUI;
-    protected GameObject buttonParent;
-    protected Button button;
-    protected TMP_Text buttonText;
+    public GameObject buttonParent;
+    public Button button;
+    public TMP_Text buttonText;
     protected Unit currentUnit {
         get {
             if (gameUI != null) {
@@ -24,11 +24,10 @@ public class GameButtonUI : TurnBehaviour {
 
     public void Start() {
         gameUI = FindObjectOfType<GameUI>();
-        buttonParent = transform.GetChild(0).gameObject;
-        button = transform.GetComponentInChildren<Button>();
-        buttonText = transform.GetComponentInChildren<TMP_Text>();
 
-        button.onClick.AddListener(ButtonEventInvoke);
+        if (button != null) {
+            button.onClick.AddListener(ButtonEventInvoke);
+        }
     }
 
     public override void OnPlayerStateChanged(Player player) {

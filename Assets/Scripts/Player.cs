@@ -143,11 +143,12 @@ public class Player : TurnBehaviour {
             UpdateFogOfWar();
         }
         if (unitQueue.Count > 0) {
-            UIData.SetUnit(unitQueue[0]);
-            cameraController.Focus(GridUtilities.TileToWorldPos(unitQueue[0].pos), false);
+            Unit unit = unitQueue[0];
+            UIData.SetUnit(unit);
+            cameraController.Focus(GridUtilities.TileToWorldPos(unit.pos), false);
             // Prevents Camera Controller from sometimes defocusing unit because of Next Player UI Button press
             cameraController.didClickUI = true;
-            unitQueue[0].StartTurn();
+            unit.StartTurn();
         } else {
             TurnEnded();
         }

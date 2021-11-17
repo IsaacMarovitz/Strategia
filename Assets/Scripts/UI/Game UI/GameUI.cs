@@ -14,6 +14,7 @@ public class GameUI : TurnBehaviour {
     public Image unitImage;
     public Slider healthSlider;
     public CameraController cameraController;
+    public GameObject iconUIContainer;
 
     public Unit oldUnit;
     public Unit currentUnit {
@@ -55,11 +56,15 @@ public class GameUI : TurnBehaviour {
         if (currentUnit != null) {
             UnitMoveUI unitMoveUI = currentUnit.unitMoveUI;
 
+            iconUIContainer.SetActive(true);
             healthSlider.maxValue = currentUnit.maxHealth;
             healthSlider.value = currentUnit.health;
             if (currentUnit.unitIcon != null) {
                 unitImage.color = GameManager.Instance.GetCurrentPlayer().playerColor;
                 unitImage.sprite = currentUnit.unitIcon;
+            } else {
+                unitImage.color = Color.clear;
+                unitImage.sprite = null;
             }
 
             movesLeft.text = $"Moves Left: {currentUnit.moves}";
@@ -72,11 +77,8 @@ public class GameUI : TurnBehaviour {
                 fuelLeft.text = "";
             }
         } else {
-            movesLeft.text = "";
-            fuelLeft.text = "";
-            unitImage.color = Color.clear;
-            unitImage.sprite = null;
-
+            iconUIContainer.SetActive(false);
+            
             oldUnit = null;
         }
 

@@ -99,11 +99,6 @@ public class UnitMoveUI : TurnBehaviour {
             path = null;
         } else {
             path = GridUtilities.FindPath(unit.currentTile, mouseOverTile);
-            foreach (var tile in path) {
-                if (currentPlayer.fogOfWarMatrix[tile.pos.x, tile.pos.y] != FogOfWarState.Visible) {
-                    isPathHiden = true;
-                }
-            }
 
             if (path == null) {
                 // Path is blocked
@@ -111,6 +106,12 @@ public class UnitMoveUI : TurnBehaviour {
                 lineRenderer.enabled = false;
                 canvas.enabled = false;
             } else {
+                foreach (var tile in path) {
+                    if (currentPlayer.fogOfWarMatrix[tile.pos.x, tile.pos.y] != FogOfWarState.Visible) {
+                        isPathHiden = true;
+                    }
+                }
+
                 if (isPathHiden) {
                     tileSelectorMeshRenderer.material = hiddenTRMaterial;
                     lineRenderer.material = hiddenLRMaterial;
