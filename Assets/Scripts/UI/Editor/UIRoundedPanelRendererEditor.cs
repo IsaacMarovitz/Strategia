@@ -7,7 +7,6 @@ public class UIRoundedPanelRendererEditor : Editor {
         serializedObject.Update();
         UIRoundedPanelRenderer uiRoundedPanelRenderer = (UIRoundedPanelRenderer)target;
 
-        //SerializedProperty color_prop = serializedObject.FindProperty("color");
         SerializedProperty edgeThickness_prop = serializedObject.FindProperty("edgeThickness");
         SerializedProperty numCornerVerts_prop = serializedObject.FindProperty("numCornerVerts");
 
@@ -16,8 +15,7 @@ public class UIRoundedPanelRendererEditor : Editor {
         SerializedProperty lowerLeftCorner_prop = serializedObject.FindProperty("lowerLeftCorner");
         SerializedProperty lowerRightCorner_prop = serializedObject.FindProperty("lowerRightCorner");
 
-        //EditorGUILayout.PropertyField(color_prop);
-        EditorGUILayout.ColorField("Color", uiRoundedPanelRenderer.color);
+        uiRoundedPanelRenderer.color = EditorGUILayout.ColorField("Color", uiRoundedPanelRenderer.color);
         EditorGUILayout.PropertyField(edgeThickness_prop);
         EditorGUILayout.PropertyField(numCornerVerts_prop, new GUIContent("No. Corner Vertices"));
 

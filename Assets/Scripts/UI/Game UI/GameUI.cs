@@ -15,6 +15,10 @@ public class GameUI : TurnBehaviour {
     public Slider healthSlider;
     public CameraController cameraController;
     public GameObject iconUIContainer;
+    [Range(0, 1)]
+    public float playerColorSaturation = 0.5f;
+    [Range(0, 1)]
+    public float playerColorBrightness = 0.5f;
 
     public Unit oldUnit;
     public Unit currentUnit {
@@ -60,7 +64,13 @@ public class GameUI : TurnBehaviour {
             healthSlider.maxValue = currentUnit.maxHealth;
             healthSlider.value = currentUnit.health;
             if (currentUnit.unitIcon != null) {
-                unitImage.color = GameManager.Instance.GetCurrentPlayer().playerColor;
+                Color color = GameManager.Instance.GetCurrentPlayer().playerColor;
+                Vector3 hsv = new Vector3();
+                Color.RGBToHSV(color, out hsv.x, out hsv.y, out hsv.z);
+                hsv.y = playerColorSaturation;
+                hsv.z = playerColorBrightness;
+
+                unitImage.color = Color.HSVToRGB(hsv.x, hsv.y, hsv.z);
                 unitImage.sprite = currentUnit.unitIcon;
             } else {
                 unitImage.color = Color.clear;
