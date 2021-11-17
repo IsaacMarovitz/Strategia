@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class MoveButtonUI : GameButtonUI {
 
-    private bool unitIsMoving = false;
-    private bool moveButtonPressed = false;
-    private bool mouseOnePressed = false;
-    private bool mouseZeroPressed = false;
+    public bool unitIsMoving = false;
+    public bool moveButtonPressed = false;
+    public bool mouseOnePressed = false;
+    public bool mouseZeroPressed = false;
 
     public void Update() {
         if (Input.GetMouseButtonUp(1)) {

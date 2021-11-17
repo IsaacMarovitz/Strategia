@@ -95,7 +95,8 @@ public class GameUI : TurnBehaviour {
         if (!GameManager.Instance.dayCompleted) {
             if (currentUnit != null)
                 if (currentUnit.unitTurnStage == UnitTurnStage.Waiting) {
-                    currentUnit.StartTurn();
+                    // FIX
+                    //currentUnit.StartTurn();
                 }
         }
     }

@@ -10583,7 +10583,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.9209303, y: 1}
+    m_SensorSize: {x: 1.794186, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -13766,6 +13766,10 @@ MonoBehaviour:
   buttonParent: {fileID: 176069446}
   button: {fileID: 2036876578}
   buttonText: {fileID: 209872316}
+  unitIsMoving: 0
+  moveButtonPressed: 0
+  mouseOnePressed: 0
+  mouseZeroPressed: 0
 --- !u!114 &811476572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25562,8 +25566,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1917514747}
   m_HandleRect: {fileID: 1917514746}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.99999964
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -31793,7 +31797,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 637639290}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
