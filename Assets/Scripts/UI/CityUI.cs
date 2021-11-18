@@ -2,10 +2,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using DG.Tweening;
 
 public class CityUI : TurnBehaviour {
 
     public GameObject panel;
+    public CanvasGroup panelCanvasGroup;
+    public float fadeDuration = 0.25f;
     public TMP_Text cityName;
     public TMP_Text turnsLeft;
     public TMP_InputField inputField;
@@ -17,6 +20,7 @@ public class CityUI : TurnBehaviour {
 
     private City oldCity;
     private bool hasUpdated = false;
+    private Sequence panelCanvasGroupSequence;
 
     public void Start() {
         panel.SetActive(false);
@@ -42,6 +46,17 @@ public class CityUI : TurnBehaviour {
         city.fastProdDelegate += UpdateTurnsLeft;
         city.showCityNameUI = false;
         panel.SetActive(true);
+        panelCanvasGroup.interactable = false;
+
+        panelCanvasGroupSequence.Kill();
+        panelCanvasGroupSequence = DOTween.Sequence();
+        panelCanvasGroupSequence
+            .Append(panelCanvasGroup.DOFade(1f, fadeDuration).SetEase(Ease.InOutCubic))
+            .OnComplete(() => {
+                panelCanvasGroup.interactable = true;
+            })
+            .Play();
+
         transform.position = GridUtilities.TileToWorldPos(city.pos, yOffset);
         cityName.text = city.cityName;
         turnsLeft.text = "Days Left: " + city.turnsLeft;
@@ -75,7 +90,15 @@ public class CityUI : TurnBehaviour {
     }
 
     public override void OnCityDeselected() {
-        panel.SetActive(false);
+        panelCanvasGroupSequence.Kill();
+        panelCanvasGroupSequence = DOTween.Sequence();
+        panelCanvasGroupSequence
+            .Append(panelCanvasGroup.DOFade(0, fadeDuration).SetEase(Ease.InOutCubic))
+            .OnComplete(() => {
+                panel.SetActive(false);
+            })
+            .Play();
+        
         hasUpdated = false;
         if (oldCity != null) {
             oldCity.fastProdDelegate -= UpdateTurnsLeft;

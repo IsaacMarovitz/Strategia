@@ -17,7 +17,8 @@ public class DoneButtonUI : GameButtonUI {
 
     public override void ButtonEvent() {
         if (currentUnit == null) { return; }
-
+        
+        currentUnit.unitTurnStage = UnitTurnStage.Complete;
         currentUnit.EndTurn();
     }
 }

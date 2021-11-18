@@ -108,6 +108,7 @@ public class Unit : TurnBehaviour {
     public void EndTurn() {
         Debug.Log($"<b>{this.gameObject.name}:</b> Turn complete");
         player.NextUnit(this, false);
+        DelegateManager.unitActionDelegate?.Invoke();
     }
 
     public void ToggleSleep() {
@@ -134,10 +135,8 @@ public class Unit : TurnBehaviour {
                 unitTurnStage = UnitTurnStage.Complete;
             }
         }
-    }
 
-    public void Later() {
-        player.NextUnit(this, true);
+        DelegateManager.unitActionDelegate?.Invoke();
     }
 
     public void Attack(Vector2Int unitPos) {
@@ -161,6 +160,8 @@ public class Unit : TurnBehaviour {
         } else {
             Debug.LogWarning($"<b>{this.gameObject.name}:</b> Could not find unit to attack at {unitPos}!");
         }
+
+        DelegateManager.unitActionDelegate?.Invoke();
     }
 
     public void TakeDamage(Unit unit) {
@@ -270,16 +271,28 @@ public class Unit : TurnBehaviour {
 
         moves--;
 
-        if (moves <= 0) {
-            if (path.Count > 0) {
-                unitTurnStage = UnitTurnStage.PathSet;
-            } else {
-                unitTurnStage = UnitTurnStage.Complete;
+        if (unitTurnStage == UnitTurnStage.PathSet) {
+            if (path.Count <= 0) {
+                if (moves <= 0) {
+                    unitTurnStage = UnitTurnStage.Complete;
+                } else {
+                    unitTurnStage = UnitTurnStage.Started;
+                }
             }
-            EndTurn();
+        } else {
+            if (moves <= 0) {
+                if (path.Count > 0) {
+                    unitTurnStage = UnitTurnStage.PathSet;
+                } else {
+                    unitTurnStage = UnitTurnStage.Complete;
+                }
+                EndTurn();
+            }
         }
+        
         player.UpdateFogOfWar();
         DelegateManager.unitMoveDelegate?.Invoke(this);
+        DelegateManager.unitActionDelegate?.Invoke();
     }
 
     public virtual void TransportCheck() {
@@ -298,6 +311,7 @@ public class Unit : TurnBehaviour {
 
     public void UnsetPath() {
         path.Clear();
+        DelegateManager.unitActionDelegate?.Invoke();
     }
 
     public virtual void Die() {
@@ -307,6 +321,7 @@ public class Unit : TurnBehaviour {
         if (currentTile.isCityTile) {
             oldCity.RemoveUnit(this);
         }
+        DelegateManager.unitActionDelegate?.Invoke();
     }
 }
 

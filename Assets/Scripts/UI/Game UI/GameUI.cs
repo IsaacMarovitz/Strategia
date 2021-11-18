@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public class GameUI : TurnBehaviour {
 
@@ -14,11 +15,14 @@ public class GameUI : TurnBehaviour {
     public Image unitImage;
     public Slider healthSlider;
     public CameraController cameraController;
-    public GameObject iconUIContainer;
+    public CanvasGroup iconUIGroup;
+    public float fadeDuration = 0.25f;
     [Range(0, 1)]
     public float playerColorSaturation = 0.5f;
     [Range(0, 1)]
     public float playerColorBrightness = 0.5f;
+
+    private Sequence iconUIGroupSequence;
 
     public Unit oldUnit;
     public Unit currentUnit {
@@ -70,7 +74,13 @@ public class GameUI : TurnBehaviour {
         if (currentUnit != null) {
             UnitMoveUI unitMoveUI = currentUnit.unitMoveUI;
 
-            iconUIContainer.SetActive(true);
+            iconUIGroup.gameObject.SetActive(true);
+            iconUIGroupSequence.Kill();
+            iconUIGroupSequence = DOTween.Sequence();
+            iconUIGroupSequence
+                .Append(iconUIGroup.DOFade(1f, fadeDuration).SetEase(Ease.InOutCubic));
+            iconUIGroupSequence.Play();
+
             healthSlider.maxValue = currentUnit.maxHealth;
             healthSlider.value = currentUnit.health;
             if (currentUnit.unitIcon != null) {
@@ -97,7 +107,14 @@ public class GameUI : TurnBehaviour {
                 fuelLeft.text = "";
             }
         } else {
-            iconUIContainer.SetActive(false);
+            iconUIGroupSequence.Kill();
+            iconUIGroupSequence = DOTween.Sequence();
+            iconUIGroupSequence
+                .Append(iconUIGroup.DOFade(0f, fadeDuration).SetEase(Ease.InOutCubic))
+                .OnComplete(() => {
+                    iconUIGroup.gameObject.SetActive(false);
+                });
+            iconUIGroupSequence.Play();
             
             oldUnit = null;
         }

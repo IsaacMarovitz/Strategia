@@ -38,6 +38,16 @@ public class Player : TurnBehaviour {
         }
     }
 
+    public override void OnUnitAction() {
+        if (playerTurnStage == PlayerTurnStage.Complete) {
+            foreach (var unit in playerUnits) {
+                if (unit.unitTurnStage == UnitTurnStage.Started) {
+                    playerTurnStage = PlayerTurnStage.Started;
+                }
+            }
+        }
+    }
+
     public void UpdateFogOfWar() {
         if (internalFogOfWarMatrix == null || fogOfWarMatrix == null) {
             internalFogOfWarMatrix = new FogOfWarState[tileGrid.width, tileGrid.height];

@@ -102,6 +102,7 @@ public static class ConsoleCommands {
                     } else {
                         UIData.currentUnit.moves = intValue;
                         debugConsole.PrintSuccess($"Set current unit moves to {intValue}.");
+                        DelegateManager.unitActionDelegate?.Invoke();
                         return DebugConsole.DebugCommandCode.Success;
                     }
                 } else {

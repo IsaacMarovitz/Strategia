@@ -83,6 +83,7 @@ public class Parachute : Unit, ICustomButton, IFuel {
             }
             UIData.SetUnit(tank);
             Debug.Log($"<b>{this.gameObject.name}:</b> Deployed tank!");
+            DelegateManager.unitActionDelegate?.Invoke();
             GameObject.Destroy(this.gameObject);
         } else {
             Debug.Log($"<b>{this.gameObject.name}:</b> Invalid deploy location!");
