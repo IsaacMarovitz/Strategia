@@ -15,6 +15,7 @@ public class Unit : TurnBehaviour {
     public UnitType unitType;
     public City oldCity;
     public GameObject sleepEffectPrefab;
+    public GameObject damageIndicatorPrefab;
     public Sprite unitIcon;
     public Player player;
     public List<TileType> blockedTileTypes;
@@ -165,6 +166,8 @@ public class Unit : TurnBehaviour {
     public void TakeDamage(Unit unit) {
         int damage = Mathf.RoundToInt(maxHealth * unit.damagePercentages[(int)unitType]);
         health -= damage;
+        GameObject instantiatedIndicator = GameObject.Instantiate(damageIndicatorPrefab, transform.position, Quaternion.identity);
+        instantiatedIndicator.GetComponent<DamageIndicator>().IndicateDamage(damage);
         if (health <= 0) {
             Debug.Log($"<b>{this.gameObject.name}:</b> Took {damage} damage, and died!");
             Die();

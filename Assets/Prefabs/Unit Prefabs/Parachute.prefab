@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7704023388306446309}
   m_RootOrder: 0
@@ -110,6 +111,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.0079999985}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7704023388306446309}
   m_RootOrder: 1
@@ -193,6 +195,7 @@ Transform:
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3252693339232378615}
   - {fileID: 6244950960980744997}
@@ -291,6 +294,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7704023388306446309}
   - {fileID: 3625207026638141126}
@@ -315,7 +319,7 @@ MonoBehaviour:
   maxHealth: 30
   moves: 0
   maxMoves: 10
-  turnStage: 0
+  unitTurnStage: 0
   damagePercentages:
   - 0
   - 0
@@ -329,6 +333,7 @@ MonoBehaviour:
   unitType: 0
   oldCity: {fileID: 0}
   sleepEffectPrefab: {fileID: 298227300186202393, guid: c628331474dd8d544ad4617719d749d1, type: 3}
+  damageIndicatorPrefab: {fileID: 5693513448747065113, guid: da2ede686e8c247a1a99573c21691273, type: 3}
   unitIcon: {fileID: 21300000, guid: 9a49dc5a7d756244aa92fe68940c560c, type: 3}
   player: {fileID: 0}
   blockedTileTypes: 03000000
@@ -385,6 +390,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.00799}
   m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7704023388306446309}
   m_RootOrder: 2

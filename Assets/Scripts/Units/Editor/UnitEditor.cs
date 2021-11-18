@@ -16,6 +16,7 @@ namespace Strategia.Editor {
 
             SerializedProperty turnStage_prop = serializedObject.FindProperty("unitTurnStage");
             SerializedProperty sleepEffectPrefab_prop = serializedObject.FindProperty("sleepEffectPrefab");
+            SerializedProperty damageIndicatorPrefab_prop = serializedObject.FindProperty("damageIndicatorPrefab");
             SerializedProperty unitIcon_prop = serializedObject.FindProperty("unitIcon");
             SerializedProperty blockedTileTypes_prop = serializedObject.FindProperty("blockedTileTypes");
 
@@ -33,6 +34,7 @@ namespace Strategia.Editor {
 
             EditorGUILayout.PropertyField(turnStage_prop);
             EditorGUILayout.PropertyField(sleepEffectPrefab_prop);
+            EditorGUILayout.PropertyField(damageIndicatorPrefab_prop);
             EditorGUILayout.PropertyField(unitIcon_prop);
             EditorGUILayout.PropertyField(blockedTileTypes_prop);
 

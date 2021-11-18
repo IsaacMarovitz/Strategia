@@ -30,12 +30,22 @@ public class GameUI : TurnBehaviour {
         }
     }
 
+    private bool startUnitEnabled = false;
+
     public void Start() {
         oldUnit = currentUnit;
     }
 
     public override void OnPlayerStateChanged(Player player) {
         UpdateUI();
+    }
+
+    public override void OnPlayerTurnEnd(Player player) {
+        startUnitEnabled = false;
+    }
+
+    public override void OnPlayerTurnStart(Player player) {
+        startUnitEnabled = true;
     }
 
     public override void OnUnitAction() {
@@ -92,11 +102,10 @@ public class GameUI : TurnBehaviour {
             oldUnit = null;
         }
 
-        if (!GameManager.Instance.dayCompleted) {
+        if (!GameManager.Instance.dayCompleted && startUnitEnabled) {
             if (currentUnit != null)
                 if (currentUnit.unitTurnStage == UnitTurnStage.Waiting) {
-                    // FIX
-                    //currentUnit.StartTurn();
+                    currentUnit.StartTurn();
                 }
         }
     }
