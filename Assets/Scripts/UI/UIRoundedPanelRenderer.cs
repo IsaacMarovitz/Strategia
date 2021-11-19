@@ -29,28 +29,28 @@ public class UIRoundedPanelRenderer : Graphic {
         vector = Vector2.up;
 
         // Main Quad
-        Vector2 mainLowerLeft = new Vector2(-vector.y - width, vector.x + edgeThickness);
-        Vector2 mainUpperRight = new Vector2(vector.y - edgeThickness, -vector.x + height);
+        Vector2 mainLowerLeft = new Vector2(-vector.y - width + 1, vector.x + edgeThickness);
+        Vector2 mainUpperRight = new Vector2(vector.y - edgeThickness - 1, -vector.x + height);
         AddQuad(mainLowerLeft, mainUpperRight, Vector2.zero, Vector2.one, 0, vh);
 
         // Upper Quad
-        Vector2 upperLowerLeft = new Vector2(-vector.y - width, vector.x + height);
-        Vector2 upperUpperRight = new Vector2(vector.y - edgeThickness, vector.x + height + edgeThickness);
+        Vector2 upperLowerLeft = new Vector2(-vector.y - width + 1, vector.x + height);
+        Vector2 upperUpperRight = new Vector2(vector.y - edgeThickness - 1, vector.x + height + edgeThickness);
         AddQuad(upperLowerLeft, upperUpperRight, Vector2.zero, Vector2.one, 0, vh);
 
         // Lower Quad
-        Vector2 lowerLowerLeft = new Vector2(-vector.y - width, vector.x);
-        Vector2 lowerUpperRight = new Vector2(vector.y - edgeThickness, vector.x + edgeThickness);
+        Vector2 lowerLowerLeft = new Vector2(-vector.y - width + 1, vector.x);
+        Vector2 lowerUpperRight = new Vector2(vector.y - edgeThickness - 1, vector.x + edgeThickness);
         AddQuad(lowerLowerLeft, lowerUpperRight, Vector2.zero, Vector2.one, 0, vh);
 
         // Left Quad
-        Vector2 leftLowerLeft = new Vector2(-vector.y - width - edgeThickness, vector.x + edgeThickness);
-        Vector2 leftUpperRight = new Vector2(-vector.y - width, vector.x + height);
+        Vector2 leftLowerLeft = new Vector2(-vector.y - width - edgeThickness + 1, vector.x + edgeThickness);
+        Vector2 leftUpperRight = new Vector2(-vector.y - width + 1, vector.x + height);
         AddQuad(leftLowerLeft, leftUpperRight, Vector2.zero, Vector2.one, 0, vh);
 
         // Right Quad
-        Vector2 rightLowerLeft = new Vector2(vector.y - edgeThickness, vector.x + edgeThickness);
-        Vector2 rightUpperRight = new Vector2(vector.y, vector.x + height);
+        Vector2 rightLowerLeft = new Vector2(vector.y - edgeThickness - 1, vector.x + edgeThickness);
+        Vector2 rightUpperRight = new Vector2(vector.y - 1, vector.x + height);
         AddQuad(rightLowerLeft, rightUpperRight, Vector2.zero, Vector2.one, 0, vh);
 
         // Upper Left

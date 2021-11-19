@@ -3,7 +3,7 @@ public static class CityNames {
         "Birmingham",
         "Leeds",
         "Glasgow",
-        "Mancheter",
+        "Manchester",
         "Edinburgh",
         "Liverpool",
         "Bristol",

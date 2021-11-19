@@ -2,7 +2,10 @@ using UnityEngine;
 using UnityEditor;
 using TMPro;
 using DG.Tweening;
+
+#if UNITY_EDITOR
 using DG.DOTweenEditor;
+#endif
 
 public class DamageIndicator : MonoBehaviour {
 
@@ -27,19 +30,22 @@ public class DamageIndicator : MonoBehaviour {
                 canvasGroup.transform.localPosition = Vector3.zero;
                 canvasGroup.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 
+#if UNITY_EDITOR
                 if (!EditorApplication.isPlaying) {
                     return;
                 }
+#endif
 
                 Destroy(this.gameObject);
             });
 
-
+#if UNITY_EDITOR
         if (EditorApplication.isPlaying) {
             sequence.Play();
         } else {
             DOTweenEditorPreview.PrepareTweenForPreview(sequence, false);
             DOTweenEditorPreview.Start();
         }
+#endif
     }
 }
