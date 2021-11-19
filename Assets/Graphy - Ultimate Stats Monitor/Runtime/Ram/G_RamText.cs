@@ -12,8 +12,8 @@
  * -------------------------------------*/
 
 using UnityEngine;
-using UnityEngine.UI;
 using Tayx.Graphy.Utils.NumString;
+using TMPro;
 
 namespace Tayx.Graphy.Ram
 {
@@ -21,9 +21,9 @@ namespace Tayx.Graphy.Ram
     {
         #region Variables -> Serialized Private
 
-        [SerializeField] private    Text            m_allocatedSystemMemorySizeText         = null;
-        [SerializeField] private    Text            m_reservedSystemMemorySizeText          = null;
-        [SerializeField] private    Text            m_monoSystemMemorySizeText              = null;
+        [SerializeField] private    TMP_Text        m_allocatedSystemMemorySizeText         = null;
+        [SerializeField] private    TMP_Text        m_reservedSystemMemorySizeText          = null;
+        [SerializeField] private    TMP_Text        m_monoSystemMemorySizeText              = null;
 
         #endregion
 

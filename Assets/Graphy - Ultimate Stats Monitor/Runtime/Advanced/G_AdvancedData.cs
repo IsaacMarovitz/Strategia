@@ -18,6 +18,7 @@ using System.Text;
 using Tayx.Graphy.UI;
 using Tayx.Graphy.Utils;
 using Tayx.Graphy.Utils.NumString;
+using TMPro;
 
 #if UNITY_5_5_OR_NEWER
 using UnityEngine.Profiling;
@@ -31,18 +32,18 @@ namespace Tayx.Graphy.Advanced
 
         [SerializeField] private    List<Image>                 m_backgroundImages = new List<Image>();
 
-        [SerializeField] private    Text                        m_graphicsDeviceVersionText = null;
+        [SerializeField] private    TMP_Text                    m_graphicsDeviceVersionText = null;
 
-        [SerializeField] private    Text                        m_processorTypeText = null;
+        [SerializeField] private    TMP_Text                    m_processorTypeText = null;
 
-        [SerializeField] private    Text                        m_operatingSystemText = null;
+        [SerializeField] private    TMP_Text                    m_operatingSystemText = null;
 
-        [SerializeField] private    Text                        m_systemMemoryText = null;
+        [SerializeField] private    TMP_Text                    m_systemMemoryText = null;
 
-        [SerializeField] private    Text                        m_graphicsDeviceNameText = null;
-        [SerializeField] private    Text                        m_graphicsMemorySizeText = null;
-        [SerializeField] private    Text                        m_screenResolutionText = null;
-        [SerializeField] private    Text                        m_gameWindowResolutionText = null;
+        [SerializeField] private    TMP_Text                    m_graphicsDeviceNameText = null;
+        [SerializeField] private    TMP_Text                    m_graphicsMemorySizeText = null;
+        [SerializeField] private    TMP_Text                    m_screenResolutionText = null;
+        [SerializeField] private    TMP_Text                    m_gameWindowResolutionText = null;
 
         [Range(1, 60)]
         [SerializeField] private    float                       m_updateRate                    = 1f;  // 1 update per sec.
@@ -173,28 +174,28 @@ namespace Tayx.Graphy.Advanced
                 case GraphyManager.ModulePosition.TOP_LEFT:
                 case GraphyManager.ModulePosition.BOTTOM_LEFT:
 
-                    m_processorTypeText             .alignment = TextAnchor.UpperLeft;
-                    m_systemMemoryText              .alignment = TextAnchor.UpperLeft;
-                    m_graphicsDeviceNameText        .alignment = TextAnchor.UpperLeft;
-                    m_graphicsDeviceVersionText     .alignment = TextAnchor.UpperLeft;
-                    m_graphicsMemorySizeText        .alignment = TextAnchor.UpperLeft;
-                    m_screenResolutionText          .alignment = TextAnchor.UpperLeft;
-                    m_gameWindowResolutionText      .alignment = TextAnchor.UpperLeft;
-                    m_operatingSystemText           .alignment = TextAnchor.UpperLeft;
+                    m_processorTypeText             .alignment = TextAlignmentOptions.TopLeft;
+                    m_systemMemoryText              .alignment = TextAlignmentOptions.TopLeft;
+                    m_graphicsDeviceNameText        .alignment = TextAlignmentOptions.TopLeft;
+                    m_graphicsDeviceVersionText     .alignment = TextAlignmentOptions.TopLeft;
+                    m_graphicsMemorySizeText        .alignment = TextAlignmentOptions.TopLeft;
+                    m_screenResolutionText          .alignment = TextAlignmentOptions.TopLeft;
+                    m_gameWindowResolutionText      .alignment = TextAlignmentOptions.TopLeft;
+                    m_operatingSystemText           .alignment = TextAlignmentOptions.TopLeft;
 
                     break;
 
                 case GraphyManager.ModulePosition.TOP_RIGHT:
                 case GraphyManager.ModulePosition.BOTTOM_RIGHT:
 
-                    m_processorTypeText             .alignment = TextAnchor.UpperRight;
-                    m_systemMemoryText              .alignment = TextAnchor.UpperRight;
-                    m_graphicsDeviceNameText        .alignment = TextAnchor.UpperRight;
-                    m_graphicsDeviceVersionText     .alignment = TextAnchor.UpperRight;
-                    m_graphicsMemorySizeText        .alignment = TextAnchor.UpperRight;
-                    m_screenResolutionText          .alignment = TextAnchor.UpperRight;
-                    m_gameWindowResolutionText      .alignment = TextAnchor.UpperRight;
-                    m_operatingSystemText           .alignment = TextAnchor.UpperRight;
+                    m_processorTypeText             .alignment = TextAlignmentOptions.TopRight;
+                    m_systemMemoryText              .alignment = TextAlignmentOptions.TopRight;
+                    m_graphicsDeviceNameText        .alignment = TextAlignmentOptions.TopRight;
+                    m_graphicsDeviceVersionText     .alignment = TextAlignmentOptions.TopRight;
+                    m_graphicsMemorySizeText        .alignment = TextAlignmentOptions.TopRight;
+                    m_screenResolutionText          .alignment = TextAlignmentOptions.TopRight;
+                    m_gameWindowResolutionText      .alignment = TextAlignmentOptions.TopRight;
+                    m_operatingSystemText           .alignment = TextAlignmentOptions.TopRight;
                     
                     break;
 
@@ -317,7 +318,7 @@ namespace Tayx.Graphy.Advanced
             
             // Resize the background overlay
             
-            List<Text> texts = new List<Text>()
+            List<TMP_Text> texts = new List<TMP_Text>()
             {
                 m_graphicsDeviceVersionText,
                 m_processorTypeText,
