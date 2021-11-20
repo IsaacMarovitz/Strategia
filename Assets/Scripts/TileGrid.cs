@@ -147,29 +147,29 @@ namespace Strategia {
                     City cityScript;
                     switch (grid[x, y].tileType) {
                         case TileType.Sea:
-                            instantiatedTile = GameObject.Instantiate(prefabs[0], new Vector3(x * tileWidth, -1, y * tileHeight), Quaternion.Euler(0, 180, 0));
+                            instantiatedTile = GameObject.Instantiate(prefabs[0], new Vector3(x * tileWidth, -1, y * tileHeight), Quaternion.Euler(0, Random.Range(-2, 3) * 90, 0));
                             break;
                         case TileType.Plains:
-                            instantiatedTile = GameObject.Instantiate(prefabs[1], new Vector3(x * tileWidth, -1, y * tileHeight), Quaternion.Euler(0, 180, 0));
+                            instantiatedTile = GameObject.Instantiate(prefabs[1], new Vector3(x * tileWidth, -1, y * tileHeight), Quaternion.Euler(0, Random.Range(-2, 3) * 90, 0));
                             break;
                         case TileType.Swamp:
-                            instantiatedTile = GameObject.Instantiate(prefabs[2], new Vector3(x * tileWidth, -1, y * tileHeight), Quaternion.Euler(0, 180, 0));
+                            instantiatedTile = GameObject.Instantiate(prefabs[2], new Vector3(x * tileWidth, -1, y * tileHeight), Quaternion.Euler(0, Random.Range(-2, 3) * 90, 0));
                             break;
                         case TileType.Mountains:
-                            instantiatedTile = GameObject.Instantiate(prefabs[3], new Vector3(x * tileWidth, -1, y * tileHeight), Quaternion.Euler(0, 180, 0));
+                            instantiatedTile = GameObject.Instantiate(prefabs[3], new Vector3(x * tileWidth, -1, y * tileHeight), Quaternion.Euler(0, Random.Range(-2, 3) * 90, 0));
                             break;
                         case TileType.Trees:
-                            instantiatedTile = GameObject.Instantiate(prefabs[4], new Vector3(x * tileWidth, -1, y * tileHeight), Quaternion.Euler(0, 180, 0));
+                            instantiatedTile = GameObject.Instantiate(prefabs[4], new Vector3(x * tileWidth, -1, y * tileHeight), Quaternion.Euler(0, Random.Range(-2, 3) * 90, 0));
                             break;
                         case TileType.City:
-                            instantiatedTile = GameObject.Instantiate(prefabs[5], new Vector3(x * tileWidth, 0, y * tileHeight), Quaternion.Euler(0, 180, 0));
+                            instantiatedTile = GameObject.Instantiate(prefabs[5], new Vector3(x * tileWidth, 0, y * tileHeight), Quaternion.Euler(0, Random.Range(-2, 3) * 90, 0));
                             instantiatedTile.transform.tag = "City";
                             cityScript = instantiatedTile.GetComponent<City>();
                             cityScript.pos = new Vector2Int(x, y);
                             cityTiles.Add(cityScript);
                             break;
                         case TileType.CostalCity:
-                            instantiatedTile = GameObject.Instantiate(prefabs[6], new Vector3(x * tileWidth, 0, y * tileHeight), Quaternion.Euler(0, 180, 0));
+                            instantiatedTile = GameObject.Instantiate(prefabs[6], new Vector3(x * tileWidth, 0, y * tileHeight), Quaternion.Euler(0, Random.Range(-2, 3) * 90, 0));
                             instantiatedTile.transform.tag = "City";
                             cityScript = instantiatedTile.GetComponent<City>();
                             cityScript.pos = new Vector2Int(x, y);

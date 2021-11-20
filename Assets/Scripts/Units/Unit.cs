@@ -126,8 +126,8 @@ public class Unit : TurnBehaviour {
             if (instantiatedSleepEffect != null) {
                 GameObject.Destroy(instantiatedSleepEffect);
             }
-            
-            if (player.playerTurnStage != PlayerTurnStage.Complete) {
+
+            if (moves > 0) {
                 unitTurnStage = UnitTurnStage.Started;
                 player.unitQueue.Add(this);
                 StartTurn();
