@@ -42,6 +42,19 @@ public class Player : TurnBehaviour {
         if (playerTurnStage == PlayerTurnStage.Complete) {
             foreach (var unit in playerUnits) {
                 if (unit.unitTurnStage == UnitTurnStage.Started) {
+                    Tank tank = unit as Tank;
+                    Fighter fighter = unit as Fighter;
+
+                    if (tank != null) {
+                        if (tank.transport != null) {
+                            return;
+                        } 
+                    } else if (fighter != null) {
+                        if (fighter.carrier != null) {
+                            return;
+                        }
+                    }
+                    
                     playerTurnStage = PlayerTurnStage.Started;
                 }
             }

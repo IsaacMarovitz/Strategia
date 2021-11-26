@@ -1252,6 +1252,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: ADVANCED - Module
       objectReference: {fileID: 0}
+    - target: {fileID: 3842867401653705428, guid: 8e60b58e9eec36e46ba32caf55a802f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3842867402509575672, guid: 8e60b58e9eec36e46ba32caf55a802f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3843565046808148296, guid: 8e60b58e9eec36e46ba32caf55a802f4, type: 3}
       propertyPath: m_systemMemoryText
       value: 
@@ -1284,6 +1292,34 @@ PrefabInstance:
       propertyPath: m_graphicsDeviceVersionText
       value: 
       objectReference: {fileID: 3654457580880587470}
+    - target: {fileID: 3843565046818344340, guid: 8e60b58e9eec36e46ba32caf55a802f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843565046818361608, guid: 8e60b58e9eec36e46ba32caf55a802f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843565046818373822, guid: 8e60b58e9eec36e46ba32caf55a802f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843565046818375086, guid: 8e60b58e9eec36e46ba32caf55a802f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843565046818382618, guid: 8e60b58e9eec36e46ba32caf55a802f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843565046818384376, guid: 8e60b58e9eec36e46ba32caf55a802f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843565046818385094, guid: 8e60b58e9eec36e46ba32caf55a802f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3912740604931392962, guid: 8e60b58e9eec36e46ba32caf55a802f4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3329,6 +3365,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 22451668}
     m_Modifications:
+    - target: {fileID: 8023522192042546097, guid: 78081648e28527242bb334a6bdf7bfce, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8023522193285040417, guid: 78081648e28527242bb334a6bdf7bfce, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8023522193710420455, guid: 78081648e28527242bb334a6bdf7bfce, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8023949359389258805, guid: 78081648e28527242bb334a6bdf7bfce, type: 3}
       propertyPath: m_audioDbText
       value: 
@@ -3337,6 +3385,10 @@ PrefabInstance:
       propertyPath: m_DBText
       value: 
       objectReference: {fileID: 393494624}
+    - target: {fileID: 8023949359398923053, guid: 78081648e28527242bb334a6bdf7bfce, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8023949359398975867, guid: 78081648e28527242bb334a6bdf7bfce, type: 3}
       propertyPath: m_Name
       value: AUDIO - Module

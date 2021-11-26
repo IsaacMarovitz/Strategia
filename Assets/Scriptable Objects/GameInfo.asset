@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: GameInfo
   m_EditorClassIdentifier: 
   gameMode: 1
-  numberOfPlayers: 3
+  numberOfPlayers: 2
