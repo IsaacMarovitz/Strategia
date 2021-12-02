@@ -35,6 +35,9 @@ public static class UIData {
 
 
     public static void SetUnit(Unit unit) {
+        currentCity = null;
+        DelegateManager.cityDeselectedDelegate?.Invoke();
+
         currentUnit = unit;
         if (unit != null) {
             DelegateManager.unitSelectedDelegate?.Invoke(unit);
@@ -44,6 +47,9 @@ public static class UIData {
     }
 
     public static void SetCity(City city) {
+        currentUnit = null;
+        DelegateManager.unitDeselectedDelegate?.Invoke();
+
         currentCity = city;
         if (city != null) {
             DelegateManager.citySelectedDelegate?.Invoke(city);

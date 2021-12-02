@@ -12,7 +12,6 @@ public class UnitButtonUI : MonoBehaviour {
     }
 
     public void OnClick() {
-        UIData.SetCity(null);
         UIData.SetUnit(unit);
     }
 }

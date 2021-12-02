@@ -141,15 +141,15 @@ public class Unit : TurnBehaviour {
 
     public void Attack(Vector2Int unitPos) {
         Unit unitToAttack = null;
-        if (grid[unitPos.x, unitPos.y].isCityTile) {
-            City tileCity = grid[unitPos.x, unitPos.y].gameObject.GetComponent<City>();
+        if (unitToAttack.currentTile.isCityTile) {
+            City tileCity = unitToAttack.currentTile.gameObject.GetComponent<City>();
             if (tileCity != null) {
                 if (tileCity.unitsInCity.Count > 0) {
                     unitToAttack = tileCity.unitsInCity[0];
                 }
             }
         } else {
-            unitToAttack = grid[unitPos.x, unitPos.y].unitOnTile;
+            unitToAttack = unitToAttack.currentTile.unitOnTile;
         }
         if (unitToAttack != null) {
             Debug.Log($"<b>{this.gameObject.name}:</b> Attacking {unitToAttack.gameObject.name}");
@@ -270,17 +270,20 @@ public class Unit : TurnBehaviour {
         }
 
         moves--;
+        if (moves < 0) {
+            moves = 0;
+        }
 
         if (unitTurnStage == UnitTurnStage.PathSet) {
             if (path.Count <= 0) {
-                if (moves <= 0) {
+                if (moves == 0) {
                     unitTurnStage = UnitTurnStage.Complete;
                 } else {
                     unitTurnStage = UnitTurnStage.Started;
                 }
             }
         } else {
-            if (moves <= 0) {
+            if (moves == 0) {
                 if (path.Count > 0) {
                     unitTurnStage = UnitTurnStage.PathSet;
                 } else {
