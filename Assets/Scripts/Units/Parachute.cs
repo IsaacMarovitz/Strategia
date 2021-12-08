@@ -16,7 +16,6 @@ public class Parachute : Unit, ICustomButton, IFuel {
 
     public override void Start() {
         base.Start();
-        unitType = UnitType.Parachute;
         // Set damage percentages in order of Tank, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
         damagePercentages = new float[9] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f };
     }

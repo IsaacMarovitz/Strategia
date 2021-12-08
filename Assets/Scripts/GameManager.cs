@@ -12,12 +12,12 @@ public class GameManager : MonoBehaviour {
     public CameraController cameraController;
     public TileGrid tileGrid;
     public GameInfo gameInfo;
-    public UnitInfo unitInfo;
     public MeshRenderer fogOfWarRenderer;
 
     public int numberOfPlayers;
     public GameObject playerPrefab;
     public Transform playerParent;
+    public List<Unit> unitPrefabs;
 
     public int day = 0;
     public int currentPlayerIndex = 0;
@@ -159,6 +159,22 @@ public class GameManager : MonoBehaviour {
 
     public Player GetCurrentPlayer() {
         return playerList[currentPlayerIndex - 1];
+    }
+
+    public Unit GetUnitFromType(UnitType unitType) {
+        foreach (var unitPrefab in unitPrefabs) {
+            if (unitPrefab != null) {
+                if (unitPrefab.unitType == unitType) {
+                    if (unitPrefab.unitInfo == null) {
+                        Debug.LogError($"<b>GameManager:</b> {unitType.ToString()} prefab does not have a UnitInfo object!");
+                    }
+                    return unitPrefab;
+                }
+            }
+        }
+
+        Debug.LogError($"<b>GameManager:</b> {unitType.ToString()} does not have a prefab!");
+        return null;
     }
 }
 

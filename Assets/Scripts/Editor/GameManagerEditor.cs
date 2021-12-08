@@ -15,7 +15,7 @@ public class GameManagerEditor : Editor {
         SerializedProperty tileGrid_prop = serializedObject.FindProperty("tileGrid");
         SerializedProperty cameraController_prop = serializedObject.FindProperty("cameraController");
         SerializedProperty gameInfo_prop = serializedObject.FindProperty("gameInfo");
-        SerializedProperty unitInfo_prop = serializedObject.FindProperty("unitInfo");
+        SerializedProperty unitPrefabs_prop = serializedObject.FindProperty("unitPrefabs");
         SerializedProperty fogOfWarRenderer_prop = serializedObject.FindProperty("fogOfWarRenderer");
 
         SerializedProperty numberOfPlayers_prop = serializedObject.FindProperty("numberOfPlayers");
@@ -54,7 +54,7 @@ public class GameManagerEditor : Editor {
             EditorGUILayout.PropertyField(tileGrid_prop);
             EditorGUILayout.PropertyField(cameraController_prop);
             EditorGUILayout.PropertyField(gameInfo_prop);
-            EditorGUILayout.PropertyField(unitInfo_prop);
+            EditorGUILayout.PropertyField(unitPrefabs_prop);
             EditorGUILayout.PropertyField(fogOfWarRenderer_prop);
         }
         EditorGUILayout.Space(10);

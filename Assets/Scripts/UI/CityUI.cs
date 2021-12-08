@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Collections.Generic;
 using DG.Tweening;
+using System;
 
 public class CityUI : TurnBehaviour {
 
@@ -15,8 +15,7 @@ public class CityUI : TurnBehaviour {
     public float yOffset;
     public HorizontalLayoutGroup horizontalLayoutGroup;
     public GameObject unitButtonPrefab;
-    public List<Toggle> costalCityToggles;
-    public Toggle[] toggles;
+    public Action<UnitType, bool> updateToggleDelegate;
 
     private City oldCity;
     private bool hasUpdated = false;
@@ -24,11 +23,6 @@ public class CityUI : TurnBehaviour {
 
     public void Start() {
         panel.SetActive(false);
-        for (int i = 0; i < toggles.Length; i++) {
-            Toggle toggle = toggles[i];
-            int tempInt = i;
-            toggles[i].onValueChanged.AddListener(delegate { ChangeUnitType(toggle, tempInt); });
-        }
     }
 
     public override void OnDestroy() {
@@ -70,22 +64,9 @@ public class CityUI : TurnBehaviour {
         if (!hasUpdated) {
             hasUpdated = true;
             UpdateUnitButtons();
-            for (int i = 0; i < toggles.Length; i++) {
-                if (i == (int)city.unitType) {
-                    toggles[i].SetIsOnWithoutNotify(true);
-                } else {
-                    toggles[i].SetIsOnWithoutNotify(false);
-                }
-            }
-            if (GameManager.Instance.tileGrid.grid[city.pos.x, city.pos.y].tileType == TileType.CostalCity) {
-                foreach (var toggle in costalCityToggles) {
-                    toggle.interactable = true;
-                }
-            } else {
-                foreach (var toggle in costalCityToggles) {
-                    toggle.interactable = false;
-                }
-            }
+
+            bool isCostalCity = GameManager.Instance.tileGrid.grid[city.pos.x, city.pos.y].tileType == TileType.CostalCity;
+            updateToggleDelegate?.Invoke(city.unitType, isCostalCity);
         }
     }
 
@@ -106,11 +87,11 @@ public class CityUI : TurnBehaviour {
         }
     }
 
-    public void ChangeUnitType(Toggle toggle, int tempInt) {
-        if (!toggle.isOn) { return; }
+    public void ChangeUnitType(bool value, UnitType unitType) {
+        if (!value) { return; }
         if (UIData.currentCity == null) { return; }
 
-        UIData.currentCity.UpdateUnitType((UnitType)tempInt);
+        UIData.currentCity.UpdateUnitType(unitType);
         turnsLeft.text = "Days Left: " + UIData.currentCity.turnsLeft;
     }
 

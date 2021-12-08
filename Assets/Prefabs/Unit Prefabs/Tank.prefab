@@ -232,12 +232,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d8392c88df2aaf4c94893e0583fa637, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitInfo: {fileID: 11400000, guid: 2436d054389bc46f2a7115ac5414d6ac, type: 2}
   pos: {x: 0, y: 0}
-  yOffset: 0.7
   health: 0
-  maxHealth: 30
   moves: 0
-  maxMoves: 2
   unitTurnStage: 0
   damagePercentages:
   - 0
@@ -249,13 +247,10 @@ MonoBehaviour:
   - 0
   - 0
   - 0
-  unitType: 0
   oldCity: {fileID: 0}
   sleepEffectPrefab: {fileID: 298227300186202393, guid: c628331474dd8d544ad4617719d749d1, type: 3}
   damageIndicatorPrefab: {fileID: 5693513448747065113, guid: da2ede686e8c247a1a99573c21691273, type: 3}
-  unitIcon: {fileID: 21300000, guid: 7c10a3de55f9d3e4a8a9a6a00930c2f1, type: 3}
   player: {fileID: 0}
-  blockedTileTypes: 000000000300000004000000
   unitMoveUI: {fileID: 3117006252720711974}
   unitAppearanceManager: {fileID: 1152613189673254156}
   infiniteAttack: 0

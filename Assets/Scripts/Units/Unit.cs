@@ -3,25 +3,48 @@ using System.Collections.Generic;
 
 public class Unit : TurnBehaviour {
 
+    public UnitInfo unitInfo;
     public Vector2Int pos;
     public Tile currentTile { get { return grid[pos.x, pos.y]; } }
-    public float yOffset;
     public int health;
-    public int maxHealth;
     public int moves;
-    public int maxMoves;
     public UnitTurnStage unitTurnStage = UnitTurnStage.Waiting;
     public float[] damagePercentages = new float[9];
-    public UnitType unitType;
     public City oldCity;
     public GameObject sleepEffectPrefab;
     public GameObject damageIndicatorPrefab;
-    public Sprite unitIcon;
     public Player player;
-    public List<TileType> blockedTileTypes;
     public UnitMoveUI unitMoveUI;
     public UnitAppearanceManager unitAppearanceManager;
     public bool infiniteAttack = false;
+
+#region Getters
+    public UnitType unitType {
+        get { return (unitInfo != null) ? unitInfo.unitType : UnitType.Tank; }
+    }
+    public Sprite unitIcon {
+        get { return (unitInfo != null) ? unitInfo.unitIcon : null; }
+    }
+    public string unitName {
+        get { return (unitInfo != null) ? unitInfo.name : ""; }
+    }
+    public int maxHealth {
+        get { return (unitInfo != null) ? unitInfo.maxHealth : 0; }
+    }
+    public int maxMoves {
+        get { return (unitInfo != null) ? unitInfo.maxMoves : 0; }
+    }
+    public float yOffset {
+        get { return (unitInfo != null) ? unitInfo.yOffset : 0; }
+    }
+    public int turnsToCreate {
+        get { return (unitInfo != null) ? unitInfo.turnsToCreate : 0; }
+    }
+    public List<TileType> blockedTileTypes {
+        get { return (unitInfo != null) ? unitInfo.blockedTileTypes : null; }
+    }
+#endregion
+    
 
     [HideInInspector]
     public List<Tile> path { get; private set; }

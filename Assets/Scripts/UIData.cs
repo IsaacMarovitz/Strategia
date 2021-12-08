@@ -34,24 +34,30 @@ public static class UIData {
     }
 
 
-    public static void SetUnit(Unit unit) {
+    public static void SetUnit(Unit unit, bool smoothMove = true) {
         currentCity = null;
         DelegateManager.cityDeselectedDelegate?.Invoke();
 
         currentUnit = unit;
         if (unit != null) {
+            if (GameManager.Instance != null) {
+                GameManager.Instance.cameraController.Focus(GridUtilities.TileToWorldPos(unit.pos), smoothMove);
+            }
             DelegateManager.unitSelectedDelegate?.Invoke(unit);
         } else {
             DelegateManager.unitDeselectedDelegate?.Invoke();
         }
     }
 
-    public static void SetCity(City city) {
+    public static void SetCity(City city, bool smoothMove = true) {
         currentUnit = null;
         DelegateManager.unitDeselectedDelegate?.Invoke();
 
         currentCity = city;
         if (city != null) {
+            if (GameManager.Instance != null) {
+                GameManager.Instance.cameraController.Focus(GridUtilities.TileToWorldPos(city.pos), smoothMove);
+            }
             DelegateManager.citySelectedDelegate?.Invoke(city);
         } else {
             DelegateManager.cityDeselectedDelegate?.Invoke();

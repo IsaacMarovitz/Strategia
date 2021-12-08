@@ -6,6 +6,7 @@ public class MoveButtonUI : GameButtonUI {
     public bool moveButtonPressed = false;
     public bool mouseOnePressed = false;
     public bool mouseZeroPressed = false;
+    public UnitMoveUI unitMoveUI;
 
     public void Update() {
         if (Input.GetMouseButtonUp(1)) {
@@ -23,14 +24,15 @@ public class MoveButtonUI : GameButtonUI {
 
     public override void UpdateUI() {
         if (currentUnit == null) {
+            unitMoveUI = null;
             Disable();
-            return; 
+            return;
         }
 
         if (GameManager.Instance.GetCurrentPlayer().playerTurnStage != PlayerTurnStage.Complete) {
             if (currentUnit.unitTurnStage == UnitTurnStage.Started) {
                 Enable();
-                UnitMoveUI unitMoveUI = currentUnit.unitMoveUI;
+                unitMoveUI = currentUnit.unitMoveUI;
                 if (!button.interactable && currentUnit != gameUI.oldUnit) {
                     gameUI.oldUnit = currentUnit;
                     button.interactable = true;
@@ -93,4 +95,12 @@ public class MoveButtonUI : GameButtonUI {
             currentUnit.MoveAlongSetPath();
         }
     }
-} 
+
+    public override void OnUnitDeselected() {
+        unitIsMoving = false;
+        moveButtonPressed = false;
+        if (unitMoveUI != null) {
+            unitMoveUI.MoveButtonDeselected();
+        }
+    }
+}

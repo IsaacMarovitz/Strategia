@@ -9,7 +9,6 @@ public class Tank : Unit {
 
     public override void Start() {
         base.Start();
-        unitType = UnitType.Tank;
         // Set damage percentages in order of Tank, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
         damagePercentages = new float[9] { 0.34f, 0f, 0.25f, 0f, 0.2f, 0.1f, 0.3f, 0.1f, 0f };
     }

@@ -11,7 +11,6 @@ public class CityListUI : TurnBehaviour {
     public DragWindow dragWindow;
     public Button cityUIButton;
     public Button xButton;
-    public UnitInfo unitInfo;
 
     public List<CityListUIObject> cityListUIObjects = new List<CityListUIObject>();
     public List<CityListUISettings> cityListUISettings = new List<CityListUISettings>();
@@ -59,7 +58,7 @@ public class CityListUI : TurnBehaviour {
                 if (i < cities.Count) {
                     cityListUIObjects[i].gameObject.SetActive(true);
                     cityListUIObjects[i].cityNameText.text = cities[i].cityName;
-                    cityListUIObjects[i].unitImage.sprite = unitInfo.allUnits[cities[i].currentIndex].unitIcon;
+                    cityListUIObjects[i].unitImage.sprite = cities[i].unit.unitInfo.unitIcon;
                     cityListUIObjects[i].turnsToCreateText.text = cities[i].turnsLeft.ToString();
                     int tempNum = i;
                     cityListUIObjects[i].button.onClick.AddListener(() => {FocusCity(tempNum);});

@@ -260,7 +260,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 386843808}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999859
+  m_Size: 0.99998
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -931,6 +931,7 @@ GameObject:
   m_Component:
   - component: {fileID: 51426022}
   - component: {fileID: 51426023}
+  - component: {fileID: 51426024}
   m_Layer: 5
   m_Name: Bomber
   m_TagString: Untagged
@@ -1008,6 +1009,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!114 &51426024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 51426021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08fd2578290354e259826cc18f904dd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitType: 3
 --- !u!1 &58660039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1769,7 +1783,6 @@ MonoBehaviour:
   dragWindow: {fileID: 2035664279}
   cityUIButton: {fileID: 689978620}
   xButton: {fileID: 1093646566}
-  unitInfo: {fileID: 11400000, guid: 13ec7d7fcf5249440aae20f69b2ef3b0, type: 2}
   cityListUIObjects: []
   cityListUISettings: []
 --- !u!1 &78628645
@@ -4343,6 +4356,7 @@ GameObject:
   m_Component:
   - component: {fileID: 211438698}
   - component: {fileID: 211438699}
+  - component: {fileID: 211438700}
   m_Layer: 5
   m_Name: Parachute
   m_TagString: Untagged
@@ -4420,6 +4434,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!114 &211438700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 211438697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08fd2578290354e259826cc18f904dd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitType: 1
 --- !u!1 &215920845
 GameObject:
   m_ObjectHideFlags: 0
@@ -5000,22 +5027,6 @@ MonoBehaviour:
   yOffset: 8
   horizontalLayoutGroup: {fileID: 1913791713}
   unitButtonPrefab: {fileID: 8986836473174575349, guid: 2c659e0bfface9c4ea8ee750e7648465, type: 3}
-  costalCityToggles:
-  - {fileID: 1843955341}
-  - {fileID: 462564725}
-  - {fileID: 896854762}
-  - {fileID: 2104642127}
-  - {fileID: 414630639}
-  toggles:
-  - {fileID: 810854061}
-  - {fileID: 211438699}
-  - {fileID: 1822395443}
-  - {fileID: 51426023}
-  - {fileID: 1843955341}
-  - {fileID: 462564725}
-  - {fileID: 896854762}
-  - {fileID: 2104642127}
-  - {fileID: 414630639}
 --- !u!114 &252652838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6562,6 +6573,7 @@ GameObject:
   m_Component:
   - component: {fileID: 414630638}
   - component: {fileID: 414630639}
+  - component: {fileID: 414630640}
   m_Layer: 5
   m_Name: Battleship
   m_TagString: Untagged
@@ -6639,6 +6651,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!114 &414630640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414630637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08fd2578290354e259826cc18f904dd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitType: 8
 --- !u!1 &434845492
 GameObject:
   m_ObjectHideFlags: 0
@@ -7439,6 +7464,7 @@ GameObject:
   m_Component:
   - component: {fileID: 462564724}
   - component: {fileID: 462564725}
+  - component: {fileID: 462564726}
   m_Layer: 5
   m_Name: Destroyer
   m_TagString: Untagged
@@ -7516,6 +7542,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!114 &462564726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 462564723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08fd2578290354e259826cc18f904dd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitType: 5
 --- !u!1 &468245992
 GameObject:
   m_ObjectHideFlags: 0
@@ -13357,6 +13396,7 @@ GameObject:
   m_Component:
   - component: {fileID: 810854060}
   - component: {fileID: 810854061}
+  - component: {fileID: 810854062}
   m_Layer: 5
   m_Name: Tank
   m_TagString: Untagged
@@ -13434,6 +13474,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!114 &810854062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810854059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08fd2578290354e259826cc18f904dd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitType: 0
 --- !u!1 &811321729
 GameObject:
   m_ObjectHideFlags: 0
@@ -13772,6 +13825,7 @@ MonoBehaviour:
   moveButtonPressed: 0
   mouseOnePressed: 0
   mouseZeroPressed: 0
+  unitMoveUI: {fileID: 0}
 --- !u!114 &811476572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14636,6 +14690,7 @@ GameObject:
   m_Component:
   - component: {fileID: 896854761}
   - component: {fileID: 896854762}
+  - component: {fileID: 896854763}
   m_Layer: 5
   m_Name: Submarine
   m_TagString: Untagged
@@ -14713,6 +14768,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!114 &896854763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896854760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08fd2578290354e259826cc18f904dd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitType: 6
 --- !u!1 &908281357
 GameObject:
   m_ObjectHideFlags: 0
@@ -15787,7 +15855,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbd4d6ec76cd0b64ab24a0ea8be3b4b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitInfo: {fileID: 11400000, guid: 13ec7d7fcf5249440aae20f69b2ef3b0, type: 2}
   panel: {fileID: 1428913802}
   horizontalLayoutGroup: {fileID: 24997623}
   unitButtonPrefab: {fileID: 8986836473174575349, guid: 2c659e0bfface9c4ea8ee750e7648465, type: 3}
@@ -17731,11 +17798,20 @@ MonoBehaviour:
   cameraController: {fileID: 620992391}
   tileGrid: {fileID: 1182266816}
   gameInfo: {fileID: 11400000, guid: b6db58fec6369ca40a144df85b3c4b0c, type: 2}
-  unitInfo: {fileID: 11400000, guid: 13ec7d7fcf5249440aae20f69b2ef3b0, type: 2}
   fogOfWarRenderer: {fileID: 71327588}
   numberOfPlayers: 3
   playerPrefab: {fileID: 8781609987773422404, guid: c3759eb0fc7d4b548bb224c081a4e7d0, type: 3}
   playerParent: {fileID: 750299195}
+  unitPrefabs:
+  - {fileID: -176550003427491717, guid: 781b5237506c27549b6a7aba2e685906, type: 3}
+  - {fileID: 7257010168124755568, guid: 5ccfc67a66e426b429ce809a3954390a, type: 3}
+  - {fileID: 1815058899303171219, guid: ac06ee358305edb4480047998c8e7cb3, type: 3}
+  - {fileID: 6381822023183244394, guid: 18da3bfe641fffc4abd3c2a668db1791, type: 3}
+  - {fileID: 2463114968573698316, guid: 7dc6be7dc3d2acb43b957ae3a01585dd, type: 3}
+  - {fileID: 3819617266327427754, guid: 78a7aa8ae32caa549b74d9a07ca13960, type: 3}
+  - {fileID: 8004909557220208072, guid: 0abfc8e33f80a6d4db51b45639b93b6e, type: 3}
+  - {fileID: 7985943728139605471, guid: e54c63589a0eed545abe78f01f4aaa84, type: 3}
+  - {fileID: 3813747823647146448, guid: 4ff541e75a339e1429c2079c92f24f0d, type: 3}
   day: 0
   currentPlayerIndex: 0
   playerList: []
@@ -27760,6 +27836,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1822395442}
   - component: {fileID: 1822395443}
+  - component: {fileID: 1822395444}
   m_Layer: 5
   m_Name: Fighter
   m_TagString: Untagged
@@ -27837,6 +27914,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!114 &1822395444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822395441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08fd2578290354e259826cc18f904dd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitType: 2
 --- !u!1 &1822901055
 GameObject:
   m_ObjectHideFlags: 0
@@ -28338,6 +28428,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1843955340}
   - component: {fileID: 1843955341}
+  - component: {fileID: 1843955342}
   m_Layer: 5
   m_Name: Transport
   m_TagString: Untagged
@@ -28415,6 +28506,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!114 &1843955342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843955339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08fd2578290354e259826cc18f904dd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitType: 4
 --- !u!1 &1844143562
 GameObject:
   m_ObjectHideFlags: 0
@@ -33276,6 +33380,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2104642126}
   - component: {fileID: 2104642127}
+  - component: {fileID: 2104642128}
   m_Layer: 5
   m_Name: Carrier
   m_TagString: Untagged
@@ -33353,6 +33458,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!114 &2104642128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104642125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08fd2578290354e259826cc18f904dd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitType: 7
 --- !u!1 &2107092302
 GameObject:
   m_ObjectHideFlags: 0
@@ -33556,7 +33674,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0000010258518}
+  m_AnchoredPosition: {x: 0, y: 0.0002238944}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &2134149675

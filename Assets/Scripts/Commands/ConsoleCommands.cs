@@ -167,7 +167,11 @@ public static class ConsoleCommands {
                 debugConsole.PrintError($"Failed to parse UnitType '{args[2]}'!");
                 return DebugConsole.DebugCommandCode.ParameterOutOfRange;
             }
-            if (GameManager.Instance.unitInfo.allUnits[(int)unitType].blockedTileTypes.Contains(GameManager.Instance.tileGrid.grid[x, y].tileType)) {
+
+            Unit unit = GameManager.Instance.GetUnitFromType(unitType);
+            if (unit == null) { return DebugConsole.DebugCommandCode.ParameterOutOfRange; }
+
+            if (unit.blockedTileTypes.Contains(GameManager.Instance.tileGrid.grid[x, y].tileType)) {
                 debugConsole.PrintError($"Unit of type '{unitType}' cannot be spawned on tiles of type '{GameManager.Instance.tileGrid.grid[x, y].tileType}'!");
                 return DebugConsole.DebugCommandCode.ParameterOutOfRange;
             }

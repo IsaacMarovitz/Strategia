@@ -11,8 +11,7 @@ public class Player : TurnBehaviour {
     [HideInInspector]
     public GameMode gameMode;
     public Color playerColor;
-    public Material baseMaterial;    
-    public UnitInfo unitInfo;
+    public Material baseMaterial;
     public CameraController cameraController;
     public Country country;
     public List<Unit> unitQueue;
@@ -48,13 +47,13 @@ public class Player : TurnBehaviour {
                     if (tank != null) {
                         if (tank.transport != null) {
                             return;
-                        } 
+                        }
                     } else if (fighter != null) {
                         if (fighter.carrier != null) {
                             return;
                         }
                     }
-                    
+
                     playerTurnStage = PlayerTurnStage.Started;
                 }
             }
@@ -167,7 +166,6 @@ public class Player : TurnBehaviour {
         }
         if (unitQueue.Count > 0) {
             UIData.SetUnit(unitQueue[0]);
-            cameraController.Focus(GridUtilities.TileToWorldPos(unitQueue[0].pos), false);
             // Prevents Camera Controller from sometimes defocusing unit because of Next Player UI Button press
             cameraController.didClickUI = true;
             unitQueue[0].StartTurn();
@@ -251,29 +249,21 @@ public class Player : TurnBehaviour {
     }
 
     public void SpawnUnit(Vector2Int pos, UnitType unitType) {
+        Unit unitFromType = GameManager.Instance.GetUnitFromType(unitType);
+        if (unitFromType == null) { return; }
+
+        Unit unit = GameObject.Instantiate(unitFromType.gameObject, Vector3.zero, Quaternion.identity).GetComponent<Unit>();
+        unit.gameObject.transform.position = GridUtilities.TileToWorldPos(pos, unit.yOffset);
+        unit.pos = pos;
+        unit.gameObject.transform.parent = this.gameObject.transform;
+        unit.player = this;
+        AddUnit(unit);
+        grid[pos.x, pos.y].unitOnTile = unit;
+
         if (grid[pos.x, pos.y].isCityTile) {
-            Unit unit = GameObject.Instantiate(unitInfo.allUnits[(int)unitType].prefab, Vector3.zero, Quaternion.identity).GetComponent<Unit>();
-            unit.gameObject.transform.position = GridUtilities.TileToWorldPos(pos, unit.yOffset);
-            unit.pos = pos;
-            unit.gameObject.transform.parent = this.gameObject.transform;
-            unit.player = this;
             unit.unitAppearanceManager.Hide();
-            unit.oldCity = grid[pos.x, pos.y].gameObject.GetComponent<City>();
-            AddUnit(unit);
-            grid[pos.x, pos.y].unitOnTile = unit;
+            unit.oldCity = grid[pos.x, pos.y].gameObject.GetComponent<City>();    
             grid[pos.x, pos.y].gameObject.GetComponent<City>().AddUnit(unit);
-        } else {
-            if (grid[pos.x, pos.y].tileType == TileType.Plains || grid[pos.x, pos.y].tileType == TileType.Swamp) {
-                if (grid[pos.x, pos.y].unitOnTile == null) {
-                    Unit unit = GameObject.Instantiate(unitInfo.allUnits[(int)unitType].prefab, Vector3.zero, Quaternion.identity).GetComponent<Unit>();
-                    unit.gameObject.transform.position = GridUtilities.TileToWorldPos(pos, unit.yOffset);
-                    unit.pos = pos;
-                    unit.gameObject.transform.parent = this.gameObject.transform;
-                    unit.player = this;
-                    AddUnit(unit);
-                    grid[pos.x, pos.y].unitOnTile = unit;
-                }
-            }
         }
     }
 }

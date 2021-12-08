@@ -4,7 +4,6 @@ using System.Linq;
 
 public class TransportUI : TurnBehaviour {
 
-    public UnitInfo unitInfo;
     public GameObject panel;
     public HorizontalLayoutGroup horizontalLayoutGroup;
     public GameObject unitButtonPrefab;
@@ -35,9 +34,9 @@ public class TransportUI : TurnBehaviour {
         ITransport transportInterface = unit as ITransport;
 
         if (transportInterface != null) {
-            UnitData unitData = unitInfo.allUnits.FirstOrDefault(u => u.unitType == transportInterface.unitOnTransportType);
-            if (!unitData.Equals(default(UnitData))) {
-                if (GridUtilities.DiagonalCheck(unit.currentTile.pos).Any(tile => !unitData.blockedTileTypes.Contains(tile.tileType)) && !unit.currentTile.isCityTile && transportInterface.unitsOnTransport.Count > 0) {
+            Unit unitFromType = GameManager.Instance.GetUnitFromType(transportInterface.unitOnTransportType);
+            if (unitFromType != null) {
+                if (GridUtilities.DiagonalCheck(unit.currentTile.pos).Any(tile => !unitFromType.blockedTileTypes.Contains(tile.tileType)) && !unit.currentTile.isCityTile && transportInterface.unitsOnTransport.Count > 0) {
                     panel.SetActive(true);
                     transform.position = GridUtilities.TileToWorldPos(unit.pos, yOffset);
                     UpdateUnitButtons(transportInterface);

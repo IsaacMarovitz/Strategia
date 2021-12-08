@@ -112,7 +112,6 @@ public class CameraController : MonoBehaviour {
                                 Unit hitUnit = hit.transform.parent.gameObject.GetComponent<Unit>();
                                 if (GameManager.Instance.GetCurrentPlayer().playerUnits.Contains(hitUnit)) {
                                     UIData.SetUnit(hitUnit);
-                                    Focus(GridUtilities.TileToWorldPos(hitUnit.pos), true);
                                     Debug.Log("<b>Camera Controller:</b> Found Unit");
                                 }
                             } else {
@@ -122,7 +121,6 @@ public class CameraController : MonoBehaviour {
                                 City hitCity = hit.transform.gameObject.GetComponent<City>();
                                 if (GameManager.Instance.GetCurrentPlayer().playerCities.Contains(hitCity)) {
                                     UIData.SetCity(hitCity);
-                                    Focus(GridUtilities.TileToWorldPos(hitCity.pos), true);
                                     Debug.Log("<b>Camera Controller:</b> Found City");
                                 }
                             } else {
@@ -132,7 +130,6 @@ public class CameraController : MonoBehaviour {
                                 City hitCity = hit.transform.parent.gameObject.GetComponent<City>();
                                 if (GameManager.Instance.GetCurrentPlayer().playerCities.Contains(hitCity)) {
                                     UIData.SetCity(hitCity);
-                                    Focus(GridUtilities.TileToWorldPos(hitCity.pos), true);
                                     Debug.Log("<b>Camera Controller:</b> Found City");
                                 }
                             } else {

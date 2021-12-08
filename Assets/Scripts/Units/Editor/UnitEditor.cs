@@ -13,58 +13,41 @@ namespace Strategia.Editor {
         public override void OnInspectorGUI() {
             serializedObject.Update();
             Unit unit = (Unit)target;
+            UnitInfo unitInfo = unit.unitInfo;
 
+            SerializedProperty unitInfo_prop = serializedObject.FindProperty("unitInfo");
             SerializedProperty turnStage_prop = serializedObject.FindProperty("unitTurnStage");
             SerializedProperty sleepEffectPrefab_prop = serializedObject.FindProperty("sleepEffectPrefab");
             SerializedProperty damageIndicatorPrefab_prop = serializedObject.FindProperty("damageIndicatorPrefab");
-            SerializedProperty unitIcon_prop = serializedObject.FindProperty("unitIcon");
-            SerializedProperty blockedTileTypes_prop = serializedObject.FindProperty("blockedTileTypes");
 
             SerializedProperty moves_prop = serializedObject.FindProperty("moves");
-            SerializedProperty maxMoves_prop = serializedObject.FindProperty("maxMoves");
-            SerializedProperty yOffset_prop = serializedObject.FindProperty("yOffset");
-
             SerializedProperty health_prop = serializedObject.FindProperty("health");
-            SerializedProperty maxHealth_prop = serializedObject.FindProperty("maxHealth");
-
             SerializedProperty pos_prop = serializedObject.FindProperty("pos");
 
             SerializedProperty unitMoveUI_prop = serializedObject.FindProperty("unitMoveUI");
             SerializedProperty unitAppearanceManager_prop = serializedObject.FindProperty("unitAppearanceManager");
 
+            EditorGUILayout.PropertyField(unitInfo_prop);
             EditorGUILayout.PropertyField(turnStage_prop);
             EditorGUILayout.PropertyField(sleepEffectPrefab_prop);
             EditorGUILayout.PropertyField(damageIndicatorPrefab_prop);
-            EditorGUILayout.PropertyField(unitIcon_prop);
-            EditorGUILayout.PropertyField(blockedTileTypes_prop);
 
             EditorGUILayout.PropertyField(unitAppearanceManager_prop);
             EditorGUILayout.PropertyField(unitMoveUI_prop);
 
             EditorGUILayout.Space(10);
             showMovement = EditorGUILayout.BeginFoldoutHeaderGroup(showMovement, "Movement");
-            if (showMovement) {
-                moves_prop.intValue = EditorGUILayout.IntSlider("Moves Left", moves_prop.intValue, 0, maxMoves_prop.intValue);
-                EditorGUILayout.PropertyField(maxMoves_prop);
-                EditorGUILayout.PropertyField(yOffset_prop);
+            if (showMovement && unitInfo != null) {
+                moves_prop.intValue = EditorGUILayout.IntSlider("Moves Left", moves_prop.intValue, 0, unitInfo.maxMoves);
             }
             EditorGUILayout.EndFoldoutHeaderGroup();
-
-            if (maxMoves_prop.intValue < 0) {
-                maxMoves_prop.intValue = 0;
-            }
 
             EditorGUILayout.Space(10);
             showHealth = EditorGUILayout.BeginFoldoutHeaderGroup(showHealth, "Health");
-            if (showHealth) {
-                health_prop.intValue = EditorGUILayout.IntSlider("Health", health_prop.intValue, 0, maxHealth_prop.intValue);
-                EditorGUILayout.PropertyField(maxHealth_prop);
+            if (showHealth && unitInfo != null) {
+                health_prop.intValue = EditorGUILayout.IntSlider("Health", health_prop.intValue, 0, unitInfo.maxHealth);
             }
             EditorGUILayout.EndFoldoutHeaderGroup();
-
-            if (maxHealth_prop.intValue < 0) {
-                maxHealth_prop.intValue = 0;
-            }
 
             if (GameManager.Instance != null) {
                 EditorGUILayout.Space(10);

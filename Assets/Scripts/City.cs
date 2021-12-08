@@ -41,8 +41,8 @@ public class City : MonoBehaviour {
     }
 
     public Player player;
-    public UnitInfo unitInfo;
     public UnitType unitType;
+    public Unit unit;
     public Vector2Int pos;
     public List<Unit> unitsInCity;
     public Canvas canvas;
@@ -52,9 +52,7 @@ public class City : MonoBehaviour {
     public Action fastProdDelegate;
 
     public int turnsLeft;
-    public int currentIndex;
     private Color defaultColor;
-    private List<UnitData> unitData = new List<UnitData>();
     private bool fastProd;
 
     public void Awake() {
@@ -65,7 +63,6 @@ public class City : MonoBehaviour {
         canvas.worldCamera = Camera.main;
         canvas.enabled = false;
         defaultColor = this.transform.GetChild(0).GetComponent<MeshRenderer>().materials[0].color;
-        unitData = unitInfo.allUnits;
     }
 
     public void Start() {
@@ -89,12 +86,12 @@ public class City : MonoBehaviour {
 
     public void UpdateUnitType(UnitType unitType) {
         this.unitType = unitType;
-        currentIndex = (int)unitType;
+        this.unit = GameManager.Instance.GetUnitFromType(unitType);
 
         if (fastProd) {
             turnsLeft = 1;
         } else {
-            turnsLeft = unitData[currentIndex].turnsToCreate;
+            turnsLeft = unit.unitInfo.turnsToCreate;
         }
     }
     
@@ -104,7 +101,7 @@ public class City : MonoBehaviour {
         if (value) {
             turnsLeft = 1;
         } else {
-            turnsLeft = unitData[currentIndex].turnsToCreate;
+            turnsLeft = unit.unitInfo.turnsToCreate;
         }
 
         fastProdDelegate?.Invoke();
@@ -128,7 +125,8 @@ public class City : MonoBehaviour {
         this.player.playerCities.Add(this);
         isOwned = true;
         GameManager.Instance.newDayDelegate += TakeTurn;
-        turnsLeft = unitData[currentIndex].turnsToCreate;
+        UpdateUnitType(UnitType.Tank);
+        turnsLeft = unit.turnsToCreate;
         
         if (cityName == "") 
             cityName = player.AssignName();
@@ -139,13 +137,13 @@ public class City : MonoBehaviour {
             turnsLeft--;
             if (turnsLeft <= 0) {
                 CreateUnit();
-                turnsLeft = unitData[currentIndex].turnsToCreate;
+                turnsLeft = unit.turnsToCreate;
             }
         }
     }
 
     public void CreateUnit() {
-        GameObject instantiatedUnit = GameObject.Instantiate(unitData[currentIndex].prefab,  GridUtilities.TileToWorldPos(pos, 0.75f), Quaternion.identity);
+        GameObject instantiatedUnit = GameObject.Instantiate(unit.gameObject, GridUtilities.TileToWorldPos(pos, 0.75f), Quaternion.identity);
         instantiatedUnit.transform.parent = player.gameObject.transform;
         Unit newUnit = instantiatedUnit.GetComponent<Unit>();
         newUnit.pos = pos;
