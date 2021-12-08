@@ -19,4 +19,4 @@ MonoBehaviour:
   turnsToCreate: 6
   unitType: 6
   unitIcon: {fileID: 21300000, guid: 6e82c83107875b24ea9306e7f701b885, type: 3}
-  blockedTileTypes: 
+  blockedTileTypes: 0100000002000000030000000400000005000000
