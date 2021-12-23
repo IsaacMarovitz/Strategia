@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.unity.cinemachine": "2.8.2",
+    "com.unity.cinemachine": "2.8.3",
     "com.unity.ide.vscode": "1.2.4",
     "com.unity.render-pipelines.universal": "12.1.2",
     "com.unity.textmeshpro": "3.0.6",
