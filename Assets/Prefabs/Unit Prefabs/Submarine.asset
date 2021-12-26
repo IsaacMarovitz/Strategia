@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4420a2bb993349d469a08faa0bedf9b0, type: 3}
   m_Name: Submarine
   m_EditorClassIdentifier: 
-  unitName: Submarine
-  maxHealth: 30
-  maxMoves: 6
-  yOffset: -1
-  turnsToCreate: 6
-  unitType: 6
-  unitIcon: {fileID: 21300000, guid: 6e82c83107875b24ea9306e7f701b885, type: 3}
-  blockedTileTypes: 0100000002000000030000000400000005000000
+  _unitName: Submarine
+  _maxHealth: 30
+  _maxMoves: 6
+  _yOffset: -1
+  _turnsToCreate: 6
+  _unitType: 6
+  _unitIcon: {fileID: 21300000, guid: 6e82c83107875b24ea9306e7f701b885, type: 3}
+  _blockedTileTypes: 0100000002000000030000000400000005000000

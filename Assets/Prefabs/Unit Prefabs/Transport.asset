@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4420a2bb993349d469a08faa0bedf9b0, type: 3}
   m_Name: Transport
   m_EditorClassIdentifier: 
-  unitName: Transport
-  maxHealth: 50
-  maxMoves: 6
-  yOffset: -1
-  allowedInLandlockedCities: 0
-  turnsToCreate: 2
-  unitType: 4
-  unitIcon: {fileID: 21300000, guid: 38524e6e80ed7b34a8f951547d0086cb, type: 3}
-  blockedTileTypes: 0100000002000000030000000400000005000000
+  _unitName: Transport
+  _maxHealth: 50
+  _maxMoves: 6
+  _yOffset: -1
+  _turnsToCreate: 2
+  _unitType: 4
+  _unitIcon: {fileID: 21300000, guid: 38524e6e80ed7b34a8f951547d0086cb, type: 3}
+  _blockedTileTypes: 0100000002000000030000000400000005000000

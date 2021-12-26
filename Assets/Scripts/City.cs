@@ -42,7 +42,6 @@ public class City : MonoBehaviour {
 
     public Player player;
     public UnitType unitType;
-    public Unit unit;
     public Vector2Int pos;
     public List<Unit> unitsInCity;
     public Canvas canvas;
@@ -54,6 +53,7 @@ public class City : MonoBehaviour {
     public int turnsLeft;
     private Color defaultColor;
     private bool fastProd;
+    private Unit unitPrefab;
 
     public void Awake() {
         canvas = GetComponentInChildren<Canvas>();
@@ -86,12 +86,12 @@ public class City : MonoBehaviour {
 
     public void UpdateUnitType(UnitType unitType) {
         this.unitType = unitType;
-        this.unit = GameManager.Instance.GetUnitFromType(unitType);
+        this.unitPrefab = GameManager.Instance.GetUnitFromType(unitType);
 
         if (fastProd) {
             turnsLeft = 1;
         } else {
-            turnsLeft = unit.unitInfo.turnsToCreate;
+            turnsLeft = unitPrefab.unitInfo.turnsToCreate;
         }
     }
     
@@ -101,7 +101,9 @@ public class City : MonoBehaviour {
         if (value) {
             turnsLeft = 1;
         } else {
-            turnsLeft = unit.unitInfo.turnsToCreate;
+            if (unitPrefab != null) {
+                turnsLeft = unitPrefab.unitInfo.turnsToCreate;
+            }
         }
 
         fastProdDelegate?.Invoke();
@@ -126,7 +128,7 @@ public class City : MonoBehaviour {
         isOwned = true;
         GameManager.Instance.newDayDelegate += TakeTurn;
         UpdateUnitType(UnitType.Tank);
-        turnsLeft = unit.turnsToCreate;
+        turnsLeft = unitPrefab.unitInfo.turnsToCreate;
         
         if (cityName == "") 
             cityName = player.AssignName();
@@ -136,14 +138,16 @@ public class City : MonoBehaviour {
         if (isOwned) {
             turnsLeft--;
             if (turnsLeft <= 0) {
-                CreateUnit();
-                turnsLeft = unit.turnsToCreate;
+                if (unitPrefab != null) {
+                    CreateUnit();
+                    turnsLeft = unitPrefab.unitInfo.turnsToCreate;
+                }
             }
         }
     }
 
     public void CreateUnit() {
-        GameObject instantiatedUnit = GameObject.Instantiate(unit.gameObject, GridUtilities.TileToWorldPos(pos, 0.75f), Quaternion.identity);
+        GameObject instantiatedUnit = GameObject.Instantiate(unitPrefab.gameObject, GridUtilities.TileToWorldPos(pos, 0.75f), Quaternion.identity);
         instantiatedUnit.transform.parent = player.gameObject.transform;
         Unit newUnit = instantiatedUnit.GetComponent<Unit>();
         newUnit.pos = pos;

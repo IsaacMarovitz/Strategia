@@ -58,7 +58,7 @@ public class CityListUI : TurnBehaviour {
                 if (i < cities.Count) {
                     cityListUIObjects[i].gameObject.SetActive(true);
                     cityListUIObjects[i].cityNameText.text = cities[i].cityName;
-                    cityListUIObjects[i].unitImage.sprite = cities[i].unit.unitInfo.unitIcon;
+                    cityListUIObjects[i].unitImage.sprite = GameManager.Instance.GetUnitFromType(cities[i].unitType).unitInfo.unitIcon;
                     cityListUIObjects[i].turnsToCreateText.text = cities[i].turnsLeft.ToString();
                     int tempNum = i;
                     cityListUIObjects[i].button.onClick.AddListener(() => {FocusCity(tempNum);});

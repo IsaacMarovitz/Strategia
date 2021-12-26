@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4420a2bb993349d469a08faa0bedf9b0, type: 3}
   m_Name: Tank
   m_EditorClassIdentifier: 
-  unitName: Tank
-  maxHealth: 30
-  maxMoves: 2
-  yOffset: 0.7
-  allowedInLandlockedCities: 1
-  turnsToCreate: 4
-  unitType: 0
-  unitIcon: {fileID: 21300000, guid: 7c10a3de55f9d3e4a8a9a6a00930c2f1, type: 3}
-  blockedTileTypes: 000000000300000004000000
+  _unitName: Tank
+  _maxHealth: 30
+  _maxMoves: 2
+  _yOffset: 0.7
+  _turnsToCreate: 4
+  _unitType: 0
+  _unitIcon: {fileID: 21300000, guid: 7c10a3de55f9d3e4a8a9a6a00930c2f1, type: 3}
+  _blockedTileTypes: 000000000300000004000000

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4420a2bb993349d469a08faa0bedf9b0, type: 3}
   m_Name: Carrier
   m_EditorClassIdentifier: 
-  unitName: Carrier
-  maxHealth: 30
-  maxMoves: 6
-  yOffset: -0.7
-  turnsToCreate: 10
-  unitType: 7
-  unitIcon: {fileID: 21300000, guid: a17bb869b775bd04bb4c0ce148d13c91, type: 3}
-  blockedTileTypes: 0100000002000000030000000400000005000000
+  _unitName: Carrier
+  _maxHealth: 30
+  _maxMoves: 6
+  _yOffset: -0.7
+  _turnsToCreate: 10
+  _unitType: 7
+  _unitIcon: {fileID: 21300000, guid: a17bb869b775bd04bb4c0ce148d13c91, type: 3}
+  _blockedTileTypes: 0100000002000000030000000400000005000000

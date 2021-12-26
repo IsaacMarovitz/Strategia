@@ -1,7 +1,7 @@
 using UnityEngine;
 using Strategia;
 
-public class TurnBehaviour : MonoBehaviour {
+public abstract class TurnBehaviour : MonoBehaviour {
 
     public GameManager gameManager => GameManager.Instance;
     public TileGrid tileGrid => GameManager.Instance.tileGrid;

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class Fighter : Unit, IFuel {
-
+    
     public int fuel { get { return _fuel; } set { _fuel = value; } }
     public int maxFuel { get { return _maxFuel; } set { _maxFuel = value; } }
     public int fuelPerMove { get { return _fuelPerMove; } set { _fuelPerMove = value; } }

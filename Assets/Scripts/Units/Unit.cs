@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Unit : TurnBehaviour {
+public abstract class Unit : TurnBehaviour {
 
     public UnitInfo unitInfo;
     public Vector2Int pos;

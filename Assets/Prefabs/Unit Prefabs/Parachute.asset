@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4420a2bb993349d469a08faa0bedf9b0, type: 3}
   m_Name: Parachute
   m_EditorClassIdentifier: 
-  unitName: Parachute
-  maxHealth: 30
-  maxMoves: 10
-  yOffset: 1
-  turnsToCreate: 8
-  unitType: 1
-  unitIcon: {fileID: 21300000, guid: 9a49dc5a7d756244aa92fe68940c560c, type: 3}
-  blockedTileTypes: 03000000
+  _unitName: Parachute
+  _maxHealth: 30
+  _maxMoves: 10
+  _yOffset: 1
+  _turnsToCreate: 8
+  _unitType: 1
+  _unitIcon: {fileID: 21300000, guid: 9a49dc5a7d756244aa92fe68940c560c, type: 3}
+  _blockedTileTypes: 03000000

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4420a2bb993349d469a08faa0bedf9b0, type: 3}
   m_Name: Fighter
   m_EditorClassIdentifier: 
-  unitName: Fighter
-  maxHealth: 30
-  maxMoves: 12
-  yOffset: 1.8
-  turnsToCreate: 8
-  unitType: 2
-  unitIcon: {fileID: 21300000, guid: ee6f4dd6dc9230f49b35eda7820b9271, type: 3}
-  blockedTileTypes: 03000000
+  _unitName: Fighter
+  _maxHealth: 30
+  _maxMoves: 12
+  _yOffset: 1.8
+  _turnsToCreate: 8
+  _unitType: 2
+  _unitIcon: {fileID: 21300000, guid: ee6f4dd6dc9230f49b35eda7820b9271, type: 3}
+  _blockedTileTypes: 03000000

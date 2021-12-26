@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class Carrier : Unit, ITransport {
-
+    
     public UnitType unitOnTransportType { get { return _unitOnTransportType; } }
     public List<Unit> unitsOnTransport { get { return _unitsOnTransport; } set { _unitsOnTransport = value; } }
     public int maxNumberOfUnits { get { return _maxNumberOfUnits; } }
