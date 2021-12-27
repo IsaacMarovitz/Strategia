@@ -114,6 +114,7 @@ public class CameraController : MonoBehaviour {
                                     UIData.SetUnit(hitUnit);
                                     Debug.Log("<b>Camera Controller:</b> Found Unit");
                                 }
+                                return;
                             } else {
                                 UIData.SetUnit(null);
                             }
@@ -123,6 +124,7 @@ public class CameraController : MonoBehaviour {
                                     UIData.SetCity(hitCity);
                                     Debug.Log("<b>Camera Controller:</b> Found City");
                                 }
+                                return;
                             } else {
                                 UIData.SetCity(null);
                             }
@@ -132,6 +134,7 @@ public class CameraController : MonoBehaviour {
                                     UIData.SetCity(hitCity);
                                     Debug.Log("<b>Camera Controller:</b> Found City");
                                 }
+                                return;
                             } else {
                                 UIData.SetCity(null);
                             }
