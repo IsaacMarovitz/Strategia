@@ -142,13 +142,14 @@ public class Player : TurnBehaviour {
 
 
     public void NewDay() {
+        unitQueue?.Clear();
+        unitQueue = new List<Unit>(playerUnits);
+        
         //Debug.Log($"<b>{this.gameObject.name}:</b> Received New Day");
         foreach (var unit in playerUnits) {
             unit.NewDay(this);
         }
 
-        unitQueue?.Clear();
-        unitQueue = new List<Unit>(playerUnits);
         playerTurnStage = PlayerTurnStage.Waiting;
     }
 
@@ -165,10 +166,10 @@ public class Player : TurnBehaviour {
             UpdateFogOfWar();
         }
         if (unitQueue.Count > 0) {
+            unitQueue[0].StartTurn();
             UIData.SetUnit(unitQueue[0], false);
             // Prevents Camera Controller from sometimes defocusing unit because of Next Player UI Button press
             cameraController.didClickUI = true;
-            unitQueue[0].StartTurn();
         } else {
             TurnEnded();
         }
@@ -185,8 +186,8 @@ public class Player : TurnBehaviour {
         }
         if (unitQueue.Count > 0) {
             Debug.Log($"<b>{this.gameObject.name}:</b> Starting next unit turn");
-            UIData.SetUnit(unitQueue[0]);
             unitQueue[0].StartTurn();
+            UIData.SetUnit(unitQueue[0]);
         } else {
             EndTurnButton();
         }

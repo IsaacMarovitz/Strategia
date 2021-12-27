@@ -26,6 +26,18 @@ public class Tank : Unit {
         if (isMoveDistanceReduced) {
             moves -= reducedMoveDistance;
         }
+
+        if (transport != null) {
+            player.unitQueue.Remove(this);
+        }
+    }
+
+    public override bool SleepEffectSpawnCheck() {
+        if (transport != null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public override TileMoveStatus CheckDir(Tile tile) {

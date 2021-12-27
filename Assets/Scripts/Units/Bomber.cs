@@ -19,12 +19,11 @@ public class Bomber : Unit, ICustomButton, IFuel {
         base.Start();
         // Set damage percentages in order of Tank, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
         damagePercentages = new float[9] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f };
+        fuel = maxFuel;
     }
 
     public override void NewDay(Player _player) {
         base.NewDay(_player);
-
-        fuel = maxFuel;
     }
 
     public override TileMoveStatus CheckDir(Tile tile) {

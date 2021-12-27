@@ -16,6 +16,7 @@ public class Fighter : Unit, IFuel {
         base.Start();
         // Set damage percentages in order of Tank, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, and Battleship
         damagePercentages = new float[9] { 0.5f, 1f, 0.34f, 1f, 0.5f, 0.25f, 0.5f, 0.2f, 0.1f };
+        fuel = maxFuel;
     }
 
     public override void Update() {
@@ -29,7 +30,17 @@ public class Fighter : Unit, IFuel {
     public override void NewDay(Player _player) {
         base.NewDay(_player);
 
-        fuel = maxFuel;
+        if (carrier != null) {
+            player.unitQueue.Remove(this);
+        }
+    }
+
+    public override bool SleepEffectSpawnCheck() {
+        if (carrier != null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public override TileMoveStatus CheckDir(Tile tile) {

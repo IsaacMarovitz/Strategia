@@ -138,8 +138,10 @@ public abstract class Unit : TurnBehaviour {
         if (unitTurnStage != UnitTurnStage.Sleeping) {
             unitTurnStage = UnitTurnStage.Sleeping;
             if (!currentTile.isCityTile) {
-                instantiatedSleepEffect = GameObject.Instantiate(sleepEffectPrefab, this.transform.position, Quaternion.identity);
-                instantiatedSleepEffect.transform.parent = this.transform;
+                if (SleepEffectSpawnCheck()) {
+                    instantiatedSleepEffect = GameObject.Instantiate(sleepEffectPrefab, this.transform.position, Quaternion.identity);
+                    instantiatedSleepEffect.transform.parent = this.transform;
+                }
             }
 
             if (player.playerTurnStage != PlayerTurnStage.Complete) {
@@ -161,6 +163,8 @@ public abstract class Unit : TurnBehaviour {
 
         DelegateManager.unitActionDelegate?.Invoke();
     }
+
+    public virtual bool SleepEffectSpawnCheck() { return true; }
 
     public void Attack(Vector2Int unitPos) {
         Unit unitToAttack = null;
