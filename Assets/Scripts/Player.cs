@@ -165,7 +165,7 @@ public class Player : TurnBehaviour {
             UpdateFogOfWar();
         }
         if (unitQueue.Count > 0) {
-            UIData.SetUnit(unitQueue[0]);
+            UIData.SetUnit(unitQueue[0], false);
             // Prevents Camera Controller from sometimes defocusing unit because of Next Player UI Button press
             cameraController.didClickUI = true;
             unitQueue[0].StartTurn();
