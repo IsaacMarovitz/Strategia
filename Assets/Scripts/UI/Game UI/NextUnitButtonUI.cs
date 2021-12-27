@@ -11,13 +11,6 @@ public class NextUnitButtonUI : GameButtonUI {
         Unit newCurrentUnit = GameManager.Instance.GetCurrentPlayer().GetCurrentUnit();
         UIData.SetCity(null);
 
-        if (newCurrentUnit != null) {
-            if (currentUnit == null) {
-                currentUnit = newCurrentUnit;
-            } else {
-                GameManager.Instance.GetCurrentPlayer().NextUnit(newCurrentUnit, true);
-            }
-            gameUI.cameraController.Focus(GridUtilities.TileToWorldPos(currentUnit.pos), true);
-        }    
+        GameManager.Instance.GetCurrentPlayer().NextUnit(newCurrentUnit, true);
     }
 }

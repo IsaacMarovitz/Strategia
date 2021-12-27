@@ -9,16 +9,10 @@ public class GameButtonUI : TurnBehaviour {
     public TMP_Text buttonText;
     protected Unit currentUnit {
         get {
-            if (gameUI != null) {
-                return gameUI.currentUnit;
-            } else {
-                return null;
-            }
+            return UIData.currentUnit;
         }
         set {
-            if (gameUI != null) {
-                gameUI.currentUnit = value;
-            }
+            UIData.SetUnit(value);
         }
     }
 
