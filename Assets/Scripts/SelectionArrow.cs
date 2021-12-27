@@ -16,6 +16,11 @@ public class SelectionArrow : TurnBehaviour {
         this.transform.rotation = Quaternion.identity;
     }
 
+    public override void OnUnitTurnStart(Unit unit) {
+        mesh.SetActive(true);
+        this.transform.position = GridUtilities.TileToWorldPos(unit.pos, yOffset);
+    }
+
     public override void OnUnitDeselected() {
         mesh.SetActive(false);
     }

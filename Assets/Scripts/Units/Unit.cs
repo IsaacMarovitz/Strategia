@@ -301,6 +301,10 @@ public abstract class Unit : TurnBehaviour {
             moves = 0;
         }
 
+        player.UpdateFogOfWar();
+        DelegateManager.unitMoveDelegate?.Invoke(this);
+        DelegateManager.unitActionDelegate?.Invoke();
+
         if (unitTurnStage == UnitTurnStage.PathSet) {
             if (path.Count <= 0) {
                 if (moves == 0) {
@@ -319,10 +323,6 @@ public abstract class Unit : TurnBehaviour {
                 EndTurn();
             }
         }
-        
-        player.UpdateFogOfWar();
-        DelegateManager.unitMoveDelegate?.Invoke(this);
-        DelegateManager.unitActionDelegate?.Invoke();
     }
 
     public virtual void TransportCheck() {
