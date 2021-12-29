@@ -106,10 +106,10 @@ public class Fighter : Unit, IFuel {
         base.TransportMove(tileToMoveTo, tileMoveStatus);
         if (tileMoveStatus == TileMoveStatus.Transport) {
             try {
+                EndTurn(false);
                 carrier = (Carrier)currentTile.unitOnTile;
                 carrier.unitsOnTransport.Add(this);
                 UIData.SetUnit(carrier);
-                EndTurn();
             }
             catch {
                 Debug.LogError($"<b>{this.gameObject.name}:</b> Failed to get carrier at ({tileToMoveTo.pos.x}, {tileToMoveTo.pos.y})!");

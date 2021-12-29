@@ -177,7 +177,7 @@ public class Player : TurnBehaviour {
         cityDataChangedDelegate?.Invoke();
     }
 
-    public void NextUnit(Unit unit, bool movingLater) {
+    public void NextUnit(Unit unit, bool movingLater, bool startNextUnitTurn = true) {
         if (movingLater) {
             unitQueue.Remove(unit);
             unitQueue.Add(unit);
@@ -185,9 +185,11 @@ public class Player : TurnBehaviour {
             unitQueue.Remove(unit);
         }
         if (unitQueue.Count > 0) {
-            Debug.Log($"<b>{this.gameObject.name}:</b> Starting next unit turn");
-            unitQueue[0].StartTurn();
-            UIData.SetUnit(unitQueue[0]);
+            if (startNextUnitTurn) {
+                Debug.Log($"<b>{this.gameObject.name}:</b> Starting next unit turn");
+                unitQueue[0].StartTurn();
+                UIData.SetUnit(unitQueue[0]);
+            }
         } else {
             EndTurnButton();
         }

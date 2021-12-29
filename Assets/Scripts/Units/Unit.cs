@@ -128,9 +128,9 @@ public abstract class Unit : TurnBehaviour {
         DelegateManager.unitTurnStartDelegate?.Invoke(this);
     }
 
-    public void EndTurn() {
+    public void EndTurn(bool startNextUnitTurn = true) {
         Debug.Log($"<b>{this.gameObject.name}:</b> Turn complete");
-        player.NextUnit(this, false);
+        player.NextUnit(this, false, startNextUnitTurn);
         DelegateManager.unitActionDelegate?.Invoke();
     }
 

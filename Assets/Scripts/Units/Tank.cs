@@ -99,10 +99,10 @@ public class Tank : Unit {
         base.TransportMove(tileToMoveTo, tileMoveStatus);
         if (tileMoveStatus == TileMoveStatus.Transport) {
             try {
+                EndTurn(false);
                 transport = (Transport)currentTile.unitOnTile;
                 transport.unitsOnTransport.Add(this);
                 UIData.SetUnit(transport);
-                EndTurn();
             } 
             catch {
                 Debug.LogError($"<b>{this.gameObject.name}:</b> Failed to get transport at ({tileToMoveTo.pos.x}, {tileToMoveTo.pos.y})!");
