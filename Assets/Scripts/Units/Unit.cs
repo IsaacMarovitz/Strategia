@@ -167,16 +167,18 @@ public abstract class Unit : TurnBehaviour {
     public virtual bool SleepEffectSpawnCheck() { return true; }
 
     public void Attack(Vector2Int unitPos) {
+        Tile tile = grid[unitPos.x, unitPos.y];
         Unit unitToAttack = null;
-        if (unitToAttack.currentTile.isCityTile) {
-            City tileCity = unitToAttack.currentTile.gameObject.GetComponent<City>();
+
+        if (tile.isCityTile) {
+            City tileCity = tile.gameObject.GetComponent<City>();
             if (tileCity != null) {
                 if (tileCity.unitsInCity.Count > 0) {
                     unitToAttack = tileCity.unitsInCity[0];
                 }
             }
         } else {
-            unitToAttack = unitToAttack.currentTile.unitOnTile;
+            unitToAttack = tile.unitOnTile;
         }
         if (unitToAttack != null) {
             Debug.Log($"<b>{this.gameObject.name}:</b> Attacking {unitToAttack.gameObject.name}");
