@@ -138,6 +138,8 @@ public class UnitMoveUI : TurnBehaviour {
         currentPlayer = player;
     }
 
+    public override void OnUnitDeselected() => isMoving = false;
+
     Vector3[] TilesToWorldPositions(List<Tile> tiles) {
         Vector3[] positions = new Vector3[tiles.Count];
         for (int i = 0; i < tiles.Count; i++) {
