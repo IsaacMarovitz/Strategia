@@ -23,8 +23,6 @@ public class GameUI : TurnBehaviour {
     public float playerColorBrightness = 0.5f;
 
     private Sequence iconUIGroupSequence;
-
-    public Unit oldUnit;
     public Unit currentUnit {
         get {
             return UIData.currentUnit;
@@ -35,10 +33,6 @@ public class GameUI : TurnBehaviour {
     }
 
     private bool startUnitEnabled = false;
-
-    public void Start() {
-        oldUnit = currentUnit;
-    }
 
     public override void OnPlayerStateChanged(Player player) {
         UpdateUI();
@@ -115,8 +109,6 @@ public class GameUI : TurnBehaviour {
                     iconUIGroup.gameObject.SetActive(false);
                 });
             iconUIGroupSequence.Play();
-            
-            oldUnit = null;
         }
 
         if (!GameManager.Instance.dayCompleted && startUnitEnabled) {

@@ -38,7 +38,12 @@ public class UnitMoveUI : TurnBehaviour {
         isPathHiden = false;
 
         if (unit.unitTurnStage == UnitTurnStage.PathSet) {
-            path = new List<Tile>(unit.path);
+            if (unit.path == null) {
+                path = new List<Tile>();
+            } else {
+                path = new List<Tile>(unit.path);
+            }
+            
             path.Insert(0, unit.currentTile);
 
             foreach (var tile in path) {
@@ -172,8 +177,4 @@ public class UnitMoveUI : TurnBehaviour {
             return false;
         }
     }
-
-    public void MoveButtonSelected() => isMoving = true;
-
-    public void MoveButtonDeselected() => isMoving = false;
 }

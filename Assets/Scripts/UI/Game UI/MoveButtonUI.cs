@@ -2,23 +2,21 @@ using UnityEngine;
 
 public class MoveButtonUI : GameButtonUI {
 
-    public bool unitIsMoving = false;
-    public bool moveButtonPressed = false;
-    public bool mouseOnePressed = false;
-    public bool mouseZeroPressed = false;
+    public bool rightMousePressed = false;
+    public bool leftMousePressed = false;
     public UnitMoveUI unitMoveUI;
 
     public void Update() {
         if (Input.GetMouseButtonUp(1)) {
-            mouseOnePressed = true;
+            rightMousePressed = true;
             UpdateUI();
-            mouseOnePressed = false;
+            rightMousePressed = false;
         }
 
         if (Input.GetMouseButtonUp(0)) {
-            mouseZeroPressed = true;
+            leftMousePressed = true;
             UpdateUI();
-            mouseZeroPressed = false;
+            leftMousePressed = false;
         }
     }
 
@@ -29,56 +27,46 @@ public class MoveButtonUI : GameButtonUI {
             return;
         }
 
-        if (GameManager.Instance.GetCurrentPlayer().playerTurnStage != PlayerTurnStage.Complete) {
-            if (currentUnit.unitTurnStage == UnitTurnStage.Started) {
+        switch (currentUnit.unitTurnStage) {
+            case UnitTurnStage.Started:
+                if (GameManager.Instance.GetCurrentPlayer().playerTurnStage == PlayerTurnStage.Complete) {
+                    Disable();
+                    return;
+                }
+
                 Enable();
                 unitMoveUI = currentUnit.unitMoveUI;
-                if (!button.interactable && currentUnit != gameUI.oldUnit) {
-                    gameUI.oldUnit = currentUnit;
-                    button.interactable = true;
-                    unitMoveUI.MoveButtonDeselected();
-                }
 
-                // If the right mouse button is pressed while the line is showing, disable the UnitMoveUI Line Renderer, and set Move Button to interactable
-                if (mouseOnePressed && unitMoveUI.isMoving && !gameUI.cameraController.didRMBDrag) {
-                    unitMoveUI.MoveButtonDeselected();
-                    button.interactable = true;
-                    unitIsMoving = false;
-                }
+                if (unitMoveUI.isMoving) {
+                    button.interactable = false;
 
-                // If the left mouse button is pressed while the line is showing, disable the UnitMoveUI Line Renderer, set Move Button to interactable, and move the selected Unit
-                if (mouseZeroPressed && unitMoveUI.isMoving && !gameUI.cameraController.didLMBDrag) {
-                    if (gameUI.cameraController.IsMouseOverUI() && moveButtonPressed) {
-                        if (!moveButtonPressed) {
-                            unitMoveUI.MoveButtonDeselected();
-                            button.interactable = true;
-                            unitIsMoving = false;
-                        }
-                    } else {
+                    // If the right mouse button is pressed while the line is showing, disable the UnitMoveUI Line Renderer, and set Move Button to interactable
+                    if (rightMousePressed && !gameUI.cameraController.didRMBDrag && !gameUI.cameraController.IsMouseOverUI()) {
+                        unitMoveUI.isMoving = false;
+                        button.interactable = true;
+                    }
+
+                    // If the left mouse button is pressed while the line is showing, disable the UnitMoveUI Line Renderer, set Move Button to interactable, and move the selected Unit
+                    if (leftMousePressed && !gameUI.cameraController.didLMBDrag && !gameUI.cameraController.IsMouseOverUI()) {
                         if (unitMoveUI.Move()) {
-                            unitMoveUI.MoveButtonDeselected();
+                            unitMoveUI.isMoving = false;
                             button.interactable = true;
-                            unitIsMoving = false;
                         }
                     }
-                }
-
-                if (unitIsMoving) {
-                    button.interactable = false;
                 } else {
                     button.interactable = true;
                 }
-            } else {
+                break;
+            case UnitTurnStage.PathSet:
+                if (currentUnit.moves > 0) {
+                    Enable();
+                } else {
+                    Disable();
+                }
+                break;
+            default:
                 Disable();
-            }
-        } else {
-            Disable();
-        }
-
-        if (currentUnit.unitTurnStage == UnitTurnStage.PathSet) {
-            if (currentUnit.moves > 0) {
-                Enable();
-            }
+                break;
         }
     }
 
@@ -86,21 +74,10 @@ public class MoveButtonUI : GameButtonUI {
         if (currentUnit == null) { return; }
 
         if (currentUnit.unitTurnStage == UnitTurnStage.Started) {
-            gameUI.oldUnit = currentUnit;
-            currentUnit.unitMoveUI.MoveButtonSelected();
+            currentUnit.unitMoveUI.isMoving = true;
             button.interactable = false;
-            unitIsMoving = true;
-            moveButtonPressed = true;
         } else if (currentUnit.unitTurnStage == UnitTurnStage.PathSet) {
             currentUnit.MoveAlongSetPath();
-        }
-    }
-
-    public override void OnUnitDeselected() {
-        unitIsMoving = false;
-        moveButtonPressed = false;
-        if (unitMoveUI != null) {
-            unitMoveUI.MoveButtonDeselected();
         }
     }
 }
