@@ -166,8 +166,9 @@ public class Player : TurnBehaviour {
             UpdateFogOfWar();
         }
         if (unitQueue.Count > 0) {
-            UIData.SetUnit(unitQueue[0], false);
-            unitQueue[0].StartTurn();
+            Unit nextUnit = unitQueue[0];
+            UIData.SetUnit(nextUnit, false);
+            nextUnit.StartTurn();
             // Prevents Camera Controller from sometimes defocusing unit because of Next Player UI Button press
             cameraController.didClickUI = true;
         } else {
@@ -187,8 +188,9 @@ public class Player : TurnBehaviour {
         if (unitQueue.Count > 0) {
             if (startNextUnitTurn) {
                 Debug.Log($"<b>{this.gameObject.name}:</b> Starting next unit turn");
-                UIData.SetUnit(unitQueue[0]);
-                unitQueue[0].StartTurn();
+                Unit nextUnit = unitQueue[0];
+                UIData.SetUnit(nextUnit);
+                nextUnit.StartTurn();
             }
         } else {
             EndTurnButton();

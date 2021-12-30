@@ -27,6 +27,7 @@ public class CameraController : MonoBehaviour {
 
     [Space(10)]
     public LayerMask raycastLayers;
+    public bool enableFocus;
 
     [HideInInspector]
     public bool didLMBDrag = false;
@@ -316,18 +317,20 @@ public class CameraController : MonoBehaviour {
     }
 
     public void Focus(Vector3 pos, bool smoothMove) {
-        Debug.Log($"<b>Camera Controller</b>: Focusing at {pos}");
-        Plane plane = new Plane(Vector3.up, Vector3.zero);
-        Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        if (enableFocus) {
+            Debug.Log($"<b>Camera Controller</b>: Focusing at {pos}");
+            Plane plane = new Plane(Vector3.up, Vector3.zero);
+            Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 
-        float entry;
-        if (plane.Raycast(ray, out entry)) {
-            Vector3 cameraCenterWorldPos = ray.GetPoint(entry);
-            Vector3 posDifference = cameraRig.position - cameraCenterWorldPos;
-            newPosition = pos + posDifference;
+            float entry;
+            if (plane.Raycast(ray, out entry)) {
+                Vector3 cameraCenterWorldPos = ray.GetPoint(entry);
+                Vector3 posDifference = cameraRig.position - cameraCenterWorldPos;
+                newPosition = pos + posDifference;
 
-            if (!smoothMove) {
-                cameraRig.position = newPosition;
+                if (!smoothMove) {
+                    cameraRig.position = newPosition;
+                }
             }
         }
     }
