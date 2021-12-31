@@ -279,7 +279,12 @@ public abstract class Unit : TurnBehaviour {
                 unitAppearanceManager.Hide();
             } else {
                 unitAppearanceManager.Show();
-                currentTile.unitOnTile = this;
+
+                // Units can only move to tiles with other units if that tile has a valid 
+                // transport unit on it, in which case, we don't want to change this value.
+                if (tileToMoveTo.unitOnTile == null) {
+                    tileToMoveTo.unitOnTile = this;
+                }
             }
         } else if (tileMoveStatus == TileMoveStatus.Attack) {
             if (pathWasSetThisTurn) {
