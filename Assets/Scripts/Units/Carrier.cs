@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Carrier : Unit, ITransport {
     
@@ -7,14 +8,25 @@ public class Carrier : Unit, ITransport {
     public List<Unit> unitsOnTransport { get { return _unitsOnTransport; } set { _unitsOnTransport = value; } }
     public int maxNumberOfUnits { get { return _maxNumberOfUnits; } }
     public bool isTransportFull { get { return _isTransportFull; } }
+    public bool transportUIVisible { get { return _transportUIVisible; } }
 
-    public const UnitType _unitOnTransportType = UnitType.Fighter;
-    public List<Unit> _unitsOnTransport;
-    public const int _maxNumberOfUnits = 6;
-    public bool _isTransportFull {
+    private const UnitType _unitOnTransportType = UnitType.Fighter;
+    private List<Unit> _unitsOnTransport = new List<Unit>();
+    private const int _maxNumberOfUnits = 6;
+    private bool _isTransportFull {
         get {
             if (unitsOnTransport.Count >= maxNumberOfUnits) {
                 return true;
+            } else {
+                return false;
+            }
+        }
+    }
+    private bool _transportUIVisible {
+        get {
+            Unit unitFromType = GameManager.Instance.GetUnitFromType(unitOnTransportType);
+            if (unitFromType != null) {
+                return GridUtilities.DiagonalCheck(currentTile.pos).Any(tile => !unitFromType.blockedTileTypes.Contains(tile.tileType)) && !currentTile.isCityTile && unitsOnTransport.Count > 0;
             } else {
                 return false;
             }

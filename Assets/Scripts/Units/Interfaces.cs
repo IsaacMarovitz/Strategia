@@ -17,4 +17,5 @@ public interface ITransport {
     List<Unit> unitsOnTransport { get; set; }
     int maxNumberOfUnits { get; }
     bool isTransportFull { get; }
+    bool transportUIVisible { get; }
 }

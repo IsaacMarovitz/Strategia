@@ -46,11 +46,15 @@ public class Player : TurnBehaviour {
 
                     if (tank != null) {
                         if (tank.transport != null) {
-                            return;
+                            if (!tank.transport.transportUIVisible) {
+                                return;
+                            }
                         }
                     } else if (fighter != null) {
                         if (fighter.carrier != null) {
-                            return;
+                            if (!fighter.carrier.transportUIVisible) {
+                                return;
+                            }
                         }
                     }
 
