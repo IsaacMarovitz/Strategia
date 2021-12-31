@@ -144,7 +144,7 @@ public class Player : TurnBehaviour {
     public void NewDay() {
         unitQueue?.Clear();
         unitQueue = new List<Unit>(playerUnits);
-        
+
         //Debug.Log($"<b>{this.gameObject.name}:</b> Received New Day");
         foreach (var unit in playerUnits) {
             unit.NewDay(this);
@@ -179,12 +179,15 @@ public class Player : TurnBehaviour {
     }
 
     public void NextUnit(Unit unit, bool movingLater, bool startNextUnitTurn = true) {
-        if (movingLater) {
-            unitQueue.Remove(unit);
-            unitQueue.Add(unit);
-        } else {
-            unitQueue.Remove(unit);
+        if (unit != null) {
+            if (movingLater) {
+                unitQueue.Remove(unit);
+                unitQueue.Add(unit);
+            } else {
+                unitQueue.Remove(unit);
+            }
         }
+
         if (unitQueue.Count > 0) {
             if (startNextUnitTurn) {
                 Debug.Log($"<b>{this.gameObject.name}:</b> Starting next unit turn");
@@ -267,7 +270,7 @@ public class Player : TurnBehaviour {
 
         if (grid[pos.x, pos.y].isCityTile) {
             unit.unitAppearanceManager.Hide();
-            unit.oldCity = grid[pos.x, pos.y].gameObject.GetComponent<City>();    
+            unit.oldCity = grid[pos.x, pos.y].gameObject.GetComponent<City>();
             grid[pos.x, pos.y].gameObject.GetComponent<City>().AddUnit(unit);
         }
     }
