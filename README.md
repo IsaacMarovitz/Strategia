@@ -1,6 +1,6 @@
 # Strategia
  
-A turn-based strategy called Strategia based on Civilization VI and the 90s game Strategic Conquest. This project uses Unity 2021.2.7f1. 
+A turn-based strategy called Strategia based on Civilization VI and the 90s game Strategic Conquest. This project uses Unity 2022.1.3f1. 
 
 ## Trello
 https://trello.com/b/g2jaVjZD/strategia

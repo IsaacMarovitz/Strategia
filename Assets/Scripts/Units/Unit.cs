@@ -18,7 +18,7 @@ public abstract class Unit : TurnBehaviour {
     public UnitAppearanceManager unitAppearanceManager;
     public bool infiniteAttack = false;
 
-#region Getters
+    #region Getters
     public UnitType unitType {
         get { return (unitInfo != null) ? unitInfo.unitType : UnitType.Tank; }
     }
@@ -43,8 +43,8 @@ public abstract class Unit : TurnBehaviour {
     public List<TileType> blockedTileTypes {
         get { return (unitInfo != null) ? unitInfo.blockedTileTypes : null; }
     }
-#endregion
-    
+    #endregion
+
 
     [HideInInspector]
     public List<Tile> path { get; private set; }
@@ -83,13 +83,13 @@ public abstract class Unit : TurnBehaviour {
             if (currentTile.isCityTile) {
                 unitAppearanceManager.Hide();
                 if (instantiatedSleepEffect != null) {
-                instantiatedSleepEffect.SetActive(false);
-            }
+                    instantiatedSleepEffect.SetActive(false);
+                }
             } else {
                 unitAppearanceManager.Show();
                 if (instantiatedSleepEffect != null) {
-                instantiatedSleepEffect.SetActive(true);
-            }
+                    instantiatedSleepEffect.SetActive(true);
+                }
             }
         }
     }
@@ -365,3 +365,4 @@ public abstract class Unit : TurnBehaviour {
 public enum UnitTurnStage { Waiting, Started, Complete, Sleeping, PathSet }
 public enum TileMoveStatus { Move, Transport, Attack, Blocked }
 public enum UnitType { Tank, Parachute, Fighter, Bomber, Transport, Destroyer, Submarine, Carrier, Battleship }
+
