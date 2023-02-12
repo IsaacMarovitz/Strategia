@@ -5,7 +5,7 @@ public static class Combat {
 
     // Returns (false, -) if attack missed
     // Returns (true, -) if attack hit
-    public static async (bool, double) CalculateDamage(CombatInfo atkInfo, CombatInfo defInfo) {
+    public static (bool, double) CalculateDamage(CombatInfo atkInfo, CombatInfo defInfo) {
         if (random.NextDouble() > atkInfo.precision) {
             // Attack missed
             return (false, 0);
